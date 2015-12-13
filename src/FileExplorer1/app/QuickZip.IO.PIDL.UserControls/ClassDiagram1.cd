@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="QuickZip.IO.PIDL.UserControls.FileList">
+    <Position X="2.5" Y="1" Width="1.5" />
+    <Members>
+      <Field Name="_cmw" Hidden="true" />
+      <Field Name="_lookupAdorner" Hidden="true" />
+      <Field Name="CurrentDirectoryProperty" Hidden="true" />
+      <Field Name="ExModelToIconConverterProperty" Hidden="true" />
+      <Method Name="FileList" Hidden="true" />
+      <Method Name="getListViewItem" Hidden="true" />
+      <Field Name="IsEditingProperty" Hidden="true" />
+      <Field Name="IsLoadingProperty" Hidden="true" />
+      <Field Name="ModelToExConverterProperty" Hidden="true" />
+      <Method Name="OnApplyTemplate" Hidden="true" />
+      <Method Name="OnCurrentDirectoryChanged" Hidden="true" />
+      <Method Name="OnViewModeChanged" Hidden="true" />
+      <Method Name="OnViewSizeChanged" Hidden="true" />
+      <Field Name="ProgressEvent" Hidden="true" />
+      <Field Name="RefreshCommandProperty" Hidden="true" />
+      <Field Name="RootModelProperty" Hidden="true" />
+      <Field Name="SelectedEntriesProperty" Hidden="true" />
+      <Field Name="ViewModeProperty" Hidden="true" />
+      <Field Name="ViewSizeProperty" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AIAAAAgACEBCAAEEgAJCIAACMAQBAAgAABgAQAIEAAI=</HashCode>
+      <FileName>UserControls\FileList\FileList.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="RootModel" />
+      <Property Name="ViewMode" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.DirectoryTree">
+    <Position X="7.25" Y="1.5" Width="1.5" />
+    <Members>
+      <Field Name="_adorner" Hidden="true" />
+      <Field Name="_cmw" Hidden="true" />
+      <Field Name="_lastSelectedContainer" Hidden="true" />
+      <Method Name="DirectoryTree" Hidden="true" />
+      <Field Name="IsEditingProperty" Hidden="true" />
+      <Field Name="ModelToExConverter" Hidden="true" />
+      <Method Name="OnApplyTemplate" Hidden="true" />
+      <Method Name="OnRootDirectoryChanged" Hidden="true" />
+      <Method Name="OnSelectedDirectoryChanged" Hidden="true" />
+      <Field Name="ProgressEvent" Hidden="true" />
+      <Field Name="RootDirectoryProperty" Hidden="true" />
+      <Field Name="RootModelProperty" Hidden="true" />
+      <Field Name="SelectedDirectoryPathProperty" Hidden="true" />
+      <Field Name="SelectedDirectoryProperty" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AIAACAIAAABCAAEAQABCAAAAIAAQAAEAAIAAQAAEgAI=</HashCode>
+      <FileName>UserControls\DirectoryTree\DirectoryTree.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="RootModel" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.ViewModel.FileListViewModel" Collapsed="true">
+    <Position X="5.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAFBAAAAgACAAAAEkAAAAAAAAAIAAAAAQAAAAgAAAAI=</HashCode>
+      <FileName>UserControls\FileList\MVVM\FileListViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.ViewModel.DirectoryTreeViewModel" Collapsed="true">
+    <Position X="4.5" Y="1" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgCKgAAAAQACACAAIIApIACEgAEAAAAAAAAY=</HashCode>
+      <FileName>UserControls\DirectoryTree\MVVM\DirectoryTreeViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="QuickZip.IO.PIDL.UserControls.ViewMode">
+    <Position X="5.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAACCAAAAAAAAAAAAAAAAAIAAAAQAAAgAAAgAA=</HashCode>
+      <FileName>UserControls\FileList\FileList.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

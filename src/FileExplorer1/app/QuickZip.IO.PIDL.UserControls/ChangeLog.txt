@@ -1,0 +1,29 @@
+﻿2 May 2010 - Inital version 0.1
+4 May 2010 - 0.2 - screenshot
+Added FileList.SortBy and SortDirection property.
+Changed GridView selection behavior / Template
+Fixed FileList not showing GridView Header.
+6 May 2010 - 0.3 - screenshot
+Added TileView
+Added GridView.Type header
+Added DriveModel, all DirectoryModel is now constructed using ExModel.FromExEntry() method.
+Added GridViewHeader (for sorting) for every ViewModel.
+13 May 2010 - 0.4
+Fixed Small Image Icon not shared by all instance.
+Enabled BugTrap support in app.xaml.cs.  Fixed all warning messages.
+Added DirectoryTree.AutoCollapse, collapse unrelated directory when changed externally. 
+Fixed FileList scrolling : 
+scroll based on a property (SmallChanges), instead of 10pt.
+scroll horizontally if Orientation equals Vertical (e.g. ListView)
+??? - 0.5
+Fixed a bug related to expand wrong directory when expand via double click on file list.
+Fixed a crash in DriveModel (Drive not found)
+Added Select(), SelectAll(), UnselectAll() and Focus() method.
+0.6
+Added a wide range of commands
+W7 styled DirectoryTree
+0.7
+Fixed Thumbnail image
+Fixed W7TreeViewItem, hot track enable over the text only (not whole line)
+Drop operations uses WorkEx, which shows progress bar and run in separate thread.
+Overwrite handling in app.xaml.cs, OverwriteMode changed from bool to enum.

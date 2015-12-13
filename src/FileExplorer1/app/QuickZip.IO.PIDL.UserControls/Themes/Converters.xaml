@@ -1,0 +1,17 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:QuickZip.IO.PIDL.UserControls"
+    xmlns:vm="clr-namespace:QuickZip.IO.PIDL.UserControls.ViewModel"
+    xmlns:uc="http://www.quickzip.org/UserControls"
+    xmlns:conv="http://www.quickzip.org/Converters"
+    >
+    <conv:FlipBoolToVisibilityConverter x:Key="fbtv" />
+    <conv:BoolToVisibilityConverter x:Key="btv" />
+    <conv:FormatFileSizeConverter x:Key="ffs" />
+    <conv:FormatTimeConverter x:Key="ft" />
+    <local:ExModelToIconConverter x:Key="amti" />
+    <local:ExToIconConverter x:Key="ati" />
+    <!--<local:NullIconConverter x:Key="amti" />
+    <local:NullIconConverter x:Key="ati" />-->
+</ResourceDictionary>

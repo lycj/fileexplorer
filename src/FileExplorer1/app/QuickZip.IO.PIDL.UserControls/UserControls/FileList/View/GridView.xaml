@@ -1,0 +1,103 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:QuickZip.IO.PIDL.UserControls"
+    xmlns:vm="clr-namespace:QuickZip.IO.PIDL.UserControls.ViewModel"
+    xmlns:uc="http://www.quickzip.org/UserControls"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.IO.PIDL.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Geometry.xaml" />
+        <ResourceDictionary Source="Common.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--0.2-->    
+    <DataTemplate x:Key="NormHeaderTemplate">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding}" />
+            <Path Data="{StaticResource descArrow}" Fill="Black" Margin="4,0" Visibility="Hidden" />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="DescHeaderTemplate">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding}" TextDecorations="Underline" />
+            <Path Data="{StaticResource descArrow}" Fill="Black" Margin="4,0" />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="AscHeaderTemplate">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding}" TextDecorations="Underline" />
+            <Path Data="{StaticResource ascArrow}" Fill="Black" Margin="4,0" />
+        </StackPanel>
+    </DataTemplate>
+
+
+    <DataTemplate x:Key="NameTemplate" >
+        <Border x:Name="border" Padding="1" BorderThickness="0" 
+                BorderBrush="{StaticResource LightBorderBrush}" Background="Transparent">
+            <StackPanel x:Name="basePanel" Orientation="Horizontal">
+                <Image x:Name="img" Source="{Binding Converter={StaticResource amti}}" Width="16"/>
+                <uc:EditBox x:Name="eb" Margin="5,0" DisplayValue="{Binding EmbeddedModel.Label}" 
+                        ActualValue="{Binding EmbeddedModel.Name, Mode=TwoWay}" 
+                        IsEditable="{Binding EmbeddedModel.IsEditable}"        
+                        IsEditing="{Binding Path=(local:FileList.IsEditing),
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, Mode=TwoWay}"
+                        />
+
+            </StackPanel>
+        </Border>
+        <DataTemplate.Triggers>
+            <DataTrigger 
+                Binding="{Binding Path=(uc:SelectionHelper.IsDragging),
+                             RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, Mode=TwoWay}" Value="True">
+                <Setter TargetName="border"   Property="Background" Value="{StaticResource HotTrackBrush}" />
+                <Setter TargetName="border" Property="Padding" Value="0" />
+                <Setter TargetName="border" Property="BorderThickness" Value="1" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+
+    </DataTemplate>
+
+    <!--Size-->
+    <local:ExDataTemplateSelector x:Key="SizeTemplateSelector"  TemplateType="Size" />
+    <DataTemplate x:Key="SizeFileTemplate" >        
+        <TextBlock Text="{Binding EmbeddedModel.Length, Converter={StaticResource ffs}}" Width="100" Margin="5,0"
+                   HorizontalAlignment="Right" TextAlignment="Right" />
+    </DataTemplate>
+    <DataTemplate x:Key="SizeDirectoryTemplate" >
+        <TextBlock Text="Directory" Width="100" Margin="5,0"
+                   HorizontalAlignment="Right" TextAlignment="Right" />
+    </DataTemplate>
+    
+
+    <!--Time-->
+    <DataTemplate x:Key="TimeTemplate" >
+        <TextBlock Text="{Binding EmbeddedModel.LastWriteTime, Converter={StaticResource ft}}" Width="120"
+                   HorizontalAlignment="Right" TextAlignment="Right" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="TypeTemplate" >
+        <TextBlock Text="{Binding EmbeddedModel.EntryType}" />
+    </DataTemplate>
+
+
+    <GridView x:Key="GridView" ColumnHeaderContainerStyle="{StaticResource ColumnHeaderContainerStyle}">
+        <GridViewColumn Width="200" Header="Name" CellTemplate="{StaticResource NameTemplate}" local:FileList.SortPropertyName="sortByFullName"
+                        HeaderTemplate="{StaticResource AscHeaderTemplate}" 
+                        />
+        
+        <GridViewColumn Width="100" Header="Type" CellTemplate="{StaticResource TypeTemplate}" local:FileList.SortPropertyName="sortByType"
+                        HeaderTemplate="{StaticResource NormHeaderTemplate}"
+                        />
+        <GridViewColumn Width="120" Header="Time" CellTemplate="{StaticResource TimeTemplate}" local:FileList.SortPropertyName="sortByLastWriteTime"
+                        HeaderTemplate="{StaticResource NormHeaderTemplate}"
+                        />
+        <GridViewColumn Width="100" Header="Size" CellTemplateSelector="{StaticResource SizeTemplateSelector}" local:FileList.SortPropertyName="sortByLength"                        
+                        HeaderTemplate="{StaticResource NormHeaderTemplate}"                        
+                        />
+
+    </GridView>
+
+
+</ResourceDictionary>

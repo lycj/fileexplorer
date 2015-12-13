@@ -1,0 +1,86 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:QuickZip.IO.PIDL.UserControls"
+    xmlns:vm="clr-namespace:QuickZip.IO.PIDL.UserControls.ViewModel"
+    xmlns:uc="http://www.quickzip.org/UserControls"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.IO.PIDL.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Styles/W7TreeViewItem.xaml" />
+        <!--<ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />-->
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>-->
+    <!--<LinearGradientBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" StartPoint="0,0" EndPoint="0,1" Opacity="0.7">
+        <LinearGradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="White" Offset="0" />
+                <GradientStop Color="{DynamicResource {x:Static SystemColors.GradientActiveCaptionColorKey}}" Offset="0.85" />
+                <GradientStop Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}" Offset="1" />
+            </GradientStopCollection>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="{x:Static SystemColors.HotTrackBrushKey}" StartPoint="0,0" EndPoint="0,1" Opacity="0.7">
+        <LinearGradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#E8F6FD" Offset="0"/>
+                <GradientStop Color="#D7EFFB" Offset="0.5"/>
+                <GradientStop Color="#CCEAFF" Offset="1"/>
+            </GradientStopCollection>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>-->
+   
+    <HierarchicalDataTemplate x:Key="TreeItemTemplate" DataType="{x:Type vm:DirectoryTreeItemViewModel}" ItemsSource="{Binding SubDirectories}">
+        <StackPanel Orientation="Horizontal" x:Name="itemRoot" Background="Transparent" >            
+            <Image x:Name="img" Source="{Binding Converter={StaticResource amti}}" Width="16"/>
+            <uc:EditBox x:Name="eb" Margin="5,0" DisplayValue="{Binding EmbeddedModel.Label}" 
+                        ActualValue="{Binding EmbeddedModel.Name, Mode=TwoWay}" 
+                        IsEditable="{Binding EmbeddedModel.IsEditable}"
+                        IsEditing="{Binding Path=(local:DirectoryTree.IsEditing),
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}}, Mode=TwoWay}"
+                        />
+            <Grid Width="50"  Margin="15, 5, 0, 5" Visibility="{Binding IsLoading, Converter={StaticResource btv}}">
+                <ProgressBar IsIndeterminate="True" />
+                <TextBlock Text="Loading" FontSize="6" TextAlignment="Center" />
+            </Grid>
+        </StackPanel>
+        <HierarchicalDataTemplate.Triggers>
+            <!--<DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TreeViewItem}}}" Value="True">                
+                <Setter TargetName="itemRoot" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                <Setter TargetName="eb" Property="Foreground" Value="{x:Static SystemColors.HighlightTextBrush}"/>
+            </DataTrigger>-->
+            <Trigger SourceName="eb" Property="IsEditing" Value="True">
+                <Setter TargetName="itemRoot" Property="Background" Value="Transparent"/>
+            </Trigger>                
+            <DataTrigger Value="True" 
+                Binding="{Binding Path=(local:DragDropHelperEx.IsDragOver), RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TreeViewItem}}}">
+                <Setter TargetName="eb" Property="FontWeight" Value="Bold"/>
+            </DataTrigger>
+
+        </HierarchicalDataTemplate.Triggers>
+    </HierarchicalDataTemplate>
+
+    <Style 
+        x:Key="{x:Type local:DirectoryTree}" TargetType="{x:Type local:DirectoryTree}" 
+        BasedOn="{StaticResource {x:Type TreeView}}">
+        <Setter Property="ItemTemplate" Value="{StaticResource TreeItemTemplate}" />
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource W7TreeViewItemStyle}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <Setter Property="FontWeight" Value="Normal" />
+                    <!--<Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Trigger>
+                    </Style.Triggers>-->
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>

@@ -1,0 +1,2653 @@
+<!DOCTYPE html>
+<html style="height: 100%;"><head>
+	<title>WPF x FileExplorer x MVVM - CodeProject</title> 
+	<link type="text/css" rel="stylesheet" href="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/Main.css">
+
+	
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Description" content="This article describe how to construct FileExplorer controls included DirectoryTree and FileList, using Model-View-ViewModel (MVVM) pattern.; Author: Leung Yat Chun; Updated: 25 Nov 2012; Section: Windows Presentation Foundation; Chapter: Platforms, Frameworks &amp; Libraries; Updated: 25 Nov 2012">
+<meta name="Keywords" content="WinXP, Win2003, Vista, .NET3.0, .NET3.5, C#, Windows, .NET, Win32, Win64, HTML, Architect, Dev, WPF, Intermediate, Win2008, Win7, Win2008-R2, .NET4, MVVM,Windows Presentation Foundation,Platforms, Frameworks &amp; Libraries,Free source code, tutorials">
+<meta name="Author" content="Leung Yat Chun">
+<meta name="Rating" content="General">
+<meta name="Revisit-After" content="1 days">
+<meta name="application-name" content="CodeProject">
+<meta name="google-translate-customization" content="d908bb7ce7aff658-4c2f3a504525c916-g629383f736781a8a-13">
+
+<link rel="dns-prefetch" href="http://ajax.googleapis.com/"> 
+<link rel="canonical" href="http://www.codeproject.com/Articles/78517/WPF-x-FileExplorer-x-MVVM">
+
+
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - All Topics" href="http://www.codeproject.com/WebServices/ArticleRSS.aspx?cat=1">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - Android" href="http://www.codeproject.com/WebServices/ArticleRSS.aspx?cat=22">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - iOS" href="http://www.codeproject.com/WebServices/ArticleRSS.aspx?cat=25">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - C++" href="http://www.codeproject.com/WebServices/ArticleRSS.aspx?cat=2">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - C#" href="http://www.codeproject.com/WebServices/ArticleRSS.aspx?cat=3">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Latest articles - Web" href="http://www.codeproject.com/WebServices/ArticleRSS.aspx?cat=23">
+<link rel="alternate" type="application/rss+xml" title="CodeProject Lounge Postings" href="http://www.codeproject.com/webservices/LoungeRSS.aspx">
+<meta name="robots" content="index, follow">
+<link rel="search" type="application/opensearchdescription+xml" title="CodeProject" href="http://www.codeproject.com/info/OpenSearch.xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- base href="http://www.codeproject.com/Articles/78517/WPF-x-FileExplorer-x-MVVM?display=Print" -->
+	<link rel="icon" href="http://www.codeproject.com/favicon.ico" type="image/ico">
+<link rel="shortcut icon" href="http://www.codeproject.com/favicon.ico" type="image/ico">
+<link rel="apple-touch-icon" href="http://www.codeproject.com/images/FavIcon-Apple.png" type="image/png">
+<script type="text/javascript" language="Javascript">//<![CDATA[
+function defrm () { /* thanks twitter */ document.write = ''; window.top.location = window.self.location;  setTimeout(function() { document.body.innerHTML = ''; }, 0);  window.self.onload = function(evt) { document.body.innerHTML = ''; }; }if (window.top !== window.self) {  try {  if (window.top.location.host) { /* will throw */ } else { defrm(); /* chrome */ }  } catch (ex) { defrm(); /* everyone else */ } }if (typeof(DemoUrl)!='undefined')   document.write(unescape('%3Cme')+'ta http'+'-equiv="re'+'fresh"                  con'+'tent="1;url='+DemoUrl+unescape('"%3CE'));
+
+//]]>
+</script>
+
+	
+
+
+
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-1735123-1']);
+	_gaq.push(['_trackPageview']);
+	_gaq.push(['_setDomainName', 'www.codeproject.com']);
+	_gaq.push(['_setSessionTimeout', '1200']); 
+
+	(function () {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})(); 
+</script><script src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/ga.js" async="" type="text/javascript"></script>
+
+
+<link href="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/translateelement.css" charset="UTF-8" rel="stylesheet" type="text/css"><script src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/main.js" charset="UTF-8" type="text/javascript"></script><script src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/element_main.js" charset="UTF-8" type="text/javascript"></script></head>	
+
+<body style="position: relative; min-height: 100%; top: 0px;" class="firefox firefox42 touch">
+
+<a class="access-link" href="#Main"><img alt="Click here to Skip to main content" src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/t.gif"></a>
+
+
+
+
+
+<div class="page-background">
+
+	
+	
+
+	
+<div class="alert-bar  overlay " style="display: none;">
+	<a href="#" class="close-notify">×</a>
+	<div>Sign up for our free weekly <a href="http://www.codeproject.com/feature/web-newsletter">Web Developer Newsletter</a>.</div>
+</div>
+
+	
+    <div id="ctl00_STM" class="site-top-menu fluid">
+        <div class="main-content">
+            
+        </div>
+    </div>
+
+	
+    <div id="ctl00_SH" class="site-header fluid">
+        <div class="main-content">
+            <div class="logo"><a href="http://www.codeproject.com/"><img id="ctl00_Logo" tabindex="1" title="CodeProject" src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/logo250x135.gif" alt="Home" style="height:135px;width:250px;border-width:0px;"></a></div>
+            <div class="promo"></div>
+        </div>
+    </div>
+
+	<a href="#Main"><img alt="Click here to Skip to main content" class="access-link" src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/t.gif"></a>
+
+	
+			
+	
+
+	<div id="A" class="container-content-wrap fluid print"> 
+
+	<div itemscope="" itemtype="http://schema.org/Article" class="container-content"> 
+
+
+		<div class="clearfix">
+			<div class="container-breadcrumb float-left ">
+				<div><a href="http://www.codeproject.com/script/Content/SiteMap.aspx">Articles</a> » <a href="http://www.codeproject.com/Chapters/8/Platforms-Frameworks-Libraries.aspx">Platforms, Frameworks &amp; Libraries</a> » <a href="http://www.codeproject.com/KB/WPF/"><span itemprop="articleSection">Windows Presentation Foundation</span></a> » <a href="http://www.codeproject.com/KB/WPF/#Controls">Controls</a></div>
+			</div>
+
+			<div class="float-left">
+				
+			</div>
+
+			<div class="edit-links float-right">
+				
+			</div>
+
+			<div class="article-nav float-right">
+					
+		        
+		        
+					
+
+                
+				
+			</div>
+		</div>
+
+		<table class="extended container-article-parts" cellpadding="0" cellspacing="0">
+        <tbody><tr valign="top">
+		<td class="article-wing-left" width="117px">
+
+			
+
+		</td>
+		<td>
+			
+			<div id="AT" class="container-article  fluid tight"> 
+
+				<div class="article">
+
+					<form name="aspnetForm" method="post" action="/Articles/78517/WPF-x-FileExplorer-x-MVVM?display=Print" id="aspnetForm" style="margin:0;padding:0">
+<div>
+<input name="__VIEWSTATE" id="__VIEWSTATE" value="c0ghJcccHkQUImTkCZMApjtvqhun5TM4isfp6LLfFXbnifU7T/0tpeG4Oa9wJzfjXYX5Sat7IAzXeqo9TUeCcsP+GibZUZi4W6sQr9qTrwacHZaTPb3JBfAJ3hDIArQpIM7sM8zXZfxhqoVXktHpgPquI8IJkL92LETuXMdWl8fw0/iARoxa4mBXRSptbFIRhW0UROjkrnC1dgy52F2wrMU3qS34wYaCFom/AiKJb5mPEaZG9r84k/v6tux13tee/XeIMNHPYmgh2AzWsfyrg+1zxaYaJJGtwIlUjNQ5PoBe5FfvAs6MA9L8HOpHbAcWVyW896ILo8LAlIcipXr28mX63AynSQz0s/g7l8cN7bOIGeLzhofFCDihtLwGI7eMor4fNmg/g86/j/dRaeoXDNKtTIUe1WZqJt9USLj7kTH4fe+UKqYYoIh4b67B9Qg4gtW2jaCX+vES6FWD+8jpwe04yjbW7g0l7sB/OesO5val8xQFK52ypowh/unGRr0PmN1fRtCGQvoPH1jdfK+05kNP31kOo3UVdUyayz4AllkQzb92OhGYoO/oYftG5zSG13j85A57QKSfhDND/ARjz8g184jy5z//gQ1EcItPCq+pYgmY70uvjlih+/r7heVxgHm53jRz0RcCR+OvHLftUiVE2RNSoLxDBgFydME5TgHdhFE3pxnpvAj1eXe+IdbAGaO6DGKmAFFMijakAlz5VNTP2PW5tcZIrElBPPO5wGxz+GOp7owGN4FrNEqIA56IVd0f+BZgjh9Zy5mdFZdVwtbIk9yZuSu292+CNSXbJQd+t+/FWt2xVzCAZxkXdAni9xrF2fLGxkb4B/FQHojYu9nwzJ96vdHTBYauxlgUQO5lo9Xogbb3SKuCOsHoOBQgV/NRCce+JdPZ/+mQLE9H1LpR9AAMI1XBssXSDQGG0xecohjkQIsqqi8Q9zf5+PfrsBLXbMERqvasQQ/kuoYBAwFsDiXFDnSKCogPuQPayggxmRo9UO+pAIzsePUXNl/H1xpnjE/0mhpzvvayYHBFda/o0tcC3yTj+tkLQ+Upg6o09mXbLfSG81BaYX2aLTBwpLajq5JXKwcNtcsDxYq2kuD4UVOmTwiEVWXBALFl+65+qz1NycQVQR09Sz6wmlt3SndOhqRyDujZR7UqOKl460GijNYxT/0v1t5kkMyVLUzUeEtG9AauZfnPctciNYex8Om+7qgRxdrtKt3Y9NJ5QGWaVbBMrVUeLumBlktR/WYIBIg9/E2mOKS59Hq4R44NsVwsRNOFcZav4zNIkn/6Or28PXuuDXlztvu+smR4/YsM1+t40oZ1NFoEQ3Okhi4/pd0LW3hcG8+LzMTG3hVgHxmU/IBsQBIRxgOsxAevn6SIzIE1XfO8tPMAD83KiSDgIXzzVA4URGYBBsa+upyc8zdaX9vbQyAoM4RgHxZyXlGEctu9yFJ+XRV+2makCv88VXMebBcFZtvkZGTE5doHoj35I3+WJTLg9mu015p91sqwQ+gKRK2/YqGSaHzecAIYACRbDvovOOCVhkCtYeq32lmlRleHxE8MrzuJyZ93FeLDw61zZa7HAMXsvCI/efVyDqfp2ILDu3FNiEVa5TLqYkjb3Qwld4URgKwTDKdl9GzPU2My6ejY6WHrPT1dSCDztN7ZAu8Ei4FJJoJxOp+uvaADA6WPyQx2hqiFj4iqHc9/Odnca8PX/1FRyFE0IVVSWtjqACmnlPfSlIKM/gcXAnZAQPV0ROYCyDdDN77UmT+/WIdFuYn7xK5CvooBn1cKlrgsZ8hDULK/2Tbzo/Aaff73oz380umS/BNwSJcegNx2T0uIja8nuJqRSlMgeuRCS+nSPb0A94rGx3Sc9REbihmmUYf42MRAeAeXNK/dQ7o5Xig1K7jh8/PD452FXwAv36AfLIIViH3hBPEvISytQzYMONcAXxfmONjGdCFQkUhopbqlEQyZ0hBcnI1P2bw4jUh/yLsYbH6kf+5OJgBI8yHG+k9U/etXDbgTCqHk5tkpmWuTFzGnkL2/KbIazuBdDF4zi4ZvqiPtodqXzGQaf5SVLDZs+IHvo9+gb3rBT7nkhk6ymuMvd6gKOE09yyWUjEYYiAv6DnRtPIXOZElj83TeAqmcZ9cqFvCmKt7AR/GezosO4vWvZsdpljrkDPk0e8TxnqnqK1yCH/0WCez0BLof7+CMJTL7n33FXiyiVuSV9YMI17pPLFGp8lbkF9ziZq8/n4BhfOYJbgMbUUJarjXPxYJUCCbAH+Ob4X4o/ShcKnkTNqOoKBE3Ex+HV71eIK4t6wh8RGXrDC9un3lAlZMkzIeAgiSuZrieUhA6OYJUzLghC3x//9zdN22XlDqJayg1TTgnx8J4qu+wx5EBni12568RFy3FQEZfBxCTZ5/lO3+Ce6js79qCmx9UQseBLUw1aouJyD09ByicC8vRZi+6dJejMrx9Akjc9Lwm20vz3en0bEwfUPhR7xLpvCc1b1G66esyhMg1uEhHzD5SHVT/yyUQA2BfdXtWFLNv2eR3iWGjxmtYJ/LMBHWtGtBTGpoPoONYZ9SHlI2rEiSz/K56nhnr+cW+Hm/aMPAhM0NRQszEMQ6Me+oW1Le+hDnK+fL8eSq73KsLnKMDwyxpAmKEW4Byf4a3xtp0EacG45ft5sV9tcG/ZdN9haAbjCWDflTOCgaMJm5C+obznvyvs8xHn5MpYIVP/XzflWbjRfvFARw04F10aNjnnFzBsar9+BOQQXpAGGxsGhG9bAoEANnwnZ40SyGwp8elq7/TMw42iyNDOl9lufQWw/5xzYZTVuKZ9vmGgWSUeE3iBXvdV2X5v7dOX3l5jYW/jxrRowY1zjAE0NhTqfpEReRlHeUyRr59eggRUc3V6naSWK0PZtnZrWsqi0AXEduy7rgLcfLUEv2VH6ICfsPydUqSR0Jw3bIb9F0U6dsEWS6ZYFPVWiddk+0wcwL1FjLk8VVv30jy1Oyn/rrbpieKAGAP9wqUCL8wjqAkp20+RDjWB1ocpdVPFOSgY9Ih55iyDBR3V90E60fCr3wqljYOb9EvrLwcK2VZEJnaUkvEw6PVP2bkMSmyl5NlY2PCEtV/tIJhsFf7XseDAP0DpZRYDaWr9JfK4AiNh0zz3JmyBCsOEQMyqZgjANNmcBNW3P/IFqtoFWvH/s6xbb1A6ix53SrtECFLbvD09/sWsbEBAUkZApAqIRiwzM4yivGITkSs00zoulE5IRaieiCPdQjdG0mgf762QQG94yUWyUdYt/PcKq2Jo6apF7x4RG0xXJ72Aq5TxIYpdjMUkLPLEBEIDgHp3OHyEQutGti2LmIO/fxa9N7yVJYa+rUe4vKst0XHjjSLFqwgYEFJ3zoOPPIrmXYy4tYeL2M/snppNlwQ8R/9CIDJX+bpePUGU5s6MQkA3twMwGMImkBd8C9QTyLA2jd/Ngi4UeGs1O9oqaQ0RCa0q9mr0bz3IlCBb89DJIhygR2uyglqKoBJRNV+ZZkHtERmN/0VdGbxfJ/6qsRqdQXCORD7C+jUIOXgUyrbr+XFSggY93zWMG21Iqa9J2EJwzuZFoac3iguJhgCErTomCldyKvO2YgbLGpu8bwpC2hSvFrW3U+FLsPaoGEJLotPJkfA/Tvmk/2obGlg2ps5AQxlYw0stt4aJmIiLlwMXB3GnxPSfz6++Og07ZtVDs0LM7ykPcPCQNlhSg==" type="hidden">
+</div>
+
+<div>
+
+	<input name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="10C1FD69" type="hidden">
+</div>
+
+					
+					 
+					<div class="header">
+					    <a name="Main"></a>
+
+					    
+					    <a name="_articleTop" id="_articleTop"></a>
+					    <div class="title">
+					        
+					        <h1 id="ctl00_ArticleTitle" itemprop="name">WPF x FileExplorer x MVVM</h1> 
+					    </div>
+
+                        <div style="height:34px">
+					        
+					        <div class="entry float-left">
+                                
+                                <div class="float-left">
+
+						            <span class="author"><a href="http://www.codeproject.com/script/Membership/View.aspx?mid=2474203" rel="author"><span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">Leung Yat Chun</span></span></a></span>, 
+						            <span class="date" itemprop="dateModified" title="Date last updated" content="2012-11-25 05:12:00">
+							            25 Nov 2012</span>
+			
+                                    <a id="ctl00_LicenseLink" title="The GNU Lesser General Public License (LGPLv3)" class="license" href="http://www.opensource.org/licenses/lgpl-3.0.html">LGPL3</a><div id="ctl00_CurRat" class="tooltip anchorLink" style="cursor:pointer;margin-top: 5px">
+				
+							            
+
+<table class="small-text" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating" cellpadding="0" cellspacing="0"> 
+<tbody><tr>
+	
+	<td class="nowrap">
+
+		
+			<meta itemprop="bestRating" content="5"> 
+			<meta itemprop="worstRating" content="1">
+		
+
+		<span id="ctl00_ArticleRating_VI">
+		<div class="nowrap rating-stars-medium" style="height:18px;width:80px;position:relative;">
+	<div class="clipped align-left float-left" style="height:16px;width:79px;">
+		<img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/stars-fill-md.png" style="border-width:0px;">
+	</div><div class="clipped" style="height:16px;width:1px;position:relative;">
+		<img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/stars-empty-md.png" style="border-width:0px;position:absolute;top:0;right:0;">
+	</div>
+</div>
+		</span>
+
+		
+	</td>
+	
+	<td id="ctl00_ArticleRating_VR" class="nowrap">
+		&nbsp;
+		<span id="ctl00_ArticleRating_VotesR">&nbsp;<span itemprop="ratingValue" class="rating">4.99</span> (<span itemprop="ratingCount" class="count">50</span> votes)</span>
+		
+	</td>
+
+</tr>
+
+</tbody></table>
+
+
+							            <div id="ctl00_RB" class="speech-bubble-container-up">
+								            <div class="speech-bubble-up" style="width:150px !important">
+									                        
+<div>
+<table class="feature" title="Voting Distribution. Recent data only" cellpadding="0" cellspacing="0" height="20px" width="100%"><tbody><tr class="chart-row"><td class="chart-column"><span title="0 votes">1</span></td>
+<td class="chart-column"><span title="0 votes">2</span></td>
+<td class="chart-column"><div class="rating-ignore-vote" title="Votes not included in score."><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/pollcol.gif" alt="3 votes, 6.4%" title="3 votes, 6.4%" border="0px" height="1px" width="20pxpx"></div><span title="0 votes">3</span></td>
+<td class="chart-column"><div><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/pollcol.gif" alt="1 vote, 2.1%" title="1 vote, 2.1%" border="0px" height="1px" width="20pxpx"></div><span title="1 vote">4</span></td>
+<td class="chart-column"><div><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/pollcol.gif" alt="46 votes, 97.9%" title="46 votes, 97.9%" border="0px" height="20px" width="20pxpx"></div><span title="46 votes">5</span></td>
+</tr></tbody></table><div class="small-text align-center">4.99/5 - 50 votes</div><div class="small-text align-center subdue">3 removed</div><div class="small-text align-center subdue">μ 4.83, σ<sub>a</sub> 0.96 [<a href="http://www.codeproject.com/KB/FAQs/RatingReputationFAQ.aspx#noisefilter">?</a>]</div>
+</div>
+								            </div>
+								            <div class="speech-bubble-pointer-up">
+									            <div class="speech-bubble-pointer-up-inner"></div>
+								            </div>
+							            </div>
+						            </div>
+                                </div>
+					        </div>
+
+                            
+						    
+						    	
+                        </div>
+
+   					    
+                        <div id="ctl00_description" class="summary" itemprop="headline">This
+ article describe how to construct FileExplorer controls included 
+DirectoryTree and FileList, using Model-View-ViewModel (MVVM) pattern.</div><span id="ctl00_thumbnailUrl" class="date" itemprop="image" content="http://www.codeproject.com/KB/WPF/WPFFileExplorer/Thumb-78517.png"></span>			
+
+                    </div>
+                    
+					
+					
+
+					
+
+					
+					
+					
+
+						
+					
+
+					
+
+						
+						<div id="contentdiv" class="text" itemprop="articleBody">
+						
+
+
+
+<img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/MVVMTest0.png" alt="MVVMFileExplorer" style="width: 781px; height: 311px;"><br>
+<div>
+<ul>
+<li><strong><a href="http://fileexplorer.codeplex.com/">Download FileExplorer2_(VS2010).zip on CodePlex - 4MB</a><a> </a> </strong>(Screenshot: <a title="Opens in new window" target="_blank" href="http://www.codeproject.com/KB/WPF/WPFFileExplorer/FileExplorer2.png">FileExplorer2.png <img style="border: 0px none; height: 10px; width: 10px;" src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/external.png"></a>) </li><li><a href="http://www.codeproject.com/KB/WPF/WPFFileExplorer/FileExplorer1__for_W7_and_VS2010_.zip">Download FileExplorer1_(VS2010).zip - 4MB</a> </li><li><a href="http://www.codeproject.com/KB/WPF/WPFFileExplorer/fileexplorer.zip">Download
+FileExplorer1_(VS2008).zip - 1.3MB </a> </li>
+</ul>
+<br>
+This article describe an obsoluted usercontrol which was released in 2009, it demonstrates how to construct FileExplorer<em> </em>controls
+included
+<code><code>DirectoryTree</code></code> and <code><code>FileList</code></code>,
+using
+<em>Model-View-ViewModel (MVVM) pattern</em>, and is no longer being maintained.  A <strong>newer version</strong> of the explorer control is described in this article <a href="http://www.codeproject.com/Articles/770837/WPF-x-FileExplorer-x-MVVM">here in codeproject</a>.<br>
+
+<h2>Introduction<br>
+</h2>
+After <a href="http://www.codeproject.com/KB/miscctrl/FileBrowser.aspx">C#
+FileExplorer</a>, <a href="http://www.codeproject.com/KB/cpp/VbNetExpTree.aspx">VB.Net
+ExplorerTree</a>, you may think it's easier to write an explorer tree
+in <em>WPF</em>.  But in fact
+it's not, and thats why this article takes so many pages. 
+Although
+<em>WPF </em>is supposed to allow you
+to construct custom interface with minium effort, <em>WPF </em>does
+not even
+provide the basic functionality of ListView
+in .Net2.0 : <br>
+<ul>
+<li>ViewMode? Small Icon? What is that?  </li>
+<li>Multi-Select? Sure! all you need is to press &lt;shift&gt; and
+select each item.</li>
+<li>Virtual ListView? ImageList? Rename? sure, write your own.</li>
+</ul>
+But anyone who run a WPF application
+should know WPF let you to
+customize everything, but you wont know these shortcoming until you are
+going implement one.  There are a number of solutions available on
+various <a href="http://www.codeproject.com/KB/files/#references">web
+sites</a>, I combined these ideas
+as well as my code
+and present you my finhsied FileExplorer
+controls.  <br>
+<br>
+Further more, as these controls are written in <em>Model-View-ViewModel
+(MVVM)
+pattern</em>,
+so
+this article is also a brief tutorial for how to create the controls
+using the pattern.  <br>
+<h2>Features : </h2>
+<ul>
+<li>Shell<br>
+<ul>
+<li>List directories and files (start from <a href="http://picasaweb.google.com/QuickZipDev/Components#5464115210844011714">Desktop</a>)<br>
+</li>
+<li><a href="http://picasaweb.google.com/QuickZipDev/Components#5466533281747634738">Context
+menu</a></li>
+<li>Rename inside the control</li>
+<li>Drag and Drop support to and from other application</li>
+<li>Monitor file system so automatically refresh when
+file system is changed</li>
+</ul>
+</li>
+<li>Performance<br>
+<ul>
+<li>Sub-items are loaded in background </li>
+<li>Lookup directory in DirectoryTree
+in <a href="http://picasaweb.google.com/QuickZipDev/Components#5465873523990923682">background</a><br>
+</li>
+<li>Construction of ListViewItems
+and
+TreeViewItems are virtualized </li>
+</ul>
+</li>
+<li>DirectoryTree<br>
+<ul>
+<li>Setable <a href="http://picasaweb.google.com/QuickZipDev/Components#5464483179567564146">root
+directory</a><br>
+</li>
+<li>Setable and getable selected
+directory <br>
+</li>
+</ul>
+</li>
+<li>FileList<br>
+<ul>
+<li><a href="http://picasaweb.google.com/QuickZipDev/Components#5449471534233949906">Multi-Select
+support</a> using dragging</li>
+<li>Getable selected
+entries</li>
+<li>Multiple view mode
+(e.g. <a href="http://picasaweb.google.com/QuickZipDev/Components#5464128449206843986">LargeIcon</a>)</li>
+<li>Search
+within fileList using <a href="http://picasaweb.google.com/QuickZipDev/Components#5465799887040105298">filter</a></li>
+</ul>
+</li>
+</ul>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h2>Index<a name="Index"></a></h2>
+<ul>
+<li><a href="#Index">Index</a><br>
+<ul>
+<li><a href="#howtouse">How To Use?</a><br>
+<ul>
+<li><a href="#howtousedirectoryinfoex">DirectoryInfoEx<br>
+</a> </li>
+<li><a href="#howtousedirectorytree">DirectoryTree</a></li>
+<li><a href="#howtousefilelist">FileList</a><br>
+</li>
+</ul>
+</li>
+<li><a href="#thedesign">The Design</a><br>
+<ul>
+<li><a href="#model">Model</a><br>
+<ul>
+<li><a href="#exmodel">ExModel</a><br>
+</li>
+</ul>
+</li>
+<li><a href="#viewmodel">ViewModel</a><br>
+<ul>
+<li><a href="#exviewmodel">ExViewModel</a><br>
+</li>
+<li><a href="#rootmodelbase">RootModelbase</a></li>
+<li><a href="#filelistviewmodels">FileList</a><br>
+<ul>
+<li><a href="#currentdirectoryviewmodel">CurrentDirectoryViewModel</a></li>
+<li><a href="#filelistitemviewmodel">FileListItemViewModel</a></li>
+</ul>
+</li>
+<li><a href="#directorytreeviewmodels">DirectoryTree</a><br>
+<ul>
+<li><a href="#hierarchyviewmodel">HierarchyViewModel</a></li>
+<li><a href="#directorytreeviewmodel">DirectoryTreeViewModel</a></li>
+<li><a href="#directorytreeitemviewmodel">DirectoryTreeItemViewModel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#view">View</a><br>
+<ul>
+<li><a href="#customcontrol">OT: How to create custom
+control in ClassLibrary?</a><br>
+</li>
+<li><a href="#viewfilelist">FileList</a></li>
+<li><a href="#viewdirectorytree">DirectoryTree</a></li>
+</ul>
+</li>
+<li><a href="#othercomponents">Other Components</a></li>
+</ul>
+<ul>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#References">References</a></li>
+<li><a href="#history">History</a><br>
+<ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+<h2><a name="howtouse"></a>How to use?</h2>
+Although the internal part is <em>MVVM</em>, communication between the
+UserControls are through Dependency properties, e.g.<br>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">TextBox</span> <span class="code-attribute">Text</span><span class="code-keyword">="</span><span class="code-keyword">{Binding SelectedDirectory, ElementName=dirTree,
+Mode=TwoWay, Converter={StaticResource ets}}"</span> <span class="code-attribute">Grid.ColumnSpan</span><span class="code-keyword">="</span><span class="code-keyword">2"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+<span class="code-comment">&lt;!--</span><span class="code-keyword"><span class="code-comment"> ets = EntryToStringConverter </span>--&gt;</span>
+
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:DirectoryTree</span> <span class="code-attribute">Grid.Column</span><span class="code-keyword">="</span><span class="code-keyword">0"</span> <span class="code-attribute">Grid.Row</span><span class="code-keyword">="</span><span class="code-keyword">1"</span> <span class="code-attribute">x:Name</span><span class="code-keyword">="</span><span class="code-keyword">dirTree"</span>  <span class="code-keyword">&gt;</span>
+    <span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:DirectoryTree.SelectedDirectory</span><span class="code-keyword">&gt;</span>
+       <span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:Ex</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+    <span class="code-keyword">&lt;</span><span class="code-leadattribute">/uc:DirectoryTree.SelectedDirectory</span><span class="code-keyword">&gt;</span>
+<span class="code-keyword">&lt;</span><span class="code-leadattribute">/uc:DirectoryTree</span><span class="code-keyword">&gt;</span>
+
+<span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:FileList</span> <span class="code-attribute">Grid.Column</span><span class="code-keyword">="</span><span class="code-keyword">1"</span> <span class="code-attribute">Grid.Row</span><span class="code-keyword">="</span><span class="code-keyword">1"</span> <span class="code-attribute">ViewMode</span><span class="code-keyword">="</span><span class="code-keyword">vmIcon"</span>
+<span class="code-attribute">CurrentDirectory</span><span class="code-keyword">="</span><span class="code-keyword">{Binding SelectedDirectory, ElementName=dirTree, Mode=TwoWay}"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+</pre>
+<h3><a name="howtousedirectoryinfoex"></a>DirectoryInfoEx
+(Component) </h3>
+<h3>
+</h3>
+Please keep in mind that the UserControls
+associated with this article is based on <a href="http://www.codeproject.com/KB/files/DirectoryInfoEx.aspx">System.IO.DirectoryInfo<strong>Ex</strong></a>,
+not
+<a href="http://msdn.microsoft.com/en-us/library/system.io.directoryinfo.aspx">System.IO.DirectoryInfo</a>,
+it's
+a
+custom
+dotNet2.0
+component
+which
+uses
+<code>IShellFolder2
+</code>to list shell items, and provide similar syntax as <code>DirectoryInfo</code>,
+the
+current
+version
+(0.17)
+does
+the
+following : <br>
+<ul>
+<li>List Shell Items (sync/async)<br>
+</li>
+<li>File System Operations (sync/async), e.g. Create, Copy, Move ,
+Delete, Rename</li>
+<li>Display Shell Context Menu, allow Insert/Delete/Disable Menu Items<br>
+</li>
+<li>Monitor File System Changes<br>
+</li>
+<li><a href="http://www.codeproject.com/Tips/68038/Obtain-file-properties-from-shell-using-ExtraPrope.aspx">Obtain
+File
+Properties
+from
+Shell</a></li>
+</ul>
+The <a href="http://www.codeproject.com/KB/files/DirectoryInfoEx.aspx"><code>DirectoryInfoEx</code></a>
+on this page may not be the
+most update, please check <a href="http://www.codeproject.com/KB/files/DirectoryInfoEx.aspx">it's
+page</a> for update.<br>
+<h3><a name="howtousedirectorytree"></a>DirectoryTree (TreeView)</h3>
+<ul>
+<li><small>DirectoryTree<br>
+</small>
+<ul>
+<li><small>RootDirectory<br>
+</small></li>
+<li><small>SelectedDirectory</small></li>
+</ul>
+</li>
+</ul>
+<a href="http://picasaweb.google.com/lh/photo/f85ZArH_rjNrl7rRHw9Abw?feat=embedwebsite"><img style="border-style: solid; border-width: 0px; width: 200px; height: 202px;" src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/MVVMTest1.png" alt="FileList"></a><br>
+<br>
+You can set the <code>RootDirectory </code>and
+<code>SelectedDirectory </code>using the <code>ExExtension</code>. 
+Ex
+is
+a
+<code>MarkupExtension</code>, which return the<br>
+appropriate <code>FileSystemInfoEx</code>,
+one can specify the FullName via
+the
+extension
+as
+well 
+e.g.
+:<br>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:DirectoryTree</span> <span class="code-attribute">Grid.Column</span><span class="code-keyword">="</span><span class="code-keyword">0"</span> <span class="code-attribute">Grid.Row</span><span class="code-keyword">="</span><span class="code-keyword">1"</span> <span class="code-attribute">x:Name</span><span class="code-keyword">="</span><span class="code-keyword">dirTree"</span> <span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:DirectoryTree.RootDirectory</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:Ex</span> <span class="code-attribute">FullName</span><span class="code-keyword">="</span><span class="code-keyword">::{20D04FE0-3AEA-1069-A2D8-08002B30309D}"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span> 
+ <span class="code-comment">&lt;!--</span><span class="code-keyword"><span class="code-comment">MyComputer</span>--&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">/uc:DirectoryTree.RootDirectory</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:DirectoryTree.SelectedDirectory</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:Ex</span> <span class="code-attribute">FullName</span><span class="code-keyword">="</span><span class="code-keyword">C:\Temp"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">/uc:DirectoryTree.SelectedDirectory</span><span class="code-keyword">&gt;</span> 
+<span class="code-keyword">&lt;</span><span class="code-leadattribute">/uc:DirectoryTree</span><span class="code-keyword">&gt;</span> </pre>
+<br>
+<h3><a name="howtousefilelist"></a>FileList (ListView)<br>
+</h3>
+<ul>
+<small> </small>
+<li><small>FileList<br>
+</small>
+<ul>
+<small> </small>
+<li><small>SelectedEntries</small></li>
+<small> </small>
+<li><small>CurrentDirectory</small></li>
+<small> </small>
+<li><small>ViewMode</small></li>
+<small> </small>
+<li><small>ViewSize</small> </li>
+<li><small>SortBy (0.2)<br>
+</small></li>
+<li><small>SortDirection (0.2)</small> </li>
+<small> </small>
+</ul>
+<small> </small></li>
+</ul>
+Unlike normal <code>ListView</code>, this <code>FileList </code>support
+multi-select
+by
+dragging,
+for
+more
+information
+you
+can take a look to <a href="http://www.codeproject.com/KB/WPF/MultiSelectListView2.aspx">this
+article</a>.<br>
+You can get the highlight
+count when the <code>FileList </code>is
+dragging,
+using
+the
+an attached
+property named <code>SelectionHelper.HighlightCount</code>,
+e.g.
+:
+(Statusbar not
+included in this publish)<br>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:Statusbar</span> <span class="code-attribute">Grid.Column</span><span class="code-keyword">="</span><span class="code-keyword">0"</span> <span class="code-attribute">Grid.Row</span><span class="code-keyword">="</span><span class="code-keyword">4"</span> <span class="code-attribute">Grid.ColumnSpan</span><span class="code-keyword">="</span><span class="code-keyword">3"</span> <span class="code-attribute">x:Name</span><span class="code-keyword">="</span><span class="code-keyword">sbar"</span>
+ <span class="code-attribute">FileCount</span><span class="code-keyword">="</span><span class="code-keyword">{Binding RootModel.CurrentDirectoryModel.FileCount, ElementName=fileList1}"</span>
+ <span class="code-attribute">DirectoryCount</span><span class="code-keyword">="</span><span class="code-keyword">{Binding RootModel.CurrentDirectoryModel.DirectoryCount, 
+ ElementName=fileList1}"</span>
+ <span class="code-attribute">HighlightCount</span><span class="code-keyword">="</span><span class="code-keyword">{Binding Path=(uc:SelectionHelper.HighlightCount), 
+ ElementName=fileList1}"</span>
+ <span class="code-attribute">SelectedEntries</span><span class="code-keyword">="</span><span class="code-keyword">{Binding SelectedEntries, ElementName=fileList1}"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+</pre>
+<p><code>SelectedEntries </code>is oneway currently, it can
+return the items selected on the file list, so you can bind it with
+<code>StatusBar </code>or other
+<code>UserControl</code>. <br>
+<br>
+(0.2) You can change the item sequence using <code>SortBy </code>and <em><code>SortDirection
+</code></em>property, or it can be changed by double-click the header
+of GridView : <br>
+</p>
+<pre lang="cs">&lt;uc:FileList SortBy=<span class="code-string">"</span><span class="code-string">sortByLastWriteTime"</span> SortDirection=<span class="code-string">"</span><span class="code-string">Descending"</span> /&gt;
+</pre>
+<br>
+<code>ViewMode </code>and <code>ViewSize </code>both represent how
+the
+file list represent the items, the modes and it's size as follows.<br>
+
+<p><a href="http://picasaweb.google.com/lh/photo/1g0tnYOcZnycDErkb2T6Jg?feat=embedwebsite"><img style="border-style: solid; border-width: 0px; width: 200px; height: 201px;" src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/MVVMTest2.png" alt="LargeIconView"></a></p>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:FileList</span> <span class="code-attribute">ViewMode</span><span class="code-keyword">="</span><span class="code-keyword">vmLargeIcon"</span> <span class="code-attribute">ViewSize</span><span class="code-keyword">="</span><span class="code-keyword">80"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span> 
+public enum ViewMode : int
+{
+ vmTile = 13,
+ vmGrid = 14,
+ vmList = 15,
+ vmSmallIcon = 16,
+ vmIcon = 48,
+ vmLargeIcon = 80,
+ vmExtraLargeIcon = 120
+} </pre>
+If one set the <code>ViewSize </code>to
+any value between 13 to 120, the filelist will
+apply the view automatically.  <br>
+<s>Noted that <code>TileView </code>is not
+implemented yet.</s><br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h2><a name="thedesign"></a>The Design</h2>
+The UserControls are developed using <em>Model-View-ViewModel
+approach (MVVM)</em>, I first learned about this approach from <a href="http://blogs.msdn.com/dancre/archive/2006/07/23/676272.aspx">Dan
+Crevier's Blog</a>, but now you can find a <a href="http://openlightgroup.net/Blog/tabid/58/EntryId/89/Silverlight-MVVM-An-Overly-Simplified-Explanation.aspx">simplified
+explanation
+here</a>. Using <em>MVVM </em>improve
+the application responsivenss, as most work can be threaded (and able
+to update back to UI).<br>
+<br>
+My Implementation included the followings : <br>
+<ul>
+<li><strong>Model  </strong><br>
+<ul>
+<li>Represent a <code>DirectoryInfoEx </code>object</li>
+</ul>
+</li>
+<li><strong>ViewModel - 2 kinds</strong><br>
+<ul>
+<li>Model of a <code>DirectoryTree </code>/ <code>FileList</code><br style="font-style: italic;">
+</li>
+<li>Model of a <code>DirectoryTreeItem </code>/ <code>FileListItem
+</code>/ <code>FileListCurrentDirectory </code>(which
+embedded a
+Model)<br>
+</li>
+</ul>
+</li>
+<li><strong>View  </strong><br>
+<ul>
+<li>The <code>DirectoryTree </code>/ <code>FileList </code>itself,
+no
+code-behind
+except
+
+<code>DependencyProperties </code>and some <code>EventHandlers</code><br>
+<br>
+</li>
+</ul>
+</li>
+</ul>
+These UserControls uses <a href="http://www.codeproject.com/KB/WPF/Cinch.aspx">Sacha Barber's
+Cinch MVVM framework</a>. I am not sure if it's the best framework I
+can get, as I haven't tested many of them, but it reduce a lot of my
+work load. My only complaints is that his article is lack of a central
+index, every time I wish to lookup for a description for a class I have
+to look through 5 articles.<br>
+<br>
+Unlike most <em>MVVM projects</em>
+these are UserControls instead
+of
+Windows, I have to write a
+number of DependencyProperties to
+interface
+between
+the
+UserControls,
+and because of this,
+performance may suffer, but I found it simplier to divide a large
+projects into smaller managable pieces.  <br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h2><a name="model"></a>Model</h2>
+<ul>
+<small> </small>
+<li><small>Cinch.ValidatingObjet<br>
+</small>
+<ul>
+<small> </small>
+<li><small>Cinch.EditableValidatingObjet</small></li>
+<small> </small>
+<li><small>ExModel <br>
+</small>
+<ul>
+<small> </small>
+<li><small>FileModel</small></li>
+<small> </small>
+<li><small>DirectoryModel</small></li>
+<li><small>DriveModel (0.3)<br>
+</small></li>
+<small> </small>
+</ul>
+<small> </small></li>
+<small> </small>
+</ul>
+<small> </small></li>
+</ul>
+<code>FileSystemInfoEx </code>properties rarely change. so actually <code>FileSystemInfoEx
+</code>itself can be a model, but to support rename
+I added another layer : <code>ExModel</code>.<br>
+<br>
+<code>Cinch </code>contains two classes for implementing Model, <a href="http://www.codeproject.com/KB/WPF/CinchII.aspx" #validationrules"="" style="font-style: italic;">ValidatingObject</a>
+and
+it's derived class named <a href="http://www.codeproject.com/KB/WPF/CinchII.aspx" #ieditableobject"="" style="font-style: italic;">EditableValidatingObject</a>,
+the
+difference
+is
+that
+<a href="http://www.codeproject.com/KB/WPF/CinchII.aspx" #ieditableobject"="" style="font-style: italic;">EditableValidatingObject</a>
+have
+transaction
+support,
+using
+BeginEdit()
+/ CancelEdit() and EndEdit() methods.  To support
+this, your properties have to be implemented as DataWrapper
+class.  <br>
+<br>
+Because the only one field is required to support rename, I implement
+ExModel as
+<code>ValidatingObject </code>instead of <code>EditableValidatingObject</code>.<br>
+<br>
+<h3><a name="exmodel"></a>ExModel (abstract)</h3>
+<h3><a href="http://picasaweb.google.com/lh/photo/hMT1iXQVjJRVKUMotn2D5A?feat=embedwebsite"><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/Model.png"></a></h3>
+<code>ExModel </code>contains a <code>FileSystemInfoEx </code>entry
+(accessable
+using EmbeddedEntry property).<br>
+It is an abstract class, use
+<code>FileModel </code>and <code>DirectoryModel</code> and <code>DriveModel</code>(0.3)
+which is
+inherited from <code>ExModel
+</code>instead.<br>
+<br>
+Name is one of it's important property to support rename : <br>
+<pre lang="cs"><span class="code-keyword">static</span> PropertyChangedEventArgs nameChangeArgs =
+ ObservableHelper.CreateArgs&lt;ExModel&gt;(x =&gt; x.Name);
+<span class="code-keyword">public</span> <span class="code-keyword">string</span> Name
+{
+ <span class="code-keyword">get</span> { <span class="code-keyword">return</span> _name; }
+ <span class="code-keyword">set</span>
+ {
+ <span class="code-keyword">if</span> (!String.IsNullOrEmpty(_name) &amp;&amp; _name != <span class="code-sdkkeyword">value</span>)
+ {
+ <span class="code-keyword">string</span> newName = PathEx.Combine(PathEx.GetDirectoryName(FullName), <span class="code-sdkkeyword">value</span>);
+ FileSystemInfoEx entry = EmbeddedEntry;
+ <span class="code-keyword">string</span> origName = _name;
+ <span class="code-keyword">string</span> origFullName = _fullName;
+ _name = <span class="code-sdkkeyword">value</span>;
+ _fullName = newName;
+
+ <span class="code-keyword">try</span>
+ {
+ IOTools.Rename(entry.FullName, PathEx.GetFileName(_fullName));
+ FullName = newName;
+ Label = EmbeddedEntry.Label;
+ }
+ <span class="code-keyword">catch</span> (Exception ex)
+ {
+ MessageBox.Show(ex.Message, <span class="code-string">"</span><span class="code-string">Rename failed"</span>);
+ _name = origName;
+ _fullName = origFullName;
+ <span class="code-keyword">return</span>;
+ }
+ }
+ <span class="code-keyword">else</span> _name = <span class="code-sdkkeyword">value</span>; 
+ 
+ NotifyPropertyChanged(nameChangeArgs);
+ }
+}</pre>
+As you see, it will revert back to original if the rename process
+failed,
+otherwise update the internal _name field and call <code>NotifyPropertyChanged</code>()
+method
+so
+the
+UI
+is
+notified
+about the changes.<br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h2><a name="viewmodel"></a>ViewModel</h2>
+<ul>
+<li><small>Cinch.ViewModelBase<br>
+</small>
+<ul>
+<li><small>ExViewModel<br>
+</small>
+<ul>
+<small> </small>
+<li><small>DirectoryViewModel<br>
+</small>
+<ul>
+<small> </small>
+<li><small>CurrentDirectoryViewModel (FileList)<br>
+</small></li>
+<small> </small>
+</ul>
+<small> </small></li>
+<small> </small>
+<li><small>HierarchyViewModel<br>
+</small>
+<ul>
+<small> </small>
+<li><small>DirectoryTreeViewItemViewModel (TreeViewItem)<br>
+</small></li>
+<small> </small>
+</ul>
+<small> </small></li>
+<small> </small>
+<li><small>FileListItemViewModel (ListViewItem)<br>
+</small></li>
+<small> </small>
+</ul>
+<small> </small></li>
+<li><small>RootModelBase<br>
+</small>
+<ul>
+<li><small>DirectoryTreeViewModel (DirectoryTree which is a
+TreeView)</small></li>
+<li><small>FileListViewModel (FileList which is a ListView)</small><br>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+All my ViewModels are
+inherited
+from <a href="http://www.codeproject.com/KB/WPF/CinchIV.aspx" #baseclass"="">Cinch.ViewModelBase</a>. 
+<a href="http://www.codeproject.com/KB/WPF/CinchIV.aspx" #baseclass"="">ViewModelBase</a>,
+as
+a ViewModel communicating
+with View, contains some
+Window life-cycle related commands and method (e.g.
+CloseCommand and OnWindowClose() method), but as the
+file explorer
+components are not Window most
+of
+them
+are
+not
+used.
+Instead,
+I shall develop my own set of commands, like RefreshCommand for
+FileList. There are a number of
+unimplemented commands that I can think of, like
+Cut/CopyPaste/SelectAllCommand for
+FileList, if you need them
+immediately you may need to write them yourself. e.g.<br>
+<br>
+<pre lang="cs"><span class="code-keyword">private</span> SimpleCommand _refreshCommand = <span class="code-keyword">new</span> SimpleCommand
+ {
+ CanExecuteDelegate = x =&gt; <span class="code-keyword">true</span>,
+ ExecuteDelegate = x =&gt; Refresh()
+ };
+<span class="code-keyword">public</span> SimpleCommand RefreshCommand { <span class="code-keyword">get</span> { <span class="code-keyword">return</span> _refreshCommand; } }
+</pre>
+Then the command is usable by binding from the UI, e.g. : <br>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">anotherControl</span> <span class="code-attribute">RefreshCommand</span><span class="code-keyword">="</span><span class="code-keyword">{Binding RootModel.RefreshCommand, 
+ ElementName=fileList1}"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span> </pre>
+<br style="font-style: italic;">
+<h3><a name="exviewmodel"></a>ExViewModel (abstract)</h3>
+<a href="http://picasaweb.google.com/lh/photo/SelUjvC85EBVrSIFpl7FEw?feat=embedwebsite"><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/ViewModel.png"></a><br>
+<br>
+ExViewModel are a base class for all List/TreeViewItem,
+it
+contains
+a
+FileModel or DirectoryModel in it, which can be
+accessed by a readonly property
+named EmbeddedModel. 
+Each ExViewModel is for
+representing one FileInfoEx or
+DirectoryInfoEx only, to
+represent another FileSystemInfoEx entry
+one
+would
+have
+to
+create another ExModel
+and ExViewModel.<br>
+Similarly, DirectoryViewModel and
+HierarchyViewModel have EmbeddedDirectoryModel. So, if one
+want to access the contained Directory, one can use
+EmbeddedDirectoryModel.EmbeddedDirectory
+property.<br>
+<br>
+<h3><a name="rootmodelbase"></a>RootModelBase (abstract)<br>
+</h3>
+<a href="http://picasaweb.google.com/lh/photo/Kde8NDkGxno2J39O7HQWuA?feat=embedwebsite"><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/ViewModel2.png"></a><br>
+<br>
+RootModelBase is a base class
+for DirectoryTreeViewModel and
+FileListViewModel, which is
+the ViewModel of the whole UserControl, it
+contains an event named OnProgress,
+which
+is
+listened
+by
+the
+UserControl.  When UserConstrol receive this event, it
+will raise
+again as DependencyEvent,
+which will bubble up until asked to stop (args.Handled = true;).<br>
+<pre lang="cs"><span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">readonly</span> RoutedEvent ProgressEvent = ProgressRoutedEventArgs.ProgressEvent.AddOwner(<span class="code-keyword">typeof</span>(DirectoryTree));
+...
+RootModel.OnProgress += (ProgressEventHandler)<span class="code-keyword">delegate</span>(<span class="code-keyword">object</span> sender, ProgressEventArgs e)
+{
+ <span class="code-keyword">this</span>.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, <span class="code-keyword">new</span> ThreadStart(<span class="code-keyword">delegate</span>
+ {
+ RaiseEvent(<span class="code-keyword">new</span> ProgressRoutedEventArgs(ProgressEvent, e));
+ }));
+};
+</pre>
+I am not sure if this will cause memory leak, e.g. not GC when the
+UserControl is free. If so, I will have to implement <a href="http://www.codeproject.com/KB/WPF/CinchII.aspx" #weakeventcreate"="">WeakEvent</a>.<br>
+<br>
+<h3><a name="filelistviewmodels"></a>FileList - FileListViewModel,
+CurrentDirectoryViewModel and
+FileListItemViewModel<br>
+</h3>
+Actually both ViewModel should
+be
+combined
+if
+FileListViewModel
+not
+inherited from RootModelBase,
+and CurrentDirectoryViewModel is
+not
+inherited
+from
+ExViewModel,
+but as they do, I have to leave them as two
+separate class. One FileList can
+have
+one
+FileListViewModel only,
+but it may have multiple CurrentDirectoryViewModels
+(when changing directory).<br>
+<br>
+<h4><a name="filelistviewmodel"></a>FileListViewModel
+(RootModelBase) </h4>
+<ul>
+<li><small>RootModelBase<br>
+</small>
+<ul>
+<li><small>FileListViewModel <br>
+</small>
+<ul>
+<li><small>RefreshCommand (which calls
+CurrentDirectoryModel.Refresh())<br>
+</small></li>
+<li style="font-weight: bold;"><small>CurrentDirectory</small></li>
+<li style="font-weight: bold;"><small>CurrentDirectoryModel</small></li>
+<li><small style="font-weight: bold;">IsLoading</small> </li>
+<li><small style="font-weight: bold;"><small style="font-weight: bold;">SortBy (0.2)<br>
+</small></small></li>
+<li><small style="font-weight: bold;"><small style="font-weight: bold;">SortDirection (0.2)</small> </small></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<code>FileListViewModel</code>is a middle
+layer between <code>CurrentDirectoryModel</code>
+(which changes regularly) and the <code>FileList</code>.  In
+FileListViewModel,
+CurrentDirectory and CurrentDirectoryModel links to each
+other, if you
+change one of them it will change the another, the reason to have both
+properties is that, CurrentDirectory
+is for outside the FileList
+(e.g.
+from DirectoryTree, or user
+code), CurrentDirectoryModel
+is for
+internal use as ViewModel.<br>
+<br>
+(0.2) SortBy and SortDirection enable sort by calling
+CurrentDirectoryModel.ChangeSortMethod() method, which change the sort
+to CustomSort : <br>
+<pre lang="cs"><span class="code-keyword">public</span> <span class="code-keyword">void</span> ChangeSortMethod(ExComparer.SortCriteria sortBy, ListSortDirection sortDirection)
+{ 
+ ListCollectionView dataView = (ListCollectionView)(CollectionViewSource.GetDefaultView(_subEntries.View));
+
+ dataView.SortDescriptions.Clear(); <span class="code-comment">//</span><span class="code-comment">Disable previous sorting method.
+</span> dataView.CustomSort = <span class="code-keyword">null</span>;
+
+ <span class="code-comment">//</span><span class="code-comment">conversion from ListSortDirection to ExComparer.SortDirection 
+</span> <span class="code-comment">//</span><span class="code-comment">ExComparer cannot use ListSortDirection as it's .Net2.0 component
+</span> ExComparer.SortDirectionType direction = sortDirection == ListSortDirection.Ascending ? 
+ ExComparer.SortDirectionType.sortAssending : ExComparer.SortDirectionType.sortDescending;
+ 
+ dataView.CustomSort = <span class="code-keyword">new</span> ExModelComparer(sortBy, direction); <span class="code-comment">//</span><span class="code-comment">IComparer
+</span>}
+</pre>
+In this case, although the <code><a href="http://msdn.microsoft.com/en-us/library/system.windows.data.collectionviewsource.aspx">CollectionViewSource</a>
+</code>discussed in <code><em>CurrentDirectoryViewModel </em></code>is
+still
+used,
+it's
+sorting
+method
+is overrided by my own implementation.<br>
+<br>
+Most ViewModel has <code>IsLoading </code>property, which will be
+later bound to UI, so when it's true, the UI shows loading animation.<br>
+<h4><a name="currentdirectoryviewmodel"></a>CurrentDirectoryViewModel
+(ExViewModel)<br>
+</h4>
+<ul>
+<li>ExViewModel<br>
+<ul>
+<li>DirectoryViewModel<br>
+<ul>
+<li>CurrentDirectoryModel<br>
+<ul>
+<li>RefreshCommand</li>
+<li>ListFiles, ListDirectories</li>
+<li>IsLoading</li>
+<li>Filter<br>
+</li>
+<li>BgWorker (bgWorker_LoadSubEntries
+and
+bgWorker_FilterSubEntries)<br>
+</li>
+<li>FileCount, DirectoryCount<br>
+</li>
+<li>HasSubEntries</li>
+<li>SubEntries, SubEntriesInternal</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<code>CurrentDirectoryViewModel</code>responsible
+for
+listing
+the
+contents
+of
+current directory, to do this, it contains a <a href="http://www.codeproject.com/KB/WPF/CinchIII.aspx" #background"="" style="font-style: italic;">Cinch.BackgroundTaskManager</a>
+named bgWorker_LoadSubEntries,
+<a href="http://www.codeproject.com/KB/WPF/CinchIII.aspx" #background"="" style="font-style: italic;">BackgroundTaskManager</a>
+as it's name implies, it allows running a task in background,
+using the
+RunBackgroundTask() method,
+the advantage of using this class is that
+you can specify the task and how to update back to ViewModel in one
+place.<br>
+<pre lang="cs">bgWorker_LoadSubEntries = <span class="code-keyword">new</span> BackgroundTaskManager&lt;List&lt;FileListViewItemViewModel&gt;&gt;(
+() =&gt;
+{
+ IsLoading = <span class="code-keyword">true</span>;
+ <span class="code-keyword">return</span> getEntries();
+},
+(result) =&gt;
+{
+ updateSubEntries(result);                  
+ IsLoading = <span class="code-keyword">false</span>;
+});    
+</pre>
+The first section is <code>TaskFunc</code>
+(Func&lt;FileListViewItemViewModel&gt;),
+which
+does
+the
+time-consuming
+work, and the second section is
+CompleteAction (Action&lt;FileListViewItemViewModel&gt;),
+which
+update the UI
+(run in UI thread).  Noted that only the first section is run in
+background.<br>
+<br>
+The fiest section return the result of getEntries()
+methods, getEntries()
+is
+a
+method
+with
+a linq command, the _cachedSubEntries
+is
+used again when Filter needed.<br>
+<pre lang="cs"><span class="code-keyword">private</span> List&lt;FileListViewItemViewModel&gt; getEntries()
+{
+ <span class="code-keyword">var</span> retVal = <span class="code-sdkkeyword">from</span> entry <span class="code-keyword">in</span> EmbeddedDirectoryModel.EmbeddedDirectoryEntry.EnumerateFileSystemInfos()
+ <span class="code-sdkkeyword">where</span> (entry <span class="code-keyword">is</span> IDirectoryInfoExA &amp;&amp; ListDirectories) || (entry <span class="code-keyword">is</span> IFileInfoExA &amp;&amp; ListFiles)
+ <span class="code-sdkkeyword">select</span> <span class="code-keyword">new</span> FileListViewItemViewModel(_rootModel, ExAModel.FromExAEntry(entry)); ;
+ _cachedSubEntries = retVal.ToArray();
+ <span class="code-keyword">return</span> <span class="code-keyword">new</span> List&lt;FileListViewItemViewModel&gt;(_cachedSubEntries);
+} 
+Action&lt;List&lt;FileListViewItemViewModel&gt;&gt; updateSubEntries =
+(result) =&gt;
+{
+ List&lt;FileListViewItemViewModel&gt; delList = <span class="code-keyword">new</span> List&lt;FileListViewItemViewModel&gt;(SubEntriesInternal.ToArray());
+  List&lt;FileListViewItemViewModel&gt; addList = <span class="code-keyword">new</span> List&lt;FileListViewItemViewModel&gt;();
+
+ <span class="code-keyword">foreach</span> (FileListViewItemViewModel model <span class="code-keyword">in</span> result)
+   <span class="code-keyword">if</span> (delList.Contains(model))
+ delList.Remove(model);
+ <span class="code-keyword">else</span> addList.Add(model);
+ 
+ <span class="code-keyword">foreach</span> (FileListViewItemViewModel model <span class="code-keyword">in</span> delList)
+ SubEntriesInternal.Remove(model); 
+ <span class="code-keyword">foreach</span> (FileListViewItemViewModel model <span class="code-keyword">in</span> addList)
+ SubEntriesInternal.Add(model);
+
+  DirectoryCount = (<span class="code-keyword">uint</span>)(<span class="code-sdkkeyword">from</span> model <span class="code-keyword">in</span> SubEntriesInternal <span class="code-sdkkeyword">where</span>
+ model.EmbeddedModel <span class="code-keyword">is</span> DirectoryModel <span class="code-sdkkeyword">select</span> model).Count();
+  FileCount = (<span class="code-keyword">uint</span>)(SubEntriesInternal.Count - DirectoryCount);
+ HasSubEntries = SubEntriesInternal.Count &gt; <span class="code-digit">0</span>;              
+}; </pre>
+Basically the second section is to identify the difference of result
+and the output
+(SubEntriesInternal), and
+changes the ObservableCollection. 
+Instead
+of
+replacing
+the
+ObservableCollection completely, this reduce
+the overhead needed to destroy and create of ListViewItem in the UI
+side, and most importantly, it allow the FileList to maintain the
+selection as long as possible.<br>
+<br>
+<br>
+FileList support Filter, when
+the property is changed,
+bgWorker_FilterSubEntries will
+be run in background, and change the
+SubEntriesInternal when
+completed, it's similar as
+bgWorker_LoadSubEntries,
+except it uses filterEntries()
+method
+(as below)<br>
+<pre lang="cs"><span class="code-keyword">public</span> List&lt;FileListViewItemViewModel&gt; filterEntries()
+{
+ <span class="code-keyword">if</span> (_cachedSubEntries == <span class="code-keyword">null</span>)
+ _cachedSubEntries = getEntries().ToArray();
+ <span class="code-keyword">var</span> retVal = <span class="code-sdkkeyword">from</span> entry <span class="code-keyword">in</span> _cachedSubEntries <span class="code-sdkkeyword">where</span> (<span class="code-sdkkeyword">String</span>.IsNullOrEmpty(Filter) ||
+ IOTools.MatchFileMask(entry.Name, Filter + <span class="code-string">"</span><span class="code-string">*"</span>))
+ <span class="code-sdkkeyword">select</span> entry;
+ <span class="code-keyword">return</span> <span class="code-keyword">new</span> List&lt;FileListViewItemViewModel&gt;(retVal);
+} </pre>
+<br>
+So why it's called SubEntriesInternal
+instead of SubEntries?
+It's
+because there's another layer, SubEntries
+is a <a href="http://msdn.microsoft.com/en-us/library/system.windows.data.collectionviewsource.aspx">CollectionViewSource</a>,
+which
+can
+group
+or
+sort
+the
+SubEntriesInternal
+without
+changing
+it
+(e.g.
+if
+I want to sort SubEntriesInternal
+directly I will have to do a
+lot of work, Deleting and Inserting, you cant call Array.Sort() method
+on ObservableCollection), SubEntriesInternal is sorted
+using it's IsDirectory
+property, then it's FullName property.
+<br>
+<pre lang="cs">_subEntries = <span class="code-keyword">new</span> CollectionViewSource();           
+_subEntries.Source = SubEntriesInternal;
+_subEntries.SortDescriptions.Add(<span class="code-keyword">new</span> SortDescription(<span class="code-string">"</span><span class="code-string">IsDirectory"</span>, ListSortDirection.Descending));
+_subEntries.SortDescriptions.Add(<span class="code-keyword">new</span> SortDescription(<span class="code-string">"</span><span class="code-string">FullName"</span>, ListSortDirection.Ascending));
+</pre>
+Because it's <a href="http://msdn.microsoft.com/en-us/library/system.windows.data.collectionviewsource.aspx" style="font-style: italic;">CollectionViewSource</a>,
+when
+Binding
+ItemsSource,
+one
+have
+to
+bind
+it's
+SubEntries.View
+property
+insteading
+of the SubEntries property
+directly. (btw, you can still bind to SubEntries.Source
+as well)<br>
+<br>
+<br>
+Lastly, there's a FileSystemWatcherEx, which refresh the
+FileList when
+there's a change : <br>
+<pre lang="cs">FileSystemWatcherEx watcher = <span class="code-keyword">new</span> FileSystemWatcherEx(model.EmbeddedDirectoryEntry); 
+<span class="code-keyword">var</span> handler = (FileSystemEventHandlerEx)<span class="code-keyword">delegate</span>(<span class="code-keyword">object</span> sender, FileSystemEventArgsEx args)
+ {
+ <span class="code-keyword">if</span> (args.FullPath.Equals(model.FullName))
+ Refresh();
+ };
+<span class="code-keyword">var</span> renameHandler = (RenameEventHandlerEx)<span class="code-keyword">delegate</span>(<span class="code-keyword">object</span> sender, RenameEventArgsEx args)
+ {
+ <span class="code-keyword">if</span> (args.OldFullPath.Equals(model.FullName))
+ Refresh();
+ };
+watcher.OnChanged += handler;
+watcher.OnCreated += handler;
+watcher.OnDeleted += handler;
+watcher.OnRenamed += renameHandler;
+</pre>
+<h4><a name="filelistitemviewmodel"></a>FileListItemViewModel
+(ExViewModel)<br>
+</h4>
+<ul>
+<small> </small>
+<li><small>ExViewModel<br>
+</small>
+<ul>
+<small> </small>
+<li><small>FileListItemViewModel<br>
+</small>
+<ul style="font-weight: bold;">
+<small> </small>
+<li><small>ExpandCommand</small></li>
+<small> </small>
+<li><small>IsSelected</small></li>
+<small> </small>
+</ul>
+<small> </small></li>
+<small> </small>
+</ul>
+<small> </small></li>
+</ul>
+<code>ExpandCommand</code> run the
+selected item (via Process.Start()
+method) or
+change the
+current directory (via _rootModel.CurrentDirectory)
+depend
+what
+is
+selected.
+If the selected file is a link (*.lnk) it uses <a href="http://www.vbaccelerator.com/home/VB/Type_Libraries/ShellLink/article.asp" style="font-style: italic;">VBaccelerator's
+ShellLink</a> to find the linked item, then run the file or change
+directory based on the linked item.<br>
+<pre lang="cs"><span class="code-keyword">if</span> (PathEx.GetExtension(entry.Name).ToLower() == <span class="code-string">"</span><span class="code-string">.lnk"</span>)
+ <span class="code-keyword">using</span> (ShellLink sl = <span class="code-keyword">new</span> ShellLink(entry.FullName))
+ {
+ <span class="code-keyword">string</span> linkPath = sl.Target;
+ <span class="code-keyword">if</span> (DirectoryEx.Exists(linkPath) &amp;&amp; sl.Arguments == <span class="code-string">"</span><span class="code-string">"</span>)
+ _rootModel.CurrentDirectory = FileSystemInfoEx.FromString(linkPath) <span class="code-keyword">as</span> DirectoryInfoEx;
+ <span class="code-keyword">else</span> Run(linkPath, sl.Arguments);
+ }
+</pre>
+But how to hook the ExpandCommand?
+ListViewItem itself does not
+have DoubleClickCommand, you
+can : <br>
+<br>
+1. either monitor the MouseDoubleClickEvent
+and do the action when raised : <br>
+<pre lang="cs"><span class="code-region">#region ExpandHandler
+</span><span class="code-keyword">this</span>.AddHandler(ListViewItem.MouseDoubleClickEvent, (RoutedEventHandler)<span class="code-keyword">delegate</span>(<span class="code-keyword">object</span> sender, RoutedEventArgs e)
+{
+ DependencyObject lvItem = getListViewItem(e.OriginalSource <span class="code-keyword">as</span> DependencyObject);
+ <span class="code-keyword">if</span> (lvItem != <span class="code-keyword">null</span>)
+ {
+ FileListViewItemViewModel model =
+ (FileListViewItemViewModel)ItemContainerGenerator.ItemFromContainer(lvItem);
+ <span class="code-keyword">if</span> (model != <span class="code-keyword">null</span>) 
+ model.Expand(); 
+ }
+});
+<span class="code-region">#endregion
+</span></pre>
+2. or you can create the DoubleClickCommand
+your own, and hook them together (more elegant)<br>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">Style</span> <span class="code-attribute">x:Key</span><span class="code-keyword">="</span><span class="code-keyword">{x:Type ListViewItem}"</span> <span class="code-attribute">TargetType</span><span class="code-keyword">="</span><span class="code-keyword">{x:Type ListViewItem}"</span> <span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">Setter</span> <span class="code-attribute">Property</span><span class="code-keyword">="</span><span class="code-keyword">uc:CommandProvider.DoubleClickCommand"</span> <span class="code-attribute">Value</span><span class="code-keyword">="</span><span class="code-keyword">{Binding ExpandCommand}"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+<span class="code-keyword">&lt;</span><span class="code-leadattribute">/Style</span><span class="code-keyword">&gt;</span>
+</pre>
+<a href="http://www.codeproject.com/KB/WPF/DoubleClickCommandInXaml.aspx">CommandProvider</a>
+is a FrameworkElement which
+have
+an
+attached
+property named DoubleClickCommand,
+and
+when
+it's
+set, <a href="http://www.codeproject.com/KB/WPF/DoubleClickCommandInXaml.aspx">CommandProvider</a> will
+hook to
+the control's MouseLeftButtonDown event,
+in
+this
+case,
+the ListViewItem. 
+It
+will invoke the command when it receive a double click (clickcount =
+2) event.<br>
+<br>
+In normal case it should be called this way : <br>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">Label</span> <span class="code-attribute">uc:CommandProvider.DoubleClickCommand</span><span class="code-keyword">="</span><span class="code-keyword">{Binding ExpandCommand}"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span> </pre>
+Beside DoubleClickCommand, it
+also included other commands like Click,
+RightClick, EnterPress, Prev and TreeViewSelectionChanged as well.<br>
+<br>
+<br>
+IsSelected is binded with ListViewItem.IsSelected, it have no
+use currently,
+but it can be used by the FileListViewModel
+to change the item's
+selected state.<br>
+It's intended for allowing FileList to setting the selected items
+externally (just like DirectoryTree).<br>
+<br>
+<h3><a name="directorytreeviewmodels"></a>DirectoryTree -
+DirectoryTreeViewModel and
+DirectoryTreeItemViewModel</h3>
+TreeView can be interpreted
+as multi-level ListView, that
+means unlike
+WindowsForms you cannot get a TreeViewItem
+by using
+listView1.Items[0].Items[1], you cannot use TreeView's
+ItemsContainerGenerator to get the
+ListViewItem either, because
+each level has it's own
+ItemsContainerGenerator, you
+have to use ListViewItem.Parent's ItemsContainerGenerator..
+<br>
+<h4><a name="hierarchyviewmodel"></a>HierarchyViewModel (ExViewModel)<br>
+</h4>
+<ul>
+<li><small>Cinch.ViewModelBase<br>
+</small>
+<ul>
+<li><small>ExViewModel<br>
+</small>
+<ul>
+<li><small>HierarchyViewModel<br>
+</small>
+<ul style="font-weight: bold;">
+<li><small>IsExpanded</small></li>
+<li><small>IsSelected</small><br>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+One of the basic functionality of the DirectoryTree
+is to display the
+selected directory properly, in WPF, it's easy to obtain the selected
+value in TreeView, but changing it is another story.  In earlier
+version I uses <a href="http://www.codeproject.com/KB/WPF/TreeView_SelectionWPF.aspx" style="font-style: italic;">DaWanderer's
+method</a> which navigate through the TreeViewItem layer by layer to
+find the
+required item, and change it's IsSelected property, but this hog the
+UIThread, and this disallow
+Virtualizing TreeView to be used, because
+if the item is not shown, it's not created, and if it's not created, it
+cannot be selected. This
+method is used when I develop the control using MVP
+(Model-View-Presenter) pattern.<br>
+<br>
+Until one day I read <a href="http://www.codeproject.com/KB/WPF/TreeViewWithViewModel.aspx" style="font-style: italic;">Josh
+Smith's
+article</a> mentioned how to support selection in MVVM, the
+problem solved itself.  Basically it's to have IsExpanded and
+IsSelected in the ViewModel
+(in my case, HierarchyViewModel),
+and
+bind
+the
+TreeViewItem's IsExpanded and IsSelected to it. The issue of MVP
+pattern is the lack of another layer (ViewModel) i.e. I cannot add
+IsExpanded/IsSelected to FileSystemInfoEx.<br>
+<br>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">Style</span> <span class="code-attribute">x:Key</span><span class="code-keyword">="</span><span class="code-keyword">{x:Type local:DirectoryTree}"</span> <span class="code-attribute">TargetType</span><span class="code-keyword">="</span><span class="code-keyword">{x:Type local:DirectoryTree}"</span> 
+ <span class="code-attribute">BasedOn</span><span class="code-keyword">="</span><span class="code-keyword">{StaticResource {x:Type TreeView}}"</span><span class="code-keyword">&gt;</span>
+  <span class="code-keyword">&lt;</span><span class="code-leadattribute">Setter</span> <span class="code-attribute">Property</span><span class="code-keyword">="</span><span class="code-keyword">ItemTemplate"</span> <span class="code-attribute">Value</span><span class="code-keyword">="</span><span class="code-keyword">{StaticResource TreeItemTemplate}"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">Setter</span> <span class="code-attribute">Property</span><span class="code-keyword">="</span><span class="code-keyword">ItemContainerStyle"</span><span class="code-keyword">&gt;</span>
+     <span class="code-keyword">&lt;</span><span class="code-leadattribute">Setter.Value</span><span class="code-keyword">&gt;</span>
+        <span class="code-keyword">&lt;</span><span class="code-leadattribute">Style</span> <span class="code-attribute">TargetType</span><span class="code-keyword">="</span><span class="code-keyword">{x:Type TreeViewItem}"</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">Setter</span> <span class="code-attribute">Property</span><span class="code-keyword">="</span><span class="code-keyword">IsExpanded"</span> <span class="code-attribute">Value</span><span class="code-keyword">="</span><span class="code-keyword">{Binding IsExpanded, Mode=TwoWay}"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">Setter</span> <span class="code-attribute">Property</span><span class="code-keyword">="</span><span class="code-keyword">IsSelected"</span> <span class="code-attribute">Value</span><span class="code-keyword">="</span><span class="code-keyword">{Binding IsSelected, Mode=TwoWay}"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">Setter</span> <span class="code-attribute">Property</span><span class="code-keyword">="</span><span class="code-keyword">FontWeight"</span> <span class="code-attribute">Value</span><span class="code-keyword">="</span><span class="code-keyword">Normal"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">/Setter.Value</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">/Setter</span><span class="code-keyword">&gt;</span>
+<span class="code-keyword">&lt;</span><span class="code-leadattribute">/Style</span><span class="code-keyword">&gt;</span> </pre>
+So if you change the IsExpanded/IsSelected field in the ViewModel, it
+will affect the ListViewItem.<br>
+<h4><a name="directorytreeviewmodel"></a>DirectoryTreeViewModel
+(RootModelBase)<br>
+</h4>
+<ul>
+<li><small>RootModelBase<br>
+</small>
+<ul>
+<li><small>DirectoryTreeViewModel<br>
+</small>
+<ul>
+<li style="font-weight: bold;"><small>BgWorker_FindChild</small></li>
+<li><small>RootDirectoryModelList</small></li>
+<li><small>RootDirectory</small></li>
+<li><small>SelectedDirectoryModel</small></li>
+<li><small>SelectedDirectory</small></li>
+<li><small>IsLoading</small><br>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<br>
+Similar to FileList, there
+are linked property : SelectedDirectory
+and
+SelectedDirectoryModel
+property, so changing one will change the
+other as well.  The another pair is RootDirectory and
+RootDirectoryModelList, except it's
+a List, because TreeView.Items property accept a
+List only.
+DirectoryTree also have a FileSystemWatcherEx to refresh
+the tree when
+needed.<br>
+<br>
+One important feature is when SelectedDirectory
+is set externally, it
+will update the Selected Item in DirectoryTree,
+this
+is
+done
+in
+background using the BgWorker_FindChild
+(which is a <a href="http://www.codeproject.com/KB/WPF/CinchIII.aspx" #background"="" style="font-style: italic;">Cinch.BackgroundTaskManager</a>),
+as
+follows
+:
+<br>
+<br>
+<pre lang="cs">bgWorker_findChild = <span class="code-keyword">new</span> BackgroundTaskManager&lt;DirectoryTreeItemViewModel&gt;(
+() =&gt;
+{
+ IsLoading = <span class="code-keyword">true</span>;
+ DirectoryTreeItemViewModel lookingUpModel = _selectedDirectoryModel;
+ Func&lt;bool&gt; cancelNow = () =&gt; <span class="code-comment">//</span><span class="code-comment">Stop search when SelectedDirectory changed AGAIN.
+</span> {
+ <span class="code-keyword">bool</span> cont = lookingUpModel != <span class="code-keyword">null</span> &amp;&amp; lookingUpModel.Equals(_selectedDirectoryModel); 
+ <span class="code-keyword">return</span> !cont;
+ };
+ DirectoryTreeItemViewModel newSelectedModel = <span class="code-keyword">null</span>;
+ {
+ DirectoryInfoEx newSelectedDir = _selectedDirectory;
+ <span class="code-keyword">if</span> (newSelectedDir != <span class="code-keyword">null</span>)
+ {
+ <span class="code-keyword">foreach</span> (DirectoryTreeItemViewModel rootModel <span class="code-keyword">in</span> _rootDirectoryModelList)
+ {
+ newSelectedModel = rootModel.LookupChild(newSelectedDir, cancelNow);
+ <span class="code-keyword">if</span> (newSelectedModel != <span class="code-keyword">null</span>)
+ <span class="code-keyword">return</span> newSelectedModel;
+ }
+  }
+ }
+ <span class="code-keyword">return</span> _rootDirectoryModelList.Count == <span class="code-digit">0</span> ? <span class="code-keyword">null</span> : _rootDirectoryModelList[<span class="code-digit">0</span>];
+},
+(result) =&gt;
+{
+ <span class="code-keyword">if</span> (result != <span class="code-keyword">null</span>) 
+ {  
+ <span class="code-keyword">if</span> (result.Equals(_selectedDirectoryModel))
+ result.IsSelected = <span class="code-keyword">true</span>;  
+ <span class="code-comment">//</span><span class="code-comment">This will trigger TreeViewItem.IsSelected, see HierarchyViewModel above                      
+</span> }
+ IsLoading = <span class="code-keyword">false</span>;
+});</pre>
+DirectoryTreeItemViewModel.LookupChild() method return the lookup
+DirectoryTreeItemViewModel, or
+it's parent's model if it cannot be found (which is rare).  It
+will expand if it's not
+already expanded, because the expand is not run in UIThread it wont
+make your
+application freeze. <br>
+<br>
+The cancelCheck will
+cancel the iteration if the SelectedDirectory
+is changed again when the lookup is working, it's pointless to
+continue because another BgWorker_FindChild
+is already started.<br>
+<pre lang="cs"><span class="code-keyword">public</span> DirectoryTreeItemViewModel LookupChild(DirectoryInfoEx directory, Func&lt;bool&gt; cancelCheck)
+{ 
+ <span class="code-keyword">if</span> (cancelCheck != <span class="code-keyword">null</span> &amp;&amp; cancelCheck())
+ <span class="code-keyword">return</span> <span class="code-keyword">null</span>;
+ <span class="code-keyword">if</span> (Parent != <span class="code-keyword">null</span>)
+ Parent.IsExpanded = <span class="code-keyword">true</span>;
+ <span class="code-keyword">if</span> (directory == <span class="code-keyword">null</span>)
+ <span class="code-keyword">return</span> <span class="code-keyword">null</span>;
+ 
+ <span class="code-keyword">if</span> (!IsLoaded) <span class="code-comment">//</span><span class="code-comment">If SubEntries not loaded, load it
+</span> {
+ IsLoading = <span class="code-keyword">true</span>;
+ SubDirectories = getDirectories();
+ HasSubDirectories = SubDirectories.Count &gt; <span class="code-digit">0</span>;
+ IsLoading = <span class="code-keyword">false</span>;
+ }
+
+ <span class="code-keyword">foreach</span> (DirectoryTreeItemViewModel subDirModel <span class="code-keyword">in</span> SubDirectories)
+ {
+ <span class="code-keyword">if</span> (!subDirModel.Equals(dummyNode)) <span class="code-comment">//</span><span class="code-comment">dummyNode is added if not loaded and HasSubDirectories
+</span> {
+ DirectoryInfoEx subDir = subDirModel.EmbeddedDirectoryModel.EmbeddedDirectoryEntry;
+ <span class="code-comment">//</span><span class="code-comment">ViewModel.Model.ExEntry
+</span> <span class="code-keyword">if</span> (directory.Equals(subDir))
+ <span class="code-keyword">return</span> subDirModel;
+ <span class="code-keyword">else</span> <span class="code-keyword">if</span> (IOTools.HasParent(directory, subDir))
+ <span class="code-keyword">return</span> subDirModel.LookupChild(directory, cancelCheck);
+ }
+ }
+ <span class="code-keyword">return</span> <span class="code-keyword">null</span>;
+}
+</pre>
+<h4><a name="directorytreeitemviewmodel"></a>DirectoryTreeItemViewModel
+(HierarchyViewModel)<br>
+</h4>
+<ul>
+<li><small>ExViewModel<br>
+</small>
+<ul>
+<li><small>HierarchyViewModel<br>
+</small>
+<ul>
+<li><small>DirectoryTreeItemViewModel<br>
+</small>
+<ul>
+<li><small>RefreshCommand</small></li>
+<li><small>SubDirectories</small></li>
+<li><small>HasSubDirectories</small></li>
+<li><small>IsLoading</small></li>
+<li><small>bgWorker_loadSub</small><br>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<br>
+</li>
+</ul>
+DirectoryTreeItemViewModel contains
+a
+<a href="http://www.codeproject.com/KB/WPF/CinchIII.aspx" #background"="" style="font-style: italic;">Cinch.BackgroundTaskManager</a>
+(bgWorker_loadSub), It's
+similar to CurrentDirectoryViewModel
+except it
+loads subdirectory only instead of both subdirectory and files.<br>
+<br>
+To make the application even more responsive some developer may want to
+list the sub-items asynchronously, it's now possible as <a href="http://www.codeproject.com/KB/files/DirectoryInfoEx.aspx">DirectoryInfoEx
+0.17</a> included DirectoryInfoEx.EnumerateDirectories() method (as
+well as EnumerateFiles() and EnumerateFileSystemInfos()
+methods), which return a IEnumerable
+instead of a List,
+like the <a href="http://msdn.microsoft.com/en-us/library/dd413235.aspx"> method
+with same name in DirectoryInfo in .Net 4.0</a>, ,   In this case
+you may use a Linq query
+instead of <a href="http://www.codeproject.com/KB/WPF/CinchIII.aspx" #background"="" style="font-style: italic;">Cinch.BackgroundTaskManager</a>. 
+I
+havent implement this yet.<br>
+<br>
+Like FileList, DirectoryTree also contains a FileSystemWatcherEx which
+montior the Desktop directory and it's sub-folders (instead of creating
+a watcher for each directory). When there's a
+change, it will call RootDirectoryModelList[0]'s BroadcastChange()
+method, which will iterate through all created folders.<br>
+<pre lang="cs"><span class="code-keyword">internal</span> <span class="code-keyword">void</span> BroadcastChange(<span class="code-keyword">string</span> parseName, WatcherChangeTypesEx changeType)
+{
+ <span class="code-keyword">if</span> (IsLoaded) <span class="code-comment">//</span><span class="code-comment">If SubDirectories loaded
+</span> <span class="code-keyword">foreach</span> (DirectoryTreeItemViewModel subItem <span class="code-keyword">in</span> SubDirectories)
+ subItem.BroadcastChange(parseName, changeType);
+
+ <span class="code-keyword">switch</span> (changeType)
+ {
+ <span class="code-keyword">case</span> WatcherChangeTypesEx.Created:
+ <span class="code-keyword">case</span> WatcherChangeTypesEx.Deleted:
+ <span class="code-keyword">if</span> (EmbeddedDirectoryModel.FullName.Equals(PathEx.GetDirectoryName(parseName)))
+ Refresh();
+ <span class="code-keyword">break</span>;
+ <span class="code-keyword">default</span>:
+ <span class="code-keyword">if</span> (EmbeddedDirectoryModel.FullName.Equals(parseName))
+ Refresh();
+ <span class="code-keyword">break</span>;
+ }
+}
+</pre>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h2><a name="view"></a>View</h2>
+<a href="http://picasaweb.google.com/lh/photo/Mz-JGbFxK21ugjH7_cGHOw?feat=embedwebsite"><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/View.png"></a><br>
+<br>
+Most of the View I created are inherited from UserControl, but not
+FileList and DirectoryTree.  The major
+reason is that these class
+exposed a lot of properties thats required by other class, if I inherit
+from UserControl I will have to re-write many DependencyProperties. The
+another
+reason is that I have a DragDropHelper
+which have to be plugged to
+TreeView/ListView only.<br>
+<br>
+Both FileList and DirectoryTree have some code-behind, as it's easier
+to code that way. To make it easier to be edit by Expression, true MVVM
+project shouldnt have any View, and MVVM components should be connected
+via ViewModel instead of Dependency properties.<br>
+<br>
+DragDropHelper work with DirectoryInfoEx related controls only, you can
+enable the support by adding a few lines in xaml : <br>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">ListView</span> <span class="code-attribute">x:Class</span><span class="code-keyword">="</span><span class="code-keyword">QuickZip.IO.PIDL.UserControls.FileList"</span>
+ <span class="code-attribute">xmlns</span><span class="code-keyword">="</span><span class="code-keyword">http://schemas.microsoft.com/winfx/2006/xaml/presentation"</span>
+ <span class="code-attribute">xmlns:x</span><span class="code-keyword">="</span><span class="code-keyword">http://schemas.microsoft.com/winfx/2006/xaml"</span>
+ <span class="code-attribute">xmlns:uc</span><span class="code-keyword">="</span><span class="code-keyword">http://www.quickzip.org/UserControls"</span>
+ <span class="code-attribute">xmlns:local</span><span class="code-keyword">="</span><span class="code-keyword">clr-namespace:QuickZip.IO.PIDL.UserControls"</span>
+ <span class="code-attribute">SelectionMode</span><span class="code-keyword">="</span><span class="code-keyword">Extended"</span> 
+ <span class="code-attribute">VirtualizingStackPanel.IsVirtualizing</span><span class="code-keyword">="</span><span class="code-keyword">True"</span> <span class="code-attribute">//Virtual</span> <span class="code-attribute">File</span> <span class="code-attribute">List</span> <span class="code-attribute">support.</span>
+ <span class="code-attribute">VirtualizingStackPanel.VirtualizationMode</span><span class="code-keyword">="</span><span class="code-keyword">Recycling"</span> 
+ <span class="code-attribute">uc:SelectionHelper.EnableSelection</span><span class="code-keyword">="</span><span class="code-keyword">True"</span> <span class="code-attribute">//Enable</span> <span class="code-attribute">Multi-Select</span> <span class="code-attribute">by</span> <span class="code-attribute">dragging.</span>
+ <span class="code-attribute">local:DragDropHelperEx.EnableDrag</span><span class="code-keyword">="</span><span class="code-keyword">True"</span> <span class="code-attribute">//Hook</span> <span class="code-attribute">drag</span> <span class="code-attribute">related</span> <span class="code-attribute">events</span> <span class="code-attribute">(drag-FROM</span> <span class="code-attribute">file</span> <span class="code-attribute">list)</span>
+ <span class="code-attribute">local:DragDropHelperEx.EnableDrop</span><span class="code-keyword">="</span><span class="code-keyword">True"</span> <span class="code-attribute">//Hook</span> <span class="code-attribute">drop</span> <span class="code-attribute">related</span> <span class="code-attribute">events</span> <span class="code-attribute">(drop-TO</span> <span class="code-attribute">file</span> <span class="code-attribute">list)</span>
+ <span class="code-attribute">local:DragDropHelperEx.ConfirmDrop</span><span class="code-keyword">="</span><span class="code-keyword">False"</span> <span class="code-attribute">//Display</span> <span class="code-attribute">an</span> <span class="code-attribute">ugly</span> <span class="code-attribute">confirm</span> <span class="code-attribute">dialog</span> <span class="code-attribute">when</span> <span class="code-attribute">drop</span>
+ <span class="code-attribute">local:DragDropHelperEx.CurrentDirectory</span><span class="code-keyword">=
+ "</span><span class="code-keyword">{Binding RootModel.CurrentDirectory, RelativeSource={RelativeSource self}}"</span> 
+ <span class="code-attribute">//Where</span> <span class="code-attribute">do</span> <span class="code-attribute">the</span> <span class="code-attribute">files</span> <span class="code-attribute">DROPPED</span> <span class="code-attribute">to?</span>
+ <span class="code-attribute">local:DragDropHelperEx.Converter</span><span class="code-keyword">=
+ "</span><span class="code-keyword">{Binding ModelToExConverter, RelativeSource={RelativeSource self}}"</span>
+ <span class="code-attribute">//Connected</span> <span class="code-attribute">to</span> <span class="code-attribute">FileList.ModelToExConverter,</span>
+ <span class="code-attribute">//which</span> <span class="code-attribute">convert</span> <span class="code-attribute">ExAViewModel</span> <span class="code-attribute">to</span> <span class="code-attribute">FileSystemInfoEx</span>
+ <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+</pre>
+<h3><a name="customcontrol"></a>OT: How to create custom control in
+ClassLibrary?</h3>
+The FileList and DirectoryTree class are created
+using UserControl template
+(Add...\User
+Control), then rename the UserControl
+to TreeView/ListView. This will generate both
+.cs and .xaml file.  <br>
+<br>
+The another way is to <br>
+<ul>
+<li>Create a new Class (Add
+\ Class), </li>
+<li>Change it so it's inherited from TreeView/ListView.</li>
+<li>If you want to style it, Add a Style
+in Themes\Generic.xaml, <br>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">Style</span> <span class="code-attribute">x:Key</span><span class="code-keyword">="</span><span class="code-keyword">{x:Type local:YourControl}"</span> <span class="code-attribute">TargetType</span><span class="code-keyword">="</span><span class="code-keyword">{x:Type local:YourControl}"</span> 
+ <span class="code-attribute">BasedOn</span><span class="code-keyword">="</span><span class="code-keyword">{x:Type local:ListViewBase}"</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">Setter</span> <span class="code-attribute">Property</span><span class="code-keyword">="</span><span class="code-keyword">Template"</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">Setter.Value</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">ControlTemplate</span> <span class="code-attribute">TargetType</span><span class="code-keyword">="</span><span class="code-keyword">{x:Type local:YourControl}"</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">ItemsPresenter</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">/ControlTemplate</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">/Setter.Value</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">/Setter</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">/Style</span><span class="code-keyword">&gt;</span>
+</pre>
+If you need a specific ControlTemplate, lets say ListView, just google
+"ControlTemplate ListView" and you can <a href="http://msdn.microsoft.com/en-us/library/ms788747.aspx">find the
+template</a> from msdn.<br>
+</li>
+<li>Update AssemblyInfo.cs,
+add
+the
+following
+:  (which make it load your generic.xaml, you
+only have to do it once per Class Library)<br>
+<pre lang="cs">[assembly: ThemeInfo(
+ ResourceDictionaryLocation.ExternalAssembly, <span class="code-comment">//</span><span class="code-comment">where theme specific resource dictionaries are located
+</span> <span class="code-comment">//</span><span class="code-comment">(used if a resource is not found in the page, 
+</span> <span class="code-comment">//</span><span class="code-comment"> or application resource dictionaries)
+</span> ResourceDictionaryLocation.SourceAssembly <span class="code-comment">//</span><span class="code-comment">where the generic resource dictionary is located
+</span> <span class="code-comment">//</span><span class="code-comment">(used if a resource is not found in the page, 
+</span> <span class="code-comment">//</span><span class="code-comment"> app, or any theme specific resource dictionaries)
+</span>)] 
+</pre>
+</li>
+<li>You have to override the default style too : <br>
+<pre><span class="code-keyword">static</span> YourControl()
+{
+ DefaultStyleKeyProperty.OverrideMetadata(<span class="code-keyword">typeof</span>(YourControl), <span class="code-keyword">new</span> FrameworkPropertyMetadata(<span class="code-keyword">typeof</span>(YourControl)));
+}
+
+<span class="code-keyword">protected</span> <span class="code-keyword">override</span> DependencyObject GetContainerForItemOverride()
+{
+ <span class="code-keyword">return</span> <span class="code-keyword">new</span> YourControlItem(); 
+}
+</pre>
+</li>
+</ul>
+<h3><a name="viewcommon"></a>Common in DirectoryTree/FileList</h3>
+<ul>
+<small> </small>
+<li><small>DirectoryTree/FileList<br>
+</small>
+<ul style="font-weight: bold;">
+<li><small>RootModel</small></li>
+<li><small>ProgressEvent</small></li>
+<li><small>IsEditing (Attached property)<br>
+</small></li>
+</ul>
+</li>
+</ul>
+RootModel is the top level RootModelBase (which is ViewModel), which
+provide
+properties for the
+UserControls to bind.  As it's MVVM
+RootModel is also the
+DataContext, eg: <br>
+<pre lang="cs">DataContext = RootModel = <span class="code-keyword">new</span> FileListViewModel(); </pre>
+Bcause the ViewModel is DataContext, binding them become
+very easy : <br>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">Style</span> <span class="code-attribute">x:Key</span><span class="code-keyword">="</span><span class="code-keyword">{x:Type local:FileList}"</span> <span class="code-attribute">TargetType</span><span class="code-keyword">="</span><span class="code-keyword">{x:Type local:FileList}"</span> 
+ <span class="code-attribute">BasedOn</span><span class="code-keyword">="</span><span class="code-keyword">{StaticResource {x:Type ListBox}}"</span> <span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">Setter</span> <span class="code-attribute">Property</span><span class="code-keyword">="</span><span class="code-keyword">ItemsSource"</span> 
+ <span class="code-attribute">Value</span><span class="code-keyword">="</span><span class="code-keyword">{Binding CurrentDirectoryModel.SubEntries.View}"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">Setter</span> <span class="code-attribute">Property</span><span class="code-keyword">="</span><span class="code-keyword">View"</span> <span class="code-attribute">Value</span><span class="code-keyword">="</span><span class="code-keyword">{StaticResource GridView}"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span> 
+<span class="code-keyword">&lt;</span><span class="code-leadattribute">/Style</span><span class="code-keyword">&gt;</span>
+</pre>
+ListView.ItemsSource is bound
+to
+RootModel.CurrentDirectoryModel.SubEntries.View.
+(remember,
+it's
+<a href="http://msdn.microsoft.com/en-us/library/system.windows.data.collectionviewsource.aspx" style="font-style: italic;">CollectionViewSource</a>)<br>
+<br>
+<a href="http://picasaweb.google.com/lh/photo/bMb8EB1KfTI4N-Aet7M2kw?feat=embedwebsite"><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/MVVMTest6.png"></a><br>
+ContextMenu handling is done in
+UserControl level, DirectoryInfoEx has a static class named
+ContextMenuWrapper, which can
+generate the shell context menu for specified entries, all you need is
+to provide the entries (in FileSystemInfoEx)
+and
+the
+coordinate
+(in System.Drawing.Point):
+<br>
+<pre lang="cs">_cmw = <span class="code-keyword">new</span> ContextMenuWrapper();
+<span class="code-keyword">this</span>.AddHandler(TreeViewItem.MouseRightButtonUpEvent, <span class="code-keyword">new</span> MouseButtonEventHandler(
+ (MouseButtonEventHandler)<span class="code-keyword">delegate</span>(<span class="code-keyword">object</span> sender, MouseButtonEventArgs args)
+ {
+ <span class="code-keyword">if</span> (SelectedValue <span class="code-keyword">is</span> FileListViewItemViewModel)
+ {
+ <span class="code-keyword">var</span> selectedItems = (<span class="code-sdkkeyword">from</span> FileListViewItemViewModel model <span class="code-keyword">in</span> SelectedItems
+ <span class="code-sdkkeyword">select</span> model.EmbeddedModel.EmbeddedEntry).ToArray();
+ Point pt = <span class="code-keyword">this</span>.PointToScreen(args.GetPosition(<span class="code-keyword">this</span>));
+
+ <span class="code-keyword">string</span> command = _cmw.Popup(selectedItems, <span class="code-keyword">new</span> System.Drawing.Point((<span class="code-keyword">int</span>)pt.X, (<span class="code-keyword">int</span>)pt.Y));
+ <span class="code-keyword">switch</span> (command)
+ {
+ <span class="code-keyword">case</span> <span class="code-string">"</span><span class="code-string">rename"</span>:
+ <span class="code-keyword">if</span> (<span class="code-keyword">this</span>.SelectedValue != <span class="code-keyword">null</span>)
+ SetIsEditing(ItemContainerGenerator.ContainerFromItem(<span class="code-keyword">this</span>.SelectedValue), <span class="code-keyword">true</span>);
+ <span class="code-keyword">break</span>;
+ <span class="code-keyword">case</span> <span class="code-string">"</span><span class="code-string">refresh"</span>:
+ RootModel.CurrentDirectoryModel.Refresh();
+ <span class="code-keyword">break</span>;
+ }
+ }
+})); </pre>
+<p>ProgressEvent is ProgressRoutedEventArgs.ProgressEvent,
+which
+is
+a
+RoutedEvent, it is raised if RootModel.OnProgress event is
+raised by the
+ViewModel.<br>
+<br>
+IsEditing is an attached property, when
+rename is issued (from the
+Shell Context Menu) in FileList, it will set IsEditing of the specified
+ListViewItem to true.  On
+the another side, the
+ListViewItem.IsEditing is
+bound to it's enclosed EditBox.
+<br>
+<br>
+The following sample is taken from DirectoryTree,
+as
+it
+looks simplier : </p>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">HierarchicalDataTemplate</span> <span class="code-attribute">x:Key</span><span class="code-keyword">="</span><span class="code-keyword">TreeItemTemplate"</span> <span class="code-attribute">DataType</span><span class="code-keyword">="</span><span class="code-keyword">{x:Type vm:DirectoryTreeItemViewModel}"</span> <span class="code-attribute">ItemsSource</span><span class="code-keyword">="</span><span class="code-keyword">{Binding SubDirectories}"</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">StackPanel</span> <span class="code-attribute">Orientation</span><span class="code-keyword">="</span><span class="code-keyword">Horizontal"</span> <span class="code-attribute">x:Name</span><span class="code-keyword">="</span><span class="code-keyword">itemRoot"</span><span class="code-keyword">&gt;</span> 
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">Image</span> <span class="code-attribute">x:Name</span><span class="code-keyword">="</span><span class="code-keyword">img"</span> <span class="code-attribute">Source</span><span class="code-keyword">="</span><span class="code-keyword">{Binding Converter={StaticResource amti}}"</span> <span class="code-attribute">Width</span><span class="code-keyword">="</span><span class="code-keyword">16"</span><span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:EditBox</span> <span class="code-attribute">x:Name</span><span class="code-keyword">="</span><span class="code-keyword">eb"</span> <span class="code-attribute">Margin</span><span class="code-keyword">="</span><span class="code-keyword">5,0"</span> <span class="code-attribute">DisplayValue</span><span class="code-keyword">="</span><span class="code-keyword">{Binding EmbeddedModel.Label}"</span> 
+ <span class="code-attribute">ActualValue</span><span class="code-keyword">="</span><span class="code-keyword">{Binding EmbeddedModel.Name, Mode=TwoWay}"</span> 
+ <span class="code-attribute">IsEditable</span><span class="code-keyword">="</span><span class="code-keyword">{Binding EmbeddedModel.IsEditable}"</span>
+ <span class="code-attribute">IsEditing</span><span class="code-keyword">="</span><span class="code-keyword">{Binding Path=(local:DirectoryTree.IsEditing),
+ RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}}, Mode=TwoWay}"</span>
+ <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">Grid</span> <span class="code-attribute">Width</span><span class="code-keyword">="</span><span class="code-keyword">50"</span> <span class="code-attribute">Margin</span><span class="code-keyword">="</span><span class="code-keyword">15, 5, 0, 5"</span> <span class="code-attribute">Visibility</span><span class="code-keyword">="</span><span class="code-keyword">{Binding IsLoading, Converter={StaticResource btv}}"</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">ProgressBar</span> <span class="code-attribute">IsIndeterminate</span><span class="code-keyword">="</span><span class="code-keyword">True"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">TextBlock</span> <span class="code-attribute">Text</span><span class="code-keyword">="</span><span class="code-keyword">Loading"</span> <span class="code-attribute">FontSize</span><span class="code-keyword">="</span><span class="code-keyword">6"</span> <span class="code-attribute">TextAlignment</span><span class="code-keyword">="</span><span class="code-keyword">Center"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">/Grid</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">/StackPanel</span><span class="code-keyword">&gt;</span>
+ <span class="code-comment">&lt;!--</span><span class="code-keyword"><span class="code-comment"> ... </span>--&gt;</span>
+<span class="code-keyword">&lt;</span><span class="code-leadattribute">/HierarchicalDataTemplate</span><span class="code-keyword">&gt;</span><strong>
+</strong></pre>
+<p>EditBox is a replacement of TextBox + Label, which display the Label
+when not IsEditing, and TextBox (EditBoxAdorner) when IsEditing, it's a
+technique
+learned from <a href="http://blogs.msdn.com/atc_avalon_team/archive/2006/03/14/550934.aspx">ATC
+Avalon
+Team</a>, but the EditBox
+used in this project is a rewrite one,
+with the following changes : </p>
+<ul>
+<li>
+<p>No longer bound to ListView</p>
+</li>
+<li>
+<p>Has two value instead of one, </p>
+<ul>
+<li>
+<p>DisplayValue (display on the label) and </p>
+</li>
+<li>
+<p>ActualValue (for editing), </p>
+</li>
+</ul>
+<p>which  is required because a FileSystemInfoEx item's label
+and
+name may be different.</p>
+</li>
+</ul>
+<p>The converter (amti) is ExModelToIconConverter
+which, similar to <a href="http://www.codeproject.com/KB/WPF/filetoiconconverter.aspx">FileNameToIconConverter</a>, 
+is
+a
+IValueConverter
+can
+convert
+ExModel/ExViewModel
+to
+ImageSource.</p>
+<h3><a name="viewfilelist"></a>FileList (ListView) </h3>
+<ul>
+<li><small>FileList <br>
+</small>
+<ul>
+<li><small>SelectedEntries</small></li>
+<li><small>CurrentDirectory<br>
+</small></li>
+<li><small>ViewMode</small></li>
+<li><small>ViewSize</small></li>
+<li><small>IsLoading</small></li>
+<li><small>RefreshCommand   <br>
+</small></li>
+<li><small>View</small></li>
+<li><small>FileListLookupBoxAdorner</small></li>
+</ul>
+</li>
+</ul>
+Most of the properties here are explained in the ViewModel, except
+these are DependencyProperties,
+those
+are
+bound
+to the RootModel's
+related
+properties.<br>
+<br>
+<a href="http://picasaweb.google.com/lh/photo/MDdEFferVFyExz8moV3qbA?feat=embedwebsite"><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/MVVMTest4.png"></a><br>
+<br>
+FileList can have different <a href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">View</a>s,
+a
+<a href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">View</a>
+can define ListView's Orientation, ItemContainerStyle, ItemTemplate,
+HorizontalContentAlignment and whatever Listview's properties in one
+place, if you look at VirtualWrapPanelView.cs
+you can find the following : <br>
+<pre lang="cs"><span class="code-keyword">public</span> <span class="code-keyword">class</span> VirutalWrapPanelView : ViewBase
+{
+ <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">readonly</span> DependencyProperty ItemContainerStyleProperty =
+ ItemsControl.ItemContainerStyleProperty.AddOwner(<span class="code-keyword">typeof</span>(VirutalWrapPanelView));
+ <span class="code-keyword">public</span> Style ItemContainerStyle
+ {
+ <span class="code-keyword">get</span> { <span class="code-keyword">return</span> (Style)GetValue(ItemContainerStyleProperty); }
+ <span class="code-keyword">set</span> { SetValue(ItemContainerStyleProperty, <span class="code-sdkkeyword">value</span>); }
+ }
+}
+</pre>
+then in VirtualWrapPanelView.xaml,
+you
+can
+find the property is bound to the ListView<br>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">Style</span> <span class="code-attribute">x:Key</span><span class="code-keyword">="</span><span class="code-keyword">{ComponentResourceKey TypeInTargetAssembly={x:Type uc:VirutalWrapPanelView}, 
+ ResourceId=virtualWrapPanelViewDSK}"</span> 
+ <span class="code-attribute">TargetType</span><span class="code-keyword">="</span><span class="code-keyword">{x:Type ListView}"</span> <span class="code-attribute">BasedOn</span><span class="code-keyword">="</span><span class="code-keyword">{StaticResource {x:Type ListBox}}"</span><span class="code-keyword">&gt;</span>
+ ...
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">Setter</span> <span class="code-attribute">Property</span><span class="code-keyword">="</span><span class="code-keyword">ItemContainerStyle"</span> 
+ <span class="code-attribute">Value</span><span class="code-keyword">="</span><span class="code-keyword">{Binding (ListView.View).ItemContainerStyle,
+ RelativeSource={RelativeSource Self}}"</span><span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+ ....
+<span class="code-keyword">&lt;</span><span class="code-leadattribute">/Style</span><span class="code-keyword">&gt;</span>
+</pre>
+To support multiple <a href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">View</a>s,
+It's
+a
+good
+idea
+to
+construct <a href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">View</a>
+instead of setting each
+properties individually.<br>
+<br>
+There are 7 <a href="#howtousefilelist">ViewModes</a>, so you may
+think
+there are 6 <a href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">View</a>s
+in
+FileList
+(and
+TileView
+is
+<s>not
+implemented</s> implemented in 0.3), actually there are just
+VirtualWrapPanelView
+and GridView. 
+There are only 3 different <a href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">View</a>s
+derived
+from
+VirtualWrapPanelView,
+which
+is
+SmallIconView, ListView and
+IconView. The following is IconView, which is used by 3
+similar ViewModes (vmIcon, vmLargeIcon and vmExtraLargeIcon).<br>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:VirutalWrapPanelView</span> <span class="code-attribute">x:Key</span><span class="code-keyword">="</span><span class="code-keyword">IconView"</span> <span class="code-attribute">ItemHeight</span><span class="code-keyword">="</span><span class="code-keyword">..."</span> <span class="code-attribute">ItemWidth</span><span class="code-keyword">="</span><span class="code-keyword">..."</span> <span class="code-attribute">HorizontalContentAlignment</span><span class="code-keyword">="</span><span class="code-keyword">Left"</span> <span class="code-keyword">&gt;</span> 
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:VirutalWrapPanelView.ItemTemplate</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">DataTemplate</span><span class="code-keyword">&gt;</span> 
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">StackPanel</span> <span class="code-attribute">Orientation</span><span class="code-keyword">="</span><span class="code-keyword">Vertical"</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">Image</span> <span class="code-attribute">x:Name</span><span class="code-keyword">="</span><span class="code-keyword">img"</span> <span class="code-attribute">HorizontalAlignment</span><span class="code-keyword">="</span><span class="code-keyword">Center"</span> <span class="code-attribute">Stretch</span><span class="code-keyword">="</span><span class="code-keyword">Fill"</span> <span class="code-attribute">Source</span><span class="code-keyword">="</span><span class="code-keyword">..."</span>
+ <span class="code-attribute">Height</span><span class="code-keyword">="</span><span class="code-keyword">{Binding RelativeSource={RelativeSource AncestorType=local:FileList}, Path=ViewSize}"</span> 
+ <span class="code-attribute">Width</span><span class="code-keyword">="</span><span class="code-keyword">{Binding RelativeSource={RelativeSource AncestorType=local:FileList}, Path=ViewSize}"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span> 
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:EditBox</span> <span class="code-attribute">x:Name</span><span class="code-keyword">="</span><span class="code-keyword">eb"</span> <span class="code-attribute">Margin</span><span class="code-keyword">="</span><span class="code-keyword">5,0"</span> <span class="code-attribute">...</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">/StackPanel</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">/DataTemplate</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">/uc:VirutalWrapPanelView.ItemTemplate</span><span class="code-keyword">&gt;</span>
+<span class="code-keyword">&lt;</span><span class="code-leadattribute">/uc:VirutalWrapPanelView</span><span class="code-keyword">&gt;</span>
+</pre>
+Once you completed the <a href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">View</a>,
+changing
+ViewMode
+is
+just
+one
+line of code:
+<br>
+<pre lang="cs"><span class="code-keyword">this</span>.View = (ViewBase)(<span class="code-keyword">this</span>.TryFindResource(IconView));
+</pre>
+<br>
+When you use the FileList,
+remember leave some space below the control
+(not necessary to be empty), because thats where the
+FileListLookupAdorner placed
+in.  FileListLookupAdorner
+is used to filter listed element by name, remember
+CurrentDirectoryViewModel has a
+property named Filter which
+use runs a <a href="http://www.codeproject.com/KB/WPF/CinchIII.aspx" #background"="" style="font-style: italic;">Cinch.BackgroundTaskManager</a>
+to filter the data. FileListLookupAdorner
+can be bring up by pressing any key in file list.<br>
+<br>
+It's harder to make the control as adorner, as I have to write the code
+in cs instead of xaml, the advantage is that <br>
+<ul>
+<li>it's separate from your main control, so you can reuse it in
+other controls you made, <br>
+</li>
+<li>as all the unrelated logic code, like close the adorner when user
+press the x button, is placed on the FileListLookupAdorner.cs
+instead of the FileList.cs.</li>
+<li>the FileListLookupAdorner is
+shown
+on
+the
+AdornerLayer,
+which usually is the topmost, and it wont interfere other parts of the
+main control.<br>
+</li>
+</ul>
+I originally wanted to bind them together, but not sure why it's not
+working, so I monitor the
+changes and update when the text of the adorner is changed.<br>
+<pre lang="cs">DependencyPropertyDescriptor descriptor = DependencyPropertyDescriptor.FromProperty
+ (FileListLookupBoxAdorner.TextProperty, <span class="code-keyword">typeof</span>(FileListLookupBoxAdorner));
+descriptor.AddValueChanged
+ (_lookupAdorner, <span class="code-keyword">new</span> EventHandler(<span class="code-keyword">delegate</span> { 
+ RootModel.CurrentDirectoryModel.Filter = _lookupAdorner.Text; }));</pre>
+<h3><a name="viewdirectorytree"></a>DirectoryTree (TreeView)<br>
+</h3>
+<ul>
+<li><small>DirectoryTree<br>
+</small>
+<ul>
+<li><small>AutoCollapse (0.4)</small><br>
+</li>
+<li><small>RootDirectory</small></li>
+<li><small>SelectedDirectory</small></li>
+<li><small>SelectedDirectoryPath</small></li>
+<li><small style="font-weight: bold;">LoadingAdorner</small><br>
+</li>
+</ul>
+</li>
+</ul>
+<a href="http://picasaweb.google.com/lh/photo/odfDIyCvpP7KtP1KTwvkpQ?feat=embedwebsite"><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/MVVMTest5.png"></a><br>
+<br>
+<br>
+LoadingAdorner is shown when RootModel's BgWorker_FindChild (see
+DirectoryTreeViewModel) is
+working (or IsLoading equals
+to true).<br>
+<br>
+The DataTemplate of DirectoryTree is HierarchicalDataTemplate, which is
+a DataTemplate that allow
+you to set the ItemsSource
+(or subItems).  The complete template can be found above in
+"Common in DirectoryTree/FileList" section,
+<br>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">HierarchicalDataTemplate</span> <span class="code-attribute">...</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">Grid</span> <span class="code-attribute">Width</span><span class="code-keyword">="</span><span class="code-keyword">50"</span> <span class="code-attribute">Margin</span><span class="code-keyword">="</span><span class="code-keyword">15, 5, 0, 5"</span> <span class="code-attribute">Visibility</span><span class="code-keyword">="</span><span class="code-keyword">{Binding IsLoading, Converter={StaticResource btv}}"</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">ProgressBar</span> <span class="code-attribute">IsIndeterminate</span><span class="code-keyword">="</span><span class="code-keyword">True"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">TextBlock</span> <span class="code-attribute">Text</span><span class="code-keyword">="</span><span class="code-keyword">Loading"</span> <span class="code-attribute">FontSize</span><span class="code-keyword">="</span><span class="code-keyword">6"</span> <span class="code-attribute">TextAlignment</span><span class="code-keyword">="</span><span class="code-keyword">Center"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">/Grid</span><span class="code-keyword">&gt;</span>
+<span class="code-keyword">&lt;</span><span class="code-leadattribute">/HierarchicalDataTemplate</span><span class="code-keyword">&gt;</span></pre>
+I just want to point out there are two IsLoading property: <br>
+<ul>
+<li>IsLoading above is
+linked to DirectoryTreeItemViewModel
+(which shown when loading a specific subdirectory), <br>
+</li>
+<li>LoadingAdorner one is
+linked to DirectoryTreeViewModel
+(which shown when looking up for a specific DirectoryTreeItemViewModel)<br>
+</li>
+</ul>
+<br>
+When an item is Selected, by setting HierarchyViewModel
+.IsSelected
+property, which linked to TreeViewItem.IsSelected
+dependency
+property, the
+DirectoryTree will try to bring it to view.<br>
+<pre lang="cs"><span class="code-keyword">this</span>.AddHandler(TreeViewItem.SelectedEvent, <span class="code-keyword">new</span> RoutedEventHandler(
+ (RoutedEventHandler)<span class="code-keyword">delegate</span>(<span class="code-keyword">object</span> obj, RoutedEventArgs args)
+ {
+ <span class="code-keyword">if</span> (SelectedValue <span class="code-keyword">is</span> DirectoryTreeItemViewModel)
+ {
+ DirectoryTreeItemViewModel selectedModel = SelectedValue <span class="code-keyword">as</span> DirectoryTreeItemViewModel;
+ SelectedDirectory = selectedModel.EmbeddedDirectoryModel.EmbeddedDirectoryEntry;
+ <span class="code-keyword">if</span> (args.OriginalSource <span class="code-keyword">is</span> TreeViewItem)
+ (args.OriginalSource <span class="code-keyword">as</span> TreeViewItem).BringIntoView();
+
+ _lastSelectedContainer = (args.OriginalSource <span class="code-keyword">as</span> TreeViewItem);
+ }
+ }));
+</pre>
+_lastSelectedConiner is later
+use when user try to rename an item, it's too hard to get the container
+(I meant TreeViewItem, not it's model) from TreeView.<br>
+<pre lang="cs"><span class="code-keyword">switch</span> (command)
+{
+ <span class="code-keyword">case</span> <span class="code-string">"</span><span class="code-string">rename"</span>:
+ <span class="code-keyword">if</span> (<span class="code-keyword">this</span>.SelectedValue != <span class="code-keyword">null</span>)
+ {
+ <span class="code-keyword">if</span> (_lastSelectedContainer != <span class="code-keyword">null</span>)
+ SetIsEditing(_lastSelectedContainer, <span class="code-keyword">true</span>); <span class="code-comment">//</span><span class="code-comment">Tell EditBox to show it's Adorner(TextBox) for user to edit 
+</span> }
+ <span class="code-keyword">break</span>;
+}
+</pre>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h2><a name="othercomponents"></a>Other Components</h2>
+There are a number of components developed for the FileList and
+DirectoryTree: <br>
+<ul>
+<li>Components<br>
+<ul>
+<li><code>DragDropHelperEx</code> -
+Add drag and drop functionality to ListView
+or TreeView,
+it support DirectoryInfoEx entries
+only.<br>
+</li>
+<li><code>ExExtension </code>-
+Construct DirectoryInfoEx in
+xaml markup. e.g.<br>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">uc:Ex</span> <span class="code-attribute">::{20D04FE0-3AEA-1069-A2D8-08002B30309D}</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span> </pre>
+</li>
+<li><code>SelectionHelper </code>-
+Add
+multi-select
+by
+dragging functionality
+to ListView, more information <a href="http://www.codeproject.com/KB/WPF/MultiSelectListView2.aspx">here</a><br>
+</li>
+<li><code>VirtualWrapPanel</code>/<code>VirtualStackPanel</code><code>
+</code> - As the name
+mention
+it's virtual version (generate on demand) of specified panel, noted
+that they are fixed-size only.  <br>
+If you are interested, Thiago de Arruda <a href="http://www.codeproject.com/KB/static/VirtualizingWrapPanel.aspx">has
+develope</a><a href="http://www.codeproject.com/KB/static/VirtualizingWrapPanel.aspx">d</a>
+a VirtualizingWrapPanel that
+support variable size.<br>
+</li>
+<li><code>
+</code> <code>VirtualWrapPanelView </code>-
+A
+ViewBase (ListView.View) that uses VirtualWrapPanel.<br>
+</li>
+</ul>
+</li>
+<li>Converters<br>
+<ul>
+<li><code>DynamicConverter</code>
+-
+A converter that do the convert using two
+lamba statement, e.g. : <br>
+<pre lang="cs">_intToStringConverter = <span class="code-keyword">new</span> DynamicConverter&lt;int, string&gt;(x =&gt; x.ToString(), x =&gt; <span class="code-sdkkeyword">Int32</span>.Parse(x));</pre>
+</li>
+<li><code>ExToIconConverter</code>
+-
+Convert DirectoryInfoEx
+entries to it's
+icon in ImageSource format<br>
+    &lt;local:ExToIconConverter x:Key="ati" /&gt;<br>
+</li>
+<li><code>ExModelToIconConverter</code>
+-
+Inherited
+from ExToIconConverter,
+Convert ExModel/ExViewModel to it's icon in ImageSource format<br>
+ &lt;local:ExModelToIconConverter x:Key="amti" /&gt;</li>
+<li><code>FileNameToIconConverter</code>
+-
+Convert
+string to it's icon in ImageSource
+format,
+more information <a href="http://www.codeproject.com/KB/WPF/filetoiconconverter.aspx">here</a>.<br>
+</li>
+<li><code>StringToExConverter</code> -
+Convert
+a string to DirectoryInfoEx
+entry.<br>
+</li>
+<li><code>ModelToExConverter </code>-
+Extract
+DirectoryInfoEx entry
+from a ExModel/ExViewModel .<br>
+<br>
+</li>
+</ul>
+</li>
+<li>UserControls<br>
+<ul>
+<li><code>EditBox</code>- a
+replacement of TextBox + Label, which display the Label
+when not IsEditing, and TextBox (EditBoxAdorner) when IsEditing, more
+information <a href="http://blogs.msdn.com/atc_avalon_team/archive/2006/03/14/550934.aspx">here</a>.<br>
+</li>
+<li><code>EditBoxAdorner</code> -
+the TextBox part of the EditBox<br>
+</li>
+<li><code>LoadingAdorner </code>- a
+circular animation that shows when DirectoryTree
+is
+finding child.<br>
+</li>
+<li><code>SelectionAdorner</code> -
+display a rectangle when user is dragging
+on FileList.<br>
+</li>
+</ul>
+</li>
+</ul>
+<h2><a name="conclusion"></a>Conclusion</h2>
+<a href="http://picasaweb.google.com/lh/photo/SaL8KU2WTsmqh0ucR3Anmg?feat=embedwebsite"><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/MVVMTest7.png"></a><br>
+I have described how did I constructed the FileList and DirectoryTree
+using the MVVM pattern, compared with NO pattern or  MVP pattern,
+using MVVM pattern have these advantages
+: <br>
+<ul>
+<li>split the code to simplify the developing process, and <br>
+</li>
+<li>make your application less UIThread
+hogging, which makes it more responsive.  <br>
+<ul>
+<li> accessing property from ViewModel
+instead of the UIElement (e.g.
+adding
+new
+Tab in TabControl, or lookup item in TreeView)<br>
+</li>
+<li>without ViewModel
+is quite hard to thread the items loading, which will freeze your
+UI, </li>
+</ul>
+</li>
+<li>allow you to UnitTest
+the ViewModel.  Presenters are defined in a way
+which is tightly coupled with the View
+: <br>
+<pre lang="cs"><span class="code-keyword">public</span> <span class="code-keyword">class</span> FileListPresenter : PresenterBase&lt;FileListView&gt; { ... }
+</pre>
+</li>
+</ul>
+<br>
+The photo above shows the other UserControls
+that I developed using the similar method described above, These are
+not included in this article.
+If
+you
+just go through my <s>torture</s>
+article you should be able to create the controls yourself. <br>
+<br>
+Lets say I want to construct the Toolbar using MVVM, I would <br>
+<ul>
+<li>Construct and Style a ToolbarBase that have nothing to do with
+MVVM, that included ToolbarBase and ToolbarItem<br>
+<ul>
+<li>Make sure it's working without MVVM, using a simple WPF
+application</li>
+</ul>
+</li>
+<li>Construct the UserControl
+(e.g. Toolbar), which
+contains or inherited from ToolbarBase<br>
+</li>
+<li>Construct Models and ViewModels<br>
+<ul>
+<li>Construct an abstract class named ToolbarItemModel<br>
+<ul>
+<li>Which represent a ToolbarItem,
+you
+may
+want to have a ToolbarSubItem
+as well.</li>
+</ul>
+</li>
+<li>Construct a ToolbarViewModel
+(RootModel or DataContext), which will host a
+number of ToolbarItemModel
+(in ObservableCollection),
+and method to poll them in background.<br>
+</li>
+<li>Construct custom ToolbarViewModels
+(e.g. ViewModeViewModel, to
+change ViewMode, see the
+right side)</li>
+</ul>
+</li>
+<li>Construct View<br>
+<ul>
+<li>Construct HierarchyDataTemplate
+for the ToolbarViewModel<br>
+</li>
+<li>Configure Style to bind the ToolbarItem
+dependency properties to ToolbarItemModel<br>
+<pre lang="xml"><span class="code-keyword">&lt;</span><span class="code-leadattribute">Style</span> <span class="code-attribute">x:Key</span><span class="code-keyword">="</span><span class="code-keyword">{x:Type uc:ToolbarItem}"</span> <span class="code-attribute">TargetType</span><span class="code-keyword">="</span><span class="code-keyword">{x:Type uc:ToolbarItem}"</span> <span class="code-keyword">&gt;</span> 
+ <span class="code-keyword">&lt;</span><span class="code-leadattribute">Setter</span> <span class="code-attribute">Property</span><span class="code-keyword">="</span><span class="code-keyword">DependencyProperty"</span> 
+ <span class="code-attribute">Value</span><span class="code-keyword">="</span><span class="code-keyword">{Binding Property, Mode=OneWay}"</span> <span class="code-keyword">/</span><span class="code-keyword">&gt;</span>
+<span class="code-keyword">&lt;</span><span class="code-leadattribute">/Style</span><span class="code-keyword">&gt;</span> </pre>
+</li>
+</ul>
+</li>
+<li>Hook them together, done.</li>
+</ul>
+If you found this article useful, please vote for the article.  If
+you found anything thats not correct, please tell me your
+thoughts.  Thank you<br>
+<h2><a name="references"></a>Ref<a name="References"></a>erences</h2>
+<ul>
+<li><a href="http://www.codeproject.com/KB/WPF/Cinch.aspx">WPF: If
+Carlsberg did MVVM Frameworks</a> (Sacha Barber) <br>
+</li>
+<li><a href="http://www.codeproject.com/KB/WPF/TreeViewWithViewModel.aspx">Simplifying
+the
+WPF
+TreeView
+by
+Using
+the
+ViewModel Pattern</a> (Josh Smith)</li>
+<li><a href="http://www.codeproject.com/KB/WPF/TreeView_SelectionWPF.aspx">WPF
+TreeView
+Selection</a> (DaWanderer)<br>
+</li>
+<li><a href="http://blogs.msdn.com/atc_avalon_team/archive/2006/03/14/550934.aspx">Editing
+In
+ListView</a> (ATC Avalon Team)</li>
+<li><a href="http://www.vbaccelerator.com/home/VB/Type_Libraries/ShellLink/article.asp">VB
+IShellLink
+Interface</a> (Vb accelerator)</li>
+<li><a href="http://blogs.msdn.com/dancre/archive/2006/07/23/676272.aspx">DataModel-View-ViewModel
+pattern</a> (Dan Crevier's Blog)<br>
+</li>
+<li><a href="http://openlightgroup.net/Blog/tabid/58/EntryId/89/Silverlight-MVVM-An-Overly-Simplified-Explanation.aspx">Silverlight
+MVVM:
+An
+(Overly)
+Simplified
+Explanation</a> (Michael
+Washington)</li>
+<li><a href="http://blog.wpfwonderland.com/2009/06/26/arranging-shapes-in-circle-with-expression-blend-part-one/">Arranging
+Shapes
+in
+a
+Circle
+with
+Expression
+Blend</a> (Walt Ritscher)</li>
+<li><a href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">ViewBase
+Class</a> (MSDN)<br>
+</li>
+<li><a href="http://www.codeproject.com/KB/files/DirectoryInfoEx.aspx">Rewrite
+DirectoryInfo
+using
+IShellFolder</a> <br>
+</li>
+<li><a href="http://www.codeproject.com/KB/WPF/MultiSelectListView2.aspx">Enable
+MultiSelect
+in
+WPF
+ListView
+(2)</a> (Yes there is <a href="http://www.codeproject.com/KB/WPF/MultiSelectListView.aspx">version
+1</a> but you would'nt want to use it) <br>
+</li>
+<li><a href="http://www.codeproject.com/KB/WPF/filetoiconconverter.aspx">WPF
+Filename To Icon Converter</a></li>
+</ul>
+<br>
+<h2><a name="history"></a>History</h2>
+<ul>
+<li>2 May 2010 - Inital version 0.1<br>
+</li>
+<li>4 May 2010 - 0.2 - <a href="http://picasaweb.google.com/QuickZipDev/Components#5467303505680839698">screenshot</a><br>
+<ul>
+<li>Added FileList.SortBy and SortDirection property.</li>
+<li>Changed GridView selection behavior / Template<br>
+</li>
+<li>Fixed FileList not showing GridView Header.</li>
+</ul>
+</li>
+<li>6 May 2010 - 0.3 - <a href="http://picasaweb.google.com/QuickZipDev/Components#5468047051508440002">screenshot</a><br>
+<ul>
+<li>Added TileView</li>
+<li>Added GridView.Type header<br>
+</li>
+<li>Added DriveModel, all DirectoryModel is now constructed using
+ExModel.FromExEntry() method.</li>
+<li>Added <a href="http://www.codeproject.com/Articles/80845/Add-column-header-to-custom-ViewBase-ListView-View.aspx">GridViewHeader</a>
+(for sorting) for every ViewModel.</li>
+</ul>
+</li>
+<li>13 May 2010 - 0.4<br>
+<ul>
+<li>Fixed Small Image Icon not shared by all instance.</li>
+<li>Enabled <a href="http://www.codeproject.com/KB/applications/BugTrap.aspx">BugTrap</a>
+support in app.xaml.cs.  Fixed all warning messages.</li>
+<li>Added <a href="http://quickzip.org/news/2010/05/directorytree-autocollapse-property/">DirectoryTree.AutoCollapse</a>,
+
+collapse unrelated directory when changed externally. <br>
+</li>
+<li>Fixed FileList scrolling : <br>
+<ul>
+<li>scroll based on a property (SmallChanges), instead of
+10pt.<br>
+</li>
+<li>scroll horizontally if
+Orientation equals Vertical (e.g. ListView)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>28 May 2010 - 0.5 - <a href="http://quickzip.org/news/2010/05/fileexplorer-0-5/">screenshot </a></li>
+<ul>
+<li>Fixed a bug related to expand wrong
+directory when expand via double click on file list. </li>
+<li>Fixed a crash in DriveModel (Drive
+not found)</li>
+<li>Added FileList Select(), SelectAll(),
+UnselectAll() and Focus() method.</li></ul><li>18 Jun 2010 - 0.6 - <a href="http://quickzip.org/news/2010/06/fileexplorer-0-6/">screenshot</a> </li><ul><li><a href="http://quickzip.org/news/2010/06/treeview-in-windows-7-style/">Updated DirectoryTree Style</a> so it match the style of FileList. </li><li>Added a wide range of Commands (in <a style="text-decoration: none;" href="http://quickzip.org/news/2010/06/simpleroutedcommand/">SimpleRoutedCommand</a> format, 6 for FileList, 2 for DirectoryTree and 6 for both), can be accessed by <br>- calling FileList/DirectoryTree.Commands (In separate class to reduce the complexity of main control).<br>- most of those commands are bound with a RoutedUICommands, like ApplicationCommands.SelectAll. <br>- shortcut keys (e.g. F2 for rename) <br>See FileList/DirectoryTree/SharedCommands.cs for details. </li><li>Updated DirectoryInfoEx to 0.18. </li></ul><li>18 Jul 2010 - 0.7 - <a style="text-decoration: none;" href="http://quickzip.org/news/2010/07/fileexplorer-0-7/">screenshot</a> </li><ul>
+<li>Fixed a bug that caused wired thumbnail render.</li><li>Fixed <a href="http://quickzip.org/news/2010/06/treeview-in-windows-7-style/">W7TreeViewItem Style</a>, which enable hot track only over the text instead of the whole line.</li><li>Fixed
+ Virtual FileListItem retain selection state (IsSelected = true) after 
+SelectAllCommand and User selecting another item (via Selection Helper).</li><li>Fixed click on GridView Header recognize as drag start. </li><li>For GridView, only support selection if drag occur inside the first column</li><li>Drop operations now use <a href="http://quickzip.org/news/2010/05/directoryinfoex-asynchronous-manipulation/">WorkEx</a>, which support <a href="http://quickzip.org/news/2010/05/directoryinfoex-asynchronous-manipulation/">custom progress dialog implementation</a> and run in separate thread.</li><li>OverwriteMode changes in DirectoryInfoEx 0.19.  (see below) </li></ul>
+</ul>
+<ul><li>13 May 2012 - 0.8 - </li><ul><li>Fixed Windows 7 related crashes: </li><ul><li>ExIconConverter
+ no longer link with SysImageList, as it's shared among different user 
+controls. (but that means no more Extra large and Jumbo icons) </li><li>A number of dlls thats required is reside in another directory.  </li></ul><li> QuickZip.IO.PIDL library is updated.  </li></ul></ul>
+</div>
+
+
+						</div>
+						
+
+						<div class="float-right" style="margin:20px 0 0 10px;border:1px solid #ccc">
+						
+						</div>
+                        
+                        
+						
+						<h2>License</h2>
+						<div id="LicenseTerms"><p>This article, along with any associated source code and files, is licensed under <a href="http://www.opensource.org/licenses/lgpl-3.0.html" rel="license">The GNU Lesser General Public License (LGPLv3)</a></p></div>
+						
+
+                        
+						<h2>Share</h2>
+				        <div class="share-list">
+					        
+				        </div> 
+    			        
+
+
+						
+						<h2 id="ctl00_AboutHeading">About the Author</h2>
+						    
+
+
+<div class="author-wrapper">
+
+    <div class="pic-wrapper"> 
+        <img id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberPhoto" class="profile-pic" src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/member_unknown.gif" style="border-width:0px;transform:rotate(-4deg);">
+
+    </div>
+
+    <div class="container-member">  
+        <b><a id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberProfileLink" class="author" href="http://www.codeproject.com/Members/LeungYatChun">Leung Yat Chun</a></b>
+
+        <table class="extended">
+        <tbody><tr>
+            <td rowspan="2" nowrap="nowrap" valign="middle">
+            
+            </td>
+            <td width="100%">
+                <div class="company">
+                    <span id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberJobTitle">Software Developer</span>
+	                <span id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberCompany"></span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span id="ctl00_AboutAuthorRptr_ctl00_AboutAuthor_memberLocation">Hong Kong <img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/HK.gif" alt="Hong Kong" height="11px" width="16px"></span>
+            </td>
+        </tr>
+        </tbody></table>
+    </div>
+
+    <div class="description">
+        <a rel="nofollow" href="http://www.codeproject.com/KB/files/DirectoryInfoEx.aspx">DirectoryInfoEx</a> - [<a rel="nofollow" href="https://directoryinfoex.codeplex.com/">1.0.27</a>]<br>
+<a rel="nofollow" href="http://www.codeproject.com/Articles/770837/WPF-x-FileExplorer-x-MVVM">WPF FileExplorer3</a> - [<a rel="nofollow" href="https://fileexplorer.codeplex.com/wikipage?title=Oct14%20Update&amp;referringTitle=Home">3.0.19</a>]<br>
+<a rel="nofollow" href="http://www.codeproject.com/Articles/33196/WPF-Html-supported-TextBlock">WPF HtmlTextBlock</a> - [<a rel="nofollow" href="https://htmltextblock.codeplex.com/">Codeplex</a>]<br>
+<s><a rel="nofollow" href="http://www.codeproject.com/KB/WPF/MultiSelectListView2.aspx">WPF ListView MultiSelect</a> - [<a rel="nofollow" href="http://quickzip.org/news/2010/07/fileexplorer-0-7/">0.4</a>]</s><br>
+<a rel="nofollow" href="http://www.codeproject.com/Articles/702432/WPF-UIEventHub-MultiSelect-and-DragnDrop">WPF UIEventHub MultiSelect/DragDrop w Touch support</a> - [<a rel="nofollow" href="https://fileexplorer.codeplex.com/wikipage?title=UIEventHub">3.0</a>]<br>
+<s><a rel="nofollow" href="http://www.codeproject.com/Articles/32189/WPF-Breadcrumb-Folder-TextBox">WPF BreadcrumbFolderTextBox</a> - [<a rel="nofollow" href="http://www.codeproject.com/Articles/32189/WPF-Breadcrumb-Folder-TextBox">2.5</a>]</s><br>
+<a rel="nofollow" href="http://www.codeproject.com/Articles/687853/WPF-BreadcrumbTree-control">WPF BreadcrumbTree and Breadcrumb</a> - [<a rel="nofollow" href="http://bm.codeplex.com/">dirkster's edition</a>]<br>
+<a rel="nofollow" href="http://www.codeproject.com/Articles/109118/WPF-Aero-Titlebar.aspx">WPF Aero Titlebar</a> - [<a rel="nofollow" href="http://quickzip.org/news/2010/09/wpf-aero-titlebar-0-2/">0.2</a>]
+
+        
+    </div>
+
+</div><br>
+						
+						
+
+						<div class="clearfix"></div>
+
+						<div style="padding-top:8px">
+							
+						</div>
+
+					
+
+				    
+					</form>
+
+				</div>
+
+				
+				<div class="bottom-promo"> 
+				    
+				</div>
+				
+
+                
+        <h2 id="ctl00_AlsoRead_RelatedResults_ctl00_Header" class="also-read">You may also be interested in...</h2>
+        <table class="spaced content-list also-read">
+    
+	    <tbody><tr>
+        <td class="content-list-item" valign="top" width="50%">
+            <div class="thumbnail"><a id="ctl00_AlsoRead_RelatedResults_ctl01_Thumbnail" href="http://www.codeproject.com/Articles/770837/WPF-x-FileExplorer-x-MVVM"><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/Thumb-770837.png" alt="" style="border-width:0px;"></a></div>
+            <div class="text">
+                <div class="title"><a id="ctl00_AlsoRead_RelatedResults_ctl01_Link" href="http://www.codeproject.com/Articles/770837/WPF-x-FileExplorer-x-MVVM">WPF x FileExplorer3 x MVVM</a></div>
+                
+            </div>
+        </td>
+	
+        <td class="content-list-item" valign="top" width="50%">
+            <div class="thumbnail"><a id="ctl00_AlsoRead_RelatedResults_ctl02_Thumbnail" href="http://www.codeproject.com/Articles/1055173/Announcing-New-How-To-Intel-IoT-Code-Samples"><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/article100x80.png" alt="" style="border-width:0px;"></a></div>
+            <div class="text">
+                <div class="title"><a id="ctl00_AlsoRead_RelatedResults_ctl02_Link" href="http://www.codeproject.com/Articles/1055173/Announcing-New-How-To-Intel-IoT-Code-Samples">Announcing 18 New How-To Intel IoT Code Samples</a></div>
+                
+            </div>
+        </td>
+	    </tr>
+	
+	    <tr>
+        <td class="content-list-item" valign="top" width="50%">
+            <div class="thumbnail"><a id="ctl00_AlsoRead_RelatedResults_ctl03_Thumbnail" href="http://www.codeproject.com/Articles/165368/WPF-MVVM-Quick-Start-Tutorial"><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/Thumb-165368.PNG" alt="" style="border-width:0px;"></a></div>
+            <div class="text">
+                <div class="title"><a id="ctl00_AlsoRead_RelatedResults_ctl03_Link" href="http://www.codeproject.com/Articles/165368/WPF-MVVM-Quick-Start-Tutorial">WPF/MVVM Quick Start Tutorial</a></div>
+                
+            </div>
+        </td>
+	
+        <td class="content-list-item" valign="top" width="50%">
+            <div class="thumbnail"><a id="ctl00_AlsoRead_RelatedResults_ctl04_Thumbnail" href="http://www.codeproject.com/Articles/1039284/Is-SQL-Server-killing-your-application-s-perform"><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/Thumb-1039284.png" alt="" style="border-width:0px;"></a></div>
+            <div class="text">
+                <div class="title"><a id="ctl00_AlsoRead_RelatedResults_ctl04_Link" href="http://www.codeproject.com/Articles/1039284/Is-SQL-Server-killing-your-application-s-perform">Is SQL Server killing your application’s performance?</a></div>
+                
+            </div>
+        </td>
+	    </tr>
+	
+	    <tr>
+        <td class="content-list-item" valign="top" width="50%">
+            <div class="thumbnail"><a id="ctl00_AlsoRead_RelatedResults_ctl05_Thumbnail" href="http://www.codeproject.com/Articles/42548/MVVM-and-the-WPF-DataGrid"><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/Thumb-42548.png" alt="" style="border-width:0px;"></a></div>
+            <div class="text">
+                <div class="title"><a id="ctl00_AlsoRead_RelatedResults_ctl05_Link" href="http://www.codeproject.com/Articles/42548/MVVM-and-the-WPF-DataGrid">MVVM and the WPF DataGrid</a></div>
+                
+            </div>
+        </td>
+	
+        <td class="content-list-item" valign="top" width="50%">
+            <div class="thumbnail"><a id="ctl00_AlsoRead_RelatedResults_ctl06_Thumbnail" href="http://www.codeproject.com/Articles/1055167/Using-an-MCU-on-the-Intel-Edison-Board-with-the-Ul"><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/Thumb-1055167.png" alt="" style="border-width:0px;"></a></div>
+            <div class="text">
+                <div class="title"><a id="ctl00_AlsoRead_RelatedResults_ctl06_Link" href="http://www.codeproject.com/Articles/1055167/Using-an-MCU-on-the-Intel-Edison-Board-with-the-Ul">Using an MCU on the Intel® Edison Board with the Ultrasonic Range Sensor</a></div>
+                
+            </div>
+        </td>
+	    </tr>
+	
+		</tbody></table>
+	
+
+
+
+				
+				
+
+					<h2>Comments and Discussions</h2>
+					
+					<p><img alt="Comment" src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/NewComment.gif" height="16px" width="12px">
+					<b>99 messages</b> have been posted for this article 
+					Visit <b><a id="ctl00_ArticleLink" href="http://www.codeproject.com/Articles/78517/WPF-x-FileExplorer-x-MVVM">http://www.codeproject.com/Articles/78517/WPF-x-FileExplorer-x-MVVM</a></b> to post and view comments on 
+					this article, or click <b><a id="ctl00_PrintWithMessage" href="http://www.codeproject.com/Articles/78517/WPF-x-FileExplorer-x-MVVM?display=PrintAll">here</a></b> 
+					to get a print view with messages.</p>
+					
+				
+
+			</div>
+			
+		</td>
+		<td class="article-wing-right" width="170px">
+			
+		</td>
+		</tr></tbody></table>
+
+		
+		<div class="theme1-background" style="height:2px" id="stickyStop"></div>
+
+		<div class="extended tiny-text">
+			<div class="row">
+				<div class="float-left">
+					<a id="ctl00_PermaLink" itemprop="url" href="http://www.codeproject.com/Articles/78517/WPF-x-FileExplorer-x-MVVM">Permalink</a> | 
+					<a id="ctl00_AdvertiseLink" href="http://developermedia.com/">Advertise </a> |
+					<a id="ctl00_PrivacyLink" href="http://www.codeproject.com/info/privacy.aspx">Privacy</a> |
+                    <a id="ctl00_TermsOfUseLink" href="http://www.codeproject.com/info/TermsOfUse.aspx">Terms of Use</a> |
+					<a id="ctl00_Mobile">Mobile</a>
+					<br>
+								
+					
+					Web02 |
+					2.8.151108.1 |
+					Last Updated 25 Nov 2012								
+				</div>
+
+                <div id="ctl00_GoogleTranslate" class="translate float-left"><div style="" dir="ltr" class="skiptranslate goog-te-gadget"><div class="goog-te-gadget-simple" style="white-space: nowrap;" id=":0.targetLanguage"><img style="background-image: url(&quot;https://translate.googleapis.com/translate_static/img/te_ctrl3.gif&quot;); background-position: -65px 0px;" class="goog-te-gadget-icon" src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/cleardot.gif"><span style="vertical-align: middle;"><a href="javascript:void(0)" class="goog-te-menu-value"><span>Select Language</span><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/cleardot.gif" height="1" width="1"><span style="border-left: 1px solid rgb(187, 187, 187);">​</span><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/cleardot.gif" height="1" width="1"><span style="color: rgb(155, 155, 155);">▼</span></a></span></div></div></div>      
+
+				<div class="float-right align-right">
+					Article Copyright 2010 by Leung Yat Chun<br>Everything else
+					Copyright © <a href="mailto:webmaster@codeproject.com">CodeProject</a>, 1999-2015 <br>
+				</div>
+
+				
+
+			</div>
+		</div>
+		
+
+		<br clear="all">
+		
+			
+
+	</div> 
+	</div>
+</div>
+
+
+<div style="display:none;" id="dm_AdTable">
+	
+</div>
+
+
+
+
+<script type="text/javascript" language="Javascript" src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/jquery.js"></script><script type="text/javascript">//<![CDATA[
+if (typeof jQuery == 'undefined') {
+    document.write(unescape("%3Cscript src='/script/JS/jquery-1.6.2.min.js' type='text/javascript' %3E%3C/script%3E"));
+}//]]></script>
+<script type="text/javascript" language="Javascript" src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/element.js"></script>
+<script type="text/javascript" language="Javascript">//<![CDATA[
+$(document).ready(function () { processCodeBlocks.Initialise('#contentdiv'); });
+function googleTranslateElementInit() {  new google.translate.TranslateElement({   pageLanguage: 'en',   layout: google.translate.TranslateElement.InlineLayout.SIMPLE,   autoDisplay: false,   gaTrack: true,   gaId: 'UA-1735123-1'},  'ctl00_GoogleTranslate');}
+$(document).ready(function() { anchorAnimate();
+});
+$(document).ready(function() {   $('.alert-bar').fadeIn('slow');   $('.alert-bar a.close-notify').click(function() {      $('.alert-bar').fadeOut('fast');        return false;    });});
+
+//]]>
+</script><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="WPF%20x%20FileExplorer%20x%20MVVM%20-%20CodeProject_files/translate_24dp.png" height="20" width="20"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Original text</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Contribute a better translation</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div style="display: none;" class="status-message"></div></div>
+
+
+
+<iframe style="visibility: visible; box-sizing: content-box; width: 877px; height: 280px; display: none;" class="goog-te-menu-frame skiptranslate" frameborder="0"></iframe></body></html>

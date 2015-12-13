@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="QuickZip.IO.PIDL.UserControls.FileList">
+    <Position X="10.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAgACEBCAAEEgAJCIAACEAQBAAgAABgAQAIEAAI=</HashCode>
+      <FileName>UserControls\FileList\FileList.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.Model.DirectoryModel">
+    <Position X="8.5" Y="7.25" Width="1.5" />
+    <Members>
+      <Method Name="DirectoryModel" Hidden="true" />
+      <Method Name="DirectoryToDirectoryModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AIAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tools\MVVM\Model\DirectoryModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.Model.ExModel">
+    <Position X="6.75" Y="5.75" Width="1.5" />
+    <Members>
+      <Field Name="_embeddedEntry" Hidden="true" />
+      <Field Name="_fullName" Hidden="true" />
+      <Field Name="_isEditable" Hidden="true" />
+      <Field Name="_isVirtual" Hidden="true" />
+      <Field Name="_label" Hidden="true" />
+      <Field Name="_name" Hidden="true" />
+      <Field Name="embeddedEntryChangeArgs" Hidden="true" />
+      <Field Name="isEditableChangeArgs" Hidden="true" />
+      <Field Name="labelChangeArgs" Hidden="true" />
+      <Field Name="nameChangeArgs" Hidden="true" />
+      <Field Name="parseNameChangeArgs" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ACAAIAAAEABIAIBgkFAAIAYAAAAAAIABgAAAIAAAAAA=</HashCode>
+      <FileName>Tools\MVVM\Model\ExModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.Model.FileModel">
+    <Position X="5" Y="7" Width="1.5" />
+    <Members>
+      <Field Name="length" Hidden="true" />
+      <Field Name="lengthChangeArgs" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAEAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tools\MVVM\Model\FileModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.ViewModel.DirectoryViewModel">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="DirectoryViewModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tools\MVVM\ViewModel\DirectoryViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.ViewModel.ExViewModel">
+    <Position X="3" Y="0.5" Width="1.75" />
+    <Members>
+      <Field Name="_embeddedModel" Hidden="true" />
+      <Field Name="_fullName" Hidden="true" />
+      <Field Name="_isDirectory" Hidden="true" />
+      <Field Name="_rootModel" Hidden="true" />
+      <Method Name="CompareTo" Hidden="true" />
+      <Field Name="embeddedModelChangeArgs" Hidden="true" />
+      <Method Name="Equals" Hidden="true" />
+      <Method Name="ExViewModel" Hidden="true" />
+      <Method Name="FetchData" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAIQEgAACAAYAAMAAAACBAAAAAAhACIA=</HashCode>
+      <FileName>Tools\MVVM\ViewModel\ExViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.ViewModel.FileViewModel">
+    <Position X="1" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tools\MVVM\ViewModel\FileViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.ViewModel.HierarchyViewModel">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <Members>
+      <Field Name="_isExpanded" Hidden="true" />
+      <Field Name="_isSelected" Hidden="true" />
+      <Field Name="_parent" Hidden="true" />
+      <Method Name="HierarchyViewModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAEEAIAgAAQQACQAAAAAAAAAAAAAAEgAAA=</HashCode>
+      <FileName>Tools\MVVM\ViewModel\HierarchyViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.ViewModel.RootModelBase">
+    <Position X="1.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Tools\MVVM\ViewModel\RootModelBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.ViewModel.DirectoryTreeItemViewModel">
+    <Position X="6.75" Y="1.5" Width="1.5" />
+    <Members>
+      <Field Name="_hasSubDirectories" Hidden="true" />
+      <Field Name="_isLoading" Hidden="true" />
+      <Field Name="_refreshCommand" Hidden="true" />
+      <Field Name="_subDirs" Hidden="true" />
+      <Method Name="DirectoryTreeItemViewModel" Hidden="true" />
+      <Field Name="dummyNode" Hidden="true" />
+      <Method Name="FetchData" Hidden="true" />
+      <Method Name="getDirectories" Hidden="true" />
+      <Field Name="hasSubDirsChangeArgs" Hidden="true" />
+      <Field Name="isLoadingChangeArgs" Hidden="true" />
+      <Method Name="LookupChild" Hidden="true" />
+      <Method Name="OnExpanded" Hidden="true" />
+      <Method Name="OnSelected" Hidden="true" />
+      <Method Name="setUpBackgroundWorker" Hidden="true" />
+      <Field Name="subDirsChangeArgs" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>CQCAAAAAgADgIAgYgIAAAAEIgAAAACAQABAAAkAgCAI=</HashCode>
+      <FileName>UserControls\DirectoryTree\MVVM\DirectoryTreeItemViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.ViewModel.DirectoryTreeViewModel">
+    <Position X="2.75" Y="8" Width="2" />
+    <Members>
+      <Field Name="_isLoading" Hidden="true" />
+      <Field Name="_prevSelectedDirectory" Hidden="true" />
+      <Field Name="_prevSelectedDirectoryModel" Hidden="true" />
+      <Field Name="_rootDirectory" Hidden="true" />
+      <Field Name="_rootDirectoryModelList" Hidden="true" />
+      <Field Name="_selectedDirectory" Hidden="true" />
+      <Field Name="_selectedDirectoryModel" Hidden="true" />
+      <Field Name="_watcher" Hidden="true" />
+      <Field Name="bgWorker_findChild" Hidden="true" />
+      <Field Name="bgWorkerChangeArgs" Hidden="true" />
+      <Field Name="isLoadingChangeArgs" Hidden="true" />
+      <Method Name="OnDispose" Hidden="true" />
+      <Field Name="rootDirectoryChangeArgs" Hidden="true" />
+      <Field Name="rootDirectoryModelListChangeArgs" Hidden="true" />
+      <Field Name="selectedDirectoryChangeArgs" Hidden="true" />
+      <Field Name="selectedDirectoryModelChangeArgs" Hidden="true" />
+      <Method Name="setUpBackgroundWorker" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgCKgAAAAQACACAAIIApIACEgAEAAAAAAAAY=</HashCode>
+      <FileName>UserControls\DirectoryTree\MVVM\DirectoryTreeViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.ViewModel.CurrentDirectoryViewModel">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <Members>
+      <Field Name="_cachedSubEntries" Hidden="true" />
+      <Field Name="_dirCount" Hidden="true" />
+      <Field Name="_fileCount" Hidden="true" />
+      <Field Name="_filter" Hidden="true" />
+      <Field Name="_hasSubEntries" Hidden="true" />
+      <Field Name="_isLoading" Hidden="true" />
+      <Field Name="_listDir" Hidden="true" />
+      <Field Name="_listFile" Hidden="true" />
+      <Field Name="_refreshCommand" Hidden="true" />
+      <Field Name="_rootModel" Hidden="true" />
+      <Field Name="_subEntries" Hidden="true" />
+      <Field Name="_subEntriesInternal" Hidden="true" />
+      <Field Name="_watcher" Hidden="true" />
+      <Field Name="bgWorkerChangeArgs" Hidden="true" />
+      <Method Name="CurrentDirectoryViewModel" Hidden="true" />
+      <Field Name="directoryCountChangeArgs" Hidden="true" />
+      <Method Name="FetchData" Hidden="true" />
+      <Field Name="fileCountChangeArgs" Hidden="true" />
+      <Field Name="filterChangeArgs" Hidden="true" />
+      <Method Name="filterEntries" Hidden="true" />
+      <Method Name="getEntries" Hidden="true" />
+      <Field Name="hasSubEntriessChangeArgs" Hidden="true" />
+      <Field Name="isLoadingChangeArgs" Hidden="true" />
+      <Field Name="listDirsChangeArgs" Hidden="true" />
+      <Field Name="listFilesChangeArgs" Hidden="true" />
+      <Method Name="OnDispose" Hidden="true" />
+      <Method Name="setUpBackgroundWorker" Hidden="true" />
+      <Field Name="subEntriesChangeArgs" Hidden="true" />
+      <Field Name="subEntriesInternalChangeArgs" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>EAAQAEAAgCLgEGAIgAEAggAJgBEgAaAAEAAgAtgEOAY=</HashCode>
+      <FileName>UserControls\FileList\MVVM\CurrentDirectoryViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.ViewModel.FileListViewItemViewModel">
+    <Position X="1" Y="0.5" Width="1.5" />
+    <Members>
+      <Field Name="_expandCommand" Hidden="true" />
+      <Field Name="_rootModel" Hidden="true" />
+      <Method Name="FileListViewItemViewModel" Hidden="true" />
+      <Method Name="Run" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AQAAEAAAAACAEAAAAAAAAAAAAAAAAAAAAAAAAAAAABI=</HashCode>
+      <FileName>UserControls\FileList\MVVM\FileListItemViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.IO.PIDL.UserControls.ViewModel.FileListViewModel">
+    <Position X="0.5" Y="8" Width="2" />
+    <Members>
+      <Field Name="_currentDirectory" Hidden="true" />
+      <Field Name="_currentDirectoryModel" Hidden="true" />
+      <Field Name="_isLoading" Hidden="true" />
+      <Field Name="_refreshCommand" Hidden="true" />
+      <Field Name="currentDirectoryChangeArgs" Hidden="true" />
+      <Field Name="currentDirectoryModelChangeArgs" Hidden="true" />
+      <Method Name="FileListViewModel" Hidden="true" />
+      <Field Name="isLoadingChangeArgs" Hidden="true" />
+      <Method Name="OnCurrentDirectoryPropertyChanged" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAFBAAAAgACAAAAEkAAAAAAAAAIAAAAAQAAAAgAAAAI=</HashCode>
+      <FileName>UserControls\FileList\MVVM\FileListViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Delegate Name="QuickZip.IO.PIDL.UserControls.ProgressEventHandler" Collapsed="true">
+    <Position X="10.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tools\ProgressEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

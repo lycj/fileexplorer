@@ -1,0 +1,71 @@
+<project name="PIDL" default="build" basedir="." xmlns="http://nant.sourceforge.net/release/0.90/nant.xsd">
+
+  <include buildfile="../../common/build/local.properties.xml" />
+  <include buildfile="../../common/build/func.msbuild2.xml" />
+  <include buildfile="../../common/build/func.nunit.xml" />
+  
+  <property name="nant.settings.currentframework" value="net-3.5"/>
+  <property name="bin.name" value="${project::get-name()}.dll" />    
+  <property name="build.bin" value="${build.dir}${bin.name}" />
+  <property name="src.pidl.path" value="${src.path}\QuickZip.IO.PIDL" />
+
+  <property name="src.pidl.csproj" value="${src.pidl.path}\QuickZip.IO.PIDL.csproj" />
+
+
+
+  <target name="init">
+  </target>
+
+  <target name="clean">
+
+  </target>
+
+  <target name="import">
+    <echo message="import.bin ${common.lib.path} -> ${lib.path}" />
+    <copy todir="${lib.path}">
+      <fileset basedir="${common.lib.path}">
+        <include name="${thirdparty.nunitframework}.dll" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="build">
+    <call target="import" />
+    <call target="setversion" />
+
+    <property name="msbuild.csproj.path" value="${src.pidl.csproj}" />
+    <property name="msbuild.version" value="35" />
+    <call target="msbuild" />
+    
+    <!--<echo message="build.bin: ${build.pidl.bin}" />
+    <csc target="library" output="${build.dir}\${build.pidl.bin}" debug="${debug}"
+         keyfile="${build.keyfile}"
+         unsafe="false" platform="x86" >
+      <references>
+        <include name="${net.framework.2}\System.Windows.Forms.dll" />
+        <include name="${net.framework.2}\System.Xml.dll" />
+        <include name="${net.framework.2}\System.Drawing.dll" />
+        <include name="${net.framework.2}\System.dll" />        
+      </references>
+      <sources>
+        <include name="${src.pidl.path}\**.cs" />        
+      </sources>
+    </csc>-->
+
+    <echo message="copy.bin: ${build.pidl.bin} --> ${build.current.dir}" />
+    <copy todir="${build.current.dir}\">
+      <fileset basedir="${build.dir}">
+        <include name="${build.pidl.bin}" />
+        <include name="${build.pidl.pdb}" />
+      </fileset>
+    </copy>
+
+    <property name="nunit.buildtest" value="true" />
+
+    <property name="nunit.unittest" value="true" />
+    <call target="nunit" />
+    <property name="nunit.unittest" value="false" />
+    <call target="nunit" />
+  </target>
+
+</project>

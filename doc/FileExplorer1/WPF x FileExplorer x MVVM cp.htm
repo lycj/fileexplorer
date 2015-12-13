@@ -1,0 +1,1825 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+  <title>Article Source</title>
+  <link rel="stylesheet" type="text/css"
+ href="/App_Themes/NetCommunity/CodeProject.css?dt=2.3.0006">
+  <base href="http://www.codeproject.com/KB/WPF/">
+</head>
+<body>
+<!--
+
+HTML for article "WPF x FileExplorer x MVVM" by Leung Yat Chun
+URL: http://www.codeproject.com/KB/WPF/WPFFileExplorer.aspx
+
+Copyright 2010 by Leung Yat Chun
+
+All formatting, additions and alterations Copyright © CodeProject, 1999-2010
+
+-->
+<p><b>Please choose 'View Source' in your browser to view the HTML, or
+File | Save to save this file to your hard drive for editing.</b></p>
+<hr class="Divider subdue">
+<div><!-- Start Article --><span id="ArticleContent">
+<p><br>
+<img style="width: 781px; height: 311px;" alt="MVVMFileExplorer"
+ src="WPFFileExplorer/MVVMTest0.png"><br>
+</p>
+<div>
+<ul>
+  <li><a href="WPFFileExplorer/FileExplorer.zip">Download
+FileExplorer.zip - 1,017.4 KB&nbsp;</a>&nbsp;</li>
+</ul>
+<br>
+This article describe how to construct FileExplorer<em> </em>controls
+included
+<code><code>DirectoryTree</code></code> and <code><code>FileList</code></code>,
+using
+<em>Model-View-ViewModel (MVVM) pattern</em>.&nbsp;
+<br>
+<p>
+</p>
+<h2>Introduction<br>
+</h2>
+After <a href="http://www.codeproject.com/KB/miscctrl/FileBrowser.aspx">C#
+FileExplorer</a>, <a
+ href="http://www.codeproject.com/KB/cpp/VbNetExpTree.aspx">VB.Net
+ExplorerTree</a>, you may think it's easier to write an explorer tree
+in <em>WPF</em>.&nbsp; But in fact
+it's not, and thats why this article takes so many pages.&nbsp;
+Although
+<em>WPF </em>is supposed to allow you
+to construct custom interface with minium effort, <em>WPF </em>does
+not even
+provide the basic functionality of ListView
+in .Net2.0 : <br>
+<ul>
+  <li>ViewMode? Small Icon? What is that?&nbsp; </li>
+  <li>Multi-Select? Sure! all you need is to press &lt;shift&gt; and
+select each item.</li>
+  <li>Virtual ListView? ImageList? Rename? sure, write your own.</li>
+</ul>
+But anyone who run a WPF application
+should know WPF let you to
+customize everything, but you wont know these shortcoming until you are
+going implement one.&nbsp; There are a number of solutions available on
+various <a href="http://www.codeproject.com/KB/files/#references">web
+sites</a>, I combined these ideas
+as well as my code
+and present you my finhsied FileExplorer
+controls.&nbsp; <br>
+<br>
+Further more, as these controls are written in <em>Model-View-ViewModel
+(MVVM)
+pattern</em>,
+so
+this article is also a brief tutorial for how to create the controls
+using the pattern.&nbsp; <br>
+<h2>Features : </h2>
+<ul>
+  <li>Shell<br>
+    <ul>
+      <li>List directories and files (start from <a
+ href="http://picasaweb.google.com/QuickZipDev/Components#5464115210844011714">Desktop</a>)<br>
+      </li>
+      <li><a
+ href="http://picasaweb.google.com/QuickZipDev/Components#5466533281747634738">Context
+menu</a></li>
+      <li>Rename inside the control</li>
+      <li>Drag and Drop support to and from other application</li>
+      <li>Monitor file system so automatically refresh when
+file system is changed</li>
+    </ul>
+  </li>
+  <li>Performance<br>
+    <ul>
+      <li>Sub-items are loaded in background&nbsp;</li>
+      <li>Lookup directory in DirectoryTree
+in <a
+ href="http://picasaweb.google.com/QuickZipDev/Components#5465873523990923682">background</a><br>
+      </li>
+      <li>Construction of ListViewItems
+and
+TreeViewItems are virtualized&nbsp;</li>
+    </ul>
+  </li>
+  <li>DirectoryTree<br>
+    <ul>
+      <li>Setable <a
+ href="http://picasaweb.google.com/QuickZipDev/Components#5464483179567564146">root
+directory</a><br>
+      </li>
+      <li>Setable and getable selected
+directory <br>
+      </li>
+    </ul>
+  </li>
+  <li>FileList<br>
+    <ul>
+      <li><a
+ href="http://picasaweb.google.com/QuickZipDev/Components#5449471534233949906">Multi-Select
+support</a> using dragging</li>
+      <li>Getable selected
+entries</li>
+      <li>Multiple view mode
+(e.g. <a
+ href="http://picasaweb.google.com/QuickZipDev/Components#5464128449206843986">LargeIcon</a>)</li>
+      <li>Search
+within fileList using <a
+ href="http://picasaweb.google.com/QuickZipDev/Components#5465799887040105298">filter</a></li>
+    </ul>
+  </li>
+</ul>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h2>Index<a name="Index"></a></h2>
+<ul>
+  <li><a href="#Index">Index</a><br>
+    <ul>
+      <li><a href="#howtouse">How To Use?</a><br>
+        <ul>
+          <li><a href="#howtousedirectoryinfoex">DirectoryInfoEx<br>
+            </a> </li>
+          <li><a href="#howtousedirectorytree">DirectoryTree</a></li>
+          <li><a href="#howtousefilelist">FileList</a><br>
+          </li>
+        </ul>
+      </li>
+      <li><a href="#thedesign">The Design</a><br>
+        <ul>
+          <li><a href="#model">Model</a><br>
+            <ul>
+              <li><a href="#exmodel">ExModel</a><br>
+              </li>
+            </ul>
+          </li>
+          <li><a href="#viewmodel">ViewModel</a><br>
+            <ul>
+              <li><a href="#exviewmodel">ExViewModel</a><br>
+              </li>
+              <li><a href="#rootmodelbase">RootModelbase</a></li>
+              <li><a href="#filelistviewmodels">FileList</a><br>
+                <ul>
+                  <li><a href="#currentdirectoryviewmodel">CurrentDirectoryViewModel</a></li>
+                  <li><a href="#filelistitemviewmodel">FileListItemViewModel</a></li>
+                </ul>
+              </li>
+              <li><a href="#directorytreeviewmodels">DirectoryTree</a><br>
+                <ul>
+                  <li><a href="#hierarchyviewmodel">HierarchyViewModel</a></li>
+                  <li><a href="#directorytreeviewmodel">DirectoryTreeViewModel</a></li>
+                  <li><a href="#directorytreeitemviewmodel">DirectoryTreeItemViewModel</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><a href="#view">View</a><br>
+            <ul>
+              <li><a href="#customcontrol">OT: How to create custom
+control in ClassLibrary?</a><br>
+              </li>
+              <li><a href="#viewfilelist">FileList</a></li>
+              <li><a href="#viewdirectorytree">DirectoryTree</a></li>
+            </ul>
+          </li>
+          <li><a href="#othercomponents">Other Components</a></li>
+        </ul>
+        <ul>
+          <li><a href="#conclusion">Conclusion</a></li>
+          <li><a href="#References">References</a></li>
+          <li><a href="#history">History</a><br>
+            <ul>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+<h2><a name="howtouse"></a>How to use?</h2>
+Although the internal part is <em>MVVM</em>, communication between the
+UserControls are through Dependency properties, e.g.<br>
+<pre lang="xml"> &lt;TextBox Text="{Binding SelectedDirectory, ElementName=dirTree, <br> Mode=TwoWay, Converter={StaticResource ets}}" Grid.ColumnSpan="2" /&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> &lt;!-- ets = EntryToStringConverter --&gt;&nbsp; <br><br>&nbsp; &lt;uc:DirectoryTree Grid.Column="0" Grid.Row="1" x:Name="dirTree"&nbsp; &gt;<br> &nbsp;&nbsp;&nbsp; &lt;uc:DirectoryTree.SelectedDirectory&gt;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;uc:Ex /&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp; &lt;/uc:DirectoryTree.SelectedDirectory&gt;<br> &lt;/uc:DirectoryTree&gt;<br><br> &lt;uc:FileList Grid.Column="1" Grid.Row="1" ViewMode="vmIcon"<br> CurrentDirectory="{Binding SelectedDirectory, ElementName=dirTree, Mode=TwoWay}" /&gt;</pre>
+<h3><a name="howtousedirectoryinfoex"></a>DirectoryInfoEx
+(Component)&nbsp;</h3>
+<h3>
+</h3>
+Please keep in mind that the UserControls
+associated with this article is based on <a
+ href="http://www.codeproject.com/KB/files/DirectoryInfoEx.aspx">System.IO.DirectoryInfo<strong>Ex</strong></a>,
+not
+<a
+ href="http://msdn.microsoft.com/en-us/library/system.io.directoryinfo.aspx">System.IO.DirectoryInfo</a>,
+it's
+a
+custom
+dotNet2.0
+component
+which
+uses
+<code>IShellFolder2
+</code>to list shell items, and provide similar syntax as <code>DirectoryInfo</code>,
+the
+current
+version
+(0.17)
+does
+the
+following : <br>
+<ul>
+  <li>List Shell Items (sync/async)<br>
+  </li>
+  <li>File System Operations (sync/async), e.g. Create, Copy, Move ,
+Delete, Rename</li>
+  <li>Display Shell Context Menu, allow Insert/Delete/Disable Menu Items<br>
+  </li>
+  <li>Monitor File System Changes<br>
+  </li>
+  <li><a
+ href="http://www.codeproject.com/Tips/68038/Obtain-file-properties-from-shell-using-ExtraPrope.aspx">Obtain
+File
+Properties
+from
+Shell</a></li>
+</ul>
+The <a href="http://www.codeproject.com/KB/files/DirectoryInfoEx.aspx"><code>DirectoryInfoEx</code></a>
+on this page may not be the
+most update, please check <a
+ href="http://www.codeproject.com/KB/files/DirectoryInfoEx.aspx">it's
+page</a> for update.<br>
+<h3><a name="howtousedirectorytree"></a>DirectoryTree (TreeView)</h3>
+<ul>
+  <li><small>DirectoryTree<br>
+    </small>
+    <ul>
+      <li><small>RootDirectory<br>
+        </small></li>
+      <li><small>SelectedDirectory</small></li>
+    </ul>
+  </li>
+</ul>
+<a
+ href="http://picasaweb.google.com/lh/photo/f85ZArH_rjNrl7rRHw9Abw?feat=embedwebsite"><img
+ alt="FileList" src="WPFFileExplorer/MVVMTest1.png"
+ style="border-style: solid; border-width: 0px; width: 200px; height: 202px;"></a><br>
+<br>
+You can set the <code>RootDirectory </code>and
+<code>SelectedDirectory </code>using the <code>ExExtension</code>.&nbsp;
+Ex
+is
+a
+<code>MarkupExtension</code>, which return the<br>
+appropriate <code>FileSystemInfoEx</code>,
+one can specify the FullName via
+the
+extension
+as
+well&nbsp;
+e.g.
+:<br>
+<pre lang="xml">&lt;uc:DirectoryTree Grid.Column="0" Grid.Row="1" x:Name="dirTree" &gt;<br> &lt;uc:DirectoryTree.RootDirectory&gt;<br> &lt;uc:Ex FullName="::{20D04FE0-3AEA-1069-A2D8-08002B30309D}" /&gt; <br> &lt;!--MyComputer--&gt;<br> &lt;/uc:DirectoryTree.RootDirectory&gt;<br> &lt;uc:DirectoryTree.SelectedDirectory&gt;<br> &lt;uc:Ex FullName="C:\Temp" /&gt;<br> &lt;/uc:DirectoryTree.SelectedDirectory&gt; <br>&lt;/uc:DirectoryTree&gt;&nbsp;</pre>
+<br>
+<h3><a name="howtousefilelist"></a>FileList (ListView)<br>
+</h3>
+<ul>
+  <small> </small>
+  <li><small>FileList<br>
+    </small>
+    <ul>
+      <small> </small>
+      <li><small>SelectedEntries</small></li>
+      <small> </small>
+      <li><small>CurrentDirectory</small></li>
+      <small> </small>
+      <li><small>ViewMode</small></li>
+      <small> </small>
+      <li><small>ViewSize</small>&nbsp;</li>
+      <li><small>SortBy (0.2)<br>
+        </small></li>
+      <li><small>SortDirection (0.2)</small>&nbsp;</li>
+      <small> </small>
+    </ul>
+    <small> </small></li>
+</ul>
+Unlike normal <code>ListView</code>, this <code>FileList </code>support
+multi-select
+by
+dragging,
+for
+more
+information
+you
+can take a look to <a href="MultiSelectListView2.aspx">this
+article</a>.<br>
+You can get the highlight
+count when the <code>FileList </code>is
+dragging,
+using
+the
+an attached
+property named <code>SelectionHelper.HighlightCount</code>,
+e.g.
+:
+(Statusbar not
+included in this publish)<br>
+<pre lang="xml">&lt;uc:Statusbar Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" x:Name="sbar"<br> FileCount="{Binding RootModel.CurrentDirectoryModel.FileCount, ElementName=fileList1}"<br> DirectoryCount="{Binding RootModel.CurrentDirectoryModel.DirectoryCount, <br>          ElementName=fileList1}"<br> HighlightCount="{Binding Path=(uc:SelectionHelper.HighlightCount), <br>          ElementName=fileList1}"<br> SelectedEntries="{Binding SelectedEntries, ElementName=fileList1}" /&gt;<br></pre>
+<p><code>SelectedEntries </code>is oneway currently, it can
+return the items selected on the file list, so you can bind it with
+<code>StatusBar </code>or other
+<code>UserControl</code>. <br>
+<br>
+(0.2) You can change the item sequence using <code>SortBy </code>and <em><code>SortDirection
+</code></em>property, or it can be changed by double-click the header
+of GridView : <br>
+</p>
+<pre lang="cs">&lt;uc:FileList SortBy="sortByLastWriteTime" SortDirection="Descending" /&gt;<br></pre>
+<br>
+<code>ViewMode </code>and <code>ViewSize </code>both represent how
+the
+file list represent the items, the modes and it's size as follows.<br>
+<p>
+</p>
+<p><a
+ href="http://picasaweb.google.com/lh/photo/1g0tnYOcZnycDErkb2T6Jg?feat=embedwebsite"><img
+ alt="LargeIconView" src="WPFFileExplorer/MVVMTest2.png"
+ style="border-style: solid; border-width: 0px; width: 200px; height: 201px;"></a></p>
+<pre lang="xml">&lt;uc:FileList ViewMode="vmLargeIcon" ViewSize="80" /&gt;&nbsp;</pre>
+<pre lang="cs">public enum ViewMode : int<br>{<br>&nbsp;vmTile = 13,<br>&nbsp;vmGrid = 14,<br>&nbsp;vmList = 15,<br>&nbsp;vmSmallIcon = 16,<br>&nbsp;vmIcon = 48,<br> vmLargeIcon = 80,<br>&nbsp;vmExtraLargeIcon = 120<br>}&nbsp;</pre>
+If one set the <code>ViewSize </code>to
+any value between 13 to 120, the filelist will
+apply the view automatically.&nbsp; <br>
+<s>Noted that <code>TileView </code>is not
+implemented yet.</s><br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h2><a name="thedesign"></a>The Design</h2>
+The UserControls are developed using <em>Model-View-ViewModel
+approach (MVVM)</em>, I first learned about this approach from <a
+ href="http://blogs.msdn.com/dancre/archive/2006/07/23/676272.aspx">Dan
+Crevier's Blog</a>, but now you can find a <a
+ href="http://openlightgroup.net/Blog/tabid/58/EntryId/89/Silverlight-MVVM-An-Overly-Simplified-Explanation.aspx">simplified
+explanation
+here</a>. Using <em>MVVM </em>improve
+the application responsivenss, as most work can be threaded (and able
+to update back to UI).<br>
+<br>
+My Implementation included the followings : <br>
+<ul>
+  <li><strong>Model&nbsp; </strong><br>
+    <ul>
+      <li>Represent a <code>DirectoryInfoEx </code>object</li>
+    </ul>
+  </li>
+  <li><strong>ViewModel - 2 kinds</strong><br>
+    <ul>
+      <li>Model of a <code>DirectoryTree </code>/ <code>FileList</code><br
+ style="font-style: italic;">
+      </li>
+      <li>Model of a <code>DirectoryTreeItem </code>/ <code>FileListItem
+
+
+
+
+
+        </code>/ <code>FileListCurrentDirectory </code>(which
+embedded a
+Model)<br>
+      </li>
+    </ul>
+  </li>
+  <li><strong>View&nbsp; </strong><br>
+    <ul>
+      <li>The <code>DirectoryTree </code>/ <code>FileList </code>itself,
+no
+code-behind
+except
+
+        <code>DependencyProperties </code>and some <code>EventHandlers</code><br>
+        <br>
+      </li>
+    </ul>
+  </li>
+</ul>
+These UserControls uses <a href="Cinch.aspx">Sacha Barber's
+Cinch MVVM framework</a>. I am not sure if it's the best framework I
+can get, as I haven't tested many of them, but it reduce a lot of my
+work load. My only complaints is that his article is lack of a central
+index, every time I wish to lookup for a description for a class I have
+to look through 5 articles.<br>
+<br>
+Unlike most <em>MVVM projects</em>
+these are UserControls instead
+of
+Windows, I have to write a
+number of DependencyProperties to
+interface
+between
+the
+UserControls,
+and because of this,
+performance may suffer, but I found it simplier to divide a large
+projects into smaller managable pieces.&nbsp; <br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h2><a name="model"></a>Model</h2>
+<ul>
+  <small> </small>
+  <li><small>Cinch.ValidatingObjet<br>
+    </small>
+    <ul>
+      <small> </small>
+      <li><small>Cinch.EditableValidatingObjet</small></li>
+      <small> </small>
+      <li><small>ExModel <br>
+        </small>
+        <ul>
+          <small> </small>
+          <li><small>FileModel</small></li>
+          <small> </small>
+          <li><small>DirectoryModel</small></li>
+          <li><small>DriveModel <span style="font-weight: bold;">(0.3)</span><br>
+            </small></li>
+          <small> </small>
+        </ul>
+        <small> </small></li>
+      <small> </small>
+    </ul>
+    <small> </small></li>
+</ul>
+<code>FileSystemInfoEx </code>properties rarely change. so actually <code>FileSystemInfoEx
+</code>itself can be a model, but to support rename
+I added another layer : <code>ExModel</code>.<br>
+<br>
+<code>Cinch </code>contains two classes for implementing Model, <a
+ style="font-style: italic;" href="CinchII.aspx#validationRules">ValidatingObject</a>
+and
+it's derived class named <a style="font-style: italic;"
+ href="CinchII.aspx#IEditableObject">EditableValidatingObject</a>,
+the
+difference
+is
+that
+<a style="font-style: italic;" href="CinchII.aspx#IEditableObject">EditableValidatingObject</a>
+have
+transaction
+support,
+using
+BeginEdit()
+/ CancelEdit() and EndEdit() methods.&nbsp; To support
+this, your properties have to be implemented as DataWrapper
+class.&nbsp; <br>
+<br>
+Because the only one field is required to support rename, I implement
+ExModel as
+<code>ValidatingObject </code>instead of <code>EditableValidatingObject</code>.<br>
+<br>
+<h3><a name="exmodel"></a>ExModel (abstract)</h3>
+<h3><a
+ href="http://picasaweb.google.com/lh/photo/hMT1iXQVjJRVKUMotn2D5A?feat=embedwebsite"><img
+ src="WPFFileExplorer/Model.png"></a></h3>
+<code>ExModel </code>contains a <code>FileSystemInfoEx </code>entry
+(accessable
+using EmbeddedEntry property).<br>
+It is an abstract class, use
+<code>FileModel </code>and <code>DirectoryModel</code> and <code>DriveModel</code><span
+ id="ArticleContent">(0.3)</span>
+which is
+inherited from <code>ExModel
+</code>instead.<br>
+<br>
+Name is one of it's important property to support rename : <br>
+<pre lang="cs">static PropertyChangedEventArgs nameChangeArgs =<br> ObservableHelper.CreateArgs&lt;ExModel&gt;(x =&gt; x.Name);<br>public string Name<br>{<br> get { return _name; }<br> set<br> {<br> if (!String.IsNullOrEmpty(_name) &amp;&amp; _name != value)<br> {<br> string newName = PathEx.Combine(PathEx.GetDirectoryName(FullName), value);<br> FileSystemInfoEx entry = EmbeddedEntry;<br> string origName = _name;<br> string origFullName = _fullName;<br> _name = value;<br> _fullName = newName;<br><br> try<br> {<br> IOTools.Rename(entry.FullName, PathEx.GetFileName(_fullName));<br> FullName = newName;<br> Label = EmbeddedEntry.Label;<br> }<br> catch (Exception ex)<br> {<br> MessageBox.Show(ex.Message, "Rename failed");<br> _name = origName;<br> _fullName = origFullName;<br> return;<br> }<br> }<br> else _name = value; <br> <br> NotifyPropertyChanged(nameChangeArgs);<br> }<br>}</pre>
+As you see, it will revert back to original if the rename process
+failed,
+otherwise update the internal _name field and call <code>NotifyPropertyChanged</code>()
+method
+so
+the
+UI
+is
+notified
+about the changes.<br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h2><a name="viewmodel"></a>ViewModel</h2>
+<ul>
+  <li><small>Cinch.ViewModelBase<br>
+    </small>
+    <ul>
+      <li><small>ExViewModel<br>
+        </small>
+        <ul>
+          <small> </small>
+          <li><small>DirectoryViewModel<br>
+            </small>
+            <ul>
+              <small> </small>
+              <li><small>CurrentDirectoryViewModel (FileList)<br>
+                </small></li>
+              <small> </small>
+            </ul>
+            <small> </small></li>
+          <small> </small>
+          <li><small>HierarchyViewModel<br>
+            </small>
+            <ul>
+              <small> </small>
+              <li><small>DirectoryTreeViewItemViewModel (TreeViewItem)<br>
+                </small></li>
+              <small> </small>
+            </ul>
+            <small> </small></li>
+          <small> </small>
+          <li><small>FileListItemViewModel (ListViewItem)<br>
+            </small></li>
+          <small> </small>
+        </ul>
+        <small> </small></li>
+      <li><small>RootModelBase<br>
+        </small>
+        <ul>
+          <li><small>DirectoryTreeViewModel (DirectoryTree which is a
+TreeView)</small></li>
+          <li><small>FileListViewModel (FileList which is a ListView)</small><br>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+All my ViewModels are
+inherited
+from <a href="CinchIV.aspx#BaseClass">Cinch.ViewModelBase</a>.&nbsp;
+<a href="CinchIV.aspx#BaseClass">ViewModelBase</a>,
+as
+a&nbsp;ViewModel&nbsp;communicating
+with View, contains some
+Window life-cycle related commands and method (e.g.
+CloseCommand and OnWindowClose() method), but as the
+file explorer
+components are not Window most
+of
+them
+are
+not
+used.
+Instead,
+I shall develop my own set of commands, like RefreshCommand for
+FileList. There are a number of
+unimplemented commands that I can think of, like
+Cut/CopyPaste/SelectAllCommand for
+FileList, if you need them
+immediately you may need to write them yourself. e.g.<br>
+<br>
+<pre lang="cs">private SimpleCommand _refreshCommand = new SimpleCommand<br> {<br> CanExecuteDelegate = x =&gt; true,<br> ExecuteDelegate = x =&gt; Refresh()<br> };<br>public SimpleCommand RefreshCommand { get { return _refreshCommand; } }<br><br></pre>
+Then the command is usable by binding from the UI, e.g. : <br>
+<pre lang="xml">&lt;anotherControl RefreshCommand="{Binding RootModel.RefreshCommand, <br>     ElementName=fileList1}" /&gt;&nbsp;</pre>
+<br style="font-style: italic;">
+<h3><a name="exviewmodel"></a>ExViewModel (abstract)</h3>
+<a
+ href="http://picasaweb.google.com/lh/photo/SelUjvC85EBVrSIFpl7FEw?feat=embedwebsite"><img
+ src="WPFFileExplorer/ViewModel.png"></a><br>
+<br>
+ExViewModel are a base class for all List/TreeViewItem,
+it
+contains
+a
+FileModel or DirectoryModel in it, which can be
+accessed by a readonly property
+named EmbeddedModel.&nbsp;
+Each ExViewModel is for
+representing one FileInfoEx or
+DirectoryInfoEx only, to
+represent another FileSystemInfoEx entry
+one
+would
+have
+to
+create another ExModel
+and ExViewModel.<br>
+Similarly, DirectoryViewModel and
+HierarchyViewModel have EmbeddedDirectoryModel. So, if one
+want to access the contained Directory, one can use
+EmbeddedDirectoryModel.EmbeddedDirectory
+property.<br>
+<br>
+<h3><a name="rootmodelbase"></a>RootModelBase (abstract)<br>
+</h3>
+<a
+ href="http://picasaweb.google.com/lh/photo/Kde8NDkGxno2J39O7HQWuA?feat=embedwebsite"><img
+ src="WPFFileExplorer/ViewModel2.png"></a><br>
+<br>
+RootModelBase is a base class
+for DirectoryTreeViewModel and
+FileListViewModel, which is
+the ViewModel of the whole UserControl, it
+contains an event named OnProgress,
+which
+is
+listened
+by
+the
+UserControl.&nbsp; When UserConstrol receive this event, it
+will raise
+again as DependencyEvent,
+which will bubble up until asked to stop (args.Handled = true;).<br>
+<pre lang="cs">public static readonly RoutedEvent ProgressEvent = ProgressRoutedEventArgs.ProgressEvent.AddOwner(typeof(DirectoryTree));<br>...<br>RootModel.OnProgress += (ProgressEventHandler)delegate(object sender, ProgressEventArgs e)<br>{<br> this.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new ThreadStart(delegate<br> {<br> RaiseEvent(new ProgressRoutedEventArgs(ProgressEvent, e));<br> }));<br>};<br></pre>
+I am not sure if this will cause memory leak, e.g. not GC when the
+UserControl is free. If so, I will have to implement <a
+ href="CinchII.aspx#WeakEventCreate">WeakEvent</a>.<br>
+<br>
+<h3><a name="filelistviewmodels"></a>FileList - FileListViewModel,
+CurrentDirectoryViewModel and
+FileListItemViewModel<br>
+</h3>
+Actually both ViewModel should
+be
+combined
+if
+FileListViewModel
+not
+inherited from RootModelBase,
+and CurrentDirectoryViewModel is
+not
+inherited
+from
+ExViewModel,
+but as they do, I have to leave them as two
+separate class. One FileList can
+have
+one
+FileListViewModel only,
+but it may have multiple CurrentDirectoryViewModels
+(when changing directory).<br>
+<br>
+<h4><a name="filelistviewmodel"></a>FileListViewModel
+(RootModelBase)&nbsp;</h4>
+<ul>
+  <li><small>RootModelBase<br>
+    </small>
+    <ul>
+      <li><small>FileListViewModel <br>
+        </small>
+        <ul>
+          <li><small>RefreshCommand (which calls
+CurrentDirectoryModel.Refresh())<br>
+            </small></li>
+          <li style="font-weight: bold;"><small>CurrentDirectory</small></li>
+          <li style="font-weight: bold;"><small>CurrentDirectoryModel</small></li>
+          <li><small style="font-weight: bold;">IsLoading</small>&nbsp;</li>
+          <li><small style="font-weight: bold;"><small
+ style="font-weight: bold;">SortBy (0.2)<br>
+            </small></small></li>
+          <li><small style="font-weight: bold;"><small
+ style="font-weight: bold;">SortDirection (0.2)</small>&nbsp;</small></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<code>FileListViewModel</code>is a middle
+layer between <code>CurrentDirectoryModel</code>
+(which changes regularly) and the <code>FileList</code>. &nbsp;In
+FileListViewModel,
+CurrentDirectory and CurrentDirectoryModel links to each
+other, if you
+change one of them it will change the another, the reason to have both
+properties is that, CurrentDirectory
+is for outside the FileList
+(e.g.
+from DirectoryTree, or user
+code), CurrentDirectoryModel
+is for
+internal use as ViewModel.<br>
+<br>
+(0.2) SortBy and SortDirection enable sort by calling
+CurrentDirectoryModel.ChangeSortMethod() method, which change the sort
+to CustomSort : <br>
+<pre lang="cs">public void ChangeSortMethod(ExComparer.SortCriteria sortBy, ListSortDirection sortDirection)<br>{                        <br>  ListCollectionView dataView = (ListCollectionView)(CollectionViewSource.GetDefaultView(_subEntries.View));<br><br>  dataView.SortDescriptions.Clear(); //Disable previous sorting method.<br>  dataView.CustomSort = null;<br><br>  //conversion from ListSortDirection  to ExComparer.SortDirection <br>  //ExComparer cannot use ListSortDirection as it's .Net2.0 component<br>  ExComparer.SortDirectionType direction = sortDirection == ListSortDirection.Ascending ? <br>  ExComparer.SortDirectionType.sortAssending : ExComparer.SortDirectionType.sortDescending;<br>            <br>  dataView.CustomSort = new ExModelComparer(sortBy, direction); //IComparer<br>}<br></pre>
+In this case, although the <code><a
+ href="http://msdn.microsoft.com/en-us/library/system.windows.data.collectionviewsource.aspx">CollectionViewSource</a>
+</code>discussed in <code><em>CurrentDirectoryViewModel </em></code>is
+still
+used,
+it's
+sorting
+method
+is overrided by my own implementation.<br>
+<br>
+Most ViewModel has <code>IsLoading </code>property, which will be
+later bound to UI, so when it's true, the UI shows loading animation.<br>
+<h4><a name="currentdirectoryviewmodel"></a>CurrentDirectoryViewModel
+(ExViewModel)<br>
+</h4>
+<ul>
+  <li>ExViewModel<br>
+    <ul>
+      <li>DirectoryViewModel<br>
+        <ul>
+          <li>CurrentDirectoryModel<br>
+            <ul>
+              <li>RefreshCommand</li>
+              <li>ListFiles, ListDirectories</li>
+              <li>IsLoading</li>
+              <li>Filter<br>
+              </li>
+              <li>BgWorker (bgWorker_LoadSubEntries
+and
+bgWorker_FilterSubEntries)<br>
+              </li>
+              <li>FileCount, DirectoryCount<br>
+              </li>
+              <li>HasSubEntries</li>
+              <li>SubEntries, SubEntriesInternal</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<code>CurrentDirectoryViewModel</code>responsible
+for
+listing
+the
+contents
+of
+current directory, to do this, it contains a <a
+ style="font-style: italic;" href="CinchIII.aspx#Background">Cinch.BackgroundTaskManager</a>
+named bgWorker_LoadSubEntries,
+<a style="font-style: italic;" href="CinchIII.aspx#Background">BackgroundTaskManager</a>
+as it's name implies, it allows running a task in background,
+using the
+RunBackgroundTask() method,
+the advantage of using this class is that
+you can specify the task and how to update back to ViewModel in one
+place.<br>
+<pre lang="cs">bgWorker_LoadSubEntries = new BackgroundTaskManager&lt;List&lt;FileListViewItemViewModel&gt;&gt;(<br>() =&gt;<br>{<br> IsLoading = true;<br> return getEntries();<br>},<br>(result) =&gt;<br>{<br> updateSubEntries(result);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br> IsLoading = false;<br>});&nbsp;&nbsp;&nbsp; <br></pre>
+The first section is <code>TaskFunc</code>
+(Func&lt;FileListViewItemViewModel&gt;),
+which
+does
+the
+time-consuming
+work, and the second section is
+CompleteAction (Action&lt;FileListViewItemViewModel&gt;),
+which
+update the UI
+(run in UI thread).&nbsp; Noted that only the first section is run in
+background.<br>
+<br>
+The fiest section return the result of getEntries()
+methods,&nbsp;getEntries()
+is
+a
+method
+with
+a linq command, the _cachedSubEntries
+is
+used again when Filter needed.<br>
+<pre lang="cs">private List&lt;FileListViewItemViewModel&gt; getEntries()<br>{<br> var retVal = from entry in EmbeddedDirectoryModel.EmbeddedDirectoryEntry.EnumerateFileSystemInfos()<br> where (entry is IDirectoryInfoExA &amp;&amp; ListDirectories) || (entry is IFileInfoExA &amp;&amp; ListFiles)<br> select new FileListViewItemViewModel(_rootModel, ExAModel.FromExAEntry(entry)); ;<br> _cachedSubEntries = retVal.ToArray();<br> return new List&lt;FileListViewItemViewModel&gt;(_cachedSubEntries);<br>}&nbsp;</pre>
+<pre lang="cs">Action&lt;List&lt;FileListViewItemViewModel&gt;&gt; updateSubEntries =<br>(result) =&gt;<br>{<br> List&lt;FileListViewItemViewModel&gt; delList = new List&lt;FileListViewItemViewModel&gt;(SubEntriesInternal.ToArray());<br>&nbsp; List&lt;FileListViewItemViewModel&gt; addList = new List&lt;FileListViewItemViewModel&gt;();<br><br> foreach (FileListViewItemViewModel model in result)<br> &nbsp; if (delList.Contains(model))<br> delList.Remove(model);<br> else addList.Add(model);<br> <br> foreach (FileListViewItemViewModel model in delList)<br> SubEntriesInternal.Remove(model); <br> foreach (FileListViewItemViewModel model in addList)<br> SubEntriesInternal.Add(model);<br><br>&nbsp; DirectoryCount = (uint)(from model in SubEntriesInternal where<br> model.EmbeddedModel is DirectoryModel select model).Count();<br>&nbsp; FileCount = (uint)(SubEntriesInternal.Count - DirectoryCount);<br> HasSubEntries = SubEntriesInternal.Count &gt; 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>};&nbsp;</pre>
+Basically the second section is to identify the difference of result
+and the output
+(SubEntriesInternal), and
+changes the ObservableCollection.&nbsp;
+Instead
+of
+replacing
+the
+ObservableCollection completely, this reduce
+the overhead needed to destroy and create of ListViewItem in the UI
+side, and most importantly, it allow the FileList to maintain the
+selection as long as possible.<br>
+<br>
+<br>
+FileList support Filter, when
+the property is changed,
+bgWorker_FilterSubEntries will
+be run in background, and change the
+SubEntriesInternal when
+completed, it's similar as
+bgWorker_LoadSubEntries,
+except it uses filterEntries()
+method
+(as below)<br>
+<pre lang="cs">public List&lt;FileListViewItemViewModel&gt; filterEntries()<br>{<br> if (_cachedSubEntries == null)<br> _cachedSubEntries = getEntries().ToArray();<br> var retVal = from entry in _cachedSubEntries where (String.IsNullOrEmpty(Filter) ||<br> IOTools.MatchFileMask(entry.Name, Filter + "*"))<br> select entry;<br> return new List&lt;FileListViewItemViewModel&gt;(retVal);<br>}&nbsp;</pre>
+<br>
+So why it's called SubEntriesInternal
+instead of SubEntries?
+It's
+because there's another layer, SubEntries
+is a <a
+ href="http://msdn.microsoft.com/en-us/library/system.windows.data.collectionviewsource.aspx">CollectionViewSource</a>,
+which
+can
+group
+or
+sort
+the
+SubEntriesInternal
+without
+changing
+it
+(e.g.
+if
+I want to sort SubEntriesInternal
+directly I will have to do a
+lot of work, Deleting and Inserting, you cant call Array.Sort() method
+on ObservableCollection), SubEntriesInternal is sorted
+using it's IsDirectory
+property, then it's FullName property.
+<br>
+<pre lang="cs">_subEntries = new CollectionViewSource();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>_subEntries.Source = SubEntriesInternal;<br>_subEntries.SortDescriptions.Add(new SortDescription("IsDirectory", ListSortDirection.Descending));<br>_subEntries.SortDescriptions.Add(new SortDescription("FullName", ListSortDirection.Ascending));<br></pre>
+Because it's <a style="font-style: italic;"
+ href="http://msdn.microsoft.com/en-us/library/system.windows.data.collectionviewsource.aspx">CollectionViewSource</a>,
+when
+Binding
+ItemsSource,
+one
+have
+to
+bind
+it's
+SubEntries.View
+property
+insteading
+of the SubEntries property
+directly. (btw, you can still bind to SubEntries.Source
+as well)<br>
+<br>
+<br>
+Lastly, there's a FileSystemWatcherEx, which refresh the
+FileList when
+there's a change : <br>
+<pre lang="cs">FileSystemWatcherEx watcher = new FileSystemWatcherEx(model.EmbeddedDirectoryEntry); <br>var handler = (FileSystemEventHandlerEx)delegate(object sender, FileSystemEventArgsEx args)<br> {<br> if (args.FullPath.Equals(model.FullName))<br> Refresh();<br> };<br>var renameHandler = (RenameEventHandlerEx)delegate(object sender, RenameEventArgsEx args)<br> {<br> if (args.OldFullPath.Equals(model.FullName))<br> Refresh();<br> };<br>watcher.OnChanged += handler;<br>watcher.OnCreated += handler;<br>watcher.OnDeleted += handler;<br>watcher.OnRenamed += renameHandler;<br><br></pre>
+<h4><a name="filelistitemviewmodel"></a>FileListItemViewModel
+(ExViewModel)<br>
+</h4>
+<ul>
+  <small> </small>
+  <li><small>ExViewModel<br>
+    </small>
+    <ul>
+      <small> </small>
+      <li><small>FileListItemViewModel<br>
+        </small>
+        <ul style="font-weight: bold;">
+          <small> </small>
+          <li><small>ExpandCommand</small></li>
+          <small> </small>
+          <li><small>IsSelected</small></li>
+          <small> </small>
+        </ul>
+        <small> </small></li>
+      <small> </small>
+    </ul>
+    <small> </small></li>
+</ul>
+<code>ExpandCommand</code> run the
+selected item (via Process.Start()
+method) or
+change the
+current directory (via _rootModel.CurrentDirectory)
+depend
+what
+is
+selected.
+If the selected file is a link (*.lnk) it uses <a
+ style="font-style: italic;"
+ href="http://www.vbaccelerator.com/home/VB/Type_Libraries/ShellLink/article.asp">VBaccelerator's
+ShellLink</a> to find the linked item, then run the file or change
+directory based on the linked item.<br>
+<pre lang="cs">if (PathEx.GetExtension(entry.Name).ToLower() == ".lnk")<br> using (ShellLink sl = new ShellLink(entry.FullName))<br> {<br> string linkPath = sl.Target;<br> if (DirectoryEx.Exists(linkPath) &amp;&amp; sl.Arguments == "")<br> _rootModel.CurrentDirectory = FileSystemInfoEx.FromString(linkPath) as DirectoryInfoEx;<br> else Run(linkPath, sl.Arguments);<br> }<br></pre>
+But how to hook the ExpandCommand?
+ListViewItem itself does not
+have DoubleClickCommand, you
+can : <br>
+<br>
+1. either monitor the MouseDoubleClickEvent
+and do the action when raised : <br>
+<pre lang="cs">#region ExpandHandler<br>this.AddHandler(ListViewItem.MouseDoubleClickEvent, (RoutedEventHandler)delegate(object sender, RoutedEventArgs e)<br>{<br> DependencyObject lvItem = getListViewItem(e.OriginalSource as DependencyObject);<br> if (lvItem != null)<br> {<br> FileListViewItemViewModel model =<br> (FileListViewItemViewModel)ItemContainerGenerator.ItemFromContainer(lvItem);<br> if (model != null) <br> model.Expand(); <br> }<br>});<br>#endregion<br><br></pre>
+2. or you can create the DoubleClickCommand
+your own, and hook them together (more elegant)<br>
+<pre lang="xml">&lt;Style x:Key="{x:Type ListViewItem}" TargetType="{x:Type ListViewItem}" &gt;<br> &lt;Setter Property="uc:CommandProvider.DoubleClickCommand" Value="{Binding ExpandCommand}" /&gt;<br>&lt;/Style&gt;<br></pre>
+<a href="DoubleClickCommandInXaml.aspx">CommandProvider</a>
+is a FrameworkElement which
+have
+an
+attached
+property named DoubleClickCommand,
+and
+when
+it's
+set, <a href="DoubleClickCommandInXaml.aspx">CommandProvider</a> will
+hook to
+the control's MouseLeftButtonDown event,
+in
+this
+case,
+the ListViewItem.&nbsp;
+It
+will invoke the command when it receive a double click (clickcount =
+2) event.<br>
+<br>
+In normal case it should be called this way : <br>
+<pre lang="xml">&lt;Label uc:CommandProvider.DoubleClickCommand="{Binding ExpandCommand}" /&gt;&nbsp;</pre>
+Beside DoubleClickCommand, it
+also included other commands like Click,
+RightClick, EnterPress, Prev and TreeViewSelectionChanged as well.<br>
+<br>
+<br>
+IsSelected is binded with ListViewItem.IsSelected, it have no
+use currently,
+but it can be used by the FileListViewModel
+to change the item's
+selected state.<br>
+It's intended for allowing FileList to setting the selected items
+externally (just like DirectoryTree).<br>
+<br>
+<h3><a name="directorytreeviewmodels"></a>DirectoryTree -
+DirectoryTreeViewModel and
+DirectoryTreeItemViewModel</h3>
+TreeView can be interpreted
+as multi-level ListView, that
+means unlike
+WindowsForms you cannot get a TreeViewItem
+by using
+listView1.Items[0].Items[1], you cannot use TreeView's
+ItemsContainerGenerator to get the
+ListViewItem either, because
+each level has it's own
+ItemsContainerGenerator, you
+have to use ListViewItem.Parent's ItemsContainerGenerator..
+<br>
+<h4><a name="hierarchyviewmodel"></a>HierarchyViewModel (ExViewModel)<br>
+</h4>
+<ul>
+  <li><small>Cinch.ViewModelBase<br>
+    </small>
+    <ul>
+      <li><small>ExViewModel<br>
+        </small>
+        <ul>
+          <li><small>HierarchyViewModel<br>
+            </small>
+            <ul style="font-weight: bold;">
+              <li><small>IsExpanded</small></li>
+              <li><small>IsSelected</small><br>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+One of the basic functionality of the DirectoryTree
+is to display the
+selected directory properly, in WPF, it's easy to obtain the selected
+value in TreeView, but changing it is another story.&nbsp; In earlier
+version I uses <a style="font-style: italic;"
+ href="TreeView_SelectionWPF.aspx">DaWanderer's
+method</a> which navigate through the TreeViewItem layer by layer to
+find the
+required item, and change it's IsSelected property, but this hog the
+UIThread, and this disallow
+Virtualizing TreeView to be used, because
+if the item is not shown, it's not created, and if it's not created, it
+cannot be selected. This
+method is used when I develop the control using MVP
+(Model-View-Presenter) pattern.<br>
+<br>
+Until one day I read <a style="font-style: italic;"
+ href="TreeViewWithViewModel.aspx">Josh
+Smith's
+article</a> mentioned how to support selection in MVVM, the
+problem solved itself.&nbsp; Basically it's to have IsExpanded and
+IsSelected in the ViewModel
+(in my case, HierarchyViewModel),
+and
+bind
+the
+TreeViewItem's IsExpanded and IsSelected to it. The issue of MVP
+pattern is the lack of another layer (ViewModel) i.e. I cannot add
+IsExpanded/IsSelected to FileSystemInfoEx.<br>
+<br>
+<pre lang="xml">&lt;Style x:Key="{x:Type local:DirectoryTree}" TargetType="{x:Type local:DirectoryTree}" <br> BasedOn="{StaticResource {x:Type TreeView}}"&gt;<br>&nbsp; &lt;Setter Property="ItemTemplate" Value="{StaticResource TreeItemTemplate}" /&gt;<br> &lt;Setter Property="ItemContainerStyle"&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp; &lt;Setter.Value&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Style TargetType="{x:Type TreeViewItem}"&gt;<br> &lt;Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" /&gt;<br> &lt;Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" /&gt;<br> &lt;Setter Property="FontWeight" Value="Normal" /&gt;<br> &lt;/Setter.Value&gt;<br> &lt;/Setter&gt;<br>&lt;/Style&gt;&nbsp;</pre>
+So if you change the IsExpanded/IsSelected field in the ViewModel, it
+will affect the ListViewItem.<br>
+<h4><a name="directorytreeviewmodel"></a>DirectoryTreeViewModel
+(RootModelBase)<br>
+</h4>
+<ul>
+  <li><small>RootModelBase<br>
+    </small>
+    <ul>
+      <li><small>DirectoryTreeViewModel<br>
+        </small>
+        <ul>
+          <li style="font-weight: bold;"><small>BgWorker_FindChild</small></li>
+          <li><small>RootDirectoryModelList</small></li>
+          <li><small>RootDirectory</small></li>
+          <li><small>SelectedDirectoryModel</small></li>
+          <li><small>SelectedDirectory</small></li>
+          <li><small>IsLoading</small><br>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<br>
+Similar to FileList, there
+are linked property : SelectedDirectory
+and
+SelectedDirectoryModel
+property, so changing one will change the
+other as well.&nbsp; The another pair is RootDirectory and
+RootDirectoryModelList, except it's
+a List, because TreeView.Items property accept a
+List only.
+DirectoryTree also have a FileSystemWatcherEx to refresh
+the tree when
+needed.<br>
+<br>
+One important feature is when SelectedDirectory
+is set externally, it
+will update the Selected Item in DirectoryTree,
+this
+is
+done
+in
+background using the BgWorker_FindChild
+(which is a <a style="font-style: italic;"
+ href="CinchIII.aspx#Background">Cinch.BackgroundTaskManager</a>),
+as
+follows
+:
+<br>
+<br>
+<pre lang="cs">bgWorker_findChild = new BackgroundTaskManager&lt;DirectoryTreeItemViewModel&gt;(<br>() =&gt;<br>{<br> IsLoading = true;<br> DirectoryTreeItemViewModel lookingUpModel = _selectedDirectoryModel;<br> Func&lt;bool&gt; cancelNow = () =&gt; //Stop search when SelectedDirectory changed AGAIN.<br> {<br> bool cont = lookingUpModel != null &amp;&amp; lookingUpModel.Equals(_selectedDirectoryModel); <br> return !cont;<br> };</pre>
+<pre lang="cs"> DirectoryTreeItemViewModel newSelectedModel = null;<br> {<br> DirectoryInfoEx newSelectedDir = _selectedDirectory;<br> if (newSelectedDir != null)<br> {<br> foreach (DirectoryTreeItemViewModel rootModel in _rootDirectoryModelList)<br> {<br> newSelectedModel = rootModel.LookupChild(newSelectedDir, cancelNow);<br> if (newSelectedModel != null)<br> return newSelectedModel;<br> }<br> &nbsp;}<br> }<br> return _rootDirectoryModelList.Count == 0 ? null : _rootDirectoryModelList[0];<br>},<br>(result) =&gt;<br>{<br> if (result != null) <br> {&nbsp; <br> if (result.Equals(_selectedDirectoryModel))<br> result.IsSelected = true;&nbsp; <br> //This will trigger TreeViewItem.IsSelected, see HierarchyViewModel above&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> }<br>&nbsp;IsLoading = false;<br>});</pre>
+DirectoryTreeItemViewModel.LookupChild() method return the lookup
+DirectoryTreeItemViewModel, or
+it's parent's model if it cannot be found (which is rare).&nbsp; It
+will expand if it's not
+already expanded, because the expand is not run in UIThread it wont
+make your
+application freeze. <br>
+<br>
+The cancelCheck will
+cancel the iteration if the SelectedDirectory
+is changed again when the lookup is working, it's pointless to
+continue because another BgWorker_FindChild
+is already started.<br>
+<pre lang="cs">public DirectoryTreeItemViewModel LookupChild(DirectoryInfoEx directory, Func&lt;bool&gt; cancelCheck)<br>{ <br> if (cancelCheck != null &amp;&amp; cancelCheck())<br> return null;<br> if (Parent != null)<br> Parent.IsExpanded = true;<br> if (directory == null)<br> return null;<br> <br> if (!IsLoaded) //If SubEntries not loaded, load it<br> {<br> IsLoading = true;<br> SubDirectories = getDirectories();<br> HasSubDirectories = SubDirectories.Count &gt; 0;<br> IsLoading = false;<br> }<br><br> foreach (DirectoryTreeItemViewModel subDirModel in SubDirectories)<br> {<br> if (!subDirModel.Equals(dummyNode)) //dummyNode is added if not loaded and HasSubDirectories<br> {<br> DirectoryInfoEx subDir = subDirModel.EmbeddedDirectoryModel.EmbeddedDirectoryEntry;<br> //ViewModel.Model.ExEntry<br> if (directory.Equals(subDir))<br> return subDirModel;<br> else if (IOTools.HasParent(directory, subDir))<br> return subDirModel.LookupChild(directory, cancelCheck);<br> }<br> }<br> return null;<br>}<br></pre>
+<h4><a name="directorytreeitemviewmodel"></a>DirectoryTreeItemViewModel
+(HierarchyViewModel)<br>
+</h4>
+<ul>
+  <li><small>ExViewModel<br>
+    </small>
+    <ul>
+      <li><small>HierarchyViewModel<br>
+        </small>
+        <ul>
+          <li><small>DirectoryTreeItemViewModel<br>
+            </small>
+            <ul>
+              <li><small>RefreshCommand</small></li>
+              <li><small>SubDirectories</small></li>
+              <li><small>HasSubDirectories</small></li>
+              <li><small>IsLoading</small></li>
+              <li><small>bgWorker_loadSub</small><br>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <br>
+  </li>
+</ul>
+DirectoryTreeItemViewModel contains
+a
+<a style="font-style: italic;" href="CinchIII.aspx#Background">Cinch.BackgroundTaskManager</a>
+(bgWorker_loadSub), It's
+similar to CurrentDirectoryViewModel
+except it
+loads subdirectory only instead of both subdirectory and files.<br>
+<br>
+To make the application even more responsive some developer may want to
+list the sub-items asynchronously, it's now possible as <a
+ href="http://www.codeproject.com/KB/files/DirectoryInfoEx.aspx">DirectoryInfoEx
+0.17</a> included DirectoryInfoEx.EnumerateDirectories() method (as
+well as EnumerateFiles() and EnumerateFileSystemInfos()
+methods), which return a IEnumerable
+instead of a List,
+like the <a
+ href="http://msdn.microsoft.com/en-us/library/dd413235.aspx"> method
+with same name in DirectoryInfo in .Net 4.0</a>, , &nbsp; In this case
+you may use a Linq query
+instead of <a style="font-style: italic;"
+ href="CinchIII.aspx#Background">Cinch.BackgroundTaskManager</a>.&nbsp;
+I
+havent implement this yet.<br>
+<br>
+Like FileList, DirectoryTree also contains a FileSystemWatcherEx which
+montior the Desktop directory and it's sub-folders (instead of creating
+a watcher for each directory). When there's a
+change, it will call RootDirectoryModelList[0]'s BroadcastChange()
+method, which will iterate through all created folders.<br>
+<pre lang="cs">internal void BroadcastChange(string parseName, WatcherChangeTypesEx changeType)<br>{<br> if (IsLoaded)  //If SubDirectories loaded<br> foreach (DirectoryTreeItemViewModel subItem in SubDirectories)<br> subItem.BroadcastChange(parseName, changeType);<br><br> switch (changeType)<br> {<br> case WatcherChangeTypesEx.Created:<br> case WatcherChangeTypesEx.Deleted:<br> if (EmbeddedDirectoryModel.FullName.Equals(PathEx.GetDirectoryName(parseName)))<br> Refresh();<br> break;<br> default:<br> if (EmbeddedDirectoryModel.FullName.Equals(parseName))<br> Refresh();<br> break;<br> }<br>}<br></pre>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h2><a name="view"></a>View</h2>
+<a
+ href="http://picasaweb.google.com/lh/photo/Mz-JGbFxK21ugjH7_cGHOw?feat=embedwebsite"><img
+ src="WPFFileExplorer/View.png"></a><br>
+<br>
+Most of the View I created are inherited from UserControl, but not
+FileList and DirectoryTree.&nbsp; The major
+reason is that these class
+exposed a lot of properties thats required by other class, if I inherit
+from UserControl I will have to re-write many DependencyProperties. The
+another
+reason is that I have a DragDropHelper
+which have to be plugged to
+TreeView/ListView only.<br>
+<br>
+Both FileList and DirectoryTree have some code-behind, as it's easier
+to code that way. To make it easier to be edit by Expression, true MVVM
+project shouldnt have any View, and MVVM components should be connected
+via ViewModel instead of Dependency properties.<br>
+<br>
+DragDropHelper work with DirectoryInfoEx related controls only, you can
+enable the support by adding a few lines in xaml : <br>
+<pre lang="xml">&lt;ListView x:Class="QuickZip.IO.PIDL.UserControls.FileList"<br> xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"<br> xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"<br> xmlns:uc="http://www.quickzip.org/UserControls"<br> xmlns:local="clr-namespace:QuickZip.IO.PIDL.UserControls"<br> SelectionMode="Extended" <br> VirtualizingStackPanel.IsVirtualizing="True" //Virtual File List support.<br> VirtualizingStackPanel.VirtualizationMode="Recycling" <br> uc:SelectionHelper.EnableSelection="True" //Enable Multi-Select by dragging.<br> local:DragDropHelperEx.EnableDrag="True" //Hook drag related events (drag-FROM file list)<br> local:DragDropHelperEx.EnableDrop="True" //Hook drop related events (drop-TO file list)<br> local:DragDropHelperEx.ConfirmDrop="False" //Display an ugly confirm dialog when drop<br> local:DragDropHelperEx.CurrentDirectory=<br>    "{Binding RootModel.CurrentDirectory, RelativeSource={RelativeSource self}}"  <br>     //Where do the files DROPPED to?<br> local:DragDropHelperEx.Converter=<br>    "{Binding ModelToExConverter, RelativeSource={RelativeSource self}}"<br>     //Connected to FileList.ModelToExConverter,<br>     //which convert ExAViewModel to FileSystemInfoEx<br> /&gt;<br></pre>
+<h3><a name="customcontrol"></a>OT: How to create custom control in
+ClassLibrary?</h3>
+The FileList and DirectoryTree class are created
+using UserControl template
+(Add...\User
+Control), then rename the UserControl
+to TreeView/ListView. This will generate both
+.cs and .xaml file.&nbsp; <br>
+<br>
+The another way is to <br>
+<ul>
+  <li>Create a new Class (Add
+\ Class), </li>
+  <li>Change it so it's inherited from TreeView/ListView.</li>
+  <li>If you want to style it, Add a Style
+in Themes\Generic.xaml, <br>
+    <pre lang="xml">&lt;Style x:Key="{x:Type local:YourControl}" TargetType="{x:Type local:YourControl}" <br> BasedOn="{x:Type local:ListViewBase}"&gt;<br> &lt;Setter Property="Template"&gt;<br> &lt;Setter.Value&gt;<br> &lt;ControlTemplate TargetType="{x:Type local:YourControl}"&gt;<br> &lt;ItemsPresenter /&gt;<br> &lt;/ControlTemplate&gt;<br> &lt;/Setter.Value&gt;<br> &lt;/Setter&gt;<br> &lt;/Style&gt;<br></pre>
+If you need a specific ControlTemplate, lets say ListView, just google
+"ControlTemplate ListView" and you can <a
+ href="http://msdn.microsoft.com/en-us/library/ms788747.aspx">find the
+template</a> from msdn.<br>
+  </li>
+  <li>Update AssemblyInfo.cs,
+add
+the
+following
+:&nbsp; (which make it load your generic.xaml, you
+only have to do it once per Class Library)<br>
+    <pre lang="cs">[assembly: ThemeInfo(<br> ResourceDictionaryLocation.ExternalAssembly, //where theme specific resource dictionaries are located<br> //(used if a resource is not found in the page, <br> // or application resource dictionaries)<br> ResourceDictionaryLocation.SourceAssembly //where the generic resource dictionary is located<br> //(used if a resource is not found in the page, <br> // app, or any theme specific resource dictionaries)<br>)] <br></pre>
+  </li>
+  <li>You have to override the default style too : <br>
+    <pre>static YourControl()<br>{<br>  DefaultStyleKeyProperty.OverrideMetadata(typeof(YourControl), new FrameworkPropertyMetadata(typeof(YourControl)));<br>}<br><br>protected override DependencyObject GetContainerForItemOverride()<br>{<br>  return new YourControlItem();            <br>}<br></pre>
+  </li>
+</ul>
+<h3><a name="viewcommon"></a>Common in DirectoryTree/FileList</h3>
+<ul>
+  <small> </small>
+  <li><small>DirectoryTree/FileList<br>
+    </small>
+    <ul style="font-weight: bold;">
+      <li><small>RootModel</small></li>
+      <li><small>ProgressEvent</small></li>
+      <li><small>IsEditing (Attached property)<br>
+        </small></li>
+    </ul>
+  </li>
+</ul>
+RootModel is the top level RootModelBase (which is ViewModel), which
+provide
+properties for the
+UserControls to bind.&nbsp; As it's MVVM
+RootModel is also the
+DataContext, eg: <br>
+<pre lang="cs">DataContext = RootModel = new FileListViewModel();&nbsp;</pre>
+Bcause the ViewModel is DataContext, binding them become
+very easy : <br>
+<pre lang="xml">&lt;Style x:Key="{x:Type local:FileList}" TargetType="{x:Type local:FileList}" <br> BasedOn="{StaticResource {x:Type ListBox}}" &gt;<br> &lt;Setter Property="ItemsSource" <br> Value="{Binding CurrentDirectoryModel.SubEntries.View}" /&gt;<br> &lt;Setter Property="View" Value="{StaticResource GridView}" /&gt; <br>&lt;/Style&gt;<br></pre>
+ListView.ItemsSource is bound
+to
+RootModel.CurrentDirectoryModel.SubEntries.View.
+(remember,
+it's
+<a style="font-style: italic;"
+ href="http://msdn.microsoft.com/en-us/library/system.windows.data.collectionviewsource.aspx">CollectionViewSource</a>)<br>
+<br>
+<a
+ href="http://picasaweb.google.com/lh/photo/bMb8EB1KfTI4N-Aet7M2kw?feat=embedwebsite"><img
+ src="WPFFileExplorer/MVVMTest6.png"></a><br>
+ContextMenu handling is done in
+UserControl level, DirectoryInfoEx has a static class named
+ContextMenuWrapper, which can
+generate the shell context menu for specified entries, all you need is
+to provide the entries (in FileSystemInfoEx)
+and
+the
+coordinate
+(in System.Drawing.Point):
+<br>
+<pre lang="cs">_cmw = new ContextMenuWrapper();<br>this.AddHandler(TreeViewItem.MouseRightButtonUpEvent, new MouseButtonEventHandler(<br> (MouseButtonEventHandler)delegate(object sender, MouseButtonEventArgs args)<br> {<br> if (SelectedValue is FileListViewItemViewModel)<br> {<br> var selectedItems = (from FileListViewItemViewModel model in SelectedItems<br> select model.EmbeddedModel.EmbeddedEntry).ToArray();<br> Point pt = this.PointToScreen(args.GetPosition(this));<br><br> string command = _cmw.Popup(selectedItems, new System.Drawing.Point((int)pt.X, (int)pt.Y));<br> switch (command)<br> {<br> case "rename":<br> if (this.SelectedValue != null)<br> SetIsEditing(ItemContainerGenerator.ContainerFromItem(this.SelectedValue), true);<br> break;<br> case "refresh":<br> RootModel.CurrentDirectoryModel.Refresh();<br> break;<br> }<br> }<br>}));&nbsp;</pre>
+<p>ProgressEvent is ProgressRoutedEventArgs.ProgressEvent,
+which
+is
+a
+RoutedEvent, it is raised if RootModel.OnProgress event is
+raised by the
+ViewModel.<br>
+<br>
+IsEditing is an attached property, when
+rename is issued (from the
+Shell Context Menu) in FileList, it will set IsEditing of the specified
+ListViewItem to true.&nbsp; On
+the another side, the
+ListViewItem.IsEditing is
+bound to it's enclosed EditBox.
+<br>
+<br>
+The following sample is taken from DirectoryTree,
+as
+it
+looks simplier :&nbsp;</p>
+<pre lang="xml">&lt;HierarchicalDataTemplate x:Key="TreeItemTemplate" DataType="{x:Type vm:DirectoryTreeItemViewModel}" ItemsSource="{Binding SubDirectories}"&gt;<br> &lt;StackPanel Orientation="Horizontal" x:Name="itemRoot"&gt; <br> &lt;Image x:Name="img" Source="{Binding Converter={StaticResource amti}}" Width="16"/&gt;<br> &lt;uc:EditBox x:Name="eb" Margin="5,0" DisplayValue="{Binding EmbeddedModel.Label}" <br> ActualValue="{Binding EmbeddedModel.Name, Mode=TwoWay}" <br> IsEditable="{Binding EmbeddedModel.IsEditable}"<br> IsEditing="{Binding Path=(local:DirectoryTree.IsEditing),<br> RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}}, Mode=TwoWay}"<br> /&gt;<br> &lt;Grid Width="50" Margin="15, 5, 0, 5" Visibility="{Binding IsLoading, Converter={StaticResource btv}}"&gt;<br> &lt;ProgressBar IsIndeterminate="True" /&gt;<br> &lt;TextBlock Text="Loading" FontSize="6" TextAlignment="Center" /&gt;<br> &lt;/Grid&gt;<br> &lt;/StackPanel&gt;<br> &lt;!-- ... --&gt;<br>&lt;/HierarchicalDataTemplate&gt;<strong><br></strong></pre>
+<p>EditBox is a replacement of TextBox + Label, which display the Label
+when not IsEditing, and TextBox (EditBoxAdorner) when IsEditing, it's a
+technique
+learned from <a
+ href="http://blogs.msdn.com/atc_avalon_team/archive/2006/03/14/550934.aspx">ATC
+Avalon
+Team</a>, but the EditBox
+used in this project is a rewrite one,
+with the following changes :&nbsp;</p>
+<ul>
+  <li>
+    <p>No longer bound to ListView</p>
+  </li>
+  <li>
+    <p>Has two value instead of one,&nbsp;</p>
+    <ul>
+      <li>
+        <p>DisplayValue (display on the label) and&nbsp;</p>
+      </li>
+      <li>
+        <p>ActualValue (for editing),&nbsp;</p>
+      </li>
+    </ul>
+    <p>which&nbsp; is required because a FileSystemInfoEx item's label
+and
+name may be different.</p>
+  </li>
+</ul>
+<p>The converter (amti) is ExModelToIconConverter
+which, similar to <a href="filetoiconconverter.aspx">FileNameToIconConverter</a>,&nbsp;
+is
+a
+IValueConverter
+can
+convert
+ExModel/ExViewModel
+to
+ImageSource.</p>
+<h3><a name="viewfilelist"></a>FileList (ListView)&nbsp;</h3>
+<ul>
+  <li><small>FileList <br>
+    </small>
+    <ul>
+      <li><small>SelectedEntries</small></li>
+      <li><small>CurrentDirectory<br>
+        </small></li>
+      <li><small>ViewMode</small></li>
+      <li><small>ViewSize</small></li>
+      <li><small>IsLoading</small></li>
+      <li><small>RefreshCommand&nbsp;&nbsp; <br>
+        </small></li>
+      <li><small>View</small></li>
+      <li><small>FileListLookupBoxAdorner</small></li>
+    </ul>
+  </li>
+</ul>
+Most of the properties here are explained in the ViewModel, except
+these are DependencyProperties,
+those
+are
+bound
+to the RootModel's
+related
+properties.<br>
+<br>
+<a
+ href="http://picasaweb.google.com/lh/photo/MDdEFferVFyExz8moV3qbA?feat=embedwebsite"><img
+ src="WPFFileExplorer/MVVMTest4.png"></a><br>
+<br>
+FileList can have different <a
+ href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">View</a>s,
+a
+<a
+ href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">View</a>
+can define ListView's Orientation, ItemContainerStyle, ItemTemplate,
+HorizontalContentAlignment and whatever Listview's properties in one
+place, if you look at VirtualWrapPanelView.cs
+you can find the following : <br>
+<pre lang="cs">public class VirutalWrapPanelView : ViewBase<br>{<br> public static readonly DependencyProperty ItemContainerStyleProperty =<br> ItemsControl.ItemContainerStyleProperty.AddOwner(typeof(VirutalWrapPanelView));<br> public Style ItemContainerStyle<br> {<br> get { return (Style)GetValue(ItemContainerStyleProperty); }<br> set { SetValue(ItemContainerStyleProperty, value); }<br> }<br>}<br></pre>
+then in VirtualWrapPanelView.xaml,
+you
+can
+find the property is bound to the ListView<br>
+<pre lang="xml">&lt;Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type uc:VirutalWrapPanelView}, <br> ResourceId=virtualWrapPanelViewDSK}" <br> TargetType="{x:Type ListView}" BasedOn="{StaticResource {x:Type ListBox}}"&gt;<br> ...<br> &lt;Setter Property="ItemContainerStyle" <br> Value="{Binding (ListView.View).ItemContainerStyle,<br> RelativeSource={RelativeSource Self}}"/&gt;<br> ....<br>&lt;/Style&gt;<br></pre>
+To support multiple <a
+ href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">View</a>s,
+It's
+a
+good
+idea
+to
+construct <a
+ href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">View</a>
+instead of setting each
+properties individually.<br>
+<br>
+There are 7 <a href="#howtousefilelist">ViewModes</a>, so you may
+think
+there are 6 <a
+ href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">View</a>s
+in
+FileList
+(and
+TileView
+is
+<s>not
+implemented</s> implemented in 0.3), actually there are just
+VirtualWrapPanelView
+and GridView.&nbsp;
+There are only 3 different <a
+ href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">View</a>s
+derived
+from
+VirtualWrapPanelView,
+which
+is
+SmallIconView, ListView and
+IconView. The following is IconView, which is used by 3
+similar ViewModes (vmIcon, vmLargeIcon and vmExtraLargeIcon).<br>
+<pre lang="xml">&lt;uc:VirutalWrapPanelView x:Key="IconView" ItemHeight="..." ItemWidth="..." HorizontalContentAlignment="Left" &gt; <br> &lt;uc:VirutalWrapPanelView.ItemTemplate&gt;<br> &lt;DataTemplate&gt; <br> &lt;StackPanel Orientation="Vertical"&gt;<br> &lt;Image x:Name="img" HorizontalAlignment="Center" Stretch="Fill" Source="..."<br> Height="{Binding RelativeSource={RelativeSource AncestorType=local:FileList}, Path=ViewSize}" <br> Width="{Binding RelativeSource={RelativeSource AncestorType=local:FileList}, Path=ViewSize}" /&gt; <br> &lt;uc:EditBox x:Name="eb" Margin="5,0" ... /&gt;<br> &lt;/StackPanel&gt;<br> &lt;/DataTemplate&gt;<br> &lt;/uc:VirutalWrapPanelView.ItemTemplate&gt;<br>&lt;/uc:VirutalWrapPanelView&gt;<br></pre>
+Once you completed the <a
+ href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">View</a>,
+changing
+ViewMode
+is
+just
+one
+line of code:
+<br>
+<pre lang="cs"> this.View = (ViewBase)(this.TryFindResource(IconView)); <br></pre>
+<br>
+<span id="ArticleContent"></span>When you use the FileList,
+remember leave some space below the control
+(not necessary to be empty), because thats where the
+FileListLookupAdorner placed
+in.&nbsp; FileListLookupAdorner
+is used to filter listed element by name, remember
+CurrentDirectoryViewModel has a
+property named Filter which
+use runs a <a style="font-style: italic;"
+ href="CinchIII.aspx#Background">Cinch.BackgroundTaskManager</a>
+to filter the data. FileListLookupAdorner
+can be bring up by pressing any key in file list.<br>
+<br>
+It's harder to make the control as adorner, as I have to write the code
+in cs instead of xaml, the advantage is that <br>
+<ul>
+  <li>it's separate from your main control, so you can reuse it in
+other controls you made, <br>
+  </li>
+  <li>as all the unrelated logic code, like close the adorner when user
+press the x button, is placed on the FileListLookupAdorner.cs
+instead of the FileList.cs.</li>
+  <li>the FileListLookupAdorner is
+shown
+on
+the
+AdornerLayer,
+which usually is the topmost, and it wont interfere other parts of the
+main control.<br>
+  </li>
+</ul>
+I originally wanted to bind them together, but not sure why it's not
+working, so I monitor the
+changes and update when the text of the adorner is changed.<br>
+<pre lang="cs">DependencyPropertyDescriptor descriptor = DependencyPropertyDescriptor.FromProperty<br> (FileListLookupBoxAdorner.TextProperty, typeof(FileListLookupBoxAdorner));<br>descriptor.AddValueChanged<br> (_lookupAdorner, new EventHandler(delegate { <br> RootModel.CurrentDirectoryModel.Filter = _lookupAdorner.Text; }));</pre>
+<h3><a name="viewdirectorytree"></a>DirectoryTree (TreeView)<br>
+</h3>
+<ul>
+  <li><small>DirectoryTree<br>
+    </small>
+    <ul>
+      <li><small>AutoCollapse (0.4)</small><br>
+      </li>
+      <li><small>RootDirectory</small></li>
+      <li><small>SelectedDirectory</small></li>
+      <li><small>SelectedDirectoryPath</small></li>
+      <li><small style="font-weight: bold;">LoadingAdorner</small><br>
+      </li>
+    </ul>
+  </li>
+</ul>
+<a
+ href="http://picasaweb.google.com/lh/photo/odfDIyCvpP7KtP1KTwvkpQ?feat=embedwebsite"><img
+ src="WPFFileExplorer/MVVMTest5.png"></a><br>
+<br>
+<br>
+LoadingAdorner is shown when RootModel's BgWorker_FindChild (see
+DirectoryTreeViewModel) is
+working (or IsLoading equals
+to true).<br>
+<br>
+The DataTemplate of DirectoryTree is HierarchicalDataTemplate, which is
+a DataTemplate that allow
+you to set the ItemsSource
+(or subItems).&nbsp; The complete template can be found above in
+"Common in DirectoryTree/FileList" section,
+<br>
+<pre lang="xml">&lt;HierarchicalDataTemplate ...&gt;<br> &lt;Grid Width="50" Margin="15, 5, 0, 5" Visibility="{Binding IsLoading, Converter={StaticResource btv}}"&gt;<br> &lt;ProgressBar IsIndeterminate="True" /&gt;<br> &lt;TextBlock Text="Loading" FontSize="6" TextAlignment="Center" /&gt;<br> &lt;/Grid&gt;<br>&lt;/HierarchicalDataTemplate&gt;</pre>
+I just want to point out there are two IsLoading property: <br>
+<ul>
+  <li>IsLoading above is
+linked to DirectoryTreeItemViewModel
+(which shown when loading a specific subdirectory), <br>
+  </li>
+  <li>LoadingAdorner one is
+linked to DirectoryTreeViewModel
+(which shown when looking up for a specific DirectoryTreeItemViewModel)<br>
+  </li>
+</ul>
+<br>
+When an item is Selected, by setting HierarchyViewModel
+.IsSelected
+property, which linked to TreeViewItem.IsSelected
+dependency
+property,&nbsp;the
+DirectoryTree will try to bring it to view.<br>
+<pre lang="cs">this.AddHandler(TreeViewItem.SelectedEvent, new RoutedEventHandler(<br> (RoutedEventHandler)delegate(object obj, RoutedEventArgs args)<br> {<br> if (SelectedValue is DirectoryTreeItemViewModel)<br> {<br> DirectoryTreeItemViewModel selectedModel = SelectedValue as DirectoryTreeItemViewModel;<br> SelectedDirectory = selectedModel.EmbeddedDirectoryModel.EmbeddedDirectoryEntry;<br> if (args.OriginalSource is TreeViewItem)<br> (args.OriginalSource as TreeViewItem).BringIntoView();<br><br> _lastSelectedContainer = (args.OriginalSource as TreeViewItem);<br> }<br> }));<br></pre>
+_lastSelectedConiner is later
+use when user try to rename an item, it's too hard to get the container
+(I meant TreeViewItem, not it's model) from TreeView.<br>
+<pre lang="cs">switch (command)<br>{<br> case "rename":<br> if (this.SelectedValue != null)<br> {<br> if (_lastSelectedContainer != null)<br> SetIsEditing(_lastSelectedContainer, true); //Tell EditBox to show it's Adorner(TextBox) for user to edit <br> }<br> break;<br>}<br></pre>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h2><a name="othercomponents"></a>Other Components</h2>
+There are a number of components developed for the FileList and
+DirectoryTree: <br>
+<ul>
+  <li>Components<br>
+    <ul>
+      <li><code>DragDropHelperEx</code> -
+Add drag and drop functionality to ListView
+or TreeView,
+it support DirectoryInfoEx entries
+only.<br>
+      </li>
+      <li><span id="ArticleContent"><code>ExExtension </code></span>-
+Construct DirectoryInfoEx in
+xaml markup. e.g.<br>
+        <pre lang="xml">&lt;uc:Ex ::{20D04FE0-3AEA-1069-A2D8-08002B30309D} /&gt;&nbsp;</pre>
+      </li>
+      <li><span id="ArticleContent"><code>SelectionHelper </code></span>-
+Add
+multi-select
+by
+dragging functionality
+to ListView, more information <a href="MultiSelectListView2.aspx">here</a><br>
+      </li>
+      <li><span id="ArticleContent"><code>VirtualWrapPanel</code></span>/<span
+ id="ArticleContent"><code>VirtualStackPanel</code></span><span
+ id="ArticleContent"><code></code></span> - As the name
+mention
+it's virtual version (generate on demand) of specified panel, noted
+that they are fixed-size only.&nbsp; <br>
+If you are interested, Thiago de Arruda <a
+ href="http://www.codeproject.com/KB/static/VirtualizingWrapPanel.aspx">has
+develope</a><a
+ href="http://www.codeproject.com/KB/static/VirtualizingWrapPanel.aspx">d</a>
+a VirtualizingWrapPanel that
+support variable size.<br>
+      </li>
+      <li><span id="ArticleContent"><code></code></span> <span
+ id="ArticleContent"><code>VirtualWrapPanelView </code></span>-
+A
+ViewBase (ListView.View) that uses VirtualWrapPanel.<br>
+      </li>
+    </ul>
+  </li>
+  <li>Converters<br>
+    <ul>
+      <li><span id="ArticleContent"><code>DynamicConverter</code></span>
+-
+A converter that do the convert using two
+lamba statement, e.g. : <br>
+        <pre lang="cs">_intToStringConverter = new DynamicConverter&lt;int, string&gt;(x =&gt; x.ToString(), x =&gt; Int32.Parse(x));</pre>
+      </li>
+      <li><span id="ArticleContent"><code>ExToIconConverter</code></span>
+-
+Convert DirectoryInfoEx
+entries to it's
+icon in ImageSource format<br>
+&nbsp;&nbsp;&nbsp; &lt;local:ExToIconConverter x:Key="ati" /&gt;<br>
+      </li>
+      <li><span id="ArticleContent"><code>ExModelToIconConverter</code></span>
+-
+Inherited
+from ExToIconConverter,
+Convert ExModel/ExViewModel to it's icon in ImageSource format<br>
+&nbsp;&lt;local:ExModelToIconConverter x:Key="amti" /&gt;</li>
+      <li><span id="ArticleContent"><code>FileNameToIconConverter</code></span>
+-
+Convert
+string to it's icon in ImageSource
+format,
+more information <a href="filetoiconconverter.aspx">here</a>.<br>
+      </li>
+      <li><code>StringToExConverter</code> -
+Convert
+a string to DirectoryInfoEx
+entry.<br>
+      </li>
+      <li><code>ModelToExConverter </code>-
+Extract
+DirectoryInfoEx entry
+from a ExModel/ExViewModel .<br>
+        <br>
+      </li>
+    </ul>
+  </li>
+  <li>UserControls<br>
+    <ul>
+      <li><code>EditBox</code>- a
+replacement of TextBox + Label, which display the Label
+when not IsEditing, and TextBox (EditBoxAdorner) when IsEditing, more
+information <a
+ href="http://blogs.msdn.com/atc_avalon_team/archive/2006/03/14/550934.aspx">here</a>.<br>
+      </li>
+      <li><code>EditBoxAdorner</code> -
+the TextBox part of the EditBox<br>
+      </li>
+      <li><code>LoadingAdorner </code>- a
+circular animation that shows when DirectoryTree
+is
+finding child.<br>
+      </li>
+      <li><code>SelectionAdorner</code> -
+display a rectangle when user is dragging
+on FileList.<br>
+      </li>
+    </ul>
+  </li>
+</ul>
+<h2><a name="conclusion"></a>Conclusion</h2>
+<a
+ href="http://picasaweb.google.com/lh/photo/SaL8KU2WTsmqh0ucR3Anmg?feat=embedwebsite"><img
+ src="WPFFileExplorer/MVVMTest7.png"></a><br>
+I have described how did I constructed the FileList and DirectoryTree
+using the MVVM pattern, compared with NO pattern or&nbsp; MVP pattern,
+using MVVM pattern have these advantages
+: <br>
+<ul>
+  <li>split the code to simplify the developing process, and <br>
+  </li>
+  <li>make your application less UIThread
+hogging, which makes it more responsive.&nbsp; <br>
+    <ul>
+      <li> accessing property from ViewModel
+instead of the UIElement (e.g.
+adding
+new
+Tab in TabControl, or lookup item in TreeView)<br>
+      </li>
+      <li>without ViewModel
+is quite hard to thread the items loading, which will freeze your
+UI,&nbsp;</li>
+    </ul>
+  </li>
+  <li>allow you to UnitTest
+the ViewModel.&nbsp; Presenters are defined in a way
+which is tightly coupled with the View
+: <br>
+    <pre lang="cs">public class FileListPresenter : PresenterBase&lt;FileListView&gt; { ... }<br></pre>
+  </li>
+</ul>
+<br>
+The photo above shows the other UserControls
+that I developed using the similar method described above, These are
+not included in this article.
+If
+you
+just go through my <s>torture</s>
+article you should be able to create the controls yourself. <br>
+<br>
+Lets say I want to construct the Toolbar using MVVM, I would <br>
+<ul>
+  <li>Construct and Style a ToolbarBase that have nothing to do with
+MVVM, that included ToolbarBase and ToolbarItem<br>
+    <ul>
+      <li>Make sure it's working without MVVM, using a simple WPF
+application</li>
+    </ul>
+  </li>
+  <li>Construct the UserControl
+(e.g. Toolbar), which
+contains or inherited from ToolbarBase<br>
+  </li>
+  <li>Construct Models and ViewModels<br>
+    <ul>
+      <li>Construct an abstract class named ToolbarItemModel<br>
+        <ul>
+          <li>Which represent a ToolbarItem,
+you
+may
+want to have a ToolbarSubItem
+as well.</li>
+        </ul>
+      </li>
+      <li>Construct a ToolbarViewModel
+(RootModel or DataContext), which will host a
+number of ToolbarItemModel
+(in ObservableCollection),
+and method to poll them in background.<br>
+      </li>
+      <li>Construct custom ToolbarViewModels
+(e.g. ViewModeViewModel, to
+change ViewMode, see the
+right side)</li>
+    </ul>
+  </li>
+  <li>Construct View<br>
+    <ul>
+      <li>Construct HierarchyDataTemplate
+for the ToolbarViewModel<br>
+      </li>
+      <li>Configure Style to bind the ToolbarItem
+dependency properties to ToolbarItemModel<br>
+        <pre lang="xml">&lt;Style x:Key="{x:Type uc:ToolbarItem}" TargetType="{x:Type uc:ToolbarItem}" &gt; <br> &lt;Setter Property="DependencyProperty" <br>        Value="{Binding Property, Mode=OneWay}" /&gt;<br>&lt;/Style&gt;&nbsp;</pre>
+      </li>
+    </ul>
+  </li>
+  <li>Hook them together, done.</li>
+</ul>
+If you found this article useful, please vote for the article.&nbsp; If
+you found anything thats not correct, please tell me your
+thoughts.&nbsp; Thank you<br>
+<h2><a name="references"></a>Ref<a name="References"></a>erences</h2>
+<ul>
+  <li><a href="Cinch.aspx">WPF: If
+Carlsberg did MVVM Frameworks</a> (Sacha Barber) <br>
+  </li>
+  <li><a href="TreeViewWithViewModel.aspx">Simplifying
+the
+WPF
+TreeView
+by
+Using
+the
+ViewModel Pattern</a> (Josh Smith)</li>
+  <li><a href="TreeView_SelectionWPF.aspx">WPF
+TreeView
+Selection</a> (DaWanderer)<br>
+  </li>
+  <li><a
+ href="http://blogs.msdn.com/atc_avalon_team/archive/2006/03/14/550934.aspx">Editing
+In
+ListView</a> (ATC Avalon Team)</li>
+  <li><a
+ href="http://www.vbaccelerator.com/home/VB/Type_Libraries/ShellLink/article.asp">VB
+IShellLink
+Interface</a> (Vb accelerator)</li>
+  <li><a
+ href="http://blogs.msdn.com/dancre/archive/2006/07/23/676272.aspx">DataModel-View-ViewModel
+pattern</a> (Dan Crevier's Blog)<br>
+  </li>
+  <li><a
+ href="http://openlightgroup.net/Blog/tabid/58/EntryId/89/Silverlight-MVVM-An-Overly-Simplified-Explanation.aspx">Silverlight
+MVVM:
+An
+(Overly)
+Simplified
+Explanation</a> (Michael
+Washington)</li>
+  <li><a
+ href="http://blog.wpfwonderland.com/2009/06/26/arranging-shapes-in-circle-with-expression-blend-part-one/">Arranging
+Shapes
+in
+a
+Circle
+with
+Expression
+Blend</a> (Walt Ritscher)</li>
+  <li><a
+ href="http://msdn.microsoft.com/en-us/library/system.windows.controls.viewbase.aspx">ViewBase
+Class</a> (MSDN)<br>
+  </li>
+  <li><a href="http://www.codeproject.com/KB/files/DirectoryInfoEx.aspx">Rewrite
+DirectoryInfo
+using
+IShellFolder</a> <br>
+  </li>
+  <li><a href="MultiSelectListView2.aspx">Enable
+MultiSelect
+in
+WPF
+ListView
+(2)</a> (Yes there is <a href="MultiSelectListView.aspx">version
+1</a> but you would'nt want to use it) <br>
+  </li>
+  <li><a href="filetoiconconverter.aspx">WPF
+Filename To Icon Converter</a></li>
+</ul>
+<br>
+<h2><a name="history"></a>History</h2>
+<ul>
+  <li>2 May 2010 - Inital version 0.1<br>
+  </li>
+  <li>4 May 2010 - 0.2 - <a
+ href="http://picasaweb.google.com/QuickZipDev/Components#5467303505680839698">screenshot</a><br>
+    <ul>
+      <li>Added FileList.SortBy and SortDirection property.</li>
+      <li>Changed GridView selection behavior / Template<br>
+      </li>
+      <li>Fixed FileList not showing GridView Header.</li>
+    </ul>
+  </li>
+  <li>6 May 2010 - 0.3 - <a
+ href="http://picasaweb.google.com/QuickZipDev/Components#5468047051508440002">screenshot</a><br>
+    <ul>
+      <li>Added TileView</li>
+      <li>Added GridView.Type header<br>
+      </li>
+      <li>Added DriveModel, all DirectoryModel is now constructed using
+ExModel.FromExEntry() method.</li>
+      <li>Added <a
+ href="http://www.codeproject.com/Articles/80845/Add-column-header-to-custom-ViewBase-ListView-View.aspx">GridViewHeader</a>
+(for sorting) for every ViewModel.</li>
+    </ul>
+  </li>
+  <li>13 May 2010 - 0.4<br>
+    <ul>
+      <li>Fixed Small Image Icon not shared by all instance.</li>
+      <li><span id="ArticleContent">Enabled <a
+ href="http://www.codeproject.com/KB/applications/BugTrap.aspx">BugTrap</a>
+support in app.xaml.cs.&nbsp; </span>Fixed all warning messages.</li>
+      <li>Added <span id="ArticleContent"><a
+ href="http://quickzip.org/news/2010/05/directorytree-autocollapse-property/">DirectoryTree.AutoCollapse</a>,
+
+        </span>collapse unrelated directory when changed externally<span
+ id="ArticleContent"></span>. <br>
+      </li>
+      <li>Fixed FileList scrolling : <br>
+        <ul>
+          <li>scroll based on a property (SmallChanges), instead of
+10pt.<br>
+          </li>
+          <li><span id="ArticleContent">scroll horizontally if
+Orientation equals Vertical (e.g. ListView)</span></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><span id="ArticleContent">28 May 2010 - 0.5</span></li>
+  <ul>
+    <li><span id="ArticleContent">Fixed a bug related to expand wrong
+directory when expand via double click on file list.</span></li>
+    <li><span id="ArticleContent">Fixed a crash in DriveModel (Drive
+not found)</span></li>
+    <li><span id="ArticleContent">Added FileList Select(), SelectAll(),
+UnselectAll() and Focus() method.<br>
+      <br>
+      </span></li>
+  </ul>
+  <br>
+</ul>
+<br>
+<br>
+</div>
+<p>
+</p>
+</span><!-- End Article -->
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc="http://www.quickzip.org/UserControls"
+    xmlns:ucc="clr-namespace:QuickZip.IO.PIDL.UserControls;assembly=QuickZip.IO.PIDL.UserControls"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="PIDLTest.PIDLMVVM"
+    Title="MVVM Test" Height="450" Width="650" mc:Ignorable="d">
+    <Window.Resources>
+        <uc:ExToStringConverter x:Key="ets" />
+
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="viewModes">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="ucc:ViewMode"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+        <ComboBox ItemsSource="{Binding Source={StaticResource viewModes}}"
+                  SelectedValue="{Binding ViewMode, ElementName=flist}"
+                  />
+        <Slider Minimum="13" Maximum="120" Value="{Binding ViewSize, ElementName=flist}" Grid.Row="1" />
+        <TextBox Text="{Binding SelectedDirectory, Converter={StaticResource ets}, ElementName=dirTree, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" />
+        <ucc:DirectoryTree Grid.Column="0" Grid.Row="2" x:Name="dirTree" AutoCollapse="True"    />
+        <ucc:FileList Grid.Column="1" Grid.Row="1"  Grid.RowSpan="2" x:Name="flist" ViewMode="vmTile"
+                     SortBy="sortByLastWriteTime" SortDirection="Descending" 
+                     CurrentDirectory="{Binding SelectedDirectory, ElementName=dirTree, Mode=TwoWay}" />
+        <TextBlock Grid.Column="0" Grid.Row="3"  Text="{Binding SelectedEntries.Count, ElementName=flist}" Width="20" 
+                   TextAlignment="Left" HorizontalAlignment="Left" />
+        <Button Grid.Column="1" Grid.Row="3"  Content="Focus Last Item" Click="Button_Click" />
+        <!-- Or Simplier -->
+        <!--<uc:DirectoryTree Grid.Column="0" Grid.Row="1" x:Name="dirTree" 
+                          RootDirectory="{uc:Ex FullName=::{20D04FE0-3AEA-1069-A2D8-08002B30309D}}"
+                          SelectedDirectory="{uc:Ex C:\\Temp}"
+                          />-->
+
+    </Grid>
+</Window>

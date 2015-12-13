@@ -1,0 +1,22 @@
+﻿<TreeView x:Class="QuickZip.IO.PIDL.UserControls.DirectoryTree"    
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:QuickZip.IO.PIDL.UserControls"
+    VirtualizingStackPanel.IsVirtualizing="True"
+    VirtualizingStackPanel.VirtualizationMode="Standard"    
+    local:DragDropHelperEx.EnableDrag="False"
+    local:DragDropHelperEx.EnableDrop="False"
+    local:DragDropHelperEx.ConfirmDrop="False"
+    local:DragDropHelperEx.Converter="{x:Static local:DirectoryTree.ModelToExConverter}"
+    ItemsSource="{Binding RootModel.RootDirectoryModelList,  RelativeSource={RelativeSource self}}"
+          >
+    <TreeView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>           
+                <ResourceDictionary Source="Generic.xaml" />     
+                <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </TreeView.Resources>
+
+</TreeView>

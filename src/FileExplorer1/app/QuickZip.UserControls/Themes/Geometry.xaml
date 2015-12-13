@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--Breadcrumb-->
+    <Geometry x:Key="NormalArrow">M0,0 L4,3.5 0,7 z</Geometry>
+    <Geometry x:Key="ExpandedArrow">M0,3 L7,3 3.5,7 z</Geometry>
+    <Geometry x:Key="ExpanderArrow">M6,1 L2,4 L6,7 M11,1 L7,4 L11,7</Geometry>
+    <Geometry x:Key="RefreshBranch">M6,3 A6,10,0,0,0,4,8 M8,12 A6,10,0,0,0,10,7</Geometry>
+    <Geometry x:Key="RefreshArrow">M2,7 L7,7 4,9.5z M7,8 L10,5.5 12,8 z</Geometry>
+    
+    <!--Navigation-->
+    <Geometry x:Key="expandlArrow">M0,3 L7,3 3.5,7 z</Geometry>
+    <Geometry x:Key="rightNavigation">M8,0 L13,5 8,10 M0,5 L13,5</Geometry>
+    <Geometry x:Key="leftNavigation">M8,0 L1,5 8,10 M0,5 L13,5</Geometry>
+    
+    <Geometry x:Key="cross">M1,1 L9,9 M1,9 L9,1</Geometry>
+    
+    <Geometry x:Key="descArrow">M0,3 L7,3 3.5,7 z</Geometry>
+    <Geometry x:Key="ascArrow">M0,7 L7,7 3.5,3 z</Geometry>
+</ResourceDictionary>

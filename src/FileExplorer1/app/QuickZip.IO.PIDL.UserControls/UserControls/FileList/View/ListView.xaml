@@ -1,0 +1,38 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:QuickZip.IO.PIDL.UserControls"
+    xmlns:vm="clr-namespace:QuickZip.IO.PIDL.UserControls.ViewModel"
+    xmlns:uc="http://www.quickzip.org/UserControls"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.IO.PIDL.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="Common.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <uc:VirtualWrapPanelView x:Key="ListView" ColumnHeaderContainerStyle="{StaticResource ColumnHeaderContainerStyle}"  SmallChanges="150"
+                             ItemHeight="20" ItemWidth="150" HorizontalContentAlignment="Left" Orientation="Vertical" >
+        <uc:VirtualWrapPanelView.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <Image x:Name="img" Source="{Binding Converter={StaticResource amti}}" Width="16"/>
+                    <uc:EditBox x:Name="eb" Margin="5,0" DisplayValue="{Binding EmbeddedModel.Label}" 
+                        ActualValue="{Binding EmbeddedModel.Name, Mode=TwoWay}" 
+                        IsEditable="{Binding EmbeddedModel.IsEditable}"        
+                        IsEditing="{Binding Path=(local:FileList.IsEditing),
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, Mode=TwoWay}"
+                        />
+
+                </StackPanel>
+            </DataTemplate>
+        </uc:VirtualWrapPanelView.ItemTemplate>
+        <uc:VirtualWrapPanelView.Columns>
+            <GridViewColumn Width="100" Header="Name" local:FileList.SortPropertyName="sortByFullName" />
+            <GridViewColumn Width="100" Header="Type" local:FileList.SortPropertyName="sortByType" />
+            <GridViewColumn Width="100" Header="Time" local:FileList.SortPropertyName="sortByLastWriteTime" />
+            <GridViewColumn Width="100" Header="Size" local:FileList.SortPropertyName="sortByLength" />
+        </uc:VirtualWrapPanelView.Columns>
+    </uc:VirtualWrapPanelView>
+
+</ResourceDictionary>

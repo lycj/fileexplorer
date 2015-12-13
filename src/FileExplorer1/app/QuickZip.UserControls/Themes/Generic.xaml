@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc="http://www.quickzip.org/UserControls">
+    <ResourceDictionary.MergedDictionaries>        
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />        
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/EditBox/EditBox.xaml" />        
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Components/ListViewBase/VirtualWrapPanelView.xaml" />        
+    </ResourceDictionary.MergedDictionaries>    
+</ResourceDictionary>

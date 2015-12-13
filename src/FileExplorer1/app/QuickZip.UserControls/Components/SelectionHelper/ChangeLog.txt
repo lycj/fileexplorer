@@ -1,0 +1,15 @@
+﻿     * 11-03-10 - version 0.1
+          o Initial version. 
+     * 12-03-10 - version 0.2
+          o Handles shift / control button properly
+          o Handle drag outside the scroll control properly 
+          o (most events attached to the listview now.) 
+     * 17-03-10 - version 0.3
+          o SelectedItems is now only changed when drag is completed.
+            SelectionHelper.GetIsDragging(aListViewItem) is true when the ListViewItem is inside the user-selected region (therefore u can theme the selection)
+          o SelectedItems is now changed by adding / removing items, instead of clearing it and re-poll the list.     
+     * 18-07-10 - version 0.4
+          o Fixed click on GridView Header recognize as drag start.
+          o For GridView, only support selection if drag occur inside the first column
+          o Fixed VirtualListView selection problem by adding IVirtualListView interface.
+                           

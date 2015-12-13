@@ -1,0 +1,53 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:QuickZip.IO.PIDL.UserControls"
+    xmlns:vm="clr-namespace:QuickZip.IO.PIDL.UserControls.ViewModel"
+    xmlns:uc="http://www.quickzip.org/UserControls"
+    xmlns:conv="http://www.quickzip.org/Converters"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.IO.PIDL.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="Common.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <conv:IntAddConverter x:Key="iac" Add="20" />
+
+    <!--ItemWidth="80"-->
+    <uc:VirtualWrapPanelView x:Key="IconView" ColumnHeaderContainerStyle="{StaticResource ColumnHeaderContainerStyle}" 
+                             ItemHeight="{Binding RelativeSource={RelativeSource AncestorType=local:FileList}, Path=ViewSize, Converter={StaticResource iac}}"
+                             ItemWidth="{Binding RelativeSource={RelativeSource AncestorType=local:FileList}, Path=ViewSize, Converter={StaticResource iac}}"
+                             SmallChanges="{Binding RelativeSource={RelativeSource AncestorType=local:FileList}, Path=ViewSize, Converter={StaticResource iac}}"
+                             HorizontalContentAlignment="Left" >               
+        <uc:VirtualWrapPanelView.ItemTemplate>
+            <DataTemplate>                
+                
+                <StackPanel Orientation="Vertical">
+                    <Image x:Name="img" HorizontalAlignment="Center" Stretch="Fill"
+                           Height="{Binding RelativeSource={RelativeSource AncestorType=local:FileList}, Path=ViewSize}" 
+                           Width="{Binding RelativeSource={RelativeSource AncestorType=local:FileList}, Path=ViewSize}" >
+                        <Image.Source>
+                            <MultiBinding Converter="{StaticResource amti}">
+                                <Binding />
+                                <Binding RelativeSource="{RelativeSource AncestorType=local:FileList}" Path="ViewSize" />
+                            </MultiBinding >
+                       </Image.Source>
+                    </Image>
+                    <uc:EditBox x:Name="eb" Margin="5,0" DisplayValue="{Binding EmbeddedModel.Label}" HorizontalAlignment="Center"
+                        ActualValue="{Binding EmbeddedModel.Name, Mode=TwoWay}" 
+                        IsEditable="{Binding EmbeddedModel.IsEditable}"        
+                        IsEditing="{Binding Path=(local:FileList.IsEditing),
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, Mode=TwoWay}"
+                        />
+
+                </StackPanel>
+            </DataTemplate>
+        </uc:VirtualWrapPanelView.ItemTemplate>
+        <uc:VirtualWrapPanelView.Columns>
+            <GridViewColumn Width="100" Header="Name" local:FileList.SortPropertyName="sortByFullName" />
+            <GridViewColumn Width="100" Header="Type" local:FileList.SortPropertyName="sortByType" />
+            <GridViewColumn Width="100" Header="Time" local:FileList.SortPropertyName="sortByLastWriteTime" />
+            <GridViewColumn Width="100" Header="Size" local:FileList.SortPropertyName="sortByLength" />
+        </uc:VirtualWrapPanelView.Columns>
+    </uc:VirtualWrapPanelView>
+   
+</ResourceDictionary>

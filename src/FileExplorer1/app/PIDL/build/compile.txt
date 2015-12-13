@@ -1,0 +1,144 @@
+Buildfile: file:///C:/Users/lycj/Documents/QuickZip/PIDL/build/pidl.build
+Target framework: Microsoft .NET Framework 4.0
+Target(s) specified: import build 
+
+
+getversion:
+
+
+lookupversionfile:
+
+     [echo] get.version: ..\..\common\version\\version-PIDL.txt
+
+setversionstring:
+
+1.0.23.1
+ [property] Target framework changed to "Microsoft .NET Framework 3.5".
+
+import:
+
+     [echo] import.bin ..\..\common\lib\ -> ..\lib\
+
+build:
+
+
+import:
+
+     [echo] import.bin ..\..\common\lib\ -> ..\lib\
+
+setversion:
+
+     [echo] ..\src\app\\AssemblyInfo.cs
+
+msbuild:
+
+     [echo] msbuild.bin: C:\Users\lycj\Documents\QuickZip\PIDL\src\app\QuickZip.IO.PIDL\QuickZip.IO.PIDL.nant.csproj -> ..\release\msbuild\
+
+constructProjFile:
+
+     [exec] Build started 4/11/2012 11:16:53 PM.
+     [exec] Project "C:\Users\lycj\Documents\QuickZip\PIDL\src\app\QuickZip.IO.PIDL\QuickZip.IO.PIDL.nant.csproj" on node 0 (Rebuild target(s)).
+     [exec] Project file contains ToolsVersion="4.0", which is not supported by this version of MSBuild. Treating the project as if it had ToolsVersion="3.5".
+     [exec] CoreClean:
+     [exec]   Deleting file "C:\Users\lycj\Documents\QuickZip\PIDL\release\v1.0.23.1\QuickZip.IO.PIDL.dll".
+     [exec]   Deleting file "C:\Users\lycj\Documents\QuickZip\PIDL\release\v1.0.23.1\QuickZip.IO.PIDL.pdb".
+     [exec]   Deleting file "c:\temp\obj\PIDL\QuickZip.IO.PIDL.dll".
+     [exec]   Deleting file "c:\temp\obj\PIDL\QuickZip.IO.PIDL.pdb".
+     [exec] IO\Tools\Interface\ShellFolder2.cs(161,17): warning CS1058: A previous catch clause already catches all exceptions. All non-exceptions thrown will be wrapped in a System.Runtime.CompilerServices.RuntimeWrappedException.
+     [exec] IO\Tools\Interface\ShellFolder2.cs(171,17): warning CS1058: A previous catch clause already catches all exceptions. All non-exceptions thrown will be wrapped in a System.Runtime.CompilerServices.RuntimeWrappedException.
+     [exec] CopyFilesToOutputDirectory:
+     [exec]   Copying file from "c:\temp\\obj\\PIDL\QuickZip.IO.PIDL.dll" to "C:\Users\lycj\Documents\QuickZip\PIDL\release\v1.0.23.1\QuickZip.IO.PIDL.dll".
+     [exec]   QuickZip.IO.PIDL.nant -> C:\Users\lycj\Documents\QuickZip\PIDL\release\v1.0.23.1\QuickZip.IO.PIDL.dll
+     [exec]   Copying file from "c:\temp\\obj\\PIDL\QuickZip.IO.PIDL.pdb" to "C:\Users\lycj\Documents\QuickZip\PIDL\release\v1.0.23.1\QuickZip.IO.PIDL.pdb".
+     [exec] Done Building Project "C:\Users\lycj\Documents\QuickZip\PIDL\src\app\QuickZip.IO.PIDL\QuickZip.IO.PIDL.nant.csproj" (Rebuild target(s)).
+     [exec] 
+     [exec] Build succeeded.
+     [exec] 
+     [exec] "C:\Users\lycj\Documents\QuickZip\PIDL\src\app\QuickZip.IO.PIDL\QuickZip.IO.PIDL.nant.csproj" (Rebuild target) (1) ->
+     [exec] (CoreCompile target) -> 
+     [exec]   IO\Tools\Interface\ShellFolder2.cs(161,17): warning CS1058: A previous catch clause already catches all exceptions. All non-exceptions thrown will be wrapped in a System.Runtime.CompilerServices.RuntimeWrappedException.
+     [exec]   IO\Tools\Interface\ShellFolder2.cs(171,17): warning CS1058: A previous catch clause already catches all exceptions. All non-exceptions thrown will be wrapped in a System.Runtime.CompilerServices.RuntimeWrappedException.
+     [exec] 
+     [exec]     2 Warning(s)
+     [exec]     0 Error(s)
+     [exec] 
+     [exec] Time Elapsed 00:00:00.46
+   [delete] Deleting file C:\Users\lycj\Documents\QuickZip\PIDL\src\app\QuickZip.IO.PIDL\QuickZip.IO.PIDL.nant.csproj.
+     [echo] copy.bin: QuickZip.IO.PIDL.dll --> ..\release\current\
+     [copy] Copying 2 files to 'C:\Users\lycj\Documents\QuickZip\PIDL\release\current\'.
+
+nunit:
+
+
+nunit-init-variables:
+
+
+nunit-build:
+
+
+nunit-init-variables:
+
+     [copy] Copying 2 files to 'C:\Users\lycj\Documents\QuickZip\PIDL\release\nunit\'.
+     [echo] build.test: UnitTest.PIDL.dll
+      [csc] Compiling 3 files to 'C:\Users\lycj\Documents\QuickZip\PIDL\release\nunit\UnitTest.PIDL.dll'.
+     [echo] ..\src\test\\unit\\UnitTest.PIDL\\app.config
+
+nunit-test:
+
+     [echo] test: ..\release\nunit\\UnitTest.PIDL.dll
+     [exec] NUnit version 2.5.10.11092
+     [exec] Copyright (C) 2002-2009 Charlie Poole.
+     [exec] Copyright (C) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.
+     [exec] Copyright (C) 2000-2002 Philip Craig.
+     [exec] All Rights Reserved.
+     [exec] 
+     [exec] Runtime Environment - 
+     [exec]    OS Version: Microsoft Windows NT 6.1.7601 Service Pack 1
+     [exec]   CLR Version: 2.0.50727.5448 ( Net 2.0 )
+     [exec] 
+     [exec] ProcessModel: Default    DomainUsage: Single
+     [exec] Execution Runtime: Default
+     [exec] ....
+     [exec] Tests run: 4, Errors: 0, Failures: 0, Inconclusive: 0, Time: 0.2210126 seconds
+     [exec]   Not run: 0, Invalid: 0, Ignored: 0, Skipped: 0
+     [exec] 
+
+nunit:
+
+
+nunit-init-variables:
+
+
+nunit-build:
+
+
+nunit-init-variables:
+
+     [echo] build.test: IntegrationTest.PIDL.dll
+      [csc] Compiling 2 files to 'C:\Users\lycj\Documents\QuickZip\PIDL\release\nunit\IntegrationTest.PIDL.dll'.
+     [echo] ..\src\test\\integration\\IntegrationTest.PIDL\\app.config
+
+nunit-test:
+
+     [echo] test: ..\release\nunit\\IntegrationTest.PIDL.dll
+     [exec] NUnit version 2.5.10.11092
+     [exec] Copyright (C) 2002-2009 Charlie Poole.
+     [exec] Copyright (C) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.
+     [exec] Copyright (C) 2000-2002 Philip Craig.
+     [exec] All Rights Reserved.
+     [exec] 
+     [exec] Runtime Environment - 
+     [exec]    OS Version: Microsoft Windows NT 6.1.7601 Service Pack 1
+     [exec]   CLR Version: 2.0.50727.5448 ( Net 2.0 )
+     [exec] 
+     [exec] ProcessModel: Default    DomainUsage: Single
+     [exec] Execution Runtime: Default
+     [exec] ..
+     [exec] Tests run: 2, Errors: 0, Failures: 0, Inconclusive: 0, Time: 0.0230014 seconds
+     [exec]   Not run: 0, Invalid: 0, Ignored: 0, Skipped: 0
+     [exec] 
+
+BUILD SUCCEEDED
+
+Total time: 5.8 seconds.
+
