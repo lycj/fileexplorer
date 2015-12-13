@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniHtml", "MiniHtml\MiniHtml.csproj", "{E2DD2B88-5CAD-416C-8379-A5F08CCE3606}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp.WinForms", "TestApp.WinForms\TestApp.WinForms.csproj", "{2FDC7EA1-2EFB-439A-B9C0-D8B462E6DFA0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E2DD2B88-5CAD-416C-8379-A5F08CCE3606}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2DD2B88-5CAD-416C-8379-A5F08CCE3606}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2DD2B88-5CAD-416C-8379-A5F08CCE3606}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2DD2B88-5CAD-416C-8379-A5F08CCE3606}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FDC7EA1-2EFB-439A-B9C0-D8B462E6DFA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FDC7EA1-2EFB-439A-B9C0-D8B462E6DFA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FDC7EA1-2EFB-439A-B9C0-D8B462E6DFA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FDC7EA1-2EFB-439A-B9C0-D8B462E6DFA0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

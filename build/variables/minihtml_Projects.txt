@@ -1,0 +1,2 @@
+MiniHtml,dll,2
+TestApp.WinForms,exe,2
