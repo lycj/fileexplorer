@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{528F0C1A-38B5-4A42-A8BD-702F052CDF2F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FileExplorer.UIEventHub</RootNamespace>
+    <AssemblyName>FileExplorer.UIEventHub</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MetroLog, Version=0.8.6.0, Culture=neutral, PublicKeyToken=ba4ace74c3b410f3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MetroLog.0.8.6\lib\net45\MetroLog.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroLog.Platform">
+      <HintPath>..\packages\MetroLog.0.8.6\lib\net45\MetroLog.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseControls\ResizeDecorator.cs" />
+    <Compile Include="BaseControls\ResizeItemAdorner.cs" />
+    <Compile Include="BaseControls\ResizeThumb.cs" />
+    <Compile Include="BaseControls\SelectedItemsAdorner.cs" />
+    <Compile Include="BaseControls\SelfCenteredCanvas.cs" />
+    <Compile Include="BaseControls\CenteredCanvas.cs" />
+    <Compile Include="BaseControls\DragAdorner.cs" />
+    <Compile Include="BaseControls\SelectionAdorner.cs" />
+    <Compile Include="Defines\AttachedProperties.cs" />
+    <Compile Include="Defines\Converters\BoolToVisibilityCollapsed.cs" />
+    <Compile Include="Defines\Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Defines\Converters\FlipBoolToVisibility.cs" />
+    <Compile Include="Defines\Converters\FlipBoolToVisibilityCollapsed.cs" />
+    <Compile Include="Defines\Defaults.cs" />
+    <Compile Include="Defines\DragLiteParameters.cs" />
+    <Compile Include="Defines\DragnDropAttachedProperties.cs" />
+    <Compile Include="Defines\Enums.cs" />
+    <Compile Include="Defines\MultiSelectAttachedProperties.cs" />
+    <Compile Include="Defines\TouchGesture.cs" />
+    <Compile Include="Defines\UIAttachedProperties.cs" />
+    <Compile Include="Implements\CanvasDragEventProcessor.cs" />
+    <Compile Include="Implements\CanvasResizeEventProcessor.cs" />
+    <Compile Include="Implements\ContextMenuEventProcessor.cs" />
+    <Compile Include="Implements\DragDropEventProcessor.cs" />
+    <Compile Include="Implements\DragDropLiteEventProcessor.cs" />
+    <Compile Include="Implements\DragHelper.cs" />
+    <Compile Include="Implements\DropHelper.cs" />
+    <Compile Include="Implements\InputBindingsEventProcessor.cs" />
+    <Compile Include="Implements\ParameterDicConvertRule\UIParameterDicConvertRule.cs" />
+    <Compile Include="Implements\ResizeAdornerEventProcessor.cs" />
+    <Compile Include="Implements\ShellDragHelper.cs" />
+    <Compile Include="Implements\ShellDropHelper.cs" />
+    <Compile Include="Implements\TabControlDragHelper.cs" />
+    <Compile Include="Implements\TabDropHelper.cs" />
+    <Compile Include="Implements\TouchDragMoveCountInputProcessor.cs" />
+    <Compile Include="Implements\ClickCountInputProcessor.cs" />
+    <Compile Include="Implements\DebugInputProcessor.cs" />
+    <Compile Include="Implements\DragInputProcessor.cs" />
+    <Compile Include="Implements\DropInputProcessor.cs" />
+    <Compile Include="Implements\ExtensionMethods.cs" />
+    <Compile Include="Implements\FlickInputProcessor.cs" />
+    <Compile Include="Implements\InputProcessorBase.cs" />
+    <Compile Include="Implements\IsTouchDownInputProcessor.cs" />
+    <Compile Include="Implements\MultiSelectEventProcessor.cs" />
+    <Compile Include="Implements\ParameterDicConverters.cs" />
+    <Compile Include="Implements\UIEventAdapter.cs" />
+    <Compile Include="Implements\UIEventHub.cs" />
+    <Compile Include="Implements\SimpleUIEventProcessor.cs" />
+    <Compile Include="Implements\TouchGestureEventProcessor.cs" />
+    <Compile Include="Implements\UIEventProcessor.cs" />
+    <Compile Include="Interfaces\ExtensionMethods.cs" />
+    <Compile Include="Interfaces\IContainer.cs" />
+    <Compile Include="Interfaces\IPositionAware.cs" />
+    <Compile Include="Interfaces\IItemSelectProcessor.cs" />
+    <Compile Include="Interfaces\IResizable.cs" />
+    <Compile Include="Interfaces\ISelectable.cs" />
+    <Compile Include="Interfaces\ISupportShellDrop.cs" />
+    <Compile Include="Interfaces\ISupportShellDrag.cs" />
+    <Compile Include="Interfaces\ITabControlVeiwModel.cs" />
+    <Compile Include="Interfaces\IUIDragInput.cs" />
+    <Compile Include="Interfaces\IUIEventHub.cs" />
+    <Compile Include="Interfaces\IUIEventProcessor.cs" />
+    <Compile Include="Interfaces\IUIInput.cs" />
+    <Compile Include="Interfaces\IUIInputManager.cs" />
+    <Compile Include="Interfaces\IUIInputProcessor.cs" />
+    <Compile Include="Interfaces\IFileDropItem.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\v2\AdornerCommand.cs" />
+    <Compile Include="Scripts\v2\AssignDiskParameterDic.cs" />
+    <Compile Include="Scripts\v2\PointArithmeticCommand.cs" />
+    <Compile Include="Scripts\v2\AssignAdornerLayer.cs" />
+    <Compile Include="Scripts\v2\AssignCursorPosition.cs" />
+    <Compile Include="Scripts\v2\AssignDataObject.cs" />
+    <Compile Include="Scripts\v2\AssignRect.cs" />
+    <Compile Include="Scripts\v2\DragDropScriptCommands.cs" />
+    <Compile Include="Scripts\v2\IfTouchGesture.cs" />
+    <Compile Include="Scripts\v2\OffsetPosition.cs" />
+    <Compile Include="Scripts\v2\QueryDraggablesFromDataObject.cs" />
+    <Compile Include="Scripts\v2\QueryDrop.cs" />
+    <Compile Include="Scripts\v2\QueryDropEffects.cs" />
+    <Compile Include="Scripts\v2\SetCustomCursor.cs" />
+    <Compile Include="Scripts\v2\ShowDragAdornerContextMenu.cs" />
+    <Compile Include="Scripts\v2\UpdateDragDropAdorner.cs" />
+    <Compile Include="Scripts\v2\AssignDragDropAdorner.cs" />
+    <Compile Include="Scripts\v2\AssignItemUnderMouse.cs" />
+    <Compile Include="Scripts\v2\AutoScroll.cs" />
+    <Compile Include="Scripts\v2\CaptureMouse.cs" />
+    <Compile Include="Scripts\v2\AssignDataContext.cs" />
+    <Compile Include="Implements\DiskParameterDicStore.cs" />
+    <Compile Include="Scripts\v2\QueryDrag.cs" />
+    <Compile Include="Scripts\v2\DragDropLiteCommand.cs" />
+    <Compile Include="Scripts\v2\EventArgsHandledCommand.cs" />
+    <Compile Include="Scripts\v2\FindUIElement.cs" />
+    <Compile Include="Scripts\v2\IfMouseGesture.cs" />
+    <Compile Include="Scripts\v2\IfKeyGesture.cs" />
+    <Compile Include="Scripts\v2\SelectedItemsAdornerCommand.cs" />
+    <Compile Include="Scripts\v2\ResizeItemAdornerCommand.cs" />
+    <Compile Include="Scripts\v2\SelectionAdornerCommand.cs" />
+    <Compile Include="Scripts\v2\ThrottleTouchDrag.cs" />
+    <Compile Include="Utils\ConsoleTarget.cs" />
+    <Compile Include="Scripts\v2\DetermineFindSelectionMode.cs" />
+    <Compile Include="Scripts\v2\FindSelectedItems.cs" />
+    <Compile Include="Scripts\v2\FindSelectedItemsImpl.cs" />
+    <Compile Include="Scripts\v2\IfDependencyProperty.cs" />
+    <Compile Include="Scripts\v2\SelectItems.cs" />
+    <Compile Include="Scripts\v2\HighlightItems.cs" />
+    <Compile Include="Scripts\v2\SetDependencyProperty.cs" />
+    <Compile Include="Scripts\v2\ObtainPointerPosition.cs" />
+    <Compile Include="Scripts\v2\SetHandledIfNotFocused.cs" />
+    <Compile Include="Scripts\v2\UIScriptCommandBase.cs" />
+    <Compile Include="Scripts\v2\GetDependencyProperty.cs" />
+    <Compile Include="Utils\ControlUtils.cs" />
+    <Compile Include="BaseControls\NonsealedDataObject.cs" />
+    <Compile Include="Utils\DataContextFinder.cs" />
+    <Compile Include="Utils\LambdaValueConverter.cs" />
+    <Compile Include="Utils\LBSelectable.cs" />
+    <Compile Include="Utils\MouseWheelGesture.cs" />
+    <Compile Include="Utils\SerializableDictionary.cs" />
+    <Compile Include="Utils\UITools.cs" />
+    <Compile Include="BaseControls\VirtualDataObject.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FileExplorer.Scripting\FileExplorer.Scripting [WPF].csproj">
+      <Project>{45b4c0ed-a35e-4b0b-8c78-9a1d48f7527a}</Project>
+      <Name>FileExplorer.Scripting [WPF]</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileExplorer.Scripting\FileExplorer.Scripting.csproj">
+      <Project>{ecabbc13-1922-4500-908b-cd865e91e4c5}</Project>
+      <Name>FileExplorer.Scripting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileExplorer.WPF.Panels\FileExplorer.WPF.Panels.csproj">
+      <Project>{feddcf20-7c57-4a59-b101-ce927f01a6bd}</Project>
+      <Name>FileExplorer.WPF.Panels</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Common\ResizeDecorator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

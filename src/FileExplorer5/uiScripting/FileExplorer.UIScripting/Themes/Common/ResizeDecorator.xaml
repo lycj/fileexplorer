@@ -1,0 +1,77 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"     >
+
+    <ControlTemplate x:Key="ResizeDecoratorTemplate" TargetType="ContentControl">
+        <Grid>
+            <Grid x:Name="PART_ThumbGrid">
+                <bc:UIEventAdapter.Processors>
+                    <bc:ResizeAdornerEventProcessor />
+                </bc:UIEventAdapter.Processors>
+                <Thumb x:Name="N" Height="3" Cursor="SizeNS" Margin="0 -4 0 0"
+           VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                <Thumb x:Name="W" Width="3" Cursor="SizeWE" Margin="-4 0 0 0"
+           VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+                <Thumb x:Name="E" Width="3" Cursor="SizeWE" Margin="0 0 -4 0"
+           VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
+                <Thumb x:Name="S" Height="3" Cursor="SizeNS" Margin="0 0 0 -4"
+           VerticalAlignment="Bottom"  HorizontalAlignment="Stretch"/>
+                <Thumb x:Name="NW" Width="7" Height="7" Cursor="SizeNWSE" Margin="-6 -6 0 0"
+           VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <Thumb x:Name="NE" Width="7" Height="7" Cursor="SizeNESW" Margin="0 -6 -6 0"
+           VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                <Thumb x:Name="SW" Width="7" Height="7" Cursor="SizeNESW" Margin="-6 0 0 -6"
+           VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                <Thumb x:Name="SE" Width="7" Height="7" Cursor="SizeNWSE" Margin="0 0 -6 -6"
+           VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                <ContentPresenter Opacity="0.3"
+                 IsHitTestVisible="False"
+                 Content="{TemplateBinding Content}"
+                 ContentTemplate="{TemplateBinding ContentTemplate}"
+                 Cursor="{TemplateBinding Cursor}"
+                      Margin="{TemplateBinding Padding}"
+                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                    <ContentPresenter.RenderTransform>
+                        <TransformGroup>
+                        <ScaleTransform ScaleX="{Binding ScaleX, RelativeSource={RelativeSource  AncestorType={x:Type ContentControl}}}" 
+                                    ScaleY="{Binding ScaleY, RelativeSource={RelativeSource  AncestorType={x:Type ContentControl}}}"
+                                    />
+                            <TranslateTransform X="{Binding TranslateX, RelativeSource={RelativeSource  AncestorType={x:Type ContentControl}}}"
+                                                Y="{Binding TranslateY, RelativeSource={RelativeSource  AncestorType={x:Type ContentControl}}}"/>
+                            </TransformGroup>
+                    </ContentPresenter.RenderTransform>
+                </ContentPresenter>
+            </Grid>
+            <!--<Rectangle IsHitTestVisible="False">
+                <Rectangle.Fill>
+                    <VisualBrush Visual="{Binding ElementName=PART_ThumbGrid}" >
+                        
+                    </VisualBrush>                    
+                </Rectangle.Fill>
+                <Rectangle.RenderTransform>
+                    <ScaleTransform ScaleX="{Binding ScaleX, RelativeSource={RelativeSource  AncestorType={x:Type ContentControl}}}" 
+                                    ScaleY="{Binding ScaleY, RelativeSource={RelativeSource  AncestorType={x:Type ContentControl}}}"
+                                    />
+                </Rectangle.RenderTransform>
+            </Rectangle>-->
+        </Grid>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type bc:ResizeDecorator}">
+        <Setter Property="Template" Value="{StaticResource ResizeDecoratorTemplate}" />
+        <!--<Setter Property="RenderTransformOrigin" Value="0, 0" />
+        <Setter Property="LayoutTransform">
+            <Setter.Value>
+                <TransformGroup>
+                    <TranslateTransform />
+                    <ScaleTransform ScaleX="{Binding ScaleX, RelativeSource={RelativeSource  AncestorType={x:Type ContentControl}}}" 
+                                    ScaleY="{Binding ScaleY, RelativeSource={RelativeSource  AncestorType={x:Type ContentControl}}}"
+                                    />
+                    <RotateTransform />
+                </TransformGroup>
+            </Setter.Value>
+        </Setter>-->
+    </Style>
+
+</ResourceDictionary>

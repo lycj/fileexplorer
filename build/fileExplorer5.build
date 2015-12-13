@@ -1,0 +1,297 @@
+<project name="FileExplorer3" default="build" basedir="." xmlns="http://nant.sourceforge.net/release/0.90/nant.xsd">
+
+  <include buildfile="local.properties3.xml" />
+  <include buildfile="func/func.msbuild2.xml" />
+  <include buildfile="func/func.nunit.xml" />
+  <include buildfile="func/func.nuget.xml" />
+
+  <property name="nant.settings.currentframework" value="net-Universal"/>
+
+  <target name="init">
+    <call target="getversion" />
+    <property name="dest.path" value="..\release\v${version}\" />
+    <property name="dest.current.path" value="..\release\current\4.5.2" />
+    <!-- Get version from version3.txt -->
+
+  </target>
+
+  <target name="clean">
+
+  </target>
+
+  <target name="import">
+
+  </target>
+
+  <target name="build">
+    <call target="setversionstring" />
+    <property name="dest.path" value="..\release\v${version}\" />
+    <property name="dest.current.path" value="..\release\current\4.5.2" />
+    <mkdir dir="${dest.path}" />
+    <mkdir dir="${dest.current.path}" />
+
+    <property name="msbuild.csproj.path" value="${src.brooksoft.scripting.csproj}" />
+    <property name="msbuild.version" value="452" />
+    <call target="msbuild" />
+  </target>
+
+  <target name="build-revision">
+    <call target="incrementrevisionnumber" />
+    <call target="setversion" />
+    <call target="build" />
+  </target>
+
+  <target name="build-patch">
+    <call target="incrementbuildnumber" />
+    <call target="setversion" />
+    <call target="build" />
+  </target>
+
+  <target name="copy">
+
+    <call target="setversionstring" />
+    <property name="dest.path" value="..\release\v${version}\" />
+    <!--<delete dir="..\release\v${version}" />-->
+    <property name="dest.current.path" value="..\release\current\3.0" />
+
+    <echo message="copy.bin: ${dest.current.path} dlls -> ${dest.path}\lib\net45" />
+    <copy todir="${dest.path}\lib\net45">
+      <fileset basedir="${dest.current.path}">
+        <include name="${dest.fileexplorer.scripting.dll}" />
+        <include name="${dest.fileexplorer.scripting.pdb}" />
+        <include name="${dest.fileexplorer.uieventhub.dll}" />
+        <include name="${dest.fileexplorer.uieventhub.pdb}" />
+        <include name="${dest.fileexplorer.wpf.panels.dll}" />
+        <include name="${dest.fileexplorer.wpf.panels.pdb}" />
+        <include name="${dest.fileexplorer3.dll}" />
+        <include name="${dest.fileexplorer3.pdb}" />
+        <include name="${dest.fileexplorer3.wpf.dll}" />
+        <include name="${dest.fileexplorer3.wpf.pdb}" />
+        <include name="${dest.fileexplorer3.io.dll}" />
+        <include name="${dest.fileexplorer3.io.pdb}" />
+      </fileset>  qwASZDX
+    </copy>
+
+    <echo message="copy.bin: ..\lib dlls -> ${dest.path}\lib" />
+    <copy todir="${dest.path}\lib">
+      <fileset basedir="..\lib">
+        <include name="Caliburn.Micro.*" />
+        <include name="DirectoryInfoEx.*" />
+        <include name="ExifLib.*" />
+        <include name="HtmlTextBlock.*" />
+        <include name="Microsoft.Live.dll" />
+        <include name="WPF.MDI.dll" />
+      </fileset>
+    </copy>
+
+    <echo message="copy.source: FileExplorer.Scripting -> ${dest.path}\src\app" />
+    <copy todir="${dest.path}\src\FileExplorer3\app\FileExplorer.Scripting">
+      <fileset basedir="${src.path}\app\FileExplorer.Scripting">
+        <include name="*/**" />
+        <exclude name="obj/**" />
+      </fileset>
+    </copy>
+
+    <echo message="copy.source: FileExplorer.UIEventHub -> ${dest.path}\src\app" />
+    <copy todir="${dest.path}\src\FileExplorer3\app\FileExplorer.UIEventHub">
+      <fileset basedir="${src.path}\app\FileExplorer.UIEventHub">
+        <include name="*/**" />
+        <exclude name="obj/**" />
+      </fileset>
+    </copy>
+
+    <echo message="copy.source: FileExplorer3 -> ${dest.path}\src\app" />
+    <copy todir="${dest.path}\src\FileExplorer3\app\FileExplorer3">
+      <fileset basedir="${src.path}\app\FileExplorer3">
+        <include name="*/**" />
+        <exclude name="obj/**" />
+      </fileset>
+    </copy>
+
+    <echo message="copy.source: FileExplorer3.WPF -> ${dest.path}\src\app" />
+    <copy todir="${dest.path}\src\FileExplorer3\app\FileExplorer.WPF.Panels">
+      <fileset basedir="${src.path}\app\FileExplorer.WPF.Panels">
+        <include name="*/**" />
+        <exclude name="bin/**" />
+        <exclude name="obj/**" />
+      </fileset>
+    </copy>
+
+
+    <echo message="copy.source: FileExplorer3.WPF -> ${dest.path}\src\app" />
+    <copy todir="${dest.path}\src\FileExplorer3\app\FileExplorer3.WPF">
+      <fileset basedir="${src.path}\app\FileExplorer3.WPF">
+        <include name="*/**" />
+        <exclude name="bin/**" />
+        <exclude name="obj/**" />
+      </fileset>
+    </copy>
+
+    <echo message="copy.source: FileExplorer3.IO -> ${dest.path}\src\app" />
+    <copy todir="${dest.path}\src\FileExplorer3\app\FileExplorer3.IO">
+      <fileset basedir="${src.path}\app\FileExplorer3.IO">
+        <include name="*/**" />
+        <exclude name="bin/**" />
+        <exclude name="obj/**" />
+      </fileset>
+    </copy>
+
+    <echo message="copy.source: TestApp.WPF -> ${dest.path}\src\app" />
+    <copy todir="${dest.path}\src\FileExplorer3\app\TestApp.WPF">
+      <fileset basedir="${src.path}\app\TestApp.WPF">
+        <include name="*" />
+        <include name="Properties/*" />
+        <exclude name="AuthorizationKeys.cs" />
+        <exclude name="Copy of AuthorizationKeys.cs" />
+        <exclude name="gapi_client_secret.json" />
+      </fileset>
+    </copy>
+    <copy file="${src.path}\app\TestApp.WPF\Copy of AuthorizationKeys.cs"
+      tofile="${dest.path}\src\FileExplorer3\app\TestApp.WPF\AuthorizationKeys.cs" />
+
+    <echo message="copy.source: TestTemplate.WPF -> ${dest.path}\src\app" />
+    <copy todir="${dest.path}\src\FileExplorer3\app\TestTemplate.WPF">
+      <fileset basedir="${src.path}\app\TestTemplate.WPF">
+        <include name="*" />
+        <include name="bin/Debug/*.dll" />
+        <include name="Properties/*" />
+      </fileset>
+    </copy>
+
+    <echo message="copy.source: Test_DiagramingDemo -> ${dest.path}\src\app" />
+    <copy todir="${dest.path}\src\FileExplorer3\app\Test_DiagramingDemo">
+      <fileset basedir="${src.path}\app\Test_DiagramingDemo">
+        <include name="*/**" />
+        <exclude name="bin/**" />
+        <exclude name="obj/**" />
+      </fileset>
+    </copy>
+
+    <echo message="copy.source: Test_ShellDragDemo -> ${dest.path}\src\app" />
+    <copy todir="${dest.path}\src\FileExplorer3\app\Test_ShellDragDemo">
+      <fileset basedir="${src.path}\app\Test_ShellDragDemo">
+        <include name="*/**" />
+        <exclude name="bin/**" />
+        <exclude name="obj/**" />
+      </fileset>
+    </copy>
+
+ <echo message="copy.source: Test_NonShellDragDemo -> ${dest.path}\src\app" />
+    <copy todir="${dest.path}\src\FileExplorer3\app\Test_NonShellDragDemo">
+      <fileset basedir="${src.path}\app\Test_NonShellDragDemo">
+        <include name="*/**" />
+        <exclude name="bin/**" />
+        <exclude name="obj/**" />
+      </fileset>
+    </copy>
+    
+    <echo message="copy.source: Test_TabDragDemo -> ${dest.path}\src\app" />
+    <copy todir="${dest.path}\src\FileExplorer3\app\Test_TabDragDemo">
+      <fileset basedir="${src.path}\app\Test_TabDragDemo">
+        <include name="*/**" />
+        <exclude name="bin/**" />
+        <exclude name="obj/**" />
+      </fileset>
+    </copy>
+    
+      <echo message="copy.source: Test_InputProcessor -> ${dest.path}\src\app" />
+    <copy todir="${dest.path}\src\FileExplorer3\app\Test_InputProcessor">
+      <fileset basedir="${src.path}\app\Test_InputProcessor">
+        <include name="*/**" />
+        <exclude name="bin/**" />
+        <exclude name="obj/**" />
+      </fileset>
+    </copy>
+
+    <echo message="copy.source: Test_UIScriptCommands -> ${dest.path}\src\app" />
+    <copy todir="${dest.path}\src\FileExplorer3\app\Test_UIScriptCommands">
+      <fileset basedir="${src.path}\app\Test_UIScriptCommands">
+        <include name="*/**" />
+        <exclude name="bin/**" />
+        <exclude name="obj/**" />
+      </fileset>
+    </copy>
+
+    <echo message="copy.source: Test_UIScriptCommands -> ${dest.path}\src\app" />
+    <copy todir="${dest.path}\src\FileExplorer3\app\Test_IOCPanelTest">
+      <fileset basedir="${src.path}\app\Test_IOCPanelTest">
+        <include name="*/**" />
+        <exclude name="bin/**" />
+        <exclude name="obj/**" />
+      </fileset>
+    </copy>
+
+    <copy todir="${dest.path}\src\FileExplorer3\app\.nuget">
+      <fileset basedir="${src.path}\app\.nuget">
+        <include name="*" />
+      </fileset>
+    </copy>
+    <copy file="${src.path}\app\packages\Microsoft.Bcl.Build.1.0.7\tools\Microsoft.Bcl.Build.targets"
+        tofile="${dest.path}\src\FileExplorer3\app\packages\Microsoft.Bcl.Build.1.0.7\tools\Microsoft.Bcl.Build.targets" />
+    <copy file="${src.path}\app\FileExplorer3 - 2013.sln"
+        tofile="${dest.path}\src\FileExplorer3\app\FileExplorer3 - 2013.sln" />
+
+    <echo message="copy.bin: demos -> ${dest.path}\demo\net45\bin" />
+    <copy todir="${dest.path}\demo\net45\bin">
+      <fileset basedir="${dest.current.path}">
+        <include name="${dest.fileexplorer.scripting.dll}" />
+        <include name="${dest.fileexplorer.scripting.pdb}" />
+        <include name="${dest.fileexplorer.uieventhub.dll}" />
+        <include name="${dest.fileexplorer.uieventhub.pdb}" />
+        <include name="${dest.fileexplorer3.dll}" />
+        <include name="${dest.fileexplorer3.pdb}" />
+        <include name="${dest.fileexplorer.wpf.panels.dll}" />
+        <include name="${dest.fileexplorer.wpf.panels.pdb}" />
+        <include name="${dest.fileexplorer3.wpf.dll}" />
+        <include name="${dest.fileexplorer3.wpf.pdb}" />
+        <include name="${dest.fileexplorer3.io.dll}" />
+        <include name="${dest.fileexplorer3.io.pdb}" />
+        <include name="${dest.testapp.wpf.exe}" />
+        <include name="${dest.testapp.wpf.pdb}" />
+        <include name="${dest.testtemplate.wpf.exe}" />
+        <include name="${dest.testtemplate.wpf.pdb}" />
+        <include name="${dest.test_diagramingdemo.exe}" />
+        <include name="${dest.test_diagramingdemo.pdb}" />
+        <include name="${dest.test_shelldragdemo.exe}" />
+        <include name="${dest.test_shelldragdemo.pdb}" />
+        <include name="${dest.test_nonshelldragdemo.exe}" />
+        <include name="${dest.test_nonshelldragdemo.pdb}" />
+        <include name="${dest.test_tabdragdemo.exe}" />
+        <include name="${dest.test_tabdragdemo.pdb}" />
+        <include name="${dest.test_inputprocessor.exe}" />
+        <include name="${dest.test_inputprocessor.pdb}" />
+        <include name="${dest.test_uiscriptcommands.exe}" />
+        <include name="${dest.test_uiscriptcommands.pdb}" />
+        <include name="${dest.test_iocpaneltest.exe}" />
+        <include name="${dest.test_iocpaneltest.pdb}" />
+        <include name="*.dll" />
+      </fileset>
+    </copy>
+
+    <echo message="copy.txt: license and readme -> ${dest.path}" />
+    <copy todir="${dest.path}">
+      <fileset basedir="..">
+        <include name="MIT.txt" />
+        <include name="Readme.txt" />
+
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="pack">
+    <call target="setversionstring" />
+    <property name="dest.path" value="..\release\v${version}\" />
+    <zip zipfile="..\release\v${version} - Source.zip">
+      <fileset basedir="..\release\v${version}">
+        <include name="**/*" />
+        <exclude name="demo/**" />
+      </fileset>
+    </zip>
+    <zip zipfile="..\release\v${version} - Demo.zip">
+      <fileset basedir="..\release\v${version}\demo">
+        <include name="**/*" />
+      </fileset>
+    </zip>
+  </target>
+
+</project>
