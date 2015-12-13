@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BCBCAF38-714A-40E4-87EF-F6CF63DD62AA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FileExplorer3.IO</RootNamespace>
+    <AssemblyName>FileExplorer3.IO</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=2.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Caliburn.Micro.Core.2.0.1\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="DirectoryInfoEx">
+      <HintPath>..\..\..\..\lib\DirectoryInfoEx.dll</HintPath>
+    </Reference>
+    <Reference Include="DropNet">
+      <HintPath>..\packages\DropNet.1.9.6\lib\net40\DropNet.dll</HintPath>
+    </Reference>
+    <Reference Include="ExifLib, Version=1.5.1.0, Culture=neutral, PublicKeyToken=30284005913968db, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ExifLib.1.5.1.0\lib\net40\ExifLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis, Version=1.8.1.31687, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Google.Apis.1.8.1\lib\net40\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth, Version=1.8.1.31688, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Google.Apis.Auth.1.8.1\lib\net40\Google.Apis.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.8.1.31699, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Google.Apis.Auth.1.8.1\lib\net40\Google.Apis.Auth.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Core, Version=1.8.2.23761, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Google.Apis.Core.1.8.2\lib\portable-net4+sl4+wp71+win8\Google.Apis.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Drive.v2, Version=1.8.1.126, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Google.Apis.Drive.v2.1.8.1.1260\lib\portable-net4+sl4+wp71+win8\Google.Apis.Drive.v2.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.PlatformServices, Version=1.8.1.31691, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Google.Apis.1.8.1\lib\net40\Google.Apis.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroLog, Version=0.8.6.0, Culture=neutral, PublicKeyToken=ba4ace74c3b410f3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MetroLog.0.8.6\lib\net45\MetroLog.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroLog.Platform">
+      <HintPath>..\packages\MetroLog.0.8.6\lib\net45\MetroLog.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Live, Version=5.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\lib\Microsoft.Live.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SevenZipSharp">
+      <HintPath>..\packages\SevenZipSharp.0.64\lib\SevenZipSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.1.10\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.1.10\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="Zlib.Portable">
+      <HintPath>..\packages\Zlib.Portable.1.9.2\lib\portable-net4+sl4+wp71+win8\Zlib.Portable.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Compression\ExtensionMethods.cs" />
+    <Compile Include="Defines\FileExtensions.cs" />
+    <Compile Include="Compression\CompressionWrapperBase.cs" />
+    <Compile Include="Model\DirectoryInfoEx\ExCommandProvider.cs" />
+    <Compile Include="Model\DirectoryInfoEx\ExMetadataProvider.cs" />
+    <Compile Include="Model\DirectoryInfoEx\ExModel.cs" />
+    <Compile Include="Model\DirectoryInfoEx\ExProfile.cs" />
+    <Compile Include="Model\DiskEntryModelBase.cs" />
+    <Compile Include="Model\DiskIOHelperBase.cs" />
+    <Compile Include="Model\DiskPathMapperImpl.cs" />
+    <Compile Include="Model\DiskProfileBase.cs" />
+    <Compile Include="Model\DropBox\DropBoxDiskIOHelper.cs" />
+    <Compile Include="Model\DropBox\DropBoxModelThumbnailExtractor.cs" />
+    <Compile Include="Model\DropBox\DropBoxLogin.cs" />
+    <Compile Include="Model\DropBox\DropBoxItemModel.cs" />
+    <Compile Include="Model\DropBox\DropBoxProfile.cs" />
+    <Compile Include="Model\DropBox\DropBoxFileStream.cs" />
+    <Compile Include="Model\DropBox\DropBoxMetaProvider.cs" />
+    <Compile Include="Model\ExtensionMethods.cs" />
+    <Compile Include="Model\FileBasedCommandProvider.cs" />
+    <Compile Include="Model\FileBasedMetaProvider.cs" />
+    <Compile Include="Model\GoogleDrive\GoogleDriveMetaProvider.cs" />
+    <Compile Include="Model\IModelIconExtractor\DrawOverlayTextExtractor.cs" />
+    <Compile Include="Model\IModelIconExtractor\GetFromIconExtractIcon.cs" />
+    <Compile Include="Model\IModelIconExtractor\GetImageFromImageExtractor.cs" />
+    <Compile Include="Model\IModelIconExtractor\GetFromSystemImageListUsingExtension.cs" />
+    <Compile Include="Model\IModelIconExtractor\GetFromSystemImageList.cs" />
+    <Compile Include="Model\MetadataProviderImpls.cs" />
+    <Compile Include="Model\FileBasedDragDropHandler.cs" />
+    <Compile Include="Model\IModelIconExtractor\GetExifThumbnail.cs" />
+    <Compile Include="Model\FileSystemInfo\FileSystemInfoMetadataProvider.cs" />
+    <Compile Include="Model\FileSystemInfo\FileSystemInfoModel.cs" />
+    <Compile Include="Model\FileSystemInfo\FileSystemInfoProfile.cs" />
+    <Compile Include="Model\GoogleDrive\GoogleDriveCommandModels.cs" />
+    <Compile Include="Model\GoogleDrive\GoogleDriveDiskIOHelper.cs" />
+    <Compile Include="Model\GoogleDrive\GoogleDriveProfile.cs" />
+    <Compile Include="Model\GoogleDrive\GoogleDriveLogin.cs" />
+    <Compile Include="Model\GoogleDrive\GoogleDriveItemModel.cs" />
+    <Compile Include="Model\GoogleDrive\GoogleDriveFileStream.cs" />
+    <Compile Include="Model\GoogleDrive\GoogleDriveMimeTypeManager.cs" />
+    <Compile Include="Model\HardDriveDiskIOHelper.cs" />
+    <Compile Include="Model\SevenZipSharp\IOScriptCommands.cs" />
+    <Compile Include="Model\SevenZipSharp\SzsCommandProvider.cs" />
+    <Compile Include="Model\SevenZipSharp\SzsFileStream.cs" />
+    <Compile Include="Model\SevenZipSharp\SzsDiskIOHelper.cs" />
+    <Compile Include="Model\SevenZipSharp\SzsItemModel.cs" />
+    <Compile Include="Model\SevenZipSharp\SzsMetadataProvider.cs" />
+    <Compile Include="Model\SevenZipSharp\SzsProfile.cs" />
+    <Compile Include="Model\SkyDrive\SkyDriveMetaProvider.cs" />
+    <Compile Include="Model\SkyDrive\SkyDriveLogin.cs" />
+    <Compile Include="Model\SkyDrive\SkyDriveDiskIOHelper.cs" />
+    <Compile Include="Model\FileBasedDiskPathMapper.cs" />
+    <Compile Include="Model\SkyDrive\SkyDriveFileStream.cs" />
+    <Compile Include="Model\SkyDrive\SkyDriveItemModel.cs" />
+    <Compile Include="Model\SkyDrive\SkyDriveProfile.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Compression\ICompressorWrapper.cs" />
+    <Compile Include="Compression\SevenZipWrapper.cs" />
+    <Compile Include="Scripts\FileExplorer3IOCommands.cs" />
+    <Compile Include="Scripts\IOScriptCommands.cs" />
+    <Compile Include="Scripts\v2\DiskClipboard.cs" />
+    <Compile Include="Scripts\v2\AssignArchiveBytes.cs" />
+    <Compile Include="Scripts\v2\DiskRun.cs" />
+    <Compile Include="Scripts\v2\DiskTransfer.cs" />
+    <Compile Include="Scripts\v2\ExplorerDefaultToolbarCommands.cs" />
+    <Compile Include="Scripts\v2\ExplorerDefault.cs" />
+    <Compile Include="Scripts\v2\ExplorerInit.cs" />
+    <Compile Include="Scripts\v2\ExplorerShow.cs" />
+    <Compile Include="Scripts\v2\GetFilePart.cs" />
+    <Compile Include="Scripts\v2\IOInitializeHelpers.cs" />
+    <Compile Include="Scripts\v2\SzsDiskTransfer.cs" />
+    <Compile Include="Utils\CompressUtils.cs" />
+    <Compile Include="Utils\ExIconExtractor.cs" />
+    <Compile Include="Utils\ExtensionMethods.cs" />
+    <Compile Include="Utils\HookableMemoryStream.cs" />
+    <Compile Include="Utils\IconExtractor.cs" />
+    <Compile Include="Utils\ImageTools.cs" />
+    <Compile Include="Utils\SystemImageList.cs" />
+    <Compile Include="Utils\TempStreamUtils.cs" />
+    <Compile Include="Utils\Win32API.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Model\folder.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Model\mail.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Diagrams\FileExplorerIO.cd" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Model\SkyDrive\OneDrive_Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Model\GoogleDrive\GoogleDrive_Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Model\DropBox\DropBox_Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Model\DirectoryInfoEx\My_Computer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UserControls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FileExplorer.Scripting\FileExplorer.Scripting [WPF].csproj">
+      <Project>{45b4c0ed-a35e-4b0b-8c78-9a1d48f7527a}</Project>
+      <Name>FileExplorer.Scripting [WPF]</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileExplorer.Scripting\FileExplorer.Scripting.csproj">
+      <Project>{ecabbc13-1922-4500-908b-cd865e91e4c5}</Project>
+      <Name>FileExplorer.Scripting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileExplorer.UIEventHub\FileExplorer.UIEventHub.csproj">
+      <Project>{528f0c1a-38b5-4a42-a8bd-702f052cdf2f}</Project>
+      <Name>FileExplorer.UIEventHub</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileExplorer3.WPF\FileExplorer3.WPF.csproj">
+      <Project>{78b3e601-2449-4600-af48-94ac53fbee22}</Project>
+      <Name>FileExplorer3.WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileExplorer3\FileExplorer3 [WPF].csproj">
+      <Project>{b876634c-850c-4678-a1a1-34f6ffea6d52}</Project>
+      <Name>FileExplorer3 [WPF]</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileExplorer3\FileExplorer3.csproj">
+      <Project>{bd72b62f-6bcf-43d0-ad6a-332decfae4ed}</Project>
+      <Name>FileExplorer3</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Resources\FolderIcon.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.7\tools\Microsoft.Bcl.Build.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+    xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+    xmlns:cali ="http://www.caliburnproject.org"
+    xmlns:conv="clr-namespace:QuickZip.Converters"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <Style x:Key="CommandModelContextMenuMenuItemStyle" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+        <Setter Property="Visibility" Value="{Binding IsVisibleOnMenu, Converter={StaticResource btvc}}" />
+        <Setter Property="Header" Value="{Binding CommandModel.Header, Mode=OneWay}"  />
+        <Setter Property="Command" Value="{Binding  CommandBinding.Command, Mode=OneWay}" />
+        <Setter Property="CommandParameter" Value="{Binding DataContext.Commands.ToolbarCommands.AppliedModels, 
+                                    RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" />
+        <Setter Property="CommandTarget" Value="{Binding Path=PlacementTarget,
+        RelativeSource={RelativeSource
+            AncestorType=ContextMenu}}" />
+        <Setter Property="Icon" Value="{Binding Icon, Mode=OneWay}" />
+        <Setter Property="IsCheckable" Value="{Binding CommandModel.IsChecked, Mode=OneWay}"  />
+        <Setter Property="IsChecked" Value="{Binding CommandModel.IsChecked, Mode=OneWay}"  />
+        <Setter Property="ItemsSource" Value="{Binding SubCommands.All}" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Trigger>
+            <DataTrigger Binding="{Binding CommandType}" Value="Separator">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Separator HorizontalAlignment="Stretch" Height="1" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,16 @@
+fileExplorer.Scripting,dll,4
+fileExplorer.Scripting,dll,4
+fileExplorer.UIEventHub,dll,4
+fileExplorer3,dll,4
+fileExplorer3.IO,dll,4
+fileExplorer.WPF.Panels,dll,4
+fileExplorer3.WPF,dll,4
+TestApp.WPF,exe,4
+TestTemplate.WPF,exe,4
+Test_DiagramingDemo,exe,4
+Test_NonShellDragDemo,exe,4
+Test_ShellDragDemo,exe,4
+Test_TabDragDemo,exe,4
+Test_InputProcessor,exe,4
+Test_UIScriptCommands,exe,4
+Test_IOCPanelTest,exe,4

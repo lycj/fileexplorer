@@ -1,0 +1,46 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc="clr-namespace:FileExplorer.UserControls"
+    xmlns:cali ="http://www.caliburnproject.org"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///FileExplorer3.RT/Themes/Default.RT/Brushes.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <!--<DataTemplate x:Key="GridLabelTemplate" >
+        <StackPanel Orientation="Horizontal">
+            <Image Source="{Binding Icon.Value, IsAsync=True, Mode=OneWay}" Width="30" Height="30"  />
+            <TextBlock Text="{Binding EntryModel.Label}"  Padding="10,0,0,0"
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center" />
+        </StackPanel>
+        
+    </DataTemplate>-->
+
+    <DataTemplate x:Key="IconItemTemplate">        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="30" />
+            </Grid.RowDefinitions>
+            <!--<Image Source="{Binding Icon.Value, IsAsync=True, Mode=OneWay}" Grid.Row="0"  />-->
+            <TextBlock x:Name="Label" TextAlignment="Center" 
+                       Text="{Binding EntryModel.Label}" Grid.Row="1" VerticalAlignment="Bottom" />
+        </Grid>
+    </DataTemplate>
+
+    <!--<DataTemplate x:Key="SmallIconItemTemplate">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="32" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Source="{Binding Icon.Value, IsAsync=True, Mode=OneWay}" Grid.Column="0" />
+            <TextBlock x:Name="Label" TextAlignment="Left" VerticalAlignment="Center" 
+                       Text="{Binding EntryModel.Label}" Grid.Column="1" />
+        </Grid>
+    </DataTemplate>-->
+
+
+</ResourceDictionary>

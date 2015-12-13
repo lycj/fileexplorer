@@ -1,0 +1,53 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+    xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Colors.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Geometry.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Buttons.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/DropDown.xaml" />        
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/DisplayTemplates.xaml" />
+        
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="StatusbarItemTemplate" TargetType="{x:Type uc:StatusbarItemEx}">
+        <Border BorderBrush="Transparent" Padding="5,0" >
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{TemplateBinding Header}" />
+                <TextBlock x:Name="ColonTextBlock" Text=":" Padding="5,0"  />
+                <!-- See DisplayTemplates -->
+                <bc:DisplayContentControl Content="{TemplateBinding Content}" Type="{TemplateBinding Type}" 
+                                          ContentTemplateSelector="{StaticResource dts}" />
+                <!--<ContentPresenter ContentTemplateSelector="{StaticResource dts}" />-->
+            </StackPanel>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="Header" Value="">
+                <Setter TargetName="ColonTextBlock" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+            <!--<MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsHeader" Value="True" />
+                    <Condition Property="IsExpanded" Value="True" />
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="Width" 
+                            Value="{Binding ActualWidth, 
+                            RelativeSource={RelativeSource AncestorType={x:Type Panel}}}" />                    
+                </MultiTrigger.Setters>
+            </MultiTrigger>-->
+                            
+        </ControlTemplate.Triggers>
+    </ControlTemplate>   
+
+    <Style TargetType="{x:Type uc:StatusbarItemEx}">
+        <Setter  Property="Template" Value="{StaticResource StatusbarItemTemplate}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+    </Style>
+
+
+</ResourceDictionary>

@@ -1,0 +1,136 @@
+﻿<UserControl x:Class="FileExplorer.WPF.Views.FileListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+             xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+             xmlns:def="clr-namespace:FileExplorer.WPF.Defines"
+             xmlns:hub="http://www.quickzip.org/UIEventHub"
+             xmlns:m="clr-namespace:FileExplorer.WPF.Models"
+             xmlns:v="clr-namespace:FileExplorer.WPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Brushes.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ListView.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ListViewItem.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Views.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ItemTemplates.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Toolbar.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ContextMenu.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+    <Grid>
+        <!--<Grid.ContextMenu>
+
+            <ContextMenu ItemsSource="{Binding Commands.ToolbarCommands.CommandModels.All}" 
+                                    ItemContainerStyle="{StaticResource CommandModelContextMenuMenuItemStyle}" />
+        </Grid.ContextMenu>-->
+
+        <uc:ListViewEx Background="LightBlue"  x:Name="ProcessedItems"       
+                     ItemsSource="{Binding ProcessedEntries.All}"   BorderBrush="Transparent"
+                     ViewMode="{Binding Parameters.ViewMode}"  
+                     Columns="{Binding Columns.ColumnList}"
+                     ColumnFilters ="{Binding Columns.ColumnFilters}"
+                     ColumnsVisibility="{Binding ShowGridHeader, Converter={StaticResource btvc}}"
+                     ItemSize="{Binding Parameters.ItemSize}"
+                     ItemAnimationDuration="00:00:00" 
+                     IsEnabled="{Binding ProcessedEntries.EntriesHelper.IsLoading, Mode=OneWay, 
+                            Converter={StaticResource fb}}"
+                     IsCheckBoxVisible="{Binding IsCheckBoxVisible, Mode=OneWay}"
+                     SortDirection="{Binding Columns.SortDirection}"
+                     SortBy="{Binding Columns.SortBy}"
+                     AllowDrop="True"
+                     cal:View.ApplyConventions="True"                                            
+                     hub:UIEventHubProperties.DragItemTemplate="{StaticResource GridLabelTemplate}"
+                       >            
+            <hub:UIEventAdapter.Processors>
+                <hub:TouchGestureEventProcessor Gesture="FlickLeft" Command="NavigationCommands.BrowseBack" />
+                <hub:TouchGestureEventProcessor Gesture="FlickRight" Command="NavigationCommands.BrowseForward" />
+                <hub:TouchGestureEventProcessor Gesture="FlickUp" Command="NavigationCommands.BrowseHome" />
+
+                <hub:InputBindingsEventProcessor >
+                    <!-- In ListView.xaml -->
+                    <hub:InputBindingsEventProcessor.InputBindings>
+                        <MouseBinding Command="ApplicationCommands.Open" MouseAction="LeftDoubleClick" />
+                        <KeyBinding Key="Back" Modifiers="Control" Command="NavigationCommands.BrowseHome" />
+                        <MouseBinding Command="NavigationCommands.IncreaseZoom" Gesture="{x:Static hub:MouseWheelGesture.CtrlUp}" />
+                        <MouseBinding Command="NavigationCommands.DecreaseZoom" Gesture="{x:Static hub:MouseWheelGesture.CtrlDown}" />
+                        <KeyBinding Command="def:ExplorerCommands.OpenTab" Key="T" Modifiers="Control" />
+                    </hub:InputBindingsEventProcessor.InputBindings>
+                </hub:InputBindingsEventProcessor>
+
+                <hub:DragDropEventProcessor EnableDrag="{Binding EnableDrag}" EnableDrop="{Binding EnableDrop}" />
+                <hub:DragDropLiteEventProcessor EnableDrag="{Binding EnableDrag}" EnableDrop="{Binding EnableDrop}"
+                                               EnableMouse="False" EnableTouch="True" />
+                <hub:MultiSelectEventProcessor EnableMultiSelect="{Binding EnableMultiSelect}"  
+                                              UnselectAllCommand="{x:Static def:ExplorerCommands.UnselectAll}"
+                                            IsCheckboxEnabled="{Binding IsCheckBoxVisible, Mode=OneWay}"
+                />
+
+                <hub:ContextMenuEventProcessor EnableContextMenu="{Binding EnableContextMenu}">
+                    <hub:ContextMenuEventProcessor.ContextMenu>
+                        <ContextMenu ItemsSource="{Binding Commands.ToolbarCommands.CommandModels.All}" 
+                                    ItemContainerStyle="{StaticResource CommandModelContextMenuMenuItemStyle}" />
+                    </hub:ContextMenuEventProcessor.ContextMenu>
+                </hub:ContextMenuEventProcessor>
+
+
+            </hub:UIEventAdapter.Processors>
+            <!--<MouseBinding Command="ApplicationCommands.ContextMenu" MouseAction="MiddleClick" />-->
+            <!--<i:Interaction.Triggers>                
+                <uc:InputBindingTrigger>                                        
+                    <uc:InputBindingTrigger.InputBinding>
+                        <KeyBinding Key="F2"/>
+                    </uc:InputBindingTrigger.InputBinding>
+                    <cal:ActionMessage MethodName="ToggleRename"/>
+                </uc:InputBindingTrigger>
+            </i:Interaction.Triggers>-->
+          
+            
+            <uc:ListViewEx.OuterTopContent>
+                <Border Margin="2" bc:DockableScrollViewer.IsResizable="True"
+                         bc:DockableScrollViewer.IsContentVisible="{Binding ShowToolbar}"
+                        >
+                    <uc:ToolbarEx ItemsSource="{Binding Commands.ToolbarCommands.CommandModels.All, Mode=OneTime}"                                  
+                                  hub:UIEventHubProperties.SkipLookup="True" VerticalAlignment="Top" >
+                        <uc:ToolbarEx.Resources>
+                            <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ExplorerToolbar.xaml" />
+                        </uc:ToolbarEx.Resources>
+                    </uc:ToolbarEx>
+                </Border>
+            </uc:ListViewEx.OuterTopContent>
+            <uc:ListViewEx.OuterRightContent>
+                <ContentControl Name="Sidebar" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                bc:DockableScrollViewer.IsResizable="True"
+                                bc:DockableScrollViewer.ContentSize="150.0"
+                                bc:DockableScrollViewer.IsContentVisible="{Binding ShowSidebar}" />
+            </uc:ListViewEx.OuterRightContent>
+
+           
+            <!--<uc:FileList.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Name}"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </uc:FileList.GroupStyle>-->
+
+
+        </uc:ListViewEx>
+
+     
+    </Grid>
+</UserControl>

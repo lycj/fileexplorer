@@ -1,0 +1,871 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{78B3E601-2449-4600-AF48-94AC53FBEE22}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FileExplorer3.WPF</RootNamespace>
+    <AssemblyName>FileExplorer3.WPF</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=2.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Caliburn.Micro.Core.2.0.1\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlTextBlock, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\lib\HtmlTextBlock.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroLog, Version=0.8.6.0, Culture=neutral, PublicKeyToken=ba4ace74c3b410f3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MetroLog.0.8.6\lib\net45\MetroLog.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroLog.Platform">
+      <HintPath>..\packages\MetroLog.0.8.6\lib\net45\MetroLog.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.1.1309.1617\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core">
+      <HintPath>..\packages\NUnitTestAdapter.1.0\lib\nunit.core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.core.interfaces">
+      <HintPath>..\packages\NUnitTestAdapter.1.0\lib\nunit.core.interfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.util">
+      <HintPath>..\packages\NUnitTestAdapter.1.0\lib\nunit.util.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NUnit.VisualStudio.TestAdapter">
+      <HintPath>..\packages\NUnitTestAdapter.1.0\lib\NUnit.VisualStudio.TestAdapter.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseControls\ClipCorner.cs" />
+    <None Include="BaseControls\LoginControl.cs" />
+    <Compile Include="BaseControls\DisplayContentControl.cs" />
+    <Compile Include="BaseControls\DockableScrollViewer.cs" />
+    <Compile Include="BaseControls\ScrollableTabPanel.cs" />
+    <Compile Include="BaseControls\VirtualWrapPanel2.cs" />
+    <Compile Include="Defines\Attributes.cs" />
+    <Compile Include="Defines\Cofe3\Defines\Structs\UIParameterDic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Defines\Cofe3\Defines\Structs\VMParameterDic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Defines\Cofe3\Utils\W32ConverterUtils.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Defines\Cofe3\Utils\W32RegistryUtils.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Defines\Cofe3\Utils\W32StreamUtils.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Defines\Cofe3\Utils\W32StringUtils.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Defines\Converters\ByteArrayToImageConverter.cs" />
+    <Compile Include="Defines\Converters\EntryModelToStringConverter.cs" />
+    <Compile Include="Defines\Converters\PercentageConverter.cs" />
+    <Compile Include="Defines\Converters\ScrollBarConverters.cs" />
+    <Compile Include="Defines\Converters\TimeElapsedConverter.cs" />
+    <Compile Include="Defines\Converters\UriToImageSourceConverter.cs" />
+    <Compile Include="Defines\Structs.cs" />
+    <Compile Include="Models\ColumnFilter.cs" />
+    <Compile Include="Models\CommandModel.cs" />
+    <Compile Include="Models\CommandModelImpl.cs" />
+    <Compile Include="Models\CommonScriptCommands.cs" />
+    <Compile Include="Models\ExtensionMethods.cs" />
+    <Compile Include="Models\GetResourceIcon.cs" />
+    <Compile Include="Models\ICommandModelImpl.cs" />
+    <Compile Include="Models\IDiskIOHelper.cs" />
+    <Compile Include="Models\IModelIconExtractor\GetUriIcon.cs" />
+    <Compile Include="Models\IModelIconExtractor\ProvideValueIconExtractor.cs" />
+    <Compile Include="Models\IShellDragDropHandler.cs" />
+    <Compile Include="Models\IModelIconExtractor\ResourceIconExtractor.cs" />
+    <Compile Include="Models\IRoutedCommandModel.cs" />
+    <Compile Include="Models\IWPFProfile.cs" />
+    <Compile Include="Models\NullMetadataProvider.cs" />
+    <Compile Include="Models\RootEntryModel.cs" />
+    <Compile Include="Scripts\FileExplorer3WPFCommands.cs" />
+    <Compile Include="Scripts\ModelWPFScriptCommands.cs" />
+    <Compile Include="Models\WebFileStream.cs" />
+    <None Include="Scripts\v2\DoCommandBase.cs" />
+    <Compile Include="Scripts\v2\ExplorerAssignCurrentDirectory.cs" />
+    <Compile Include="Scripts\v2\ExplorerAssignScriptParameters.cs" />
+    <Compile Include="Scripts\v2\ExplorerCreate.cs" />
+    <Compile Include="Scripts\v2\ExplorerDefault.cs" />
+    <Compile Include="Scripts\v2\ExplorerDefaultToolbarCommands.cs" />
+    <Compile Include="Scripts\v2\FileListAssignEntries.cs" />
+    <Compile Include="Scripts\v2\FileListRefresh.cs" />
+    <Compile Include="Scripts\v2\FileListSelect.cs" />
+    <Compile Include="Scripts\v2\RunCommadLine.cs" />
+    <Compile Include="Scripts\v2\UIInitializeHelpers.cs" />
+    <Compile Include="Scripts\v2\NotifyRootChanged.cs" />
+    <Compile Include="Scripts\v2\ProfilePicker.cs" />
+    <Compile Include="Scripts\v2\SetScriptCommand.cs" />
+    <Compile Include="Scripts\v2\ExplorerShow.cs" />
+    <Compile Include="Scripts\v2\DirectoryTreeToggleNode.cs" />
+    <Compile Include="Scripts\v2\ExplorerDo.cs" />
+    <Compile Include="Scripts\v2\NotifyDirectoryChanged.cs" />
+    <Compile Include="Scripts\v2\ExplorerGoTo.cs" />
+    <None Include="Scripts\v2\FileListAssignSelection.cs" />
+    <Compile Include="Scripts\v2\MessageBoxShow.cs" />
+    <Compile Include="Scripts\v2\TabbedExplorerShow.cs" />
+    <Compile Include="Scripts\v2\TabExplorerNewTab.cs" />
+    <Compile Include="Scripts\v2\TabExplorerCloseTab.cs" />
+    <Compile Include="Scripts\v2\ExplorerSetParameters.cs" />
+    <Compile Include="Themes\ThirdParty\DockPanelSplitter.cs" />
+    <Compile Include="BaseControls\MultiStepSlider.cs" />
+    <Compile Include="BaseControls\SliderSupportedPanel.cs" />
+    <Compile Include="Defines\Commands\FileListCommands.cs" />
+    <Compile Include="Defines\Converters\AddBracketConverter.cs" />
+    <Compile Include="Defines\Converters\BorderClipConverter.cs" />
+    <Compile Include="Defines\Converters\DynamicConverter.cs" />
+    <Compile Include="Defines\Converters\StripPathConverter.cs" />
+    <Compile Include="Defines\Converters\TimeSpanToStrConverter.cs" />
+    <Compile Include="Defines\Converters\VisibleIfEqualConverter.cs" />
+    <Compile Include="Defines\Defaults.cs" />
+    <Compile Include="Defines\Strings.cs" />
+    <Compile Include="Themes\ThirdParty\LoadingAdorner\AdornedControl.cs" />
+    <Compile Include="Themes\ThirdParty\LoadingAdorner\AdornerPlacement.cs" />
+    <Compile Include="Themes\ThirdParty\LoadingAdorner\FrameworkElementAdorner.cs" />
+    <Compile Include="Themes\ThirdParty\LoadingAdorner\LoadingWait.xaml.cs" />
+    <Compile Include="UserControls\Explorer.cs" />
+    <Compile Include="Utils\BitmapUtils.cs" />
+    <Compile Include="Utils\ConsoleProgress.cs" />
+    <Compile Include="Utils\FileExplorerBootStrapper.cs" />
+    <Compile Include="Utils\RelayCommand.cs" />
+    <Compile Include="Utils\ResourceUtils.cs" />
+    <Compile Include="ViewModels\AddBookmarksViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\CommandManagerBase.cs" />
+    <Compile Include="ViewModels\Helpers\ExtensionMethods_Scripts.cs" />
+    <Compile Include="ViewModels\Interfaces\IStartupWindowSize.cs" />
+    <Compile Include="ViewModels\Interfaces\ITabbedExplorerViewModel.cs" />
+    <Compile Include="ViewModels\SelectProfileViewModel.cs" />
+    <Compile Include="ViewModels\BreadcrumbCommandManager.cs" />
+    <Compile Include="ViewModels\Initializers\ExplorerInitializers.cs" />
+    <Compile Include="UserControls\TabControlEx.cs" />
+    <Compile Include="UserControls\Titlebar.cs" />
+    <Compile Include="BaseControls\TitlebarContainer.cs" />
+    <Compile Include="BaseControls\TitlebarControlButton.cs" />
+    <Compile Include="UserControls\ToolBarEx.cs" />
+    <Compile Include="Utils\AsyncLock.cs" />
+    <Compile Include="Utils\AsyncSemaphore.cs" />
+    <Compile Include="Utils\ParamStringUtils.cs" />
+    <Compile Include="Utils\ExtensionMethods.cs" />
+    <Compile Include="Utils\ICommandScriptCommand.cs" />
+    <Compile Include="Utils\ShellUtils.cs" />
+    <Compile Include="Utils\SimpleCommandBinding.cs" />
+    <Compile Include="Utils\SimpleRoutedCommand.cs" />
+    <Compile Include="Utils\ScriptCommandBinding.cs" />
+    <Compile Include="Utils\WebUtils.cs" />
+    <Compile Include="ViewModels\AddDirectoryViewModel.cs" />
+    <Compile Include="ViewModels\CommandViewModel.cs" />
+    <Compile Include="ViewModels\DirectoryTreeCommandManager.cs" />
+    <Compile Include="ViewModels\ExplorerCommandManager.cs" />
+    <Compile Include="Defines\Parameters.cs" />
+    <Compile Include="ViewModels\FileListCommandModelImpls.cs" />
+    <Compile Include="ViewModels\FileListCommandManager.cs" />
+    <Compile Include="ViewModels\Helpers\ICommandManager.cs" />
+    <Compile Include="ViewModels\Helpers\PropertiesHelper.cs" />
+    <Compile Include="ViewModels\Helpers\TabbedWindowManager.cs" />
+    <Compile Include="ViewModels\Initializers\ExplorerInitializer.cs" />
+    <Compile Include="ViewModels\Initializers\NullExplorerInitializer.cs" />
+    <Compile Include="ViewModels\Initializers\ScriptCommandInitializer.cs" />
+    <Compile Include="ViewModels\Interfaces\ExtensionMethods.cs" />
+    <Compile Include="ViewModels\Interfaces\IExplorerInitializer.cs" />
+    <Compile Include="ViewModels\Interfaces\ISidebarViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IViewModelInitializer.cs" />
+    <Compile Include="ViewModels\Interfaces\ViewAttached.cs" />
+    <Compile Include="ViewModels\MessageDialogViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\DialogFilterViewModel.cs" />
+    <Compile Include="ViewModels\FilePickerViewModel.cs" />
+    <Compile Include="ViewModels\DirectoryPickerViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\MetadataHelperViewModel.cs" />
+    <Compile Include="ViewModels\TabbedExplorerCommandManager.cs" />
+    <Compile Include="ViewModels\NavigationCommandManager.cs" />
+    <Compile Include="ViewModels\SidebarCommandManager.cs" />
+    <Compile Include="ViewModels\SidebarCommandModelImpls.cs" />
+    <Compile Include="ViewModels\SidebarViewModel.cs" />
+    <Compile Include="ViewModels\ProgressDialogViewModel.cs" />
+    <Compile Include="Scripts\WPFScriptCommands.cs" />
+    <Compile Include="ViewModels\Helpers\ToolbarCommandsHelper.cs" />
+    <Compile Include="ViewModels\Interfaces\ICommandViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IExportCommandBindings.cs" />
+    <Compile Include="ViewModels\Interfaces\IScriptCommandContainer.cs" />
+    <Compile Include="ViewModels\Interfaces\IToolbarViewModel.cs" />
+    <Compile Include="ViewModels\EstimateTimeRemainViewModel.cs" />
+    <Compile Include="ViewModels\TabbedExplorerViewModel.cs" />
+    <Compile Include="Views\AddBookmarksView.xaml.cs">
+      <DependentUpon>AddBookmarksView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Explorer.DirectoryPickerCombo.xaml.cs">
+      <DependentUpon>Explorer.DirectoryPickerCombo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Explorer.DirectoryPicker.xaml.cs">
+      <DependentUpon>Explorer.DirectoryPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Explorer.ToolWindow2.xaml.cs">
+      <DependentUpon>Explorer.ToolWindow2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SelectProfileView.xaml.cs">
+      <DependentUpon>SelectProfileView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddDirectoryView.xaml.cs">
+      <DependentUpon>AddDirectoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Explorer.ToolWindow.xaml.cs">
+      <DependentUpon>Explorer.ToolWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExplorerView.xaml.cs">
+      <DependentUpon>ExplorerView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\FilePickerView.xaml.cs">
+      <DependentUpon>FilePickerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DirectoryPickerView.xaml.cs">
+      <DependentUpon>DirectoryPickerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MessageDialogView.xaml.cs">
+      <DependentUpon>MessageDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Navigation.ToolWindow.xaml.cs">
+      <DependentUpon>Navigation.ToolWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SidebarView.xaml.cs">
+      <DependentUpon>SidebarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProgressDialogView.xaml.cs">
+      <DependentUpon>ProgressDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TabbedExplorerView.xaml.cs">
+      <DependentUpon>TabbedExplorerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ToolbarView.xaml.cs">
+      <DependentUpon>ToolbarView.xaml</DependentUpon>
+    </Compile>
+    <None Include="BaseControls\LambdaHierarchyHelper.cs" />
+    <Compile Include="BaseControls\Invert.cs" />
+    <Compile Include="BaseControls\OneItemPanel.cs" />
+    <Compile Include="BaseControls\OverflowablePanel.cs" />
+    <Compile Include="BaseControls\OverflowableStackPanel.cs" />
+    <Compile Include="BaseControls\SelectionAdorner.cs" />
+    <Compile Include="Defines\Converters\CsvContainsConverter.cs" />
+    <Compile Include="BaseControls\Switch.cs" />
+    <Compile Include="Defines\Converters\VisibilityToBoolConverter.cs" />
+    <Compile Include="UserControls\BreadcrumbExpander.cs" />
+    <Compile Include="UserControls\BreadcrumbTree.cs" />
+    <Compile Include="UserControls\BreadcrumbTreeItem.cs" />
+    <Compile Include="BaseControls\DropDownList.cs" />
+    <None Include="Obsoluted\OverflowPanel.cs" />
+    <None Include="Obsoluted\OverflowItem.cs" />
+    <Compile Include="BaseControls\SuggestBoxBase.cs" />
+    <Compile Include="BaseControls\MultiContentControl.cs" />
+    <Compile Include="BaseControls\PathExistsValidationRule.cs" />
+    <Compile Include="BaseControls\PathHierarchyHelper.cs" />
+    <Compile Include="BaseControls\BreacrumbCorePanel.cs" />
+    <Compile Include="BaseControls\HotTrack.cs" />
+    <Compile Include="BaseControls\SuggestBox.cs" />
+    <Compile Include="Defines\Converters\FormatNumbers.cs" />
+    <Compile Include="Defines\Converters\EnumMatchToBooleanConverter.cs" />
+    <Compile Include="Defines\Converters\FlipBool.cs" />
+    <Compile Include="Defines\Converters\FormatDouble.cs" />
+    <Compile Include="Defines\Converters\FormatFileSize.cs" />
+    <Compile Include="Defines\Converters\FormatDateTime.cs" />
+    <Compile Include="Defines\Converters\IntAdd.cs" />
+    <Compile Include="Defines\Converters\IntSubstract.cs" />
+    <Compile Include="Defines\Converters\InvertSignConverter.cs" />
+    <Compile Include="Defines\Converters\StringArrayToString.cs" />
+    <Compile Include="Defines\Converters\TagToBold.cs" />
+    <Compile Include="Defines\Converters\ToStringConverter.cs" />
+    <Compile Include="Defines\Converters\UserFriendlyTextConverter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Themes\ThirdParty\Block.xaml.cs" />
+    <Compile Include="Themes\ThirdParty\BlueDot.xaml.cs" />
+    <Compile Include="Themes\ThirdParty\LoadingAnimation.xaml.cs" />
+    <Compile Include="Themes\ThirdParty\SilverLightMain.xaml.cs" />
+    <Compile Include="UnitTests\UtilTest.cs" />
+    <Compile Include="UnitTests\ActionTest.cs" />
+    <Compile Include="BaseControls\StackPanelView.cs" />
+    <Compile Include="BaseControls\DisplayTemplateSelector.cs" />
+    <Compile Include="BaseControls\DropDown.cs" />
+    <Compile Include="BaseControls\BreadcrumbCore.cs" />
+    <Compile Include="BaseControls\BreadcrumbItem.cs" />
+    <Compile Include="BaseControls\BreadcrumbOverflowPanel.cs" />
+    <Compile Include="UserControls\Breadcrumb.cs" />
+    <Compile Include="UserControls\BreadcrumbBase.cs" />
+    <None Include="BaseControls\DragAdorner.cs" />
+    <Compile Include="Defines\AttachedProperties.cs" />
+    <Compile Include="UserControls\EditBox.cs" />
+    <Compile Include="UserControls\EditBoxAdorner.cs" />
+    <Compile Include="BaseControls\GridViewColumnEx.cs" />
+    <Compile Include="BaseControls\OverlappingPanel.cs" />
+    <Compile Include="UserControls\StatusbarEx.cs" />
+    <Compile Include="UserControls\TreeViewEx.cs" />
+    <Compile Include="Defines\Commands\ExplorerCommands.cs" />
+    <Compile Include="BaseControls\VirtualizingWrapPanel.cs" />
+    <Compile Include="UnitTests\UnitTestExtensions.cs" />
+    <Compile Include="BaseControls\AnimatedVirtualizingPanel.cs" />
+    <Compile Include="BaseControls\DebuggingConverter.cs" />
+    <Compile Include="UserControls\ListViewEx.cs" />
+    <Compile Include="UserControls\ListViewColumnUtils.cs" />
+    <Compile Include="UserControls\SelectionHelper.cs" />
+    <None Include="BaseControls\VirtualWrapPanel.cs" />
+    <Compile Include="BaseControls\VirutalStackPanel.cs" />
+    <Compile Include="BaseControls\VirutalStackPanelView.cs" />
+    <Compile Include="BaseControls\VirutalWrapPanelView.cs" />
+    <Compile Include="BaseControls\WrapPanelView.cs" />
+    <Compile Include="Utils\BitmapSourceUtils.cs" />
+    <Compile Include="UserControls\InputBindingTrigger.cs" />
+    <Compile Include="Utils\FastObservableCollection.cs" />
+    <Compile Include="Utils\PropertyPathHelper.cs" />
+    <Compile Include="Utils\SimpleCommand.cs" />
+    <Compile Include="ValueComparer.cs" />
+    <Compile Include="ViewModels\Actions\AppendDirectoryTree.cs" />
+    <Compile Include="ViewModels\Actions\AppendEntryList.cs" />
+    <Compile Include="ViewModels\BreadcrumbItemViewModel.cs" />
+    <Compile Include="ViewModels\BreadcrumbViewModel.cs" />
+    <Compile Include="ViewModels\DirectoryNodeBroadcastHandler.cs" />
+    <Compile Include="ViewModels\ExtensionMethods.cs" />
+    <Compile Include="ViewModels\FileListItemViewModel.cs" />
+    <Compile Include="ViewModels\Helpers\ColumnsHelper.cs" />
+    <Compile Include="ViewModels\Helpers\ListSelector.cs" />
+    <Compile Include="ViewModels\Helpers\EntriesProcessor.cs" />
+    <Compile Include="ViewModels\Helpers\ExtensionMethods.cs" />
+    <Compile Include="ViewModels\Helpers\IColumnsHelper.cs" />
+    <Compile Include="ViewModels\Helpers\IEntriesProcessor.cs" />
+    <Compile Include="ViewModels\Helpers\IListSelector.cs" />
+    <Compile Include="ViewModels\Helpers\ITreeLookup.cs" />
+    <Compile Include="ViewModels\Helpers\IEntriesHelper.cs" />
+    <Compile Include="ViewModels\Helpers\ITreeSelector.cs" />
+    <Compile Include="ViewModels\Helpers\ITreeLookupProcessor.cs" />
+    <Compile Include="ViewModels\Helpers\NotifyPropertyChangedBase.cs" />
+    <Compile Include="ViewModels\Helpers\EntriesHelper.cs" />
+    <Compile Include="ViewModels\Helpers\TreeDragHelper.cs" />
+    <Compile Include="ViewModels\Helpers\TreeSelector.cs" />
+    <Compile Include="ViewModels\Helpers\TreeRootSelector.cs" />
+    <Compile Include="ViewModels\Interfaces\IBreadcrumbItemViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IFileListItemViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IMetadataViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IBreadcrumbViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\INavigationViewModel.cs" />
+    <Compile Include="ViewModels\MetadataViewModel.cs" />
+    <Compile Include="ViewModels\NavigationViewModel.cs" />
+    <Compile Include="ViewModels\ToolbarViewModel.cs" />
+    <Compile Include="ViewModels\ViewModeViewModel.cs" />
+    <Compile Include="Views\BreadcrumbView.xaml.cs">
+      <DependentUpon>BreadcrumbView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NavigationView.xaml.cs">
+      <DependentUpon>NavigationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatusbarView.xaml.cs">
+      <DependentUpon>StatusbarView.xaml</DependentUpon>
+    </Compile>
+    <None Include="ViewModels\Actions\LoadIcon.cs" />
+    <Compile Include="ViewModels\Actions\CalculateColumnHeaderCount.cs" />
+    <Compile Include="ViewModels\Actions\FindMatched.cs" />
+    <Compile Include="ViewModels\Actions\DoSomething.cs" />
+    <Compile Include="ViewModels\Actions\ToggleRename.cs" />
+    <Compile Include="ViewModels\Actions\UnselectAll.cs" />
+    <Compile Include="ViewModels\Actions\WaitTillPropertyChanged.cs" />
+    <Compile Include="ViewModels\DirectoryNodeViewModel.cs" />
+    <Compile Include="ViewModels\DirectoryTreeViewModel.cs" />
+    <Compile Include="ViewModels\EntryViewModel.cs" />
+    <Compile Include="ViewModels\EntryViewModelComparer.cs" />
+    <Compile Include="ViewModels\ExplorerViewModel.cs" />
+    <Compile Include="ViewModels\FileListViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IDirectoryTreeViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IExplorerViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IFileListViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IEntryViewModel.cs" />
+    <Compile Include="ViewModels\Actions\LoadEntryList.cs" />
+    <Compile Include="ViewModels\Actions\Loader.cs" />
+    <Compile Include="ViewModels\Interfaces\IStatusbarViewModel.cs" />
+    <Compile Include="ViewModels\StatusbarViewModel.cs" />
+    <Compile Include="Utils\TaskUtils.cs" />
+    <Compile Include="Views\DirectoryTreeView.xaml.cs">
+      <DependentUpon>DirectoryTreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EntryIconView.xaml.cs">
+      <DependentUpon>EntryIconView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FileListView.xaml.cs">
+      <DependentUpon>FileListView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Themes\Common\TreeViewItemCopy.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Obsoluted\OverflowPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
+    <Page Include="Themes\Common\Splitter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\TabItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\TabControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\Expander.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\Titlebar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ThirdParty\DockPanelSplitter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\ProgressBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\BreadcrumbParts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\ContentControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\BreadcrumbTree.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\BreadcrumbTreeItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\BreadcrumbExpander.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\ComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\Border.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\ContextMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <None Include="Themes\Common\LoginControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </None>
+    <Page Include="Themes\Common\ScrollViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\Thumb.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\Slider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\ExplorerToolbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\Toolbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\Invert.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\Switch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\HotTrack.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ThirdParty\Block.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ThirdParty\LoadingAdorner\LoadingWait.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ThirdParty\ThirdParty.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ThirdParty\LoadingAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\Breadcrumb.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ThirdParty\BlueDot.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ThirdParty\SilverLightMain.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\GroupBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\RadioCombo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\StackPanelView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\WrapPanelView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\DisplayTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\Statusbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\StatusbarItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\DropDown.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\Buttons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\ListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\ListViewItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\ItemTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\Panels.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\TreeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\TreeViewItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\Views.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Default\Brushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Default\Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Default\BrushesBackup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Default\Geometry.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\VirtualStackPanelView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\VirtualWrapPanelView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Common\EditBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AddBookmarksView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Explorer.DirectoryPickerCombo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Explorer.DirectoryPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Explorer.ToolWindow2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SelectProfileView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AddDirectoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BreadcrumbView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Explorer.ToolWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ExplorerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FilePickerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DirectoryPickerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DirectoryTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EntryIconView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FileListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MessageDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Navigation.ToolWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NavigationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SidebarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProgressDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatusbarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TabbedExplorerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ToolbarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Resources\ViewMode\collage_16.png" />
+    <Resource Include="Themes\Resources\ViewMode\collage_16_2.png" />
+    <Resource Include="Themes\Resources\ViewMode\grid_16.png" />
+    <Resource Include="Themes\Resources\ViewMode\details_16_2.png" />
+    <Resource Include="Themes\Resources\ViewMode\details_25.png" />
+    <Resource Include="Themes\Resources\ViewMode\extralargeicon_16.png" />
+    <Resource Include="Themes\Resources\ViewMode\icon_16.png" />
+    <Resource Include="Themes\Resources\ViewMode\Icon_16_2.png" />
+    <Resource Include="Themes\Resources\ViewMode\largeicon_16.png" />
+    <Resource Include="Themes\Resources\ViewMode\list_16.png" />
+    <Resource Include="Themes\Resources\ViewMode\list_16_2.png" />
+    <Resource Include="Themes\Resources\ViewMode\organize_25.png" />
+    <Resource Include="Themes\Resources\ViewMode\smallicon_16.png" />
+    <Resource Include="Themes\Resources\ViewMode\smallicon_16_2.png" />
+    <Resource Include="Themes\Resources\ViewMode\tile_16.png" />
+    <Resource Include="Themes\Resources\ViewMode\tile_16_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Themes\Common\BrushUpdate.txt" />
+    <Resource Include="Themes\Resources\ViewMode\flip_16.png" />
+    <Resource Include="Themes\Resources\SegoeUISymbols\E10B.png" />
+    <Resource Include="Themes\Resources\SegoeUISymbols\E118.png" />
+    <Resource Include="Themes\Resources\SegoeUISymbols\E14E.png" />
+    <Resource Include="Themes\Resources\SegoeUISymbols\E17A.png" />
+    <Resource Include="Themes\Resources\SegoeUISymbols\E17B.png" />
+    <Resource Include="Themes\Resources\SegoeUISymbols\E188.png" />
+    <Resource Include="Themes\Resources\SegoeUISymbols\E1EF.png" />
+    <Resource Include="Themes\Resources\SegoeUISymbols\E239.png" />
+    <Resource Include="Themes\Resources\SegoeUISymbols\E23A.png" />
+    <Resource Include="Themes\Resources\SegoeUISymbols\E138.png" />
+    <Resource Include="Themes\Resources\SegoeUISymbols\E109.png" />
+    <None Include="ViewModels\Helpers\Selector.html" />
+    <EmbeddedResource Include="Themes\Resources\folder.ico" />
+    <EmbeddedResource Include="Themes\Resources\file.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Defines\Cofe3\Implements\" />
+    <Folder Include="Defines\Script\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FileExplorer.Scripting\FileExplorer.Scripting [WPF].csproj">
+      <Project>{45b4c0ed-a35e-4b0b-8c78-9a1d48f7527a}</Project>
+      <Name>FileExplorer.Scripting [WPF]</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileExplorer.Scripting\FileExplorer.Scripting.csproj">
+      <Project>{ecabbc13-1922-4500-908b-cd865e91e4c5}</Project>
+      <Name>FileExplorer.Scripting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileExplorer.UIEventHub\FileExplorer.UIEventHub.csproj">
+      <Project>{528f0c1a-38b5-4a42-a8bd-702f052cdf2f}</Project>
+      <Name>FileExplorer.UIEventHub</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileExplorer.WPF.Panels\FileExplorer.WPF.Panels.csproj">
+      <Project>{feddcf20-7c57-4a59-b101-ce927f01a6bd}</Project>
+      <Name>FileExplorer.WPF.Panels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileExplorer3\FileExplorer3 [WPF].csproj">
+      <Project>{b876634c-850c-4678-a1a1-34f6ffea6d52}</Project>
+      <Name>FileExplorer3 [WPF]</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileExplorer3\FileExplorer3.csproj">
+      <Project>{bd72b62f-6bcf-43d0-ad6a-332decfae4ed}</Project>
+      <Name>FileExplorer3</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

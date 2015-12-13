@@ -1,0 +1,30 @@
+﻿<Window x:Class="Test_InputProcessor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="InputProcessor Test" Height="525" Width="525">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="200" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock TextWrapping="Wrap">            
+            This demo demonstrate how an raw event from input (mouse/touch/stylus) translated into a 
+            more uniformed IUIInput and process by InputProcessor to interpret whether different actions is performed (e.g. flick, click count or drag), 
+            .  The IUIInput is then be consumed by UIEventProcessor.                          
+        </TextBlock>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="3">
+            <TextBlock Text="Show: " />
+            <CheckBox x:Name="cbRawEvent" Content="_Raw Event" IsChecked="False" ToolTip="Display raw input to process from." />
+            <CheckBox x:Name="cbClickCount" Content="_Click Count" IsChecked="True" ToolTip="Diplay click count by any input." />
+            <CheckBox x:Name="cbTouchGesture" Content="_Touch Gesture" IsChecked="True" ToolTip="Display Flick left/right by touch." />
+            <CheckBox x:Name="cbDrag" Content="_Drag" IsChecked="True" ToolTip="Display when Drag action is identified, For touch, you have to touch and hold several seconds before move." />
+            <CheckBox x:Name="cbEvent" Content="_Event" IsChecked="True" ToolTip="Display the processed input." />
+        </StackPanel>
+        <Rectangle x:Name="inputProcessorCanvas" Fill="Gray" Grid.Row="1" />
+        <ListBox x:Name="inputProcessorOutput" Grid.Row="2" 
+                         ScrollViewer.VerticalScrollBarVisibility="Auto" />
+    </Grid>
+</Window>

@@ -1,0 +1,142 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+    xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+    xmlns:vm="clr-namespace:FileExplorer.WPF.ViewModels"
+    xmlns:m="clr-namespace:FileExplorer.WPF.Models"
+    xmlns:cali ="http://www.caliburnproject.org"
+    xmlns:anim="clr-namespace:FileExplorer.WPF.Animations"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <DataTemplate x:Key="GridLabelTemplate" >
+        <StackPanel Orientation="Horizontal">
+            <Image Source="{Binding Icon, Mode=OneWay}" Width="30" Height="30"  />
+
+            <uc:EditBox x:Name="eb" Margin="5,0" DisplayValue="{Binding EntryModel.Label}" 
+                        ActualValue="{Binding EntryModel.Name, Mode=TwoWay}" 
+                        IsEditable="{Binding IsRenamable}"        
+                        IsEditing="{Binding IsRenaming, Mode=TwoWay}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Padding="10,0,0,0"
+                        />
+
+        </StackPanel>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="GridSizeTemplate" >
+        <StackPanel Orientation="Horizontal">
+            <TextBlock x:Name="tb" Text="{Binding EntryModel.Size, Converter={StaticResource ffs}}" />
+        </StackPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding EntryModel.IsDirectory}" Value="True">
+                <Setter TargetName="tb" Property="Text" Value="" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="TreeItemTemplate" >
+        <StackPanel Orientation="Horizontal">
+            <!--<Image Source="{Binding Icon, Mode=OneWay}" Width="30" Height="30"  />
+
+            <uc:EditBox x:Name="eb" Margin="5,0" DisplayValue="{Binding EntryModel.Label}" 
+                        ActualValue="{Binding EntryModel.Name, Mode=TwoWay}" 
+                        IsEditable="{Binding IsRenamable}"        
+                        IsEditing="{Binding IsRenaming, Mode=TwoWay}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Padding="10,0,0,0"
+                        />-->
+
+            <!--<anim:SilverLightMain Visibility="Visible" Height="30" Width="30"  />-->
+            <TextBlock Text="Loading" Visibility="{Binding IsLoading, Converter={StaticResource btvc}}" />
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="IconOnlyTemplate">
+        <Image Source="{Binding Icon, Mode=OneWay}" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />        
+    </DataTemplate>
+
+    <DataTemplate x:Key="IconItemTemplate">
+
+        <DockPanel LastChildFill="True" x:Name="dp">
+            <Image Source="{Binding Icon, Mode=OneWay}"  DockPanel.Dock="Top"
+                   Width="{Binding  DataContext.Parameters.ItemSize, 
+                        RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                   Height="{Binding DataContext.Parameters.ItemSize, 
+                        RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                   />
+            <uc:EditBox x:Name="eb" Margin="0,0" DisplayValue="{Binding EntryModel.Label}" 
+                        ActualValue="{Binding EntryModel.Name, Mode=TwoWay}" 
+                        IsEditable="{Binding IsRenamable}"        
+                        IsEditing="{Binding IsRenaming, Mode=TwoWay}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                       
+                        />
+            <!--<TextBlock x:Name="Label" TextAlignment="Center" 
+                       Text="{Binding EntryModel.Label}" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" />-->
+            
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="SmallIconItemTemplate">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="32" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Source="{Binding Icon, Mode=OneWay}" Grid.Column="0" />
+
+            <uc:EditBox x:Name="eb" Margin="5,0" DisplayValue="{Binding EntryModel.Label}" 
+                        ActualValue="{Binding EntryModel.Name, Mode=TwoWay}" 
+                        IsEditable="{Binding IsRenamable}"        
+                        IsEditing="{Binding IsRenaming}"
+                        TextWrapping="NoWrap"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Padding="10,0,0,0"
+                        Grid.Column="1"
+                        />
+        </Grid>
+    </DataTemplate>
+
+    <HierarchicalDataTemplate x:Key="DirectoryNodeItemTemplate"  
+                              ItemsSource="{Binding Entries.All}"
+                              DataType="{x:Type vm:DirectoryNodeViewModel}">
+        <ContentPresenter Content="{Binding}"
+            ContentTemplate="{StaticResource GridLabelTemplate}" />
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="BreadcrumbMenuNodeItemTemplate"  
+                              ItemsSource="{Binding Entries.All}"
+                              DataType="{x:Type vm:DirectoryNodeViewModel}">
+        <ContentPresenter Content="{Binding}" Height="16"
+            ContentTemplate="{StaticResource SmallIconItemTemplate}" />
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="ExpanderItemTemplate"  
+                              ItemsSource="{Binding Entries.All}"
+                              DataType="{x:Type vm:DirectoryNodeViewModel}">
+        <ContentPresenter Content="{Binding}" Height="16"
+            ContentTemplate="{StaticResource SmallIconItemTemplate}" 
+                          Visibility="{Binding IsOverflowed, Converter={StaticResource fbtvc}}"
+                          />
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="BreadcrumbNodeItemTemplate"  
+                              ItemsSource="{Binding Entries.All}"
+                              DataType="{x:Type vm:DirectoryNodeViewModel}">
+        <Viewbox HorizontalAlignment="Left" VerticalAlignment="Stretch" Stretch="Uniform">
+            <TextBlock Text="{Binding EntryModel.Label}" 
+                   Padding="2,0" />
+        </Viewbox>
+    </HierarchicalDataTemplate>
+
+
+</ResourceDictionary>

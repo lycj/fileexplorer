@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+<p>There have been a number WPF breadcrumb implementation around, even I have written this control twice, both times I have to rely in reflection to retrieve the Hierarchy (e.g. .typeof(T).GetProperty(subEntriesPath)), this is because the breadcrumb component is a List object that contains a number of breadcrumbItems.  </p>
+<p>In many aspect breadcrumb is very similar to TreeView, it has an item source, a selected value and all items can expand to show it's sub-items.  Making breadcrumb a treeView also allow it easier to bindable to viewModel.</p>
+<p>The reason that most breadcrumb is not TreeView is that the TreeView does not provide selection support, older approach lookup using the UI thread from root TreeViewItem and find the selected item, this doesn't work well because the lookup jammed the UI thread.</p>
+<p>Then I developed another approach (in FileExplorer2), which do the lookup in ViewModel, by setting TreeNodeViewModel.IsExpaned to true, it force the UI to load the sub-contents of the ViewModel when the TreeViewItem is loaded, resulting very smooth tree view expand and selection.</p>
+<p>But the problem is that all code has to be done in ViewModel, and the ViewModel is not reusable, so under Single responsibility principle, I have refactored the code to IEntriesHelper (which control the loading of sub-entries), ITreeSelector  and ITreeNodeSelector.&nbsp; BreadcrumbTree require the view model implement these interfaces.&nbsp; The default implementation of Selector uses await instead of the previous method.</p>
+    <p>
+        &nbsp;</p>
+</body>
+</html>

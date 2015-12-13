@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+    xmlns:conv="clr-namespace:QuickZip.Converters"       >
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Colors.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Geometry.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="BlankThumb" TargetType="{x:Type Thumb}">
+        <Border Background="Transparent" />
+    </ControlTemplate>
+
+
+
+</ResourceDictionary>

@@ -1,0 +1,30 @@
+﻿<Application x:Class="TestApp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:TestApp"
+             xmlns:uc="http://www.quickzip.org/UserControls"
+             ShutdownMode="OnLastWindowClose"
+             >
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <local:AppBootstrapper x:Key="bootstrapper" />
+                </ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+                <ResourceDictionary>
+                    <DataTemplate x:Key="GridSizeTemplate" >
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="tb" Text="{Binding EntryModel.Size, Converter={StaticResource ffs}}" />
+                        </StackPanel>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding EntryModel.IsDirectory}" Value="True">
+                                <Setter TargetName="tb" Property="Text" Value="" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+    xmlns:conv="clr-namespace:QuickZip.Converters"       >
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="TwoContentTemplate" TargetType="{x:Type bc:MultiContentControl}">
+        <DockPanel>
+            <ContentPresenter Content="{Binding}" DockPanel.Dock="Left" 
+                              Visibility="{Binding ContentVisible2, Converter={StaticResource btvc}, 
+                                        RelativeSource={RelativeSource TemplatedParent}}"
+                              ContentTemplate="{TemplateBinding ContentTemplate2}" />            
+            <ContentPresenter Content="{Binding}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+        </DockPanel>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ThreeContentTemplate" TargetType="{x:Type bc:MultiContentControl}">
+        <DockPanel>
+            <ContentPresenter Content="{Binding}" DockPanel.Dock="Left" 
+                              Visibility="{Binding ContentVisible3, Converter={StaticResource btvc}, 
+                                        RelativeSource={RelativeSource TemplatedParent}}"
+                              ContentTemplate="{TemplateBinding ContentTemplate3}" />
+            <ContentPresenter Content="{Binding}" DockPanel.Dock="Left" 
+                              Visibility="{Binding ContentVisible2, Converter={StaticResource btvc}, 
+                                        RelativeSource={RelativeSource TemplatedParent}}"
+                              ContentTemplate="{TemplateBinding ContentTemplate2}" />
+            <ContentPresenter Content="{Binding}" 
+                              Visibility="{Binding ContentVisible1, Converter={StaticResource btvc}, 
+                                        RelativeSource={RelativeSource TemplatedParent}}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}" />
+        </DockPanel>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type bc:MultiContentControl}">
+        <Setter Property="Template" Value="{StaticResource TwoContentTemplate}" />
+    </Style>
+
+</ResourceDictionary>

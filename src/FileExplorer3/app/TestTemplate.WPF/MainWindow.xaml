@@ -1,0 +1,536 @@
+﻿<Window x:Class="TestTemplate.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:conv="http://www.quickzip.org/Converters"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
+        xmlns:uc="http://www.quickzip.org/UserControls"
+        xmlns:bc="http://www.quickzip.org/BaseControls"
+        xmlns:hub="http://www.quickzip.org/UIEventHub"
+        Title="Control Test" Height="350" Width="525">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Buttons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/DropDown.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ListView.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/BreadcrumbTree.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/TabItem.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="{x:Type TabControl}" TargetType="{x:Type TabControl}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TabControl}">
+                            <Grid  SnapsToDevicePixels="true" ClipToBounds="true">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Name="ColumnDefinition0" />
+                                    <ColumnDefinition Name="ColumnDefinition1" Width="0" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Name="RowDefinition0" Height="50" />
+                                    <RowDefinition Name="RowDefinition1" Height="*" />
+                                </Grid.RowDefinitions>
+                                <WrapPanel Name="HeaderPanel" ZIndex="1"  Margin="2,2,2,0" IsItemsHost="true" />
+                                <Border Name="ContentPanel" Background="{TemplateBinding Background}" 
+                                        Grid.Column="0" Grid.Row="1"
+                                        BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                                    <ContentPresenter Name="PART_SelectedContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="{TemplateBinding Padding}" ContentSource="SelectedContent" />
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <TabControl >
+
+        <TabItem Header="HotTrack">
+            <WrapPanel>
+                <bc:HotTrack BorderBrush="Gainsboro" BorderThickness="1" IsEnabled="True" SelectedBorderBrush="Black">
+                    <Button Template="{StaticResource BaseButton}" Width="200" Height="70" 
+                            BorderBrush="Transparent"
+                            HorizontalAlignment="Center" VerticalAlignment="Center" >ABC</Button>
+                </bc:HotTrack>
+
+                <bc:HotTrack BorderBrush="Gainsboro" BorderThickness="1" IsEnabled="True" SelectedBorderBrush="Black">
+                    <Button Template="{StaticResource BaseButton}" Width="200" Height="70" 
+                            BorderBrush="Transparent"
+                            HorizontalAlignment="Center" VerticalAlignment="Center" >ABC</Button>
+                </bc:HotTrack>
+
+                <bc:Invert NormalBackgroundBrush="Blue" NormalForegroundBrush="Gainsboro"
+                           MouseOverBackgroundBrush="Gainsboro" MouseOverForegroundBrush="Blue"
+                           >
+                    <TextBlock Text="Invert" />
+                </bc:Invert>
+            </WrapPanel>
+        </TabItem>
+        <TabItem Header="DropDown">
+            <StackPanel Orientation="Vertical">
+                <WrapPanel>
+                    <TextBlock Text="Button in dropdown :"  />
+                    <bc:DropDown x:Name="dd" >
+                        <bc:HotTrack BorderBrush="Gainsboro" BorderThickness="1" IsEnabled="True" SelectedBorderBrush="Black">
+                            <Button Template="{StaticResource BaseButton}" Width="200" Height="70" 
+                            BorderBrush="Transparent"
+                            HorizontalAlignment="Center" VerticalAlignment="Center" >Popup</Button>
+                        </bc:HotTrack>
+                    </bc:DropDown>
+                    <TextBlock Text="{Binding ElementName=dd, Path=IsDropDownOpen}" />
+                </WrapPanel>
+
+                <WrapPanel>
+                    <TextBlock Text="Button in dropdown :"  />
+                    <bc:DropDown x:Name="dd2"  >
+                        <bc:HotTrack BorderBrush="Gainsboro" BorderThickness="1" IsEnabled="True" SelectedBorderBrush="Black">
+                            <Button Template="{StaticResource BaseButton}" Width="200" Height="70" 
+                            BorderBrush="Transparent"
+                            HorizontalAlignment="Center" VerticalAlignment="Center" >Popup</Button>
+                        </bc:HotTrack>
+                    </bc:DropDown>
+                    <TextBlock Text="{Binding ElementName=dd2, Path=IsDropDownOpen}" />
+                </WrapPanel>
+
+                <WrapPanel>
+                    <TextBlock Text="Test PlacementTarget :" x:Name="tb3" />
+                    <bc:DropDown x:Name="dd3" PlacementTarget="{Binding ElementName=tb3}" >
+                        <bc:HotTrack BorderBrush="Gainsboro" BorderThickness="1" IsEnabled="True" SelectedBorderBrush="Black">
+                            <TextBlock Text="PlacementTarget" />
+                        </bc:HotTrack>
+                    </bc:DropDown>
+                </WrapPanel>
+                <WrapPanel>
+                    <TextBlock Text="ListBox Sample:" />
+                    <bc:DropDown DataContext="1,3,5">
+                        <bc:DropDown.Resources>
+                            <conv:CsvContainsConverter x:Key="csvc" />
+                        </bc:DropDown.Resources>
+                        <bc:DropDown.Header>
+                            <TextBlock Text="{Binding}" />
+                        </bc:DropDown.Header>
+                        <bc:DropDown.Content>
+                            <ListBox SelectionMode="Multiple">
+                                <ListBox.Items>
+                                    <ListBoxItem IsSelected="{Binding 
+                                Mode=OneWay,
+                                Converter={StaticResource csvc}, ConverterParameter=1}">January</ListBoxItem>
+                                    <ListBoxItem IsSelected="{Binding 
+                                Mode=OneWay,
+                                Converter={StaticResource csvc}, ConverterParameter=2}">Febrary</ListBoxItem>
+                                    <ListBoxItem IsSelected="{Binding 
+                                Mode=OneWay,
+                                Converter={StaticResource csvc}, ConverterParameter=3}">March</ListBoxItem>
+                                    <ListBoxItem IsSelected="{Binding 
+                                Mode=OneWay,
+                                Converter={StaticResource csvc}, ConverterParameter=4}">April</ListBoxItem>
+                                    <ListBoxItem IsSelected="{Binding 
+                                Mode=OneWay,
+                                Converter={StaticResource csvc}, ConverterParameter=5}">May</ListBoxItem>
+                                </ListBox.Items>
+                            </ListBox>
+                        </bc:DropDown.Content>
+
+                    </bc:DropDown>
+                </WrapPanel>
+
+                <WrapPanel>
+                    <bc:DropDownList x:Name="ddl" Header="DropDownList">
+                        <bc:DropDownList.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" >
+                                    <ProgressBar Minimum="0" Maximum="10" Value="{Binding Mode=OneTime}" Width="30" />
+                                    <TextBlock Text="{Binding Mode=OneTime}" Margin="5,0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </bc:DropDownList.ItemTemplate>
+                    </bc:DropDownList>
+                </WrapPanel>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Statusbar">
+            <WrapPanel Orientation="Vertical">
+                <!-- Statusbar -->
+                <Button Click="Button_Click" />
+                <uc:StatusbarEx Grid.Row="1" x:Name="sbar">
+                    <uc:StatusbarEx.Header>
+                        <DockPanel>
+                            <Image Source="folder.ico" DockPanel.Dock="Left" />
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Life, Universe" />
+                                <TextBlock Text="and Everything" />
+                            </StackPanel>
+                        </DockPanel>
+                    </uc:StatusbarEx.Header>
+                    <uc:StatusbarEx.Items>
+                        <uc:StatusbarItemEx Header="Text" Content="content" Type="text" />
+                        <uc:StatusbarItemEx Header="Percentage" Content="10" Type="percent" />
+                        <uc:StatusbarItemEx Header="Number" Content="100000000000" Type="Number" />
+
+                    </uc:StatusbarEx.Items>
+                </uc:StatusbarEx>
+            </WrapPanel>
+        </TabItem>
+        <TabItem Header="Breadcrumb" >
+            <Grid>
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <HierarchicalDataTemplate x:Key="FakeVMHeaderTemplate" ItemsSource="{Binding SubDirectories}"  >
+                            <TextBlock Text="{Binding Header}" Margin="5,0"
+                                       VerticalAlignment="Center" HorizontalAlignment="Stretch" />
+                        </HierarchicalDataTemplate>
+                        <DataTemplate x:Key="FakeVMIconTemplate">
+                            <Image Source="folder.ico" DockPanel.Dock="Left" Height="16" Width="16" />
+                        </DataTemplate>
+                        <!-- Debug-->
+                        <!--<HierarchicalDataTemplate x:Key="FakeVMHeaderTemplate" ItemsSource="{Binding SubDirectories}"  >
+                            <TextBlock Text="Header" />
+                        </HierarchicalDataTemplate>
+                        <DataTemplate x:Key="FakeVMIconTemplate">
+                            <TextBlock Text="Icon" />
+                        </DataTemplate>-->
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Stretch">
+
+                    <TextBlock Text="Breadcrumb Core Only" />
+                    <bc:BreadcrumbCore x:Name="breadcrumbCore" HorizontalAlignment="Left" Height="20"
+                                       IconTemplate="{StaticResource FakeVMIconTemplate}"
+                                       HeaderTemplate="{StaticResource FakeVMHeaderTemplate}">
+                        <bc:BreadcrumbCore.LayoutTransform>
+                            <ScaleTransform ScaleX="2" ScaleY="2" />
+                        </bc:BreadcrumbCore.LayoutTransform>
+                    </bc:BreadcrumbCore>
+
+                    <TextBlock Text="SuggestBox Only" />
+                    <bc:SuggestBox x:Name="suggestBoxDummy" Hint="Custom implement (+xyz/abc)" />
+                    <bc:SuggestBox x:Name="suggestBoxAuto" DisplayMemberPath="Value" Hint="Uses ViewModel, try Sub1\Sub12"                                   
+                                   Text="{Binding Text, ElementName=txtAuto, UpdateSourceTrigger=Explicit}"/>
+                    <bc:SuggestBox x:Name="suggestBoxAuto2" DisplayMemberPath="Value"  Hint="With delay 1 sec"                                   
+                                   Text="{Binding Text, ElementName=txtAuto2, UpdateSourceTrigger=Explicit}" />
+
+                    <TextBlock Text="Breadcrumb" />
+                    <!-- Have to bind using SelectedPathValue, SelectedValue doesn't bind for unknown reason -->
+                    <uc:Breadcrumb x:Name="breadcrumb1"  Height="30"
+                                   ParentPath="Parent" ValuePath="Value" SubentriesPath="SubDirectories" 
+                                   IconTemplate="{StaticResource FakeVMIconTemplate}"
+                                   HeaderTemplate="{StaticResource FakeVMHeaderTemplate}"
+                                   >
+                    </uc:Breadcrumb>
+                    <uc:Breadcrumb x:Name="breadcrumb2"  Height="30"
+                                   ParentPath="Parent" ValuePath="Value" SubentriesPath="SubDirectories" 
+                                   SelectedPathValue="{Binding SelectedPathValue, ElementName=breadcrumb1, Mode=TwoWay}"
+                                   IconTemplate="{StaticResource FakeVMIconTemplate}" 
+                                   IsProgressbarVisible="True" IsIndeterminate="False"
+                                   HeaderTemplate="{StaticResource FakeVMHeaderTemplate}"
+                                   >
+                        <uc:Breadcrumb.LayoutTransform>
+                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                        </uc:Breadcrumb.LayoutTransform>
+                        <uc:Breadcrumb.Buttons>
+                            <Button Padding="0,0,2,0">
+                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Path Stroke="#FF000000" StrokeThickness="1" Data="{StaticResource RefreshBranch}"   />
+                                    <Path Fill="#FF000000" Data="{StaticResource RefreshArrow}"   />
+                                </Grid>
+                            </Button>
+                        </uc:Breadcrumb.Buttons>
+                    </uc:Breadcrumb>
+                    <DockPanel >
+                        <CheckBox IsChecked="{Binding IsIndeterminate, ElementName=breadcrumb2}" Content="IsIndeterminate"  DockPanel.Dock= "Right" />
+                        <Slider Value="{Binding Progress, ElementName=breadcrumb2}" Minimum="0" Maximum="100"  />
+
+                    </DockPanel>
+
+                </StackPanel>
+                <GridSplitter VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="5" Grid.Column="1" />
+                <StackPanel Grid.Column="1" Orientation="Vertical" >
+                    <TextBlock Text="{Binding SelectedValue.Value,ElementName=breadcrumbCore}"  />
+                    <TextBlock Text="{Binding Text,ElementName=suggestBoxDummy}" />
+                    <TextBlock x:Name="txtAuto"  />
+                    <TextBlock x:Name="txtAuto2"  />
+                    <TextBlock x:Name="txtBreadcrumb" Text="{Binding SelectedPathValue,ElementName=breadcrumb1}"  />
+                </StackPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="BreadcrumbTree" x:Name="btreeTab" >
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+
+                    <bc:DropDownList x:Name="bexp" DockPanel.Dock="Left" ItemsSource="{Binding Selection.OverflowedAndRootItems}"
+                                           SelectedValuePath="Selection.Value"
+                                           ItemTemplate="{Binding ItemTemplate, ElementName=btree}">
+                        <bc:DropDownList.Header>
+                            <Path x:Name="path"  Stroke="Black" StrokeThickness="1.2" Data="{StaticResource ExpanderArrow}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="True" />
+                        </bc:DropDownList.Header>
+                        <bc:DropDownList.ItemContainerStyle>
+                            <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource ComboboxNullAsSeparatorStyle}">
+                                <Setter Property="Visibility" Value="{Binding IsOverflowedOrRoot, Mode=OneWay, Converter={StaticResource btvc}}"  />
+                            </Style>
+                        </bc:DropDownList.ItemContainerStyle>
+
+                    </bc:DropDownList>
+
+                    <uc:BreadcrumbTree x:Name="btree" Height="30" 
+                                   ItemsSource="{Binding Entries.All}">
+                        <uc:BreadcrumbTree.ItemContainerStyle>
+                            <Style TargetType="{x:Type uc:BreadcrumbTreeItem}" 
+                       BasedOn="{StaticResource BreadcrumbTreeItemStyle}" >
+
+
+                                <Setter Property="ValuePath" Value="Selection.Value" />
+                                <Setter Property="IsExpanded" Value="{Binding Entries.IsExpanded, Mode=TwoWay}"  />
+                                <Setter Property="IsCurrentSelected" Value="{Binding Selection.IsSelected, Mode=TwoWay}"  />
+                                <Setter Property="SelectedChild" Value="{Binding Selection.SelectedChild, Mode=TwoWay}"  />
+                                <Setter Property="IsChildSelected" Value="{Binding Selection.IsChildSelected, Mode=OneWay}"  />
+
+                                <!--Updated by BreadcrumbTreeItem and it's OverflowableStackPanel-->
+                                <Setter Property="IsOverflowed" Value="{Binding IsOverflowed, Mode=OneWayToSource}"  />
+                            </Style>
+                        </uc:BreadcrumbTree.ItemContainerStyle>
+                        <uc:BreadcrumbTree.MenuItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Header}" />
+
+                            </DataTemplate>
+                        </uc:BreadcrumbTree.MenuItemTemplate>
+
+                        <uc:BreadcrumbTree.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Entries.All}">
+                                <TextBlock Text="{Binding Header}" />
+                            </HierarchicalDataTemplate>
+                        </uc:BreadcrumbTree.ItemTemplate>
+                        <!--<uc:BreadcrumbTree.LayoutTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2" />
+                    </uc:BreadcrumbTree.LayoutTransform>-->
+                    </uc:BreadcrumbTree>
+                </DockPanel>
+                <TextBlock Text="{Binding SelectionHelper.SelectedValue}" DockPanel.Dock="Top" />
+                <ComboBox x:Name="selectBTreeCombo" DockPanel.Dock="Top">
+                    <ComboBoxItem IsSelected="True">Sub1\Sub2\Sub3\Sub4\Sub5\Sub6\Sub7\Sub8\Sub9</ComboBoxItem>
+                    <ComboBoxItem>Sub1\Sub2\Sub3\Sub3\Sub2\Sub1</ComboBoxItem>
+                    <ComboBoxItem>Sub1\Sub2\Sub3\Sub4\Sub5\Sub6</ComboBoxItem>
+                    <ComboBoxItem>Sub9\Sub8\Sub7\Sub6\Sub5\Sub4\Sub3\Sub2\Sub1</ComboBoxItem>
+                    <ComboBoxItem></ComboBoxItem>
+                </ComboBox>
+                <Button DockPanel.Dock="Top" x:Name="selectBTreeItem" >Select</Button>
+                <TreeView ItemsSource="{Binding Entries.All}" >
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}" 
+                       BasedOn="{StaticResource {x:Type TreeViewItem}}" >
+                            <Setter Property="IsExpanded" Value="{Binding Selection.IsChildSelected, Mode=OneWay}"  />
+                            <Setter Property="IsSelected" Value="{Binding Selection.IsSelected, Mode=OneWay}"  />
+                            <!--<Setter Property="IsCaptionVisible" Value="{Binding ShowCaption, Mode=TwoWay}"  />-->
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Entries.All}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="[e]" Foreground="Red" Visibility="{Binding Entries.IsExpanded, Converter={StaticResource btvc}, Mode=OneWay}" />
+                                <TextBlock Text="[s]" Foreground="Green"  Visibility="{Binding Selection.IsSelected, Converter={StaticResource btvc}, Mode=OneWay}" />
+                                <TextBlock Text="[c]" Foreground="Blue" Visibility="{Binding Selection.IsChildSelected, Converter={StaticResource btvc}, Mode=OneWay}" />
+                                <TextBlock Text="[o]" Foreground="DarkGray" Visibility="{Binding IsOverflowed, Converter={StaticResource btvc}, Mode=OneWay}" />
+                                <TextBlock Text="{Binding Header}" Margin="5,0" />
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </DockPanel>
+        </TabItem>
+        <TabItem Header="Panels" IsSelected="False">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <ItemsControl Grid.Row="0" Grid.Column="0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <bc:OverlappingPanel IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <TextBlock Text="Overlapping" />
+                    <TextBlock Text="Panel" />
+                </ItemsControl>
+
+                <ItemsControl Grid.Row="0" Grid.Column="1">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <bc:OneItemPanel IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <TextBlock Text="OneItem" />
+                    <TextBlock Text="Panel" />
+                </ItemsControl>
+
+                <ItemsControl Grid.Row="1" Grid.Column="0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <bc:OverflowableStackPanel Orientation="Horizontal" IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <TextBlock FontSize="20" Text="Overflowable" bc:OverflowableStackPanel.CanOverflow="True" />
+                    <TextBlock FontSize="20" Text="Stack" />
+                    <TextBlock FontSize="20" Text="Panel" />
+                    <TextBlock FontSize="20" Text="{Binding OverflowItemCount, 
+                        RelativeSource={RelativeSource AncestorType={x:Type bc:OverflowableStackPanel}}}" />
+                </ItemsControl>
+
+            </Grid>
+        </TabItem>
+        <TabItem Header="ListView">
+            <uc:ListViewEx x:Name="listView">
+
+            </uc:ListViewEx>
+        </TabItem>
+
+        <TabItem Header="UIEventHub" >
+            <TextBlock Text="Moved to Test_NonShellDragDemo project, See FileExplorer - UIEventHub solution." />
+        </TabItem>
+        <TabItem Header="InputProcessor" >
+            <TextBlock Text="Moved to Test_InputProcessor, See FileExplorer3 - UIEventHub solution." />
+            <!--<Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Rectangle x:Name="inputProcessorCanvas" Fill="Gray" Grid.Row="0" />
+                <ListBox x:Name="inputProcessorOutput" Grid.Row="1" 
+                         ScrollViewer.VerticalScrollBarVisibility="Auto" />
+            </Grid>-->
+        </TabItem>
+        <TabItem Header="Toolbar">
+            <TabItem.CommandBindings>
+                <CommandBinding Command="Close" Executed="ToolbarClose_Executed" />
+            </TabItem.CommandBindings>
+            <uc:ToolbarEx VerticalAlignment="Top">
+                <!--<Button>Test</Button>
+                <Button>Test</Button>-->
+                <uc:ToolbarItemEx HeaderType="Button" Header="Button" Symbol="&#xE102;"  />
+                <uc:ToolbarItemEx HeaderType="Button" Header="Button" Symbol="&#xE103;" />
+                <uc:ToolbarItemEx x:Name="tbiMenu1" Command="Close" HeaderType="MenuButton" Header="Close" Symbol="&#xE106; " />
+                <uc:ToolbarItemEx x:Name="tbiMenu2" HeaderType="MenuButton" Symbol="&#xE15D;" Header="{Binding SliderValue, ElementName=tbiMenu2}"                                   
+                                  IsSliderEnabled="True" SliderMinimum="0" SliderMaximum="200" >
+                    <uc:ToolbarItemEx.ItemTemplate>
+                        <DataTemplate>
+                            <ProgressBar Minimum="0" Maximum="10" Value="10" />
+                        </DataTemplate>
+                    </uc:ToolbarItemEx.ItemTemplate>
+                </uc:ToolbarItemEx>
+
+                <uc:ToolbarItemEx x:Name="tbiMenu3" HeaderType="Button" Symbol="&#xE15D;" Width="50"
+                                  Header="{Binding SliderValue, ElementName=tbiMenu3}"
+                                  IsSliderEnabled="True" SliderMinimum="0" SliderMaximum="100"  >
+                </uc:ToolbarItemEx>
+                <uc:ToolbarItemEx HeaderType="Combo" >
+                    <uc:ToolbarSubItemEx Symbol="&#xE1A2;" IsChecked="True" IsCheckable="True" HeaderType="ComboItem"  />
+                    <uc:ToolbarSubItemEx Symbol="&#xE1A1;" IsCheckable="True" HeaderType="ComboItem" />
+                    <uc:ToolbarSubItemEx Symbol="&#xE1A0;" IsCheckable="True" HeaderType="ComboItem" />
+
+                    <!--<uc:ToolbarSubItemEx Symbol="&#xE155;" ToolTip="ExtraLargeIcon" />
+                    <uc:ToolbarSubItemEx Symbol="&#xe20f;" ToolTip="LargeIcon" />
+                    <uc:ToolbarSubItemEx Symbol="&#xE138;" ToolTip="Icon" />
+                    <uc:ToolbarSubItemEx Symbol="&#xE14C;" ToolTip="List" />
+                    <uc:ToolbarSubItemEx Symbol="&#xE179;" ToolTip="Details" />-->
+
+                </uc:ToolbarItemEx>
+
+                <uc:ToolbarItemEx HeaderType="Check" >
+                    <uc:ToolbarSubItemEx Symbol="&#xE19B;" IsChecked="True" IsCheckable="True" HeaderType="CheckItem" />
+                    <uc:ToolbarSubItemEx Symbol="&#xE199;" IsCheckable="True" HeaderType="CheckItem" />
+                    <uc:ToolbarSubItemEx Symbol="&#xE19A;" IsCheckable="True" HeaderType="CheckItem" />
+                </uc:ToolbarItemEx>
+                <!--<uc:ToolbarEx.LayoutTransform>
+                    <ScaleTransform ScaleX="3" ScaleY="3" />
+                </uc:ToolbarEx.LayoutTransform>-->
+            </uc:ToolbarEx>
+        </TabItem>
+        <TabItem Header="ScrollViewer">
+            <StackPanel Orientation="Vertical">
+                <bc:HtmlTextBlock TextWrapping="WrapWithOverflow" Html="[b]DockableScrollViewer[/b] - ScrollViewer that allow you to place fixed content in it by setting OuterTop/Right/Bottom/LeftContent "/>
+                <bc:DockableScrollViewer Height="200" Width="200" PanningMode="Both"
+                                     HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+                    <bc:DockableScrollViewer.TopContent>
+                        <Border Background="Red" MinHeight="10" 
+                                bc:DockableScrollViewer.IsResizable="True" bc:DockableScrollViewer.IsContentVisible="True" />
+                    </bc:DockableScrollViewer.TopContent>
+                    <bc:DockableScrollViewer.RightContent>
+                        <Rectangle Fill="Green" MinWidth="10"
+                                   bc:DockableScrollViewer.IsResizable="True" bc:DockableScrollViewer.IsContentVisible="True"/>
+                    </bc:DockableScrollViewer.RightContent>
+                    <bc:DockableScrollViewer.BottomContent>
+                        <Rectangle Fill="Blue" MinHeight="10" bc:DockableScrollViewer.IsContentVisible="True"/>
+                    </bc:DockableScrollViewer.BottomContent>
+                    <bc:DockableScrollViewer.LeftContent>
+                        <Rectangle Fill="Yellow" MinWidth="10" bc:DockableScrollViewer.IsContentVisible="True"/>
+                    </bc:DockableScrollViewer.LeftContent>
+
+                    <bc:DockableScrollViewer.OuterTopContent>
+                        <Border Background="Brown" MinHeight="10" bc:DockableScrollViewer.IsContentVisible="True" />
+                    </bc:DockableScrollViewer.OuterTopContent>
+                    <bc:DockableScrollViewer.OuterRightContent>
+                        <Rectangle Fill="GreenYellow" MinWidth="10"  />
+                    </bc:DockableScrollViewer.OuterRightContent>
+                    <bc:DockableScrollViewer.OuterBottomContent>
+                        <Rectangle Fill="MidnightBlue" MinHeight="10"
+                                   bc:DockableScrollViewer.IsResizable="True" />
+                    </bc:DockableScrollViewer.OuterBottomContent>
+                    <bc:DockableScrollViewer.OuterLeftContent>
+                        <Rectangle Fill="YellowGreen" MinWidth="10"
+                                   bc:DockableScrollViewer.IsResizable="True" />
+                    </bc:DockableScrollViewer.OuterLeftContent>
+                    <Rectangle Height="500" Width="500" >
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
+                                <GradientStop Color="White" Offset="0" />
+                                <GradientStop Color="Gray" Offset="1" />
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </bc:DockableScrollViewer>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="TabControl" IsSelected="True" >
+            <uc:TabControlEx x:Name="tabControl1" Margin="5" 
+                             SelectedIndex="{Binding SelectedIndex}"
+                             ItemsSource="{Binding Items}" >
+                <uc:TabControlEx.ItemContainerStyle>
+                    <Style TargetType="{x:Type uc:TabItemEx}" BasedOn="{StaticResource TabItemExStyle}">
+                        <Setter Property="ShowPlaceHolder" Value="{Binding DropHelper.ShowPlaceHolder}" />
+                        <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                        <Setter Property="HeaderOpacity" Value="{Binding HeaderOpacity}" />
+                    </Style>
+                </uc:TabControlEx.ItemContainerStyle>
+                <uc:TabControlEx.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock x:Name="tb" Text="{Binding Header}" AllowDrop="True" />
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsDraggingOver}" Value="True">
+                                <Setter TargetName="tb" Property="Foreground" Value="Blue" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </uc:TabControlEx.ItemTemplate>
+                <uc:TabControlEx.LayoutTransform>
+                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                </uc:TabControlEx.LayoutTransform>
+                <bc:UIEventAdapter.Processors>
+                    <bc:DragDropLiteEventProcessor EnableMouse="False" EnableTouch="True" 
+                                               EnableDrag="True" EnableDrop="True" />
+                    <bc:DragDropEventProcessor EnableDrag="True" EnableDrop="True" TargetName="HeaderPanel" />
+                </bc:UIEventAdapter.Processors>
+            </uc:TabControlEx>
+        </TabItem>
+    </TabControl>
+
+</Window>

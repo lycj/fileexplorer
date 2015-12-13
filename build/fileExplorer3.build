@@ -1,0 +1,169 @@
+<project name="FileExplorer3" default="build" basedir="." xmlns="http://nant.sourceforge.net/release/0.90/nant.xsd">
+
+  <include buildfile="func/func.initVariables.xml" />
+  
+  <include buildfile="func/func.msbuild3.xml" />
+  <include buildfile="func/func.nunit.xml" />
+  <include buildfile="func/func.nuget.xml" />
+  <include buildfile="func/func.doxygen.xml" />
+
+  <property name="nant.settings.currentframework" value="net-4.0"/>
+
+  <target name="init">
+
+    <!-- Setup source -->
+    <property name="src.path" value="..\src\FileExplorer3" />
+    <property name="src.app.path" value="${src.path}\app\" />
+
+    <!-- Setup version number -->
+    <property name="versioning.filename" value="fileexplorer3-version.txt"  overwrite="true" />
+    <call target="getversion" />
+
+    <!-- Setup destination -->
+    <property name="dest.path" value="..\release\FileExplorer3\v${version}\" />
+    <property name="dest.source" value="..\release\FileExplorer3\v${version} - Source.zip" />
+    <property name="dest.binary" value="..\release\FileExplorer3\v${version} - Binary.zip" />
+    <property name="dest.current.path" value="..\release\current\FileExplorer3" />
+    <property name="nuget.output.dir" value="..\release\FileExplorer3" />
+
+    <!-- Setup project list-->
+    <property name="projects.filename" value="fileexplorer3-projects.txt" overwrite="true" />
+    <property name="projects.fullpath" value="${variables.dir}\${projects.filename}" />
+    
+  </target>
+  <target name="clean">
+    <delete dir='${dest.path}' />
+    <delete dir='${dest.current.path}' />
+  </target>
+
+  <target name="import">
+
+  </target>
+
+  <target name="build">
+    <call target="setversionstring" />
+    <mkdir dir="${dest.path}" />
+    <mkdir dir="${dest.current.path}" />
+
+    <foreach item="Line" in="${projects.fullpath}" delim=" ," property="name,type,ver">
+      <property name="msbuild.csproj.path" value="${src.app.path}\${name}\${name}.csproj" />
+      <property name="msbuild.version" value="${ver}" />
+      <echo message="Compiling ${name}.csproj" />
+      <call target="msbuild" />
+    </foreach>
+  </target>
+
+  <target name="build-revision">
+    <call target="incrementrevisionnumber" />
+    <call target="setversion" />
+    <call target="build" />
+  </target>
+
+  <target name="build-patch">
+    <call target="incrementbuildnumber" />
+    <call target="setversion" />
+    <call target="build" />
+  </target>
+
+  <target name="copy">
+
+    <call target="setversionstring" />
+
+    <foreach item="Line" in="${projects.fullpath}" delim=" ," property="name,type,ver">
+      <echo message="copy.source: ${name} -> ${dest.path}\src\app" />
+      <copy todir="${dest.path}\src\FileExplorer3\app\${name}">
+        <fileset basedir="${src.path}\app\${name}">
+          <include name="*/**" />
+          <include name="bin/Debug/*.dll" />
+          <include name="Properties/*" />
+          
+          <exclude name="obj/**" />
+          <exclude name="bin/**" />
+          <exclude name="AuthorizationKeys.cs" />
+          <exclude name="Copy of AuthorizationKeys.cs" />
+          <exclude name="gapi_client_secret.json" />
+        </fileset>
+      </copy>
+    </foreach>
+
+    <copy file="${src.path}\app\TestApp.WPF\Copy of AuthorizationKeys.cs"
+        tofile="${dest.path}\src\FileExplorer3\app\TestApp.WPF\AuthorizationKeys.cs" />
+
+
+
+    <copy todir="${dest.path}\src\FileExplorer3\app\.nuget">
+      <fileset basedir="${src.path}\app\.nuget">
+        <include name="*" />
+      </fileset>
+    </copy>
+    <copy file="${src.path}\app\packages\Microsoft.Bcl.Build.1.0.7\tools\Microsoft.Bcl.Build.targets"
+        tofile="${dest.path}\src\FileExplorer3\app\packages\Microsoft.Bcl.Build.1.0.7\tools\Microsoft.Bcl.Build.targets" />
+    <copy file="${src.path}\app\FileExplorer3 - 2013.sln"
+        tofile="${dest.path}\src\FileExplorer3\app\FileExplorer3 - 2013.sln" />
+    <copy file="${src.path}\app\FileExplorer3 - UIEventHub.sln"
+            tofile="${dest.path}\src\FileExplorer3\app\FileExplorer3 - UIEventHub.sln" />
+
+
+    <!--http://stackoverflow.com/questions/809650/evaluating-property-equality-in-nant-->
+    <foreach item="Line" in="${projects.fullpath}" delim=" ," property="name,type,ver">
+      <if test="${type == 'exe'}">
+        <echo message="copy.bin: demos -> ${dest.path}\demo\net45\bin" />
+        <copy todir="${dest.path}\demo\net45\bin">
+          <fileset basedir="${src.path}\app\${name}\bin\debug">
+            <include name="*.dll" />
+            <include name="*.pdb" />
+            <include name="${name}.exe" />
+          </fileset>
+        </copy>
+      </if>
+      <if test="${type == 'dll'}">
+        <echo message="copy.bin: ${dest.current.path} dlls -> ${dest.path}\lib\net45" />
+        <copy todir="${dest.path}\lib\net45">
+          <fileset basedir="${src.path}\app\${name}\bin\debug">
+            <include name="${name}.dll" />
+            <include name="${name}.pdb" />
+            
+          </fileset>
+        </copy>
+      </if>
+    </foreach>
+    
+    <echo message="copy.bin: ..\lib dlls -> ${dest.path}\lib" />
+    <copy todir="${dest.path}\lib">
+      <fileset basedir="..\lib">
+        <include name="Caliburn.Micro.*" />
+        <include name="DirectoryInfoEx.*" />
+        <include name="ExifLib.*" />
+        <include name="HtmlTextBlock.*" />
+        <include name="Microsoft.Live.dll" />
+        <include name="WPF.MDI.dll" />
+      </fileset>
+    </copy>
+
+    <echo message="copy.txt: license and readme -> ${dest.path}" />
+    <copy todir="${dest.path}">
+      <fileset basedir="..">
+        <include name="MIT.txt" />
+        <include name="Readme.txt" />
+
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="pack">
+    <call target="setversionstring" />
+    <zip zipfile="${dest.source}">
+      <fileset basedir="${dest.path}">
+        <include name="**/*" />
+        <exclude name="demo/**" />
+        <exclude name="doc/**" />
+      </fileset>
+    </zip>
+    <zip zipfile="${dest.demo}">
+      <fileset basedir="${dest.path}\demo">
+        <include name="**/*" />
+      </fileset>
+    </zip>
+  </target>
+
+</project>

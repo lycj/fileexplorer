@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="FileExplorer.WPF.Views.Navigation.ToolWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Brushes.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Geometry.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Buttons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ItemTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="NavButtonStyle" TargetType="{x:Type Button}" 
+                   BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Template" Value="{StaticResource BaseButton}" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Width" Value="20" />
+
+                <Setter Property="Background" Value="White" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" />
+            </Style>
+
+            <!--<Style x:Key="NavBaseButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Template" Value="{StaticResource NavBaseButton}" />
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="Background" Value="White" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" />
+            </Style>-->
+        </ResourceDictionary>
+
+
+    </UserControl.Resources>
+    <StackPanel Orientation="Horizontal">
+        <Button x:Name="GoBack" Style="{StaticResource NavButtonStyle}">
+            <Path Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                  StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeLineJoin="Round" 
+                  Stretch="Fill"
+                  SnapsToDevicePixels="False" Data="M8,0 L1,5 8,10 M0,5 L13,5">
+            </Path>
+        </Button>
+        <Button x:Name="GoNext" Style="{StaticResource NavButtonStyle}">
+            <Path Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                  StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeLineJoin="Round" 
+                  Stretch="Fill"
+                  SnapsToDevicePixels="False" Data="M8,0 L13,5 8,10 M0,5 L13,5"/>
+        </Button>
+        <bc:DropDownList ItemTemplate="{StaticResource SmallIconItemTemplate}" SelectedIndex="{Binding NavigationPosition}"
+                         x:Name="NavigationHistory" PlacementTarget="{Binding ElementName=GoBack}"
+                         Width="25"
+                         >
+            <bc:DropDownList.Header>
+                <Grid IsHitTestVisible="True" HorizontalAlignment="Stretch" >
+                    <Path x:Name="path" Fill="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}"
+                    Data="{StaticResource ExpandedArrow}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" 
+                    />
+                </Grid>
+            </bc:DropDownList.Header>
+        </bc:DropDownList>
+        <Button x:Name="GoUp" Style="{StaticResource NavButtonStyle}" Margin="0,0,6,0"
+                BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}"
+                BorderThickness="1"
+                >
+            <Border>
+                <Path Stroke="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" 
+                  StrokeThickness="2" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeLineJoin="Round" 
+                  SnapsToDevicePixels="False" Data="M3,5 L8,1 13,5 M8,1 L8,14"/>
+            </Border>
+        </Button>
+
+    </StackPanel>
+</UserControl>

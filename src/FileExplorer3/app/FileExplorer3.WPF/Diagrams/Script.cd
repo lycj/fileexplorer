@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Called from UI">
+    <Position X="4.769" Y="4.261" Height="0.407" Width="1.641" />
+  </Comment>
+  <Comment CommentText="Called from VM.Commands.  Noted that not some properties may be null">
+    <Position X="7.339" Y="4.025" Height="0.679" Width="2.209" />
+  </Comment>
+  <Comment CommentText="Execute/Async() returns another IScriptCommand, which execute afterwards.">
+    <Position X="4.059" Y="2.166" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="When called Execute/ExecuteAsync(), uses ParameterDicConverter to create ParameterDic.">
+    <Position X="4.296" Y="3.503" Height="0.442" Width="2.99" />
+  </Comment>
+  <Class Name="Cofe.Core.ParameterDic">
+    <Position X="1.25" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAEAAAQwAAAAIAAAAAAAAQAAAAAAAAAABCAFA=</HashCode>
+      <FileName>Defines\Cofe3\Defines\Structs\ParameterDic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.UIParameterDic">
+    <Position X="4.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAEAAAAAAEAAAEIAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Defines\Cofe3\Defines\Structs\UIParameterDic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.ViewModels.VMParameterDic">
+    <Position X="8" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAgCAAAAAIAAAAAAAQAA=</HashCode>
+      <FileName>Defines\Cofe3\Defines\Structs\VMParameterDic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.ViewModels.ScriptCommands">
+    <Position X="10.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AFCACCIMgAEAAQECAAAAAAAQCAAAJEAABwFAAABAEAA=</HashCode>
+      <FileName>Models\ScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.ViewModels.TabbedExplorer">
+    <Position X="15" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAABAAACAAACAAAAAIAAAAAAAA=</HashCode>
+      <FileName>ViewModels\ScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.ViewModels.Explorer">
+    <Position X="12.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAACAAAAAEABAAAAQCAAAAAAAAAAAIAAAAIA=</HashCode>
+      <FileName>ViewModels\ScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.ViewModels.DirectoryTree">
+    <Position X="15" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAIAAAAACAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>ViewModels\ScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.ViewModels.FileList">
+    <Position X="12.5" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAAAACAAAABAAAAAEAIAIAAACAAABAAAAAkAQABAACA=</HashCode>
+      <FileName>ViewModels\ScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.ViewModels.Sidebar">
+    <Position X="15" Y="5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAEABAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\ScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.ViewModels.ClipboardCommands">
+    <Position X="10.25" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\ScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.ViewModels.FileListCommandManager" Collapsed="true">
+    <Position X="2" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAABEAAA=</HashCode>
+      <FileName>ViewModels\FileListCommandManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FileExplorer.ViewModels.CommandManagerBase" Collapsed="true">
+    <Position X="7.5" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ACCAAAAAAAAAAAAAABQAAAAAAAAAAAABAAAAAAAAEAA=</HashCode>
+      <FileName>ViewModels\Helpers\IScriptCommandManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ParameterDicConverter" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Cofe.Core.Script.IScriptRunner">
+    <Position X="1" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Defines\Cofe3\Interfaces\IScriptRunner.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cofe.Core.Script.IScriptCommand">
+    <Position X="2.75" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAQAAEAAAAAAAAAAAAAAAAAgAAAAAEA=</HashCode>
+      <FileName>Defines\Cofe3\Interfaces\IScriptCommand.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cofe.Core.Script.IParameterDicConverter">
+    <Position X="7.5" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Defines\Cofe3\Interfaces\IParameterDicConverter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,22 @@
+﻿<Window x:Class="TestScript.WPF.AppView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AppView" Height="500" Width="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+
+        <TextBox x:Name="Script"  TextWrapping="WrapWithOverflow" AcceptsReturn="True" Grid.Row="1" Grid.Column="0" />
+        <Button x:Name="Serialize" Content=">" Grid.Row="1" Grid.Column="1" Height="20" />
+        <TextBox x:Name="Xml" TextWrapping="WrapWithOverflow" AcceptsReturn="True" Grid.Row="1" Grid.Column="2" />
+        <ListBox x:Name="Progress"  Grid.Row="2" Grid.ColumnSpan="3" />
+    </Grid>
+</Window>

@@ -1,0 +1,136 @@
+﻿<Window x:Class="Test_NonShellDragDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+        xmlns:hub="http://www.quickzip.org/UIEventHub"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer.UIEventHub;component/Themes/Common/Converters.xaml" />
+    </Window.Resources>
+    <Grid>
+        <hub:UIEventAdapter.Processors>
+            <hub:DragDropLiteEventProcessor EnableDrag="False" EnableDrop="False" />
+        </hub:UIEventAdapter.Processors>
+        <Grid>
+            <Grid.Resources>
+                <DataTemplate x:Key="dragnDropItemTemplate">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Model.Value}" />
+                        <TextBlock Text="[ing]" Foreground="Blue" Visibility="{Binding IsSelecting, Converter={StaticResource btvc}}" />
+                        <TextBlock Text="[ed]" Foreground="Green" Visibility="{Binding IsSelected, Converter={StaticResource btvc}}" />
+                    </StackPanel>
+                </DataTemplate>
+
+                <HierarchicalDataTemplate x:Key="dragnDropTreeItemTemplate" ItemsSource="{Binding Items}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Model.Value}" />
+                        <TextBlock Text="[ing]" Foreground="Blue" Visibility="{Binding IsSelecting, Converter={StaticResource btvc}}" />                        
+                        <TextBlock Text="[ed]" Foreground="Green" Visibility="{Binding IsSelected, Converter={StaticResource btvc}}" />
+                        <TextBlock Text="[over]" Foreground="Tomato" Visibility="{Binding DropHelper.IsDraggingOver, Converter={StaticResource btvc}}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+
+                <DataTemplate x:Key="dragnDropHintTemplate">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Model.Value}" />
+                        <TextBlock Text="[drag]" Foreground="Gray" />
+                    </StackPanel>
+                </DataTemplate>
+
+                <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}" >
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"  />
+                </Style>
+                <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource {x:Type ListBox}}" >
+                    <Setter Property="ItemTemplate" Value="{StaticResource dragnDropItemTemplate}" />
+                    <Setter Property="ItemsSource" Value="{Binding Items}" />
+                    <Setter Property="AllowDrop" Value="True" />
+                    <Setter Property="hub:UIEventHubProperties.DragItemTemplate" 
+                                Value="{StaticResource dragnDropHintTemplate}" />
+                </Style>
+                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}" >
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"  />
+                </Style>
+                <Style TargetType="{x:Type TreeView}" BasedOn="{StaticResource {x:Type TreeView}}" >
+                    <Setter Property="ItemTemplate" Value="{StaticResource dragnDropTreeItemTemplate}" />
+                    <Setter Property="ItemsSource" Value="{Binding Items}" />
+                    <Setter Property="AllowDrop" Value="True" />
+                    <Setter Property="hub:UIEventHubProperties.DragItemTemplate" 
+                                Value="{StaticResource dragnDropHintTemplate}" />
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <AdornerDecorator x:Name="PART_DragDropAdorner" Grid.ColumnSpan="2" Grid.RowSpan="3" />
+            <TextBlock Grid.ColumnSpan="3" Grid.Row="0">Drag and Drop and MultiSelect demonstration</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="1">TreeView</TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="1">uc:VirtualStackPanel (select using ISelectInfo)</TextBlock>
+            <TextBlock Grid.Column="2" Grid.Row="1">uc:VirtualWrapPanel (select using ISelectInfo)</TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="3">GridView (select using GridView)</TextBlock>
+            <TextBlock Grid.Column="2" Grid.Row="3">StackPanel (select using HitTest)</TextBlock>
+            <TreeView x:Name="tvDnd1" Grid.Column="0" Grid.Row="2" Grid.RowSpan="3" >
+                <hub:UIEventAdapter.Processors>
+                    <hub:DragDropLiteEventProcessor EnableDrag="True" EnableDrop="True" />
+                </hub:UIEventAdapter.Processors>
+            </TreeView>
+
+            <ListView x:Name="lvDnd1" Grid.Column="1" Grid.Row="2" >
+                <hub:UIEventAdapter.Processors>
+                    <hub:DragDropLiteEventProcessor EnableDrag="True" EnableDrop="True" />
+                    <hub:MultiSelectEventProcessor UnselectAllCommand="{Binding UnselectAllCommand}" />
+                </hub:UIEventAdapter.Processors>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <uc:VirtualStackPanel IsItemsHost="true" Orientation="Vertical" 
+                                                  CacheItemCount="15" 
+                                                  ItemHeight="25" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+            <ListView x:Name="lvDnd2" Grid.Column="2" Grid.Row="2">
+                <hub:UIEventAdapter.Processors>
+                    <hub:DragDropLiteEventProcessor EnableDrag="True" EnableDrop="True" />
+                    <hub:MultiSelectEventProcessor UnselectAllCommand="{Binding UnselectAllCommand}" />
+                </hub:UIEventAdapter.Processors>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <uc:VirtualWrapPanel IsItemsHost="true" Orientation="Vertical" ItemHeight="60" ItemWidth="60"                                                 
+                                                 CacheItemCount="50" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+            <ListView x:Name="lvDnd3" Grid.Column="1" Grid.Row="4">
+                <hub:UIEventAdapter.Processors>
+                    <hub:DragDropLiteEventProcessor EnableDrag="True" EnableDrop="True" />
+                    <hub:MultiSelectEventProcessor UnselectAllCommand="{Binding UnselectAllCommand}" />
+                </hub:UIEventAdapter.Processors>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="150" 
+                                            CellTemplate="{StaticResource dragnDropItemTemplate}"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ListView x:Name="lvDnd4" Grid.Column="2" Grid.Row="4">
+                <hub:UIEventAdapter.Processors>
+                    <hub:DragDropLiteEventProcessor EnableDrag="True" EnableDrop="True" />
+                    <hub:MultiSelectEventProcessor UnselectAllCommand="{Binding UnselectAllCommand}" />
+                </hub:UIEventAdapter.Processors>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="FileExplorer.WPF.Views.ExplorerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+             xmlns:def="clr-namespace:FileExplorer.WPF.Defines"
+             xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+             xmlns:hub="http://www.quickzip.org/UIEventHub"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"                  
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Splitter.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <hub:UIEventAdapter.Processors>
+            <hub:InputBindingsEventProcessor >
+                <hub:InputBindingsEventProcessor.InputBindings>
+                    <MouseBinding Command="NavigationCommands.IncreaseZoom" Gesture="{x:Static hub:MouseWheelGesture.CtrlUp}" />
+                    <MouseBinding Command="NavigationCommands.DecreaseZoom" Gesture="{x:Static hub:MouseWheelGesture.CtrlDown}" />
+                    <!--<KeyBinding Command="def:ExplorerCommands.NewTab" Key="T" Modifiers="Control" />-->
+                    <KeyBinding Command="def:ExplorerCommands.CloseTab" Key="F4" Modifiers="Control" />
+                </hub:InputBindingsEventProcessor.InputBindings>
+            </hub:InputBindingsEventProcessor>
+            <hub:DragDropLiteEventProcessor />
+        </hub:UIEventAdapter.Processors>
+        <Grid.LayoutTransform>
+            <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="{Binding Parameters.UIScale}" ScaleY="{Binding Parameters.UIScale}" />
+        </Grid.LayoutTransform>
+        <Grid x:Name="baseGrid" Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  Width="{Binding Parameters.DirectoryTreeSize, Mode=TwoWay,
+                    Converter={StaticResource glv}}" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="{Binding Parameters.FileListSize, Mode=TwoWay,
+                    Converter={StaticResource glv}}" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{Binding Parameters.NavigationSize, Mode=TwoWay,
+                    Converter={StaticResource glv}}" MinHeight="30" MaxHeight="100" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="{Binding Parameters.StatusbarSize, Mode=TwoWay,
+                    Converter={StaticResource glv}}" MinHeight="30" SharedSizeGroup="Statusbar" />
+            </Grid.RowDefinitions>
+
+            <GridSplitter Grid.Row="2" Grid.Column="1" ResizeDirection="Columns" Width="10"  Margin="0,5"
+                          ResizeBehavior="PreviousAndNext" VerticalAlignment="Stretch" />
+            <GridSplitter Grid.Row="1" Grid.ColumnSpan="3" ResizeDirection="Rows"  Height="10"  Margin="5,0"
+                          HorizontalAlignment="Stretch"  />
+            <GridSplitter Grid.Row="3" Grid.ColumnSpan="3" ResizeDirection="Rows" Height="10" Margin="5,0" 
+                          ResizeBehavior="PreviousAndNext"
+                          HorizontalAlignment="Stretch"   />
+            
+            <DockPanel Grid.ColumnSpan="3" Grid.Row="0" Margin="0,0,0,5" >
+                <Viewbox DockPanel.Dock="Left" >
+                    <ContentControl Name="Navigation" />
+                </Viewbox>
+                <ContentControl Name="Breadcrumb" />
+            </DockPanel>
+
+            <AdornerDecorator x:Name="PART_DragDropAdorner" Grid.ColumnSpan="3" Grid.RowSpan="5" />
+            <ContentControl Grid.Column="0" Grid.Row="2"  Name="DirectoryTree" Margin="2" />
+            <ContentControl  Name="FileList" Grid.Column="2" Grid.Row="2" Margin="2" />
+        
+
+            <ContentControl Grid.ColumnSpan="3" Grid.Row="4"  Name="Statusbar" Margin="0,5,0,0" />
+
+            
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="path related routines (like System.IO.Path), normally uses PathHelper.Disk (&quot;\\&quot;) or Web (&quot;/&quot;)">
+    <Position X="3.297" Y="5.428" Height="0.511" Width="2.949" />
+  </Comment>
+  <Comment CommentText="Provide CommandModels for Toolbar and/or ContextMenu.">
+    <Position X="0.68" Y="4.087" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="return the hierarchy (parent, child, unrelated) of two entry models, normally PathComparer.LocalDefault or WebDefault is sufficient.">
+    <Position X="2.581" Y="3.775" Height="0.75" Width="2.729" />
+  </Comment>
+  <Comment CommentText="Provide MetadataModels for Stautsbar and Sidebar.">
+    <Position X="3.508" Y="1.671" Height="0.502" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Disk based profile.">
+    <Position X="7.209" Y="1.103" Height="0.343" Width="5.341" />
+  </Comment>
+  <Comment CommentText="Drag and drop support.">
+    <Position X="2.918" Y="0.847" Height="0.311" Width="1.556" />
+  </Comment>
+  <Class Name="FileExplorer.Models.FileSystemInfoExProfile" Collapsed="true">
+    <Position X="7.25" Y="4.25" Width="1.75" />
+    <Members>
+      <Field Name="_folderBitmap" Hidden="true" />
+      <Field Name="_iconExtractor" Hidden="true" />
+      <Method Name="createDirectoryInfo" Hidden="true" />
+      <Method Name="createFileInfo" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="FileExplorer.Models.FileSystemInfoExProfile.ExHierarchyComparer" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Model\DirectoryInfoEx\ExProfile.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QAAAAABAAAAAAAAAgAAAAAAAAAAAIAAAAQAAAQQBAAA=</HashCode>
+      <FileName>Model\DirectoryInfoEx\ExProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.Models.DiskProfileBase" Collapsed="true">
+    <Position X="7.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\DiskProfileBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FileExplorer.Models.DropBoxProfile" Collapsed="true">
+    <Position X="9.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEJAAAIAAEAAEAAAAAQCAAAAIEACAAIAIARAAAA=</HashCode>
+      <FileName>Model\DropBox\DropBoxProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.Models.FileSystemInfoProfile" Collapsed="true">
+    <Position X="7.25" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAgAAAAAAAAAAAIAAAARAAAQQBAAA=</HashCode>
+      <FileName>Model\FileSystemInfo\FileSystemInfoProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.Models.SkyDriveProfile" Collapsed="true">
+    <Position X="9.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAABAAEIAAwAgEAAACAICAAAAKAAAgAAAAQQAAAA=</HashCode>
+      <FileName>Model\SkyDrive\SkyDriveProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.Models.GoogleDriveProfile" Collapsed="true">
+    <Position X="11" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAABBAAIABgAgAAAAAEACgAAAKAAAwEAAAIQAAAA=</HashCode>
+      <FileName>Model\GoogleDrive\GoogleDriveProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.Models.FileSystemInfoModel">
+    <Position X="19.5" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\FileSystemInfo\FileSystemInfoModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.Models.DiskEntryModelBase">
+    <Position X="17.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="FileExplorer.Models.EntryModelBase">
+    <Position X="15.5" Y="0.75" Width="1.5" />
+    <Members>
+      <Field Name="_isRenamable" Hidden="true" />
+      <Field Name="_name" Hidden="true" />
+      <Field Name="_parentFunc" Hidden="true" />
+      <Field Name="DummyModel" Hidden="true" />
+      <Method Name="EntryModelBase" Hidden="true" />
+      <Method Name="Equals" Hidden="true" />
+      <Method Name="OnRenamed" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+    </Members>
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="FileExplorer.Models.IProfile">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="HierarchyComparer" />
+      <Property Name="Path" />
+      <Property Name="DragDrop" />
+      <Property Name="MetadataProvider" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="CommandProviders" />
+    </ShowAsCollectionAssociation>
+  </Interface>
+  <Interface Name="FileExplorer.Models.IDiskProfile">
+    <Position X="7.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="DiskIO" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="FileExplorer.Models.IDiskIOHelper">
+    <Position X="9.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="FileExplorer.Models.IEntryHierarchyComparer" Collapsed="true">
+    <Position X="3.25" Y="3" Width="2" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="FileExplorer.Models.IPathHelper" Collapsed="true">
+    <Position X="3.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="FileExplorer.Models.IDragDropHandler" Collapsed="true">
+    <Position X="4.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="FileExplorer.Models.IMetadataProvider" Collapsed="true">
+    <Position X="3.5" Y="2.25" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="FileExplorer.Models.ICommandProvider">
+    <Position X="0.75" Y="5.25" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="FileExplorer.Models.IEntryModel">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

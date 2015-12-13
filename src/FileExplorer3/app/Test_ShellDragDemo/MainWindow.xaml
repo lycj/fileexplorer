@@ -1,0 +1,109 @@
+﻿<Window x:Class="Test_ShellDragDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:bc="http://www.quickzip.org/BaseControls"
+        xmlns:local="clr-namespace:Test_ShellDragDemo"
+        Title="MainWindow" Height="450" Width="600">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type local:FileViewModel}">
+            <Border Width="{Binding Width}" Height="{Binding Height}" x:Name="border"
+                            Background="Transparent">
+                <TextBlock Text="{Binding DisplayName}" />
+            </Border>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding IsSelecting}" Value="True">
+                    <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                </DataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding IsSelected}" Value="True" />
+                        <Condition Binding="{Binding IsDragging}" Value="False" />
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" />
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
+        <Style TargetType="ListViewItem">
+            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+        </Style>
+
+        <Style TargetType="ListView">
+            <Setter Property="bc:UIEventHubProperties.IsDraggingOver" Value="{Binding DropHelper.IsDraggingOver}" />
+            <Setter Property="bc:UIEventHubProperties.IsDragging" Value="{Binding DragHelper.IsDraggingFrom}" />
+            <Style.Triggers>
+                <Trigger Property="bc:UIEventHubProperties.IsDragging" Value="True">
+                    <Setter Property="Background" Value="Silver" />
+                </Trigger>
+                <Trigger Property="bc:UIEventHubProperties.IsDraggingOver" Value="True">
+                    <Setter Property="Background" Value="Gold" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel x:Name="SettingsPanel" Grid.ColumnSpan="2" Grid.Row="0">
+            <DockPanel>
+                <TextBlock Text="DragEventProcessor : " DockPanel.Dock="Left" />
+                <ComboBox SelectedIndex="{Binding DragDropMode}">
+                    <ComboBoxItem>Disabled</ComboBoxItem>
+                    <ComboBoxItem>DragDropLiteEventProcessor - Use internal properties, support Touch and Mouse.</ComboBoxItem>
+                    <ComboBoxItem>DragDropEventProcessor - Use DragDrop.DoDragDrop() method, support Mouse only.</ComboBoxItem>
+                </ComboBox>
+            </DockPanel>
+            <DockPanel>
+                <TextBlock Text="SelectProcessor : " DockPanel.Dock="Left" />
+                <ComboBox SelectedIndex="{Binding MultiSelectMode}">
+                    <ComboBoxItem>Disabled</ComboBoxItem>
+                    <ComboBoxItem>MultiSelectEventProcessor - Use MultiSelect using Drag, support Touch and Mouse.</ComboBoxItem>                    
+                </ComboBox>
+            </DockPanel>
+        </StackPanel>
+
+        <ListView x:Name="lv1" ItemsSource="{Binding Items}" AllowDrop="True" Grid.Row="1">
+            <bc:UIEventAdapter.Processors>
+                <bc:DragDropLiteEventProcessor EnableDrag="{Binding DataContext.EnableDragDropLite, ElementName=SettingsPanel}" 
+                                               EnableDrop="{Binding DataContext.EnableDragDropLite, ElementName=SettingsPanel}" EnableMouse="True" EnableTouch="True" />
+                <bc:DragDropEventProcessor EnableDrag="{Binding DataContext.EnableDragDrop, ElementName=SettingsPanel}" 
+                                           EnableDrop="{Binding DataContext.EnableDragDrop, ElementName=SettingsPanel}" />
+                <bc:MultiSelectEventProcessor EnableMultiSelect="{Binding DataContext.EnableMultiSelect, ElementName=SettingsPanel}" 
+                                              UnselectAllCommand="{Binding Commands.UnselectAllCommand}" />
+                <bc:ContextMenuEventProcessor>
+                    <bc:ContextMenuEventProcessor.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Test" />
+                        </ContextMenu>
+                    </bc:ContextMenuEventProcessor.ContextMenu>
+                </bc:ContextMenuEventProcessor>
+
+            </bc:UIEventAdapter.Processors>
+
+        </ListView>
+
+
+        <ListView x:Name="lv2" ItemsSource="{Binding Items}" AllowDrop="True" Grid.Column="1" Grid.Row="1">
+            <bc:UIEventAdapter.Processors>
+                <bc:DragDropLiteEventProcessor EnableDrag="{Binding DataContext.EnableDragDropLite, ElementName=SettingsPanel}" 
+                                               EnableDrop="{Binding DataContext.EnableDragDropLite, ElementName=SettingsPanel}" EnableMouse="True" EnableTouch="True" />
+                <bc:DragDropEventProcessor EnableDrag="{Binding DataContext.EnableDragDrop, ElementName=SettingsPanel}" 
+                                           EnableDrop="{Binding DataContext.EnableDragDrop, ElementName=SettingsPanel}" />
+                <bc:MultiSelectEventProcessor EnableMultiSelect="{Binding DataContext.EnableMultiSelect, ElementName=SettingsPanel}" 
+                                              UnselectAllCommand="{Binding Commands.UnselectAllCommand}" />
+
+
+            </bc:UIEventAdapter.Processors>
+
+        </ListView>
+    </Grid>
+</Window>

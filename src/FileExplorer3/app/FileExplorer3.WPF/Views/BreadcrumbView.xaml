@@ -1,0 +1,149 @@
+﻿<UserControl x:Class="FileExplorer.WPF.Views.BreadcrumbView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+             xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+             xmlns:def="clr-namespace:FileExplorer.WPF.Defines"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Brushes.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Buttons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/BreadcrumbParts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Switch.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ItemTemplates.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/BreadcrumbTreeItem.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border BorderBrush="{DynamicResource {x:Static SystemColors.InactiveCaptionBrushKey}}"
+                   BorderThickness="1" >
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <bc:Switch x:Name="switch" Grid.Column="0"
+                   Template="{StaticResource BreadcrumbSwitchTemplate}"                   
+                   IsSwitchOn="{Binding EnableBreadcrumb, Mode=TwoWay}"
+                   >
+                <bc:Switch.Header>
+                    <Image Source="{Binding Selection.SelectedViewModel.Icon}" />
+                </bc:Switch.Header>
+                <bc:Switch.ContentOn>
+                    <DockPanel>
+                        <bc:DropDownList x:Name="bexp" DockPanel.Dock="Left" 
+                                           ItemsSource="{Binding Selection.OverflowedAndRootItems}"
+                                           SelectedValuePath="Selection.Value"
+                                           ItemTemplate="{StaticResource BreadcrumbMenuNodeItemTemplate}">
+                            <bc:DropDownList.Header>
+                                <Path x:Name="path"  Stroke="Black" StrokeThickness="1.2" Data="{StaticResource ExpanderArrow}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="True" />
+                            </bc:DropDownList.Header>
+                            <bc:DropDownList.ItemContainerStyle>
+                                <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource ComboboxNullAsSeparatorStyle}">
+                                    <Setter Property="Visibility" 
+                                        Value="{Binding IsOverflowedOrRoot, Mode=OneWay, Converter={StaticResource btvc}}"  />
+                                </Style>
+                            </bc:DropDownList.ItemContainerStyle>
+
+                        </bc:DropDownList>
+
+                        <uc:BreadcrumbTree x:Name="btree" 
+                                   ItemsSource="{Binding Entries.All}"
+                                   DockPanel.Dock="Top" BorderThickness="0"
+                           MenuItemTemplate="{StaticResource BreadcrumbMenuNodeItemTemplate}"
+                           ItemTemplate="{StaticResource BreadcrumbNodeItemTemplate}"
+                           >
+                            <uc:BreadcrumbTree.ItemContainerStyle>
+                                <Style TargetType="{x:Type uc:BreadcrumbTreeItem}" 
+                       BasedOn="{StaticResource BreadcrumbTreeItemStyle}" >
+                                    <Setter Property="ValuePath" Value="Selection.Value" />
+                                    <Setter Property="IsExpanded" Value="{Binding Entries.IsExpanded, Mode=TwoWay}"  />
+                                    <Setter Property="IsCurrentSelected" Value="{Binding Selection.IsSelected, Mode=TwoWay}"  />
+                                    <Setter Property="SelectedChild" Value="{Binding Selection.SelectedChild, Mode=TwoWay}"  />
+                                    <Setter Property="IsChildSelected" Value="{Binding Selection.IsChildSelected, Mode=OneWay}"  />
+                                    <Setter Property="IsCaptionVisible" Value="{Binding Selection.IsRootAndIsChildSelected, 
+                                    Mode=OneWay, Converter={StaticResource fb} }" />
+                                    <!--Updated by BreadcrumbTreeItem and it's OverflowableStackPanel-->
+                                    <Setter Property="IsOverflowed" Value="{Binding IsOverflowed, Mode=OneWayToSource}"  />
+                                </Style>
+                            </uc:BreadcrumbTree.ItemContainerStyle>
+
+                        </uc:BreadcrumbTree>
+                    </DockPanel>
+                </bc:Switch.ContentOn>
+                <bc:Switch.ContentOff>
+                    <bc:SuggestBox x:Name="sbox" BorderThickness="0" Text="{Binding SuggestedPath, UpdateSourceTrigger=Explicit}"
+                               DisplayMemberPath="FullPath" ValuePath="FullPath" 
+                               IsEnabled="{Binding EnableBreadcrumb, Mode=OneWay, Converter={StaticResource fb}}"
+                               SuggestSources="{Binding SuggestSources}" HierarchyHelper="{x:Null}">
+
+                    </bc:SuggestBox>
+                </bc:Switch.ContentOff>
+                <!--<bc:Switch.LayoutTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2" />
+            </bc:Switch.LayoutTransform>-->
+            </bc:Switch>
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <Grid Visibility="{Binding IsBookmarkVisible, Converter={StaticResource btvc}}">
+                    <bc:DropDown Visibility="{Binding AddBookmarks.IsBookmarkEnabled, Converter={StaticResource btvc}}"
+                             IsDropDownOpen="{Binding AddBookmarks.IsVisible, Mode=TwoWay}">
+                        <bc:DropDown.Header>
+                            <Path x:Name="StarGeometry" Stroke="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" 
+                              Fill="{Binding AddBookmarks.BookmarkFillBrush}"
+                              StrokeThickness="1" Data="{StaticResource Star}"   />
+                        </bc:DropDown.Header>
+
+                        <ContentControl x:Name="AddBookmarks" />
+                    </bc:DropDown>
+                </Grid>
+                <Button Command="{x:Static def:ExplorerCommands.Refresh}"                                             
+                                        Template="{StaticResource BaseButton}" Padding="0,0,2,0">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Path Stroke="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" StrokeThickness="1" Data="{StaticResource RefreshBranch}"   />
+                        <Path Fill="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" Data="{StaticResource RefreshArrow}"   />
+                    </Grid>
+                </Button>
+            </StackPanel>
+            <!--<uc:BreadcrumbBase x:Name="bcrumb" 
+                           RootItemsSource="{Binding Subdirectories}" 
+                           DropDownHeight="200" DropDownWidth="300"
+                        >
+            <uc:BreadcrumbBase.Resources>
+                <Style x:Key="{x:Type bc:BreadcrumbItem}"
+                    TargetType="{x:Type bc:BreadcrumbItem}" 
+                    BasedOn="{StaticResource {x:Type bc:BreadcrumbItem}}" >
+                    <Setter Property="Background" Value="BurlyWood" />
+                    <Setter Property="IsDropDownOpen" Value="{Binding IsExpanded, Mode=TwoWay}"  />
+                    <Setter Property="IsTopLevel" Value="{Binding IsTopLevel, Mode=OneWayToSource}"  />
+                </Style>
+            </uc:BreadcrumbBase.Resources>
+            <uc:BreadcrumbBase.HeaderTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Subdirectories}">
+                    <TextBlock
+                        VerticalAlignment="Center" 
+                        Text="{Binding Label}" />
+                </HierarchicalDataTemplate>
+            </uc:BreadcrumbBase.HeaderTemplate>
+            <uc:BreadcrumbBase.IconTemplate>
+                <DataTemplate>
+                    <Image
+                        Source="{Binding Icon, IsAsync=True, Mode=OneWay}" 
+                        Grid.Column="0" />                    
+                </DataTemplate>
+            </uc:BreadcrumbBase.IconTemplate>
+
+        </uc:BreadcrumbBase>-->
+        </Grid>
+    </Border>
+</UserControl>

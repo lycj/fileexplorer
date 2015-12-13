@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Implemented for Tab re-ordering.">
+    <Position X="0.898" Y="5.079" Height="0.328" Width="2.376" />
+  </Comment>
+  <Comment CommentText="Go to specified directory (IEntryModel or path)">
+    <Position X="0.615" Y="9.228" Height="0.338" Width="3.084" />
+  </Comment>
+  <Comment CommentText="Display name depend on this mask.">
+    <Position X="5.069" Y="8.262" Height="0.335" Width="2.283" />
+  </Comment>
+  <Comment CommentText="Filter item in file list.">
+    <Position X="4.8" Y="8.022" Height="0.291" Width="1.652" />
+  </Comment>
+  <Comment CommentText="Set filter item">
+    <Position X="4.496" Y="7.224" Height="0.291" Width="1.532" />
+  </Comment>
+  <Class Name="FileExplorer.ViewModels.ExplorerViewModel">
+    <Position X="3.5" Y="6" Width="3" />
+    <Members>
+      <Field Name="_attachedView" Hidden="true" />
+      <Field Name="_currentDirectoryViewModel" Hidden="true" />
+      <Field Name="_events" Hidden="true" />
+      <Field Name="_filterStr" Hidden="true" />
+      <Field Name="_initializer" Hidden="true" />
+      <Field Name="_internalEvents" Hidden="true" />
+      <Field Name="_isDragging" Hidden="true" />
+      <Field Name="_parameters" Hidden="true" />
+      <Field Name="_rootModels" Hidden="true" />
+      <Field Name="_rootProfiles" Hidden="true" />
+      <Field Name="_selectedFilter" Hidden="true" />
+      <Field Name="_windowManager" Hidden="true" />
+      <Method Name="getFilters" Hidden="true" />
+      <Method Name="loadFiltersTask" Hidden="true" />
+      <Method Name="setFilter" Hidden="true" />
+      <Method Name="setRootModels" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>QEEACkAAQCAEAigFApAAABmCAAKAUHIApIAAIAAARSA=</HashCode>
+      <FileName>ViewModels\ExplorerViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Initializer" />
+      <Property Name="Parameters" />
+      <Property Name="Commands" />
+      <Property Name="Breadcrumb" />
+      <Property Name="DirectoryTree" />
+      <Property Name="FileList" />
+      <Property Name="Sidebar" />
+      <Property Name="Statusbar" />
+      <Property Name="Navigation" />
+      <Property Name="DragHelper" />
+      <Property Name="DropHelper" />
+      <Property Name="CurrentDirectory" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FileExplorer.ViewModels.TabbedExplorerViewModel">
+    <Position X="4" Y="1.5" Width="2.25" />
+    <Members>
+      <Field Name="_initializer" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAACAAAggAIAAABAAAAAAACAAAAJAAAAAAACA=</HashCode>
+      <FileName>ViewModels\TabbedExplorerViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Commands" />
+      <Property Name="DragHelper" />
+      <Property Name="SelectedItem" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.Windows.Media.ImageSource" Collapsed="true">
+    <Position X="3" Y="10.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="FileExplorer.ViewModels.ICommandManager" Collapsed="true">
+    <Position X="8" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>ViewModels\Helpers\IScriptCommandManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.IBreadcrumbViewModel" Collapsed="true">
+    <Position X="8" Y="7.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAIAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Interfaces\IBreadcrumbViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.IDirectoryTreeViewModel" Collapsed="true">
+    <Position X="8" Y="8.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAkAIAAAAAAAAAAAAAAAgBAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Interfaces\IDirectoryTreeViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.IFileListViewModel" Collapsed="true">
+    <Position X="8" Y="9.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAEAACAEACCAkAEAAAAAAAAAAIAgAAACIAAgAgAQAA=</HashCode>
+      <FileName>ViewModels\Interfaces\IFileListViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.Helpers.ISupportDrag" Collapsed="true">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAABAAAAAAAAAAAAAAABAAAAAAAAAAAIAAAIAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\ISupportDrag.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.Helpers.ISupportDrop" Collapsed="true">
+    <Position X="0.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAIABAAQAAAAAAAAAAAgAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>UserControls\UIEvent\ISupportDrop.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.ISidebarViewModel" Collapsed="true">
+    <Position X="11" Y="8.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Interfaces\ISidebarViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.IStatusbarViewModel" Collapsed="true">
+    <Position X="11" Y="7.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Interfaces\IStatusbarViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.IExplorerInitializer">
+    <Position X="0.5" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAgAAAAAABAAAAAAABBA=</HashCode>
+      <FileName>ViewModels\Interfaces\IExplorerInitializer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.INavigationViewModel" Collapsed="true">
+    <Position X="11" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAKAAAAAAEAAAAAAAAAAAEAAAAAAAABAAA=</HashCode>
+      <FileName>ViewModels\Interfaces\INavigationViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.WPF.Defines.IExplorerParameters">
+    <Position X="11" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAIAAAAEAAAIAAAAAEAAAAAAA=</HashCode>
+      <FileName>Defines\Parameters.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.IExplorerViewModel" Collapsed="true">
+    <Position X="6" Y="4.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAEAAAAAACAAAKAAAAApIAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Interfaces\IExplorerViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.IEntryViewModel">
+    <Position X="0.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAQAAAAAAAAAAAAAgAAAAEAABA=</HashCode>
+      <FileName>ViewModels\Interfaces\IEntryViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Icon" />
+    </ShowAsAssociation>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

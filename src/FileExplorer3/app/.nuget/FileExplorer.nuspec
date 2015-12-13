@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>FileExplorer.WPF</id>
+    <version>$version$</version>
+    <authors>lycj</authors>
+    <owners>lycj</owners>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>http://fileexplorer.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>FileExplorer is a WPF control (not metro) that's emulate the Windows Explorer, it supports both FIleSystem and non-FileSystem class, as long as they are in the folder-content structure. FileExplorer3 includes TabControl, Breadcrumb, FolderTree, FileList, Sidebar, Toolbar and Statusbar. </description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>WPF FileExplorer Dialog Open Save</tags>
+    <dependencies>
+      <dependency id="SampleDependency" version="1.0" />
+    </dependencies>
+  </metadata>
+</package>

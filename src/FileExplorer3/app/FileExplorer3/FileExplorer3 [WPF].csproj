@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B876634C-850C-4678-A1A1-34F6FFEA6D52}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FileExplorer</RootNamespace>
+    <AssemblyName>FileExplorer3</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=2.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Caliburn.Micro.Core.2.0.1\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform">
+      <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroLog, Version=0.8.6.0, Culture=neutral, PublicKeyToken=ba4ace74c3b410f3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MetroLog.0.8.6\lib\net45\MetroLog.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroLog.Platform">
+      <HintPath>..\packages\MetroLog.0.8.6\lib\net45\MetroLog.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.2.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Defines\Cofe3\Defines\Attributes\MediaTypeDecorator.cs" />
+    <Compile Include="Defines\Cofe3\Defines\Attributes\MIMETypeDecorator.cs" />
+    <Compile Include="Defines\Cofe3\Utils\AttributeUtils.cs" />
+    <Compile Include="Defines\Cofe3\Utils\CofePath.cs" />
+    <Compile Include="Defines\Cofe3\Utils\ConverterUtils.cs" />
+    <Compile Include="Defines\Cofe3\Utils\EnumAttributeUtils.cs" />
+    <Compile Include="Defines\Enums.cs" />
+    <Compile Include="Defines\MetadataStrings.cs" />
+    <Compile Include="Defines\Structs.cs" />
+    <Compile Include="Models\AutoSuggestSource.cs" />
+    <Compile Include="Models\BasicMetadataProvider.cs" />
+    <Compile Include="Models\Bookmark\BookmarkCommandProvider.cs" />
+    <Compile Include="Models\Bookmark\BookmarkDragDropHandler.cs" />
+    <Compile Include="Models\Bookmark\BookmarkModel.cs" />
+    <Compile Include="Models\Bookmark\BookmarkProfile.cs" />
+    <Compile Include="Models\Bookmark\BookmarkSerializeTest.cs" />
+    <Compile Include="Models\Bookmark\CommandModel.cs" />
+    <Compile Include="Models\EntryModelBase.cs" />
+    <Compile Include="Models\ExtensionMethods.cs" />
+    <Compile Include="Models\GetDefaultIcon.cs" />
+    <Compile Include="Models\IColumnFilter.cs" />
+    <Compile Include="Models\ICommandModel.cs" />
+    <Compile Include="Models\ICommandProvider.cs" />
+    <Compile Include="Models\IConverterProfile.cs" />
+    <Compile Include="Models\IDiskIOHelper.cs" />
+    <Compile Include="Models\IDiskPathMapper.cs" />
+    <Compile Include="Models\IDiskProfile.cs" />
+    <Compile Include="Models\IDragDropHandler.cs" />
+    <Compile Include="Models\IEntryHierarchyComparer.cs" />
+    <Compile Include="Models\IEntryModel.cs" />
+    <Compile Include="Models\IEntryModelCache.cs" />
+    <Compile Include="Models\IHierarchyHelper.cs" />
+    <Compile Include="Models\ILoginInfo.cs" />
+    <Compile Include="Models\IMetadata.cs" />
+    <Compile Include="Models\IMetadataProvider.cs" />
+    <Compile Include="Models\IModelIconExtractor.cs" />
+    <Compile Include="Models\IModelIconExtractorImpl.cs" />
+    <Compile Include="Models\IModelIconExtractor\LoadFromAnotherProfile.cs" />
+    <Compile Include="Models\IModelIconExtractor\LoadFromAssembly.cs" />
+    <Compile Include="Models\IProfile.cs" />
+    <Compile Include="Models\IProfileCommands.cs" />
+    <Compile Include="Models\ISuggestSource.cs" />
+    <Compile Include="Models\IViewModelOf.cs" />
+    <Compile Include="Models\Metadata.cs" />
+    <Compile Include="Models\MetadataProviderBase.cs" />
+    <Compile Include="Models\MultiSuggestSource.cs" />
+    <Compile Include="Models\NullDragDropHandler.cs" />
+    <Compile Include="Models\NullEntryModel.cs" />
+    <Compile Include="Models\NullSuggestSource.cs" />
+    <Compile Include="Models\PathComparer.cs" />
+    <Compile Include="Models\PathHierarchyComparer.cs" />
+    <Compile Include="Models\ProfileBase.cs" />
+    <Compile Include="Models\ProfileSuggestionSource.cs" />
+    <Compile Include="Models\StaticCommandProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\FileExplorer3Commands.cs" />
+    <Compile Include="Scripts\ScriptCommands.cs" />
+    <Compile Include="Scripts\v2\BroadcastEvent.cs" />
+    <Compile Include="Scripts\v2\CopyStream.cs" />
+    <Compile Include="Scripts\v2\DiskCopyFile.cs" />
+    <Compile Include="Scripts\v2\DiskCreatePath.cs" />
+    <Compile Include="Scripts\v2\DiskDelete.cs" />
+    <Compile Include="Scripts\v2\DiskOpenStream.cs" />
+    <Compile Include="Scripts\v2\DiskParseOrCreatePath.cs" />
+    <Compile Include="Scripts\v2\Download.cs" />
+    <Compile Include="Scripts\v2\List.cs" />
+    <Compile Include="Scripts\v2\NotifyChanged.cs" />
+    <Compile Include="Scripts\v2\ParsePath.cs" />
+    <Compile Include="Utils\EntryUtils.cs" />
+    <Compile Include="Utils\ExtensionMethods.cs" />
+    <Compile Include="Utils\FileNameGenerator.cs" />
+    <Compile Include="Utils\LinqUtils.cs" />
+    <Compile Include="Utils\PathUtils.cs" />
+    <Compile Include="Utils\ProgressConverter.cs" />
+    <Compile Include="Utils\StreamUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Defines\Cofe3\Defines\Structs\" />
+    <Folder Include="Defines\Cofe3\Implements\" />
+    <Folder Include="Defines\Cofe3\Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FileExplorer.Scripting\FileExplorer.Scripting [WPF].csproj">
+      <Project>{45b4c0ed-a35e-4b0b-8c78-9a1d48f7527a}</Project>
+      <Name>FileExplorer.Scripting [WPF]</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Themes\Resources\file.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Themes\Resources\folder.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Themes\Resources\bookmark.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Resources\Reference.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

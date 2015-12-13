@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="These is for UIEventHub.">
+    <Position X="4.89" Y="1.856" Height="0.309" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Define file list columns.">
+    <Position X="3.995" Y="3.234" Height="0.41" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Filter entries">
+    <Position X="4.913" Y="3.858" Height="0.318" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Load entries">
+    <Position X="7.037" Y="4.623" Height="0.318" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Poll Toolbar and ContextMenu Commands from ExtraCommandProviders.">
+    <Position X="5.514" Y="8.826" Height="0.585" Width="2.894" />
+  </Comment>
+  <Comment CommentText="Define IUICommand for use in UI (e.g. ExplorerCommands.NewWindow)">
+    <Position X="2.076" Y="10.544" Height="0.594" Width="2.582" />
+  </Comment>
+  <Class Name="FileExplorer.WPF.Defines.ColumnInfo">
+    <Position X="9.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BACAAAAAAAAAAAAEgAAAEEAAAQAgAIAAAQAAAAAAAQA=</HashCode>
+      <FileName>Defines\Structs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.ViewModels.FileListViewModel">
+    <Position X="1.5" Y="2" Width="2" />
+    <Members>
+      <Field Name="_currentDirVM" Hidden="true" />
+      <Field Name="_enableDrag" Hidden="true" />
+      <Field Name="_enableDrop" Hidden="true" />
+      <Field Name="_enableMultiSelect" Hidden="true" />
+      <Field Name="_isCheckboxVisible" Hidden="true" />
+      <Field Name="_isContextMenuVisible" Hidden="true" />
+      <Field Name="_parameters" Hidden="true" />
+      <Field Name="_showGridHeader" Hidden="true" />
+      <Field Name="_showToolbar" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="FileExplorer.ViewModels.FileListViewModel.FileListDropHelper" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ViewModels\FileListViewModel.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="FileExplorer.ViewModels.FileListViewModel.FileListDragHelper" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ViewModels\FileListViewModel.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QEAEIgCgEBDGAkAEAAAAAAAEApIAoAKACIAggBgAQCg=</HashCode>
+      <FileName>ViewModels\FileListViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ProcessedEntries" />
+      <Property Name="DragHelper" />
+      <Property Name="DropHelper" />
+      <Property Name="Columns" />
+      <Property Name="Selection" />
+      <Property Name="Commands" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FileExplorer.Models.ColumnFilter">
+    <Position X="11.25" Y="3" Width="1.5" />
+    <Members>
+      <Field Name="_header" Hidden="true" />
+      <Field Name="_isChecked" Hidden="true" />
+      <Field Name="_match" Hidden="true" />
+      <Field Name="_matchCount" Hidden="true" />
+      <Field Name="_valuePath" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BBAAAgAAACgAAEgAAgAAAgAAAQAAAAAAAAAAAACAgAA=</HashCode>
+      <FileName>Models\ColumnFilter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="FileExplorer.ViewModels.Helpers.IEntriesProcessor&lt;VM&gt;">
+    <Position X="4.75" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Helpers\IEntriesProcessor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="EntriesHelper" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.Helpers.ISupportDrag" Collapsed="true">
+    <Position X="6.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAABAAAAAAAAAAAAAAABAAAAAAAAAAAIAAAIAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\ISupportDrag.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.Helpers.ISupportDrop" Collapsed="true">
+    <Position X="8.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAIABAAQAAAAAAAAAAAgAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>UserControls\UIEvent\ISupportDrop.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.Helpers.IColumnsHelper" Collapsed="true">
+    <Position X="6.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAgAAAAAAAAAAAAAAAABAAiAAAAQAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Helpers\IColumnsHelper.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ColumnFilters" />
+      <Property Name="ColumnList" />
+    </ShowAsCollectionAssociation>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.Helpers.IEntriesHelper&lt;VM&gt;">
+    <Position X="7" Y="5.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAgAAQAgAAAAAAAIAAAAAAAAAAAIAAQAAIIAABAAAAA=</HashCode>
+      <FileName>ViewModels\Helpers\IEntriesHelper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.Helpers.IListSelector&lt;VM, T&gt;">
+    <Position X="4.75" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACgAAAAAAAAAAAAIAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>ViewModels\Helpers\IListSelector.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.ICommandManager">
+    <Position X="2" Y="9" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>ViewModels\Helpers\IScriptCommandManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ToolbarCommands" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.Helpers.IToolbarCommandsHelper">
+    <Position X="5.5" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAKAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>ViewModels\Helpers\ToolbarCommandsHelper.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ExtraCommandProviders" />
+    </ShowAsCollectionAssociation>
+  </Interface>
+  <Interface Name="FileExplorer.Models.ICommandProvider">
+    <Position X="9.25" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ICommandProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

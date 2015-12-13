@@ -1,0 +1,132 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+    xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+    xmlns:conv="clr-namespace:QuickZip.Converters"
+    xmlns:def="clr-namespace:FileExplorer.WPF.Defines"
+    xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+    xmlns:cal="http://www.caliburnproject.org"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Colors.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Buttons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <!-- 
+         Margins for TabItems - these will be set in the respective triggers.
+      -->
+    <Thickness x:Key="TabItemMargin_Base">0,2,-4,0</Thickness>
+    <Thickness x:Key="TabItemMargin_Selected">-4,0,-4,0</Thickness>
+    <Thickness x:Key="TabItemMargin_Hover">0,2,-4,0</Thickness>
+    <Thickness x:Key="TabItemPanel_Padding">4,0,4,0</Thickness>
+
+
+
+
+    <Style x:Key="TabItemExStyle" TargetType="{x:Type uc:TabItemEx}">
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type uc:TabItemEx}">
+                    <StackPanel Orientation="Horizontal" >
+                        <Rectangle x:Name="PlaceHolder" 
+                                   Visibility="Collapsed"
+                            Width="2" Fill="Gray" />
+                        <Border Name="Border" VerticalAlignment="Bottom"  
+                             Opacity="{Binding HeaderOpacity, RelativeSource={RelativeSource TemplatedParent}}"
+                             Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"
+                             BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                             Margin="{StaticResource TabItemMargin_Selected}"
+                             BorderThickness="2,1,1,0"
+                             CornerRadius="3,3,0,0"
+                             >
+
+                            <bc:HotTrack x:Name="hotTrack"  Margin="1,0">
+                                <DockPanel Margin="6,3,9,3" >
+                                    <Button x:Name="PART_CloseButton"  Template="{StaticResource BaseButton}"
+                                    Command="def:ExplorerCommands.CloseTab"
+                                    CommandParameter="{Binding}"
+
+                                    DockPanel.Dock="Right" Content="X" />
+                                    <!-- This is where the Content of the TabItem will be rendered. -->
+
+
+                                    <ContentPresenter x:Name="ContentSite"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"
+                                          ContentSource="Header"
+                                         
+                                          RecognizesAccessKey="True"/>
+                                </DockPanel>
+                            </bc:HotTrack>
+
+
+                        </Border>
+
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <!-- The appearance of a TabItem when it's inactive/unselected -->
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter Property="Panel.ZIndex" Value="90" />
+                            <Setter TargetName="Border" Property="Margin" 
+                                    Value="{StaticResource TabItemMargin_Base}"/>
+                            <Setter TargetName="Border" Property="BorderThickness" 
+                                    Value="1"/>
+                        </Trigger>
+                        <Trigger Property="ShowPlaceHolder" Value="True">
+                            <Setter Property="Panel.ZIndex" Value="110" />
+                            <Setter TargetName="PlaceHolder" Property="Visibility" 
+                                    Value="Visible"/>
+                        </Trigger>
+                        <!--
+                        The appearance of a TabItem when it's disabled
+                        (in addition to Selected=False)
+                     -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Panel.ZIndex" Value="80" />
+                            <Setter TargetName="Border" Property="BorderBrush"
+                                Value="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" />
+                            <Setter TargetName="Border" Property="Background"
+                                Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+                            <Setter Property="Foreground"
+                                Value="{DynamicResource {x:Static SystemColors.InactiveCaptionBrushKey}}" />
+                        </Trigger>
+
+                        <!-- The appearance of a TabItem when the mouse hovers over it -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Border.IsMouseOver" Value="True"/>
+                                <Condition Property="IsSelected" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Panel.ZIndex" Value="99" />
+                            <Setter TargetName="hotTrack" Property="IsEnabled" Value="True"/>
+                            <Setter TargetName="Border" Property="Margin"
+                                Value="{StaticResource TabItemMargin_Hover}"/>
+                        </MultiTrigger>
+
+                        <!-- The appearance of a TabItem when it's active/selected -->
+                        <Trigger Property="IsSelected" Value="True">
+                            <!-- We want the selected TabItem to always be on top. -->
+                            <Setter Property="Panel.ZIndex" Value="100" />
+                            <Setter TargetName="Border" Property="BorderBrush"
+                                Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
+                            <Setter TargetName="Border" Property="Background"
+                                Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
+                            <Setter TargetName="Border" Property="Margin"
+                                Value="{StaticResource TabItemMargin_Selected}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

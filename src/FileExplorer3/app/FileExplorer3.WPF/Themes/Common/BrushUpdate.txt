@@ -1,0 +1,7 @@
+﻿{StaticResource HotTrackBrush} --> {DynamicResource {x:Static SystemColors.HotTrackBrushKey}}
+{DynamicResource {x:Static SystemColors.HighlightBrushKey}}
+{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}
+{StaticResource NormalBorderBrush} -> {DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}
+{DynamicResource {x:Static SystemColors.InactiveCaptionBrushKey}}
+{StaticResource PressedBrush} ->  {DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}
+{StaticResource WindowBackgroundBrush} ->   {DynamicResource {x:Static SystemColors.WindowBrushKey}}

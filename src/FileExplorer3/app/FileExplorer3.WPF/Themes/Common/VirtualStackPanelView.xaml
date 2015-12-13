@@ -1,0 +1,55 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls">
+    <ResourceDictionary.MergedDictionaries>
+        
+    </ResourceDictionary.MergedDictionaries>
+    
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type uc:VirtualStackPanelView}, ResourceId=virtualStackPanelViewDSK}" 
+                                        TargetType="{x:Type ListView}" BasedOn="{StaticResource {x:Type ListBox}}"
+       >
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+        <Setter Property="ItemContainerStyle" 
+          Value="{Binding (ListView.View).ItemContainerStyle,
+          RelativeSource={RelativeSource Self}}"/>
+
+        <Setter Property="ItemTemplate" 
+          Value="{Binding (ListView.View).ItemTemplate,
+          RelativeSource={RelativeSource Self}}"/>
+
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <uc:VirtualStackPanel Width="{Binding (FrameworkElement.ActualWidth),
+                   RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"                                         
+                   Orientation="{Binding (ListView.View).Orientation, RelativeSource={RelativeSource AncestorType=ListView}}"
+                   SmallChanges="{Binding (ListView.View).SmallChanges, RelativeSource={RelativeSource AncestorType=ListView}}"                      
+                   ItemWidth="{Binding (ListView.View).ItemWidth, RelativeSource={RelativeSource AncestorType=ListView}}"
+                  
+                   ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}"
+                   CacheItemCount="{Binding (ListView.View).CacheItemCount, RelativeSource={RelativeSource AncestorType=ListView}}"
+                   HorizontalAlignment="{Binding (ListView.View).HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=ListView}}"
+                   VerticalAlignment="{Binding (ListView.View).VerticalContentAlignment, RelativeSource={RelativeSource AncestorType=ListView}}"
+                   
+                                          />
+                    
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="lvItemSelectStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">        
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />      
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type uc:VirtualStackPanelView}, ResourceId=virtualStackPanelViewItemDSK}" 
+           TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource lvItemSelectStyle}" >
+
+    </Style>
+
+
+
+</ResourceDictionary>

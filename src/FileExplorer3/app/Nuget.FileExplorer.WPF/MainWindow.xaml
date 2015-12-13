@@ -1,0 +1,12 @@
+﻿<Window x:Class="FileExplorer.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:uc="http://www.quickzip.org/UserControls"
+        xmlns:bc="http://www.quickzip.org/BaseControls"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+        Title="MainWindow" Height="350" Width="525">
+   
+    <Grid>
+        <uc:Explorer Mode="Normal" x:Name="explorer" />
+    </Grid>
+</Window>

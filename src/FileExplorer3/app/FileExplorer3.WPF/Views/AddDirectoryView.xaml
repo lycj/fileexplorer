@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="FileExplorer.WPF.Views.AddDirectoryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <DockPanel Margin="10">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Bottom" Margin="0,10" Height="30" >
+            <Button x:Name="Cancel" Content="Cancel" Width="50" />
+            <Button x:Name="Add" Content="Add" Width="50" Margin="10,0,0,0" />
+        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="30" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Profile" Grid.Row="0" Grid.Column="0" />
+            <ComboBox x:Name="RootProfiles" Grid.Row="0" Grid.Column="2" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding ProfileIcon, Converter={StaticResource sti} }" Width="16" />
+                            <TextBlock Text="{Binding ProfileName}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock Text="Directory" Grid.Row="2" Grid.Column="0" />
+            <!--<TextBox x:Name="Path" Grid.Row="1" Grid.Column="2" />-->
+            <Button x:Name="BrowsePath" Content="{Binding SelectedDirectory.FullPath}" HorizontalContentAlignment="Left"
+                Grid.Row="2" Grid.Column="2" >
+
+            </Button>
+        </Grid>
+    </DockPanel>
+</UserControl>

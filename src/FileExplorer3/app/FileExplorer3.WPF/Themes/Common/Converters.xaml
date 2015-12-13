@@ -1,0 +1,38 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+          xmlns:hub="http://www.quickzip.org/UIEventHub"          
+      xmlns:conv="clr-namespace:QuickZip.Converters"       >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer.UIEventHub;component/Themes/Common/Converters.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
+    <!-- pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml -->
+    <bc:DebuggingConverter x:Key="debug" />
+    <conv:FormatNumberConverter x:Key="fnc" />
+    <conv:FormatFileSizeConverter x:Key="ffs" />
+    
+    <conv:FlipBoolConverter x:Key="fb" />
+    <conv:VisibilityToBoolConverter x:Key="vtb" />
+    <conv:BorderClipConverter  x:Key="bc" />
+    <conv:FormatDateTimeConverter x:Key="ft" Mask="yyyy/MM/dd HH:mm:ss" />
+    <conv:TimeElapsedConverter x:Key="te" />
+    <conv:UriToImageSourceConverter x:Key="uti" />
+    <conv:GridLengthValueConverter x:Key="glv" />
+    <conv:StreamToImageConverter x:Key="sti" />
+    <conv:IntAddConverter x:Key="add40p" AddPercent="0.40" />
+    <!--
+    
+    <conv:FlipBoolToVisibilityConverter x:Key="fbtv" />
+    
+    <conv:BitmapToBitmapImageConverter x:Key="btbi" />
+    <conv:InvertSignConverter x:Key="isc" />
+    <conv:TimeSpanToMsecConverter x:Key="t2ms" />
+    <conv:FlipBoolConverter x:Key="fbool" />
+    <conv:FormatFileSizeConverter x:Key="ffs" />
+    <conv:FormatTimeConverter x:Key="ft" />
+    <conv:EnumMatchToBooleanConverter x:Key="embc" />
+    <conv:ToStringConverter x:Key="ts" />-->
+
+
+</ResourceDictionary>

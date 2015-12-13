@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="FileExplorer.WPF.Views.StatusbarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+             xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Brushes.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ListView.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ItemTemplates.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/RadioCombo.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <uc:StatusbarEx x:Name="sbar" ItemsSource="{Binding Metadata.All}" Grid.RowSpan="2" Grid.Column="0" 
+                        IsExpanded="{Binding IsExpanded, Mode=OneWayToSource}" >
+            <uc:StatusbarEx.Header>
+                <DockPanel>
+                    <ItemsControl x:Name="Icon" Width="{Binding ActualHeight, ElementName=Items}"
+                                  Visibility="{Binding IsExpanded, Converter={StaticResource btvc}}"
+                                  ItemsSource="{Binding DisplayItems}" DockPanel.Dock="Left"
+                                  ItemTemplate="{StaticResource IconOnlyTemplate}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <bc:OverlappingPanel OverlapX="0.05" OverlapY="0.05" MaxItems="10"  IsItemsHost="True" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Caption}" />
+                    </StackPanel>
+                </DockPanel>
+            </uc:StatusbarEx.Header>
+            <uc:StatusbarEx.ItemContainerStyle>
+                <Style TargetType="{x:Type uc:StatusbarItemEx}" >
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=OneWay, 
+                        ElementName=sbar, NotifyOnValidationError=False}" />
+                    <!-- Bind to ViewModel -->
+                    <Setter Property="Header" Value="{Binding MetadataModel.HeaderText, Mode=OneWay}" />
+                    <Setter Property="Content" Value="{Binding MetadataModel.Content, Mode=OneWay}" />
+                    <Setter Property="Type" Value="{Binding MetadataModel.DisplayType, Mode=OneWay}" />
+                    <Setter Property="IsHeader" Value="{Binding MetadataModel.IsHeader, Mode=OneWay}" />
+                </Style>
+            </uc:StatusbarEx.ItemContainerStyle>
+                <!--<uc:StatusbarEx.Items>
+                <uc:StatusbarItemEx Header="Text" Content="content" Type="text" />
+                <uc:StatusbarItemEx Header="Percentage" Content="10" Type="percent" />
+                <uc:StatusbarItemEx Header="Number" Content="100000000000" Type="Number" />
+
+            </uc:StatusbarEx.Items>-->
+            
+        </uc:StatusbarEx>
+
+    </Grid >
+</UserControl>

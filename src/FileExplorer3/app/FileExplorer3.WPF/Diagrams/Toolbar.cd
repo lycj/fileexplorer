@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="FileExplorer.ViewModels.Helpers.CommandsHelper" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAgABAAAAAAAAAAAIAACAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Helpers\CommandsHelper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="FileExplorer.Models.ICommandModel">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAACQAAACEAAEABAgAAAAAAAAAAAAQgAAACAA=</HashCode>
+      <FileName>Models\ICommandModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.Models.ISeparatorModel" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ICommandModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.Models.IDirectoryCommandModel" Collapsed="true">
+    <Position X="3.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ICommandModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.Models.ISelectorCommandModel" Collapsed="true">
+    <Position X="2.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Models\ICommandModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.Models.ISliderCommandModel" Collapsed="true">
+    <Position X="5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAIAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ICommandModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.Models.ISliderStepCommandModel" Collapsed="true">
+    <Position X="7.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAIAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Models\ICommandModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.ICommandViewModel" Collapsed="true">
+    <Position X="7.5" Y="1" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAACAAAAABAgAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Interfaces\ICommandViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.Helpers.ICommandsHelper">
+    <Position X="2" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Helpers\CommandsHelper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

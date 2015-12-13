@@ -1,0 +1,1524 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;
+      charset=windows-1252">
+    <title></title>
+  </head>
+  <body>
+    <h2>Introduction</h2>
+    <p>The <code>FileExplorer</code> project is a WPF based control
+      that implements most aspects of Windows Explorer. It can be used
+      to display shell objects or any hierarchical data.</p>
+    <p>The code presented here implements:</p>
+    <ul>
+      <i>a standalone window,</i> <i>a file open and file save dialog,
+        or</i> <i>a folder picker dialog.</i>
+    </ul>
+    <p>The FileExplorer control is designed such that it can be embeded
+      into the UI of other application that you might develop.</p>
+    <p> <a href="FileExplorer3.png"><img style="width: 600px; height:
+          259px;" src="FileExplorer3.png"></a> </p>
+    <h2><a name="Index" id="Index"></a>Index</h2>
+    <ul>
+      <li><a href="#Introduction">Introduction</a> </li>
+      <li><a href="#Background">Background</a> </li>
+      <li><a href="#Download">Download </a></li>
+      <li><a href="#Index">Index</a> </li>
+      <li><a href="#UsingTheCode">Using the code</a>
+        <ul>
+          <li><a href="#Compilingthesourcecode">Compiling the source
+              code </a></li>
+          <li><a href="#CaliburnMicro">Caliburn Micro mvvm framework</a></li>
+          <li><a href="#OtherFramework">Other mvvm framework</a></li>
+          <li><a href="#UIEventHub">UIEventHub</a> </li>
+          <li><a href="#disablemapunmapbuttons">Disable Map / Unmap
+              buttons </a></li>
+        </ul>
+      </li>
+      <li><a href="#IProfile">IProfile</a>
+        <ul>
+          <li><a href="#CustomMetadata">Custom Metadata</a></li>
+          <li><a href="#CustomCommands">Custom Commands</a></li>
+        </ul>
+      </li>
+      <li><a href="#FileList">FileList</a>
+        <ul>
+          <li><a href="#CustomColumns">Custom Columns</a></li>
+          <li><a href="#CustomColumnFilters">Custom Column Filters</a></li>
+          <li><a href="#CustomViews">Custom Views</a></li>
+          <li><a href="#CustomContextMenuandToolbarCommands">Custom
+              ContextMenu and Toolbar Commands</a></li>
+          <li><a href="#CustomUICommands">Custom UICommands
+              (ScriptCommandBindings)</a></li>
+        </ul>
+      </li>
+      <li><a href="#ScriptRunner">ScriptRunner</a>
+        <ul>
+          <li><a href="#AsCommandBindings">As CommandBindings (in UI)</a></li>
+          <li><a href="#AsRunnerforpre-definedcommands">As Runner for
+              pre-defined commands (in VM)</a></li>
+        </ul>
+      </li>
+      <li><a href="#OtherViewModels">Other View Models</a>
+        <ul>
+          <li><a href="#ExplorerandTabbedExplorer">Explorer and
+              TabbedExplorer</a></li>
+          <li><a href="#DirectoryTreeandBreadcrumb">DirectoryTree and
+              Breadcrumb</a></li>
+          <li><a href="#NavigationStatusbarandSidebar">Navigation,
+              Statusbar and Sidebar</a></li>
+        </ul>
+      </li>
+      <li><a href="#Conclusion">Conclusion</a></li>
+      <li><a href="#Reference">Reference</a> </li>
+    </ul>
+    <h2><a name="Background" id="Background"></a>Background<!-- LYCJ - Added link to new topics in codeplex 24May2014  --></h2>
+    <p>I have created the first edition of WPF <code>FileExplorer</code>
+      in 2008. This version just included a <code>DirectoryTree</code>
+      and <code>FileList</code>, which delivered a lot of functionality
+      required (but not provided by the framework). The next version, <code>FileExplorer2</code>,
+      arrived in 2010. It supported different entity types, more
+      controls, and improved performance through <a
+href="https://fileexplorer.codeplex.com/wikipage?title=Asynchronous%20loading%20of%20entries"><em>asynchronous
+
+
+
+
+
+
+
+
+
+
+
+
+          loading</em></a> (<em>not using the async keyword</em>) and <a
+href="https://fileexplorer.codeplex.com/wikipage?title=Lookup%20in%20DirectoryTree"><em>bounty
+
+
+
+
+
+
+
+
+
+
+
+
+          directory tree lookup</em></a>. </p>
+    <!-- Dirkster: What do you mean by entity types and bounty directory tree lookup?  -->
+    <p> The <code>FileExplorer2</code> version was a real progress in
+      the matter of implementing a custom file explorer control. But the
+      problem of this implementation was that it is designed as a demo
+      that has no room for customization. The design of <code>FileExplorer2</code>
+      has a <a href="Explorer2.TowerOfHierarchy.png">tower of hierarchy</a>,
+      which makes it impossible to improve afterwards. </p>
+    <!-- Dirkster: What is a tower of tower of hierarchy?  -->
+    <p> I recreated the 3rd version <code>FileExplorer3</code> from
+      scratch in spring 2014. This version provides more controls,
+      supports different <a
+        href="https://fileexplorer.codeplex.com/wikipage?title=Entry%20types">entry
+
+
+
+
+
+
+
+
+
+
+
+
+        types</a> in the same explorer, is enabled for touch, and can be
+      customized. This article is focused on the <code>FileExplorer3</code>
+      project and describes its usage.<br>
+    </p>
+    <p>Features:<!-- LYCJ - Added Features 24May2014  --> </p>
+    <ul>
+      <li>DirectoryTree, FileList, Navigation, Breadcrumb, Sidebar,
+        Statusbar control.</li>
+      <li>NormalWindow, TabControl and <a href="FileExplorer3.png">ToolWindow</a>
+        display mode.</li>
+      <li>Support any hierarchical structure as entry, not necessary IO
+        based, and not just System.IO or DirectoryInfoEx.<br>
+        <i>(Currently supports : System.IO, DirectoryInfoEx,
+          GoogleDrive, OneDrive and DropBox)</i></li>
+      <li>Able to combine different types of entries in same window.</li>
+      <li>Able to configure certain behavior (e.g. Open or Select when
+        double click) using <a
+href="https://fileexplorer.codeplex.com/wikipage?title=ScriptRunner&amp;referringTitle=FileExplorer3">ScriptRunner</a>.<br>
+      </li>
+      <li>Drag and Drop and MultiSelect, this time it's refactored into
+        a <a
+href="http://www.codeproject.com/Articles/702432/WPF-UIEventHub-MultiSelect-and-DragnDrop">UIEventHub</a>,
+        a re-usable control that is MVVM aware, it's also support touch
+        now.<br>
+      </li>
+      <li>FileList supports <br>
+      </li>
+      <ul>
+        <li>Multiple View in same control, noted that it uses
+          ListView.View property, instead of having an ItemsControl for
+          each view.</li>
+        <li>Customizable Column (definable in ViewModel)<br>
+        </li>
+        <li>All views support Column sort and filter using
+          GridViewHeader.<br>
+        </li>
+        <li>Virtual loading using VirtualStackPanel and VirtualWrapPanel
+          are used to create UIElement when needed.</li>
+        <li><a
+href="https://fileexplorer.codeplex.com/wikipage?title=Asynchronous%20loading%20of%20entries">Asynchronous
+
+
+
+
+
+
+
+
+
+
+
+
+            entries loading</a> using EntriesHelper</li>
+        <li>Refresh when filesystem raise changed.<br>
+        </li>
+      </ul>
+      <li>Breadcrumb in a MVVM friendly <a
+href="http://www.codeproject.com/Articles/687853/WPF-BreadcrumbTree-control">tree
+
+
+
+
+
+
+
+
+
+
+
+
+          like structure</a>.</li>
+    </ul>
+    <p><em>Note: Touch Drag n Drop support does not work in the shell,
+        unless it is initialized. You can initialize this with a touch
+        and hold (for 2 seconds) gesture before you start to drag.</em></p>
+    <ul>
+    </ul>
+    <!-- Dirkster: What do you mean by entity types?  -->
+    <p> <strike>The following table gives an overview on the different
+        FileExplorer versions and their features. </strike></p>
+    <strike> </strike><!-- Dirkster: What about listing only the features of FileExplorer3 and explaining them better or supplying references as explanation?  --><strike>
+    </strike>
+    <table cellpadding="2" cellspacing="2" border="1" width="100%">
+      <tbody>
+        <tr>
+          <td valign="top"> <strike><br>
+            </strike> </td>
+          <td align="center" valign="top"><strike><a
+href="http://www.codeproject.com/Articles/78517/WPF-x-FileExplorer-x-MVVM">v1
+
+
+
+
+
+
+
+
+
+
+
+
+                (2010)</a></strike></td>
+          <td align="center" valign="top"><strike><a
+href="http://fileexplorer.codeplex.com/wikipage?title=FileExplorer2&amp;referringTitle=Home">v2
+
+
+
+
+
+
+
+
+
+
+
+
+                (2012)</a></strike></td>
+          <td align="center" valign="top"><strike><a
+                href="http://fileexplorer.codeplex.com/">v3 (2014)</a></strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>License </strike></td>
+          <td align="center" valign="top"><strike>LGPL</strike></td>
+          <td align="center" valign="top"><strike>LGPL</strike></td>
+          <td align="center" valign="top"><strike>MIT</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>.Net framework </strike></td>
+          <td align="center" valign="top"><strike>3.0 </strike></td>
+          <td align="center" valign="top"><strike>3.5/4.0</strike></td>
+          <td align="center" valign="top"><strike>4.5</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>MVVM Framework </strike></td>
+          <td align="center" valign="top"><strike>Cinch</strike></td>
+          <td align="center" valign="top"><strike>Cinch v2</strike></td>
+          <td align="center" valign="top"><strike>Caliburn Micro</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"> <strike><br>
+            </strike> </td>
+          <td valign="top"> <strike><br>
+            </strike> </td>
+          <td valign="top"> <strike><br>
+            </strike> </td>
+          <td valign="top"> <strike><br>
+            </strike> </td>
+        </tr>
+        <tr>
+          <td valign="top"><strike><strong>Controls</strong></strike></td>
+          <td valign="top"> <strike><br>
+            </strike> </td>
+          <td valign="top"> <strike><br>
+            </strike> </td>
+          <td valign="top"> <strike><br>
+            </strike> </td>
+        </tr>
+        <tr>
+          <td valign="top"><strike><code>DirectoryTree </code></strike><strike>and
+
+
+
+
+
+
+
+
+
+
+
+            </strike><strike><code>FileList</code></strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike><code>Navigation</code></strike><strike>,
+            </strike><strike><code>Breadcrumb</code></strike><strike>, </strike><strike><br>
+            </strike> <strike><code>Sidebar</code></strike><strike> and
+            </strike><strike><code>Statusbar</code></strike></td>
+          <td align="center" valign="top"> <strike><br>
+            </strike> </td>
+          <td align="center" valign="top"><strike>X</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike><code>TabControl </code></strike><strike>and
+
+
+
+
+
+
+
+
+
+
+
+            </strike><strike><code>ToolWindow</code></strike></td>
+          <td align="center" valign="top"> <strike><br>
+            </strike> </td>
+          <td align="center" valign="top"> <strike><br>
+            </strike> </td>
+          <td align="center" valign="top"><strike>X</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike><code>FilePicker </code></strike><strike>and
+
+
+
+
+
+
+
+
+
+
+
+            </strike><strike><code>DirectoryPicker</code></strike></td>
+          <td valign="top"> <strike><br>
+            </strike> </td>
+          <td valign="top"> <strike><br>
+            </strike> </td>
+          <td align="center" valign="top"><strike>X</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike><strong>Entity</strong></strike> </td>
+          <td align="center" valign="top"> <strike><br>
+            </strike> </td>
+          <td align="center" valign="top"> <strike><br>
+            </strike> </td>
+          <td align="center" valign="top"> <strike><br>
+            </strike> </td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>Entity</strike></td>
+          <td align="center" valign="top"><strike>Fixed</strike></td>
+          <td align="center" valign="top">
+            <p><strike>Typed (EntryModel</strike><strike><br>
+              </strike><strike> &lt;FI, DI, FSI&gt;),</strike><strike><br>
+              </strike><strike> IO specific,</strike><strike><br>
+              </strike><strike> One at a time.</strike></p>
+          </td>
+          <td align="center" valign="top">
+            <p><strike>Not typed (IEntryModel)</strike><strike><br>
+              </strike><strike> Not IO specific,</strike><strike><br>
+              </strike><strike> Multi at a time.</strike><strike><br>
+              </strike> </p>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>Supported Entity</strike></td>
+          <td align="center" valign="top"><strike>System.IO</strike></td>
+          <td align="center" valign="top"><strike>System.IO or
+              DirectoryInfoEx</strike></td>
+          <td align="center" valign="top">
+            <p><strike>System.IO,</strike><strike><br>
+              </strike><strike> DirectoryInfoEx,</strike><strike><br>
+              </strike><strike> GoogleDrive,</strike><strike><br>
+              </strike> <strike><strong>OneDrive </strong></strike><strike>and
+
+
+
+
+
+
+
+
+
+
+
+                DropBox</strike></p>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><strike><strong>Features</strong></strike></td>
+          <td valign="top"> <strike><br>
+            </strike> </td>
+          <td valign="top"> <strike><br>
+            </strike> </td>
+          <td valign="top"> <strike><br>
+            </strike> </td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>Context Menu</strike></td>
+          <td rowspan="1" colspan="2" align="center" valign="top"><strike>Shell</strike></td>
+          <td align="center" valign="top"><strike>UserDefined</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>Drag and Drop</strike></td>
+          <td rowspan="1" colspan="2" align="center" valign="top"><strike>DragDropHelper
+
+
+
+
+
+
+
+
+
+
+
+
+            </strike></td>
+          <td align="center" valign="top"><strike><a
+href="http://www.codeproject.com/Articles/702432/WPF-UIEventHub-MultiSelect-and-DragnDrop">UIEventHub</a></strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>Multi-Select</strike></td>
+          <td rowspan="1" colspan="2" align="center" valign="top"><strike><a
+href="http://www.codeproject.com/Articles/64865/Enable-MultiSelect-in-WPF-ListView">SelectionHelper</a></strike></td>
+          <td align="center" valign="top"><strike><a
+href="http://www.codeproject.com/Articles/702432/WPF-UIEventHub-MultiSelect-and-DragnDrop">UIEventHub</a></strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>Touch support (Drag and Drop,</strike><strike><br>
+            </strike><strike> Multi-Select and Scrolling)</strike></td>
+          <td align="center" valign="top"> <strike><br>
+            </strike> </td>
+          <td align="center" valign="top"> <strike><br>
+            </strike> </td>
+          <td align="center" valign="top"><strike><strong>X</strong></strike>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>Rename support</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>Refresh when filesystem changed</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>FileList: Virtual loading</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>FileList: Column Sort</strike></td>
+          <td rowspan="1" colspan="2" align="center" valign="top"><strike>GridView
+
+
+
+
+
+
+
+
+
+
+
+
+              only</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>FileList: Column Filter, Custom
+              Column</strike></td>
+          <td align="center" valign="top"><strike>Filename only</strike></td>
+          <td valign="top"> <strike><br>
+            </strike> </td>
+          <td align="center" valign="top"><strike>X</strike></td>
+        </tr>
+        <tr>
+          <td align="left" valign="top"><strike>Entry Loading
+              (Synchronous / Asynchoronous)</strike></td>
+          <td align="center" valign="top"><strike>Sync</strike></td>
+          <td align="center" valign="top"><strike>Async</strike><strike><br>
+            </strike><strike> (AsyncObservable</strike><strike><br>
+            </strike><strike> Collection) </strike></td>
+          <td align="center" valign="top"><strike>Async (</strike><strike><code>EntriesHelper</code></strike><strike>)</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>Icon loading</strike></td>
+          <td rowspan="1" colspan="1" align="center" valign="top"><strike>From
+
+
+
+
+
+
+
+
+
+
+
+
+              Shell</strike></td>
+          <td align="center" valign="top"><strike>From Shell</strike><strike><br>
+            </strike><strike> (Icon Extractor)</strike></td>
+          <td align="center" valign="top"><strike>From Profile</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>DirectoryTree: Custom root directory</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+          <td align="center" valign="top"><strike>X</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>Breadcrumb/DirectoryTree:Directory
+              Lookup</strike></td>
+          <td align="center" valign="top"><strike>Background thread</strike></td>
+          <td align="center" valign="top"><strike>Bounty</strike></td>
+          <td align="center" valign="top"><strike>Async</strike></td>
+        </tr>
+        <tr>
+          <td valign="top"><strike>Breadcrumb structure</strike></td>
+          <td align="center" valign="top"><strike>NA</strike></td>
+          <td align="center" valign="top"><strike>List</strike></td>
+          <td align="center" valign="top"><strike>Tree</strike></td>
+        </tr>
+      </tbody>
+    </table>
+    <strike> </strike><!--
+Dirkster: What do you mean with this items?
+
+1) Typed (EntryModel
+   &lt;FI, DI, FSI&gt;),
+   IO specific,
+   One at a time.</p>
+
+2) Supported Entity: System.IO or DirectoryInfoEx
+
+3) Not typed (IEntryModel)
+   Not IO specific,
+   Multi at a time.
+
+4) Bounty
+--><strike> </strike>
+    <p><br>
+      <strike><em></em></strike> </p>
+    <h2><a class="anchor" title="Download" name="Download" id="Download"></a>Download</h2>
+    <p><code>FileExplorer3 </code>is released under <code>MIT License</code>
+      and is available here:</p>
+    <ul>
+      <li><strike><a href="FileExplorer3_BinaryOnly.zip">Download
+            FileExplorer3_BinaryOnly.zip - 4.5 MB</a></strike></li>
+      <li><a href="FileExplorer3_BinaryAndBinarySource.zip">Download
+          FileExplorer3_WithDemoSource.zip - 6.21 MB</a></li>
+      <li><a
+          href="http://fileexplorer.codeplex.com/SourceControl/latest#readme.txt">Download
+
+
+
+
+
+
+
+
+
+
+
+
+          source from CodePlex - 16.8MB</a> (sry, too large)</li>
+    </ul>
+    <p> <em> Note: The MIT license is less restrictive than LGPL and
+        MS-PL</em>. Users can modify the library without making them
+      open source.<br>
+    </p>
+    <h2><a name="UsingTheCode" id="UsingTheCode"></a>Using the code</h2>
+    <h3><a id="Compilingthesourcecode" name="Compilingthesourcecode"
+        title="Compilingthesourcecode" class="anchor"></a>Compiling the
+      source code</h3>
+    <p> The FileExplorer3 project supports omline directories, such as,
+      OneDrive or DropBox. These services require identification keys
+      which are not included in the source code. You therefore, have to
+      copy <code>Copy Of AuthorizationKeys.cs </code>(in TestApp.WPF)
+      to <code>AuthorizationKeys.cs</code> in order to use OneDrive or
+      DropBox. You can enable the GoogleDrive implementation if you
+      obtain your <code>gapi_client_secret.json</code> and put it in
+      TestApp.WPF project directory. Please review the <code>Copy of
+        AuthorizationKeys.cs</code> file to find more information with
+      regard to obtaining these keys. </p>
+    <pre><!-- LYCJ - Added source code 24May2014  -->if (System.IO.File.Exists("gapi_client_secret.json"))<br>   <br>   //For demo only, one should embed it in the binary in real world application.
+   using (var gapi_secret_stream = System.IO.File.OpenRead("gapi_client_secret.json")) 
+   {
+       _profileGoogleDrive = new GoogleDriveProfile(_events, _windowManager, gapi_secret_stream);
+   }
+
+</pre>
+    <p> Review the <a name="disablemapunmapbuttons">Section about
+        disabling map/unmap buttons to use this project without a
+        particular online directory service.<br>
+      </a></p>
+    <a name="disablemapunmapbuttons"><!-- Dirkster:
+I am not sure what the above note means?
+
+-->
+      <h3>Bootstrapper<!-- LYCJ - Added BootStrapper 25May2014  --></h3>
+      <p>FileExplorer uses Caliburn MicroMVVM framework internally , so
+        depending whether you are using this framework, you still need
+        to boot it's BootStrapper.&nbsp; In most case you can use the
+        included one:<br>
+      </p>
+      <pre>&lt;Application x:Class="Nuget.FileExplorer.WPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:uc="http://www.quickzip.org/UserControls"
+             StartupUri="MainWindow.xaml"&gt;
+    &lt;Application.Resources&gt;
+        &lt;ResourceDictionary&gt;
+            &lt;ResourceDictionary.MergedDictionaries&gt;
+                &lt;ResourceDictionary&gt;
+                    <b>&lt;uc:FileExplorerBootStrapper x:Key="boot" /&gt;</b>
+                &lt;/ResourceDictionary&gt;
+            &lt;/ResourceDictionary.MergedDictionaries&gt;
+        &lt;/ResourceDictionary&gt;
+    &lt;/Application.Resources&gt;
+&lt;/Application&gt;</pre>
+      <h3>Caliburn Micro MVVM framework</h3>
+    </a>
+    <p><a name="disablemapunmapbuttons"></a><a
+        href="FileExplorer3-TabControl.png"><img style="width: 600px;
+          height: 359px;" src="FileExplorer3-TabControl.png"></a></p>
+    <p>The <code>FileExplorer3</code> implementation is based on the <code>Caliburn
+
+
+
+
+
+
+
+
+
+
+
+
+        Micro</code> framework. You can use the <code>ExplorerViewModel
+      </code>or <code>TabbedExplorerViewModel</code>(for multi-tab
+      explorer) and the framework finds the View automatically. The
+      following code is, for example, in TestApp.WPF, AppViewModel.cs,
+      line 110:</p>
+    <pre lang="cs">_windowManager.ShowWindow(new ExplorerViewModel(_events, _windowManager, RootModels.ToArray()));
+</pre>
+    <p>This code uses the <code>WindowManager</code> in CaliburnMicro
+      to show an explorer window. The Caliburn Micro framework finds the
+      appropriate view (ExplorerView in this case) automatically. The
+      association between view and viewmodel is imported in <code>AppBootstrapper.cs</code>
+      using <a
+href="http://www.google.com.hk/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=3&amp;cad=rja&amp;uact=8&amp;ved=0CEkQFjAC&amp;url=http%3A%2F%2Fmsdn.microsoft.com%2Fen-us%2Flibrary%2Fdd460648%28v%3Dvs.110%29.aspx&amp;ei=CL5vU7GPHIjs8AWDg4HQAQ&amp;usg=AFQjCNEHZ43eLqPl31NoU8ntL0eheUunZg">MEF</a>.
+    </p>
+    <pre lang="cs">container = new CompositionContainer(
+  new AggregateCatalog(
+      AssemblySource.Instance.Select(x =&gt; new AssemblyCatalog(x))
+             .OfType&lt;ComposablePartCatalog&gt;()
+             .Concat(new ComposablePartCatalog[] { new DirectoryCatalog(".") }))
+ );</pre>
+    <p>The automatic association of CaliburnMicro requires that all
+      views are stored in FileExplorer3's View directory, using a naming
+      convention based on {ViewModelName}View.xaml. The tool window
+      (Explorer.ToolWindow.xaml) does not adhere to this rule since you
+      can create it by passing a "ToolWindow" as context in the <code>ShowWindow()</code>:</p>
+    <pre lang="cs">_windowManager.ShowWindow(new ExplorerViewModel(
+  _events, _windowManager, RootModels.ToArray()), "ToolWindow");</pre>
+    <p>You would want the <code>ExplorerView</code> to be part of your
+      UI in most cases. This can be done by specifying the context with
+      the <code>cal:View.Context</code> attached property.</p>
+    <pre lang="cs">&lt;ContentControl Name="Explorer" DockPanel.Dock="Left" cal:View.Context="ToolWindow" /&gt;</pre>
+    <p>The project includes also a <code>FilePicker</code> and <code>DirectoryPickerViewModel</code>as
+
+
+
+
+
+
+
+
+
+
+
+
+      well.</p>
+    <pre lang="cs">var filePicker = new FilePickerViewModel(_events, _windowManager, FileFilter, 
+         FilePickerMode.Open, RootModels.ToArray());
+if (_windowManager.ShowDialog(filePicker).Value)
+{
+    MessageBox.Show(String.Join(",", filePicker.SelectedFiles.Select(em =&gt; em.FullPath)));
+}
+//or...
+new ScriptRunner().Run(new ParameterDic(),
+  ScriptCommands.OpenFile(_windowManager, _events, RootModels.ToArray(), FileFilter, "demo.txt",
+  (fpvm) =&gt; ScriptCommands.MessageBox(_windowManager, "Open", fpvm.FileName), ResultCommand.OK));</pre>
+    <p><a href="FileExplorer3.FilePicker.png"><img style="width: 500px;
+          height: 312px;" src="FileExplorer3.FilePicker.png"></a></p>
+    <p>A user of the Explorer UserControl may has to initialize many
+      fields before it can start. This can be done by using the <code>ExplorerInitializer</code>,
+      which is reusable among all tabs in <code>TabbedExplorerViewModel</code>.
+    </p>
+    <pre lang="cs">public static IExplorerInitializer getInitializer(IWindowManager windowManager,
+    IEventAggregator events, IEntryModel[] rootModels, params IViewModelInitializer&lt;IExplorerViewModel&gt;[] initalizers)
+{
+    var retVal = new ExplorerInitializer(windowManager, events, rootModels);
+    retVal.Initializers.AddRange(initalizers);
+    return retVal;
+}
+...
+var initializer = getInitializer(_windowManager, _events, RootModels.ToArray(),
+        new BasicParamInitalizers(_expandRootDirectories, _enableMultiSelect, _enableDrag, _enableDrop),
+        new ColumnInitializers(),
+        new ScriptCommandsInitializers(_windowManager, _events, profiles),
+        new ToolbarCommandsInitializers(_windowManager));
+
+var sr = new ScriptRunner();
+sr.Run(Explorer.NewWindow(initializer, context, null), new ParameterDic());
+</pre>
+    <h3><a name="OtherFramework" id="OtherFramework"></a>Other MVVM
+      frameworks</h3>
+    <p> You can also use the <code>Explorer</code> UserControl without
+      the <code>Caliburn Micro</code> framework. Just use the <code>Explorer</code>
+      UserControl and toggle properties with its ViewModel. A sample
+      code for this is, for example, in ToolWindow.xaml:</p>
+    <pre lang="xml">&lt;Window ...
+        xmlns:uc="http://www.quickzip.org/UserControls"
+        xmlns:conv="http://www.quickzip.org/Converters"
+        xmlns:cal="http://www.caliburnproject.org" ...&gt;
+    &lt;Grid&gt;
+        &lt;Grid.Resources&gt;
+            &lt;conv:EntryModelToStringConverter x:Key="emts" /&gt;
+        &lt;/Grid.Resources&gt;
+
+        ....
+        &lt;!-- This is required to show dragging items --&gt;
+        &lt;AdornerDecorator x:Name="PART_DragDropAdorner" Grid.ColumnSpan="3" /&gt;
+
+        <b>&lt;uc:Explorer x:Name="explorer" Mode="ToolWindow" /&gt;</b> &lt;!-- Explorer in tool window mode --&gt;
+        ...
+        &lt;StackPanel ...&gt;
+            &lt;bc:UIEventAdapter.Processors&gt;
+                &lt;bc:DragDropLiteEventProcessor /&gt;
+            &lt;/bc:UIEventAdapter.Processors&gt;
+            
+            ...&lt;!--ViewModel.FileList.Selection.SelectedItems is IEntryModel--&gt;
+            &lt;TextBlock Text="{Binding ViewModel.FileList.CurrentDirectory, 
+                Converter={StaticResource emts},
+                ElementName=explorer}" /&gt;
+                    
+            ...&lt;!--ViewModel.FileList.Selection.SelectedItems is List&lt;IEntryViewModel&gt;--&gt;
+            &lt;TextBlock Text="{Binding ViewModel.FileList.Selection.SelectedItems, 
+                Converter={StaticResource emts},
+                ElementName=explorer}" /&gt;
+            
+            ...&lt;TextBlock x:Name="testDroppable" 
+                   AllowDrop="True"
+                   Text="{Binding Label}" &gt;
+              &lt;bc:UIEventAdapter.Processors&gt;
+                &lt;bc:DragDropEventProcessor EnableDrag="false" EnableDrop="true" /&gt;
+                &lt;bc:DragDropLiteEventProcessor EnableDrag="false" EnableDrop="true"
+                                               EnableMouse="False" EnableTouch="True" /&gt;
+              &lt;/bc:UIEventAdapter.Processors&gt;
+
+            &lt;/TextBlock&gt;
+        &lt;/StackPanel&gt;
+    &lt;/Grid&gt;
+&lt;/Window&gt;</pre>
+    <p><a href="FileExplorer3.ToolWindow.png"><img style="width: 600px;
+          height: 190px;" src="FileExplorer3.ToolWindow.png"></a></p>
+    <p><br>
+      In either way, you will have to specify the root directory in <code>IEntryModel</code>.
+      This can be parsed from the profile: <br>
+      <i>(IProfile provide FileExplorer to access the content of IO,
+        WebStorage, or other store defined by user)</i><br>
+    </p>
+    <!-- What profile does this refer to? XML file stored in AppData folder?-->
+    <pre lang="cs">var _profileEx = new FileSystemInfoExProfile(events, windowManager);
+rootDir = _profileEx.ParseAsync(System.IO.DirectoryInfoEx.DesktopDirectory.FullName).Result;
+</pre>
+    <p> There is a profile for each file system/directory service:
+      <!-- LYCJ - Added documentation 25May2014  --></p>
+    <ul>
+      <li><code>FileSystemInfoProfile</code>, - Access using System.IO
+        namespace<br>
+      </li>
+      <!-- Dirkster: What is FileSystemInfoProfile?-->
+      <li><code>FileSystemInfoExProfile</code>, - Access using <a
+          href="http://directoryinfoex.codeplex.com/">DirectoryInfoEx</a>
+        library<br>
+      </li>
+      <!-- Dirkster: What is FileSystemInfoExProfile?-->
+      <li><code>SkyDriveProfile</code>, - Access Microsoft OneDrive
+        storage using Microsoft.Live library<br>
+      </li>
+      <li><code>DropBoxProfile </code>, - Access DropBox using DropNet
+        library<br>
+      </li>
+      <li>and <code>GoogleDriveProfile.</code> Access Google Drive
+        using gapi library</li>
+    </ul>
+    <p>The web based profiles require a login and password. Please check
+      the demo (and 'Using the Code' section) if you look for a 'how to'
+      on this. It is possible to include or remove an online directory
+      service into the UI interface by using the <code>Map</code> or <code>Unmap
+
+
+
+
+
+
+
+
+
+      </code>button, respectively</p>
+    <p><a href="FileExplorer3.MapDir.png"><img style="width: 600px;
+          height: 373px;" src="FileExplorer3.MapDir.png"></a></p>
+    <h4><a name="UIEventHub" id="UIEventHub"></a>UIEventHub</h4>
+    <p>The WPF <code>UIEventHub</code> control registers a number of
+      events and distributes them to registered elements: <a
+href="http://fileexplorer.codeplex.com/wikipage?title=UIEventProcessor&amp;referringTitle=UIEventHub">UIEventProcessor</a>,
+      available <a
+href="http://fileexplorer.codeplex.com/wikipage?title=UIEventProcessor&amp;referringTitle=UIEventHub">UIEventProcessor</a>
+      included <a
+href="http://fileexplorer.codeplex.com/wikipage?title=MultiSelectEventProcessor&amp;referringTitle=UIEventHub">MultiSelectEventProcessor</a>
+      and <a
+href="http://fileexplorer.codeplex.com/wikipage?title=DragDropEventProcessor&amp;referringTitle=UIEventHub">DragDropEventProcessor</a>,
+      which is an update for the <code>SelectionHelper</code> and <code>FileDragDropHelper</code>
+      static class in <code>FileExplorer2</code>.<br>
+      The documentation for <code>UIEventHub</code> is available <a
+href="http://fileexplorer.codeplex.com/wikipage?title=UIEventHub&amp;referringTitle=FileExplorer3">here</a>
+    </p>
+    <h4><a id="disablemapunmapbuttons" name="disablemapunmapbuttons"
+        title="disablemapunmapbuttons" class="anchor"></a>Disable Map /
+      Unmap buttons</h4>
+    <p> You can disable the the map/unmap function altogether, if you
+      don't want to use these online APIs at all. You can find the <code>TestApp.WPF</code>
+      calls to the <code>ScriptCommandsInitializers</code> and <code>ToolbarCommandsInitializers</code>
+      in the <code>TabWindow</code>() method. </p>
+    <pre lang="cs"> var profiles = new IProfile[] {
+                _profileEx, 
+                //Comment these if you don't need them.
+                _profileSkyDrive, _profileDropBox, _profileGoogleDrive
+            };
+
+            var initializer = getInitializer(_windowManager, _events, RootModels.ToArray(),
+                ...
+                new ScriptCommandsInitializers(_windowManager, _events, profiles),
+                new ToolbarCommandsInitializers(_windowManager));
+
+            var tabVM = new TabbedExplorerViewModel(initializer);
+            
+            _windowManager.ShowWindow(tabVM);</pre>
+    <p>In ScriptCommandsInitializers.InitalizeAsync() </p>
+    <pre lang="cs">if (_profiles.Length &gt; 0)
+      explorerModel.DirectoryTree.Commands.ScriptCommands.Map =
+          Explorer.PickDirectory(initilizer, _profiles,
+          dir =&gt; Explorer.BroadcastRootChanged(RootChangedEvent.Created(dir)), 
+          ResultCommand.NoError);</pre>
+    <p lang="cs">And in ToolbarCommandsInitializers, you can find the
+      following</p>
+    <pre lang="cs"> explorerModel.DirectoryTree.Commands.ToolbarCommands.ExtraCommandProviders = new[] { 
+       new StaticCommandProvider(
+         ...
+        new CommandModel(ExplorerCommands.Map)  { 
+             Symbol = Convert.ToChar(0xE17B), 
+             IsEnabled = true,
+             IsHeaderVisible = false, IsVisibleOnToolbar = true
+         },
+         new CommandModel(ExplorerCommands.Unmap)  { 
+             Symbol = Convert.ToChar(0xE17A),
+             IsVisibleOnMenu = true,
+             IsVisibleOnToolbar = true
+         }</pre>
+    <p>You can remove these calls to disable the map functionality.</p>
+    <h2><a name="IProfile" id="IProfile"></a>IProfile </h2>
+    <p><a href="Explorer3.Profile.png"><img style="width: 600px; height:
+          286px;" src="Explorer3.Profile.png"></a></p>
+    <p>You can implement the <code>IProfile</code> interface to display
+      your own hierarchy information.</p>
+    <p>The <code>IProfile</code> interface includes:</p>
+    <ul>
+      <li><code>CommandProvider </code>(provide <code>CommandModel</code>),</li>
+      <li><code>PathHelper </code>(System.IO.Path replacement),</li>
+      <li><code>HierachyComparer </code>(Compare Hierarchy of two <code>IEntryModels</code>),</li>
+      <li><code>MetadataProvider</code>(provide <code>MetadataModel</code>),
+
+
+
+
+
+
+
+
+
+
+
+
+        and</li>
+      <li><code>DragDrop </code>(Drag and drop support).</li>
+    </ul>
+    <p><a href="Explorer3.Model.png"><img style="width: 600px; height:
+          299px;" src="Explorer3.Model.png"></a></p>
+    <p>The Parse and Listing (<code>IProfile.Parse/ListAsync()</code>)
+      methods can be used to return 1 or multiple <code>IEntryModel</code>s.
+An
+
+
+
+
+
+
+
+
+
+
+
+
+      <code>IEntryModel </code>includes only basic properties, but your
+      implementation can define more properties (e.g. Size) since these
+      are defined by user of the interface. The columns in <code>FileList</code>
+      are fully customizable and cannot be hard-coded.</p>
+    <h3><a name="CustomMetadata">Custom Metadata</a></h3>
+    <p>You can display different types of information in the <code>sidebar</code>
+      or <code>statusbar</code> based on the currently selected item:<!-- LYCJ - Added comment 25May2014  --></p>
+    <!--
+Dirkster: This could be improved by 1 or 2 extra lines describing the code.
+Whats displayed when what is selected? How does it relate to the code?
+-->
+    <pre lang="cs">public enum DisplayType { Auto, Text, Number, Link, DateTime, TimeElapsed, Kb, Percent, Filename, Boolean, Image }<br>//These are defined in FileExplorer.WPF\Themes\Common\DisplayTemplatex.xaml<br>//Auto - (Default) Determine automatically depend on type of value<br>//Text - Given a string, display text.<br>//Number - Given a int/float, display ###,###,###,##0.##<br>//Link - Given a text, display Hyperlink <br>//DateTime - Given a DateTime, display "yyyy/MM/dd HH:mm:ss" editable in Converters.xaml<br>//TimeElapsed - Given a TimeSpan, display xx years xx days zz hours<br>//Kb - Given a long, display 12.34kb (also support Mb and Gb)<br>//Percent - Given a short, display Percentage bar<br>//Filename - Given a FilePath string, display FileName only<br>//Boolean - Given a boolean, display a CheckBox<br>//Image - Given an url or ImageSource, display a image.<br><br>/*<br>  FileBasedMetadataProvider is defined in FileSystem.IO, you can include your own MetadataProvider using the explorer view model. <br>  e.g.  explorerViewModel.Sidebar.Metadata.ExtraMetadataProviders = new [] {<br>                new DummyMetadataProvider()<br>            };<br>*/<br>public class FileBasedMetadataProvider : MetadataProviderBase
+{
+    public override async Task&amp;l;IEnumerable&lt;imetadata&gt;&gt; GetMetadataAsync(IEnumerable&lt;IEntrymodel&gt; selectedModels, 
+           int modelCount, IEntryModel parentModel)
+    {
+        ...
+        if (selectedModels.Count() &gt; 0)
+        {
+            ...<br>            //Display "Creation Time : 3 years 6 months 2 days ago" in sidebar
+            retList.Add(new Metadata(DisplayType.TimeElapsed, MetadataStrings.strCategoryInfo,
+                    MetadataStrings.strCreationTime, creationTime.ToLocalTime()) { IsVisibleInSidebar = true });
+<br>            //Display "Size : 1234kb" in sidebar.
+            retList.Add(new Metadata(DisplayType.Kb, MetadataStrings.strCategoryInfo,
+                    MetadataStrings.strSize, size) { IsVisibleInSidebar = true });
+            ...
+        }
+
+        return retList;
+    }
+
+}</pre>
+    <h3><a name="CustomCommands" id="CustomCommands"></a>Custom Commands</h3>
+    <p>The <code>Profile</code> class can define a <code>CommandProvider</code>,
+      which provides a <code>CommandModel</code> that is used to
+      implement commands in the context of a menu (MenuItem) and
+      toolbar.<br>
+      You can specify additional
+      <!-- LYCJ - Added comment 25May2014  --></p>
+    <pre lang="cs">/*<br>   ExCommandProvider is defined in FileExplorer.IO, you can define additional command provider using the following command:<br>   explorerModel.FileList.Commands.ToolbarCommands.ExtraCommandProviders = new[]<br>                new AdditionalCommandProvider(),<br>                ...<br>}<br>*/<br>public class ExCommandProvider : ICommandProvider
+{
+    FileSystemInfoExProfile _profile;
+    public ExCommandProvider(FileSystemInfoExProfile profile)
+    {
+        _profile = profile;
+    }
+
+    public List GetCommandModels()
+    {
+        return new List()
+                {                        <br>                    //Display OpenWith... Menuitem in Toolbar only and not in context menu.
+                    new OpenWithCommandEx(_profile) { IsVisibleOnMenu = false, IsVisibleOnToolbar = true }
+                };
+    }
+}
+</pre>
+    <h3> </h3>
+    <h2><a name="FileList" id="FileList"></a>FileList</h2>
+    <p><a href="Explorer3.FileList.png"><img style="width: 600px;
+          height: 540px;" src="Explorer3.FileList.png"></a></p>
+    <p>The <code>FileList</code> view displays items and directories in
+      different view modes (settable via Parameters.ViewMode).<br>
+      The grid column in the <code>FileList</code> is customizable and
+      filterable. It is also visible not just in the <code>GridView</code>,
+      but in all other <code>ViewModes</code> as well.<br>
+      The <code>FileList</code> view display is not limited to columns.
+      It can also be used to define new views and actions when clicked:</p>
+    <h3><a name="CustomColumns" id="CustomColumns"></a>Custom Columns</h3>
+    <p>All columns are defined in the <code>ColumnList</code>. We can
+      use a Binding (e.g. Type) and define a DataTemplate:</p>
+    <pre lang="cs">explorerViewModel.FileList.Columns.ColumnList = new ColumnInfo[] 
+    {
+        //From a template named GridLabelTemplate, this template should be placed in Themes\Common\ItemTemplates.xaml, <br>        //Or a place discoverable by the ListViewEx.<br>        ColumnInfo.FromTemplate("Name", "GridLabelTemplate", "EntryModel.Label", <br>             //You also need to define a comparer for sorting.<br>             new ValueComparer&lt;IEntryModel&gt;(p =&gt; p.Label), 200),   
+        //EntryModel.Label is only uses as identifier for column filter in this case.
+        <br><br>        //Value from a bindings relative to the IEntryViewModel, e.g. EntryModel.Description in this case.<br>        ColumnInfo.FromBindings("Type", "EntryModel.Description", "", new ValueComparer&lt;IEntryModel&gt;(p =&gt; p.Description), 200),
+        ...
+    };</pre>
+    <p>... and define the template accessible by the <code>FileList</code>:</p>
+    <pre lang="xml">&lt;DataTemplate x:Key="GridLabelTemplate" &gt;
+        &lt;StackPanel Orientation="Horizontal"&gt;
+            &lt;Image Source="{Binding Icon, Mode=OneWay}" Width="30" Height="30"  /&gt;
+
+            &lt;uc:EditBox x:Name="eb" Margin="5,0" DisplayValue="{Binding EntryModel.Label}" 
+                     ...
+                        /&gt;
+
+        &lt;/StackPanel&gt;
+    &lt;/DataTemplate&gt;</pre>
+    <h3><a name="CustomColumnFilters" id="CustomColumnFilters"></a>Custom
+
+
+
+
+
+
+
+
+
+
+
+
+      Column Filters</h3>
+    <p><img style="width: 600px; height: 373px;"
+        src="FileExplorer3.ColumnFilters.png"></p>
+    <p>The FileExplorer3 provides <code>ColumnFilters</code> such that
+      users can specify items to be shown on the file list.<!-- LYCJ - Added comment 25May2014  --></p>
+    <pre lang="cs">explorerViewModel.FileList.Columns.ColumnFilters = new ColumnFilter[]
+{<br>    //Label, Path relative to IEntryViewModel and a match func<br>   &nbsp;ColumnFilter.CreateNew("0 - 9", "EntryModel.Label", e =&gt; Regex.Match(e.Label, "^[0-9]").Success),
+    ColumnFilter.CreateNew("A - H", "EntryModel.Label", e =&gt; Regex.Match(e.Label, "^[A-Ha-h]").Success),
+    ...
+    ColumnFilter.CreateNew("Today", "EntryModel.LastUpdateTimeUtc", e =&gt; 
+    {
+       DateTime dt = DateTime.UtcNow;
+       return e.LastUpdateTimeUtc.Year == dt.Year &amp;&amp; e.LastUpdateTimeUtc.Month == dt.Month &amp;&amp; e.LastUpdateTimeUtc.Day == dt.Day;
+    }),
+ };</pre>
+    <h3><a name="CustomViews" id="CustomViews"></a>Custom Views<!-- LYCJ - Added comment 25May2014  --></h3>
+    <!--
+Dirkster: The next sentence below is jumbled. A better English would be:
+
+The file list looks for property + &quot;View&quot; in xaml when the <code>IFileListViewModel.Parameters.View</code> (string) change.
+-> But What do mean by: 'The file list looks'
+
+'for example, Icon -&gt; IconView' <-- What does this mean?
+-->
+    <p>When <code>IFileListViewModel.Parameters.View</code> (string)
+      changes, the file list looks for property + "View" in xaml, for
+      example, Icon -&gt; IconView.<br>
+      All views are defined in Themes\Common\Views.xaml, e.g.</p>
+    <pre lang="cs">/*<br>  WPF's ListView support a <a href="http://msdn.microsoft.com/en-us/library/system.windows.controls.listview.view%28v=vs.110%29.aspx">View</a> property that allow one to setting a ViewBase object in it.  <br>  The ViewBase is DependencyObject so it's bindable, so though bindings the panel (e.g. VirtualWrapPanel) can assess properties<br>  in the View object, while it can bind to the view model to obtain properties.<br>  <br>  Note: MetroUI's ListView does not have View property.  <br>*/<br>&lt;uc:VirtualWrapPanelView x:Key="IconView"  
+                        ColumnHeaderContainerStyle="{StaticResource ListViewExColumnHeaderContainerStyle}"
+                        SmallChanges="{Binding Path=ItemHeight, RelativeSource={RelativeSource Self}}"                             
+                        CacheItemCount="5"  
+                             
+                        ItemTemplate="{DynamicResource IconItemTemplate}"
+                        ItemContainerStyle="{StaticResource IconItemContainerStyle}"
+                        ItemHeight="{Binding Parameters.ItemSize}"
+                        ItemWidth="{Binding Parameters.ItemSize}" 
+                        HorizontalContentAlignment="Left" &gt;
+&lt;/uc:VirtualWrapPanelView&gt;
+</pre>
+    <p>Note: The <a
+href="http://fileexplorer.codeplex.com/wikipage?title=MultiSelectEventProcessor&amp;referringTitle=UIEventHub">Multi-Select</a>
+      function is now supported since the <code>UIEventHub</code> was
+      updated. The works even on the non-<code>IChildInfo</code>
+      supported panel. The <code>UIEventHub </code>uses <strong>HitTest</strong>
+      in this case as mentioned in the first version of the <a
+href="http://www.codeproject.com/Articles/25749/Enable-MultiSelect-in-WPF-ListView">MultiSelectHelper</a>.</p>
+    <h3><a name="CustomContextMenuandToolbarCommands"
+        id="CustomContextMenuandToolbarCommands"></a>Custom ContextMenu
+      and Toolbar Commands</h3>
+    <p><img style="width: 600px; height: 375px;"
+        src="FileExplorer3.ContextMenu.png"></p>
+    <p>The application commands can be defined in the profile, but they
+      can also be defined in <code>Commands.ToolbarComands.ExtraCommandProviders</code>
+      as shown in the following code sample:<!-- LYCJ - Added comment in source code 25May2014  --></p>
+    <pre lang="cs">explorerModel.FileList.Commands.ToolbarCommands.ExtraCommandProviders = new[] { 
+     //Invoke RoutedUICommand - <br>     //The following one shows Delete in menu, which execute ApplicationCommands.Delete when clicked.
+     new CommandModel(ApplicationCommands.Delete) { IsVisibleOnMenu = true, Symbol = Convert.ToChar(0xE188) },<br>
+     //Multi Level - <br>     //The following one below shows New\Folder (caption is overrided) in Menu, <br>     //which execute ExplorerCommands.NewFolder when clicked.
+     new DirectoryCommandModel(new CommandModel(ExplorerCommands.NewFolder) { Header = Strings.strFolder })
+                        { IsVisibleOnMenu = true, Header = Strings.strNew, IsEnabled = true},     <br>
+     //Separator
+     new SeparatorCommandModel(),<br>
+     //User defined - <br>     //You can derive from CommandModel or DirectoryCommandModel to create your own command.<br>    &nbsp;new ViewModeCommand(explorerModel.FileList),
+};
+</pre>
+    <p><em>Note: A similar mechanism is possible for the <code>DirectoryTree.Commands.ToolbarCommand</code>s</em>.</p>
+    <h3><a name="CustomUICommands" id="CustomUICommands"></a>Custom
+      UICommands (ScriptCommandBindings) </h3>
+    <p>The <code>IFileListCommandManager</code> interface defines a
+      number of <code>UICommand</code>s (Commands) that can be used in
+      the UI.</p>
+    <pre lang="cs">//Call Command Manager (ch/this)'s ScriptCommands (DynamicDictionary).Open IScriptCommand when<br>//ApplicationCommmands.Open is called.<br>//<i>Noted that ch.ScriptCommands.Open is editable by user.</i><br>ScriptCommandBinding.FromScriptCommand(ApplicationCommands.Open, this, (ch) =&gt; ch.ScriptCommands.Open, <br>   ParameterDicConverter, ScriptBindingScope.Local),
+ScriptCommandBinding.FromScriptCommand(ExplorerCommands.NewFolder, this, (ch) =&gt; ch.ScriptCommands.NewFolder, <br>   ParameterDicConverter, ScriptBindingScope.Local),
+ScriptCommandBinding.FromScriptCommand(ExplorerCommands.Refresh, this, (ch) =&gt; ch.ScriptCommands.Refresh, <br>   ParameterDicConverter, ScriptBindingScope.Local),
+ScriptCommandBinding.FromScriptCommand(ApplicationCommands.Delete, this, (ch) =&gt; ch.ScriptCommands.Delete, <br>   ParameterDicConverter, ScriptBindingScope.Local),
+</pre>
+    <p><i><!-- LYCJ - Added 26May2014  -->Note: IFileListCommandManager
+        implements IExportCommandBindings, which, in IFileListViewModel
+        and IExplorerViewModel.OnViewAttached() method, export the
+        RoutedUICommands (ExplorerCommands and ApplicationCommands) to
+        the view, the scope determine where to export.</i><br>
+    </p>
+    <pre>public interface IScriptCommandBinding : INotifyPropertyChanged
+{<br>   //(Optional) Script command to run when Command is execute.<br>  &nbsp;IScriptCommand ScriptCommand { get; set; } <br> <br>   //Command to execute when UICommandKey is executed, not necessary calling the script command.<br>  &nbsp;ICommand Command { get; set; }<br><br>   //RoutedUICommandBinding key (e.g. ApplicationCommands.Open).
+   RoutedUICommand UICommandKey { get; } <br><br>   //Create <a href="http://www.google.com.hk/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=4&amp;cad=rja&amp;uact=8&amp;ved=0CFIQFjAD&amp;url=http%3A%2F%2Fmsdn.microsoft.com%2Fen-us%2Flibrary%2Fsystem.windows.input.commandbinding.aspx&amp;ei=m2aDU8etOcXmkgXbzYD4CA&amp;usg=AFQjCNHZmgFeS-Q6HkxC4hADnRO4nN203Q">binding</a> for registered in UserControl.CommandBindings.
+   CommandBinding CommandBinding { get; } <br><br>   //Determine which usercontrol (e.g. Explorer or FileList) to register the command bindings.
+   ScriptBindingScope Scope { get; } 
+}
+</pre>
+    <p>But some of this commands are actually not implemented (Delete):</p>
+    <pre lang="cs">//If Selection Count &gt; 1<br>//  If Selection[0] is Directory<br>//     OpenSelectedDirectory<br>//  Else do nothing<br>//Else do nothing<br>ScriptCommands.Open = FileList.IfSelection(evm =&gt; evm.Count() == 1,
+        FileList.IfSelection(evm =&gt; evm[0].EntryModel.IsDirectory,    
+            FileList.OpenSelectedDirectory,  //Selected directory
+            ResultCommand.NoError),   //Selected non-directory
+        ResultCommand.NoError //Selected more than one item.                   
+        );
+ScriptCommands.Delete = NullScriptCommand.Instance;
+</pre>
+    <p> Some commands cannot be implemented since they are not IO
+      specific. The double click on a file, for example, does nothing.
+      So you will have to implement it.</p>
+    <pre lang="cs">explorerModel.FileList.Commands.ScriptCommands.Open =
+    FileList.IfSelection(evm =&gt; evm.Count() == 1,
+        FileList.IfSelection(evm =&gt; evm[0].EntryModel.IsDirectory,
+            FileList.OpenSelectedDirectory, //Selected directory                        
+            FileList.AssignSelectionToParameter(<br>                //This originally used by Toolbar (CommandModel), so it uses Parameter (selected entry)
+                new OpenWithScriptCommand(null))),  
+        ResultCommand.NoError //Selected more than one item, ignore.
+        );
+explorerModel.FileList.Commands.ScriptCommands.Delete =
+        FileList.IfSelection(evm =&gt; evm.Count() &gt;= 1,
+        ScriptCommands.IfOkCancel(_windowManager, pd =&gt; "Delete",
+            pd =&gt; String.Format("Delete {0} items?", (pd["FileList"] as IFileListViewModel).Selection.SelectedItems.Count),
+            ScriptCommands.ShowProgress(_windowManager, "Delete",
+                        ScriptCommands.RunInSequence(
+                            FileList.AssignSelectionToParameter(
+                                DeleteFileBasedEntryCommand.FromParameter), //Same as above
+                            new HideProgress())),
+            ResultCommand.NoError),
+        NullScriptCommand.Instance);
+</pre>
+    <p> I have coded the <code>IScriptRunner</code> interface to make
+      the implementation more reusable and easier to read. This
+      interface runs the <code>IScriptCommand</code> interface and a
+      number of pre-defined <code>IScriptCommands</code> is already
+      available.</p>
+    <h2><a name="ScriptRunner" id="ScriptRunner"></a>ScriptRunner</h2>
+    <p><a href="Explorer3.Script.png"><img style="width: 600px; height:
+          303px;" src="Explorer3.Script.png"></a></p>
+    <p>The <a
+href="http://fileexplorer.codeplex.com/wikipage?title=ScriptRunner&amp;referringTitle=FileExplorer3">ScriptRunner</a>
+      class runs script commands in sync or asynchronously. A <code>ScriptCommand</code>
+      is basically a piece of code to execute. It can return another
+      script command that is to be executed subsequently. There is
+      session information which is passed through a <code>ParameterDic</code>.
+      The <code>ParameterDic</code> is a <code>Dictionary&lt;string,
+        object&gt;</code>.<br>
+      <br>
+      The <code>FileExplorer3</code> can be used to define <code>ScriptCommand</code>s
+      in 2 places as we discuss next.</p>
+    <h3><a name="AsCommandBindings" id="AsCommandBindings"></a>ScriptCommand
+
+
+
+
+
+
+
+
+
+
+
+
+      As CommandBindings (in UI) </h3>
+    <p> A <code>ScriptCommand</code> can be used in a ContextMenu or
+      Toolbar. This requires the Parameter (e.g. pd["Parameter"]) to be
+      set as the selected <code>entryModel</code>(s). The <code>UIParameterDic</code>
+      is stored in the <code>ParameterDic</code> to support this case.
+      The <code>UIParameterDic</code> provides additional properties
+      like Sender and EventArgs. A script command is registered to <code>UICommand</code>,
+      using <code>ScriptCommandBindings</code>:</p>
+    <pre lang="cs">in FileListCommandManager
+
+    ScriptCommands = new DynamicDictionary&lt;IScriptCommand&gt;();
+    ...
+    ScriptCommands.Paste = vm.ScriptCommands.RunInSequence(<br>         //pm["Destination"] = File list current directory.<br>        &nbsp;FileList.AssignCurrentDirectoryToDestination(<br>             //pm["Parameter"] = File list selection.<br>             FileList.AssignSelectionToParameter(<br>               //Get DataObject from Clipboard, then uses currentDirectory (from GetCurrentDirectoryFunc)<br>               //'s profile to get entry models from the dataObject, and call the TransferCommandFunc as shown below.<br>               ClipboardCommands.Paste(ExtensionMethods.GetFileListCurrentDirectoryFunc,                 <br>                 &nbsp;(dragDropEffects, src, dest) =&gt; new SimpleScriptCommand("Paste", (pm) =&gt;
+                  {<br>                    //dest responsible for the transfer.<br>                   &nbsp;dest.Profile.DragDrop.OnDropCompleted(src.ToList(), null, dest, dragDropEffects);
+                    return ResultCommand.NoError;
+                  })))
+            )
+    );
+
+    ...
+    exportBindingSource.Add(
+        new ExportCommandBindings(            
+        ScriptCommandBinding.FromScriptCommand(ApplicationCommands.Paste, this, (ch) =&gt; ch.ScriptCommands.Paste, 
+            ParameterDicConverter, ScriptBindingScope.Local),
+        ));
+
+    IEntryModel _currentDirectoryModel = null;
+    ToolbarCommands = new ToolbarCommandsHelper(events,
+        ...
+        {
+            ExtraCommandProviders = new[] { 
+                new StaticCommandProvider(new CommandModel(ApplicationCommands.Paste)) 
+            }
+        };
+}
+in FileListViewModel
+
+protected override void OnViewAttached(object view, object context)
+{
+    base.OnViewAttached(view, context);
+        var uiEle = view as System.Windows.UIElement;
+    Commands.RegisterCommand(uiEle, ScriptBindingScope.Local); //Register to UserControl.CommandBindings        
+}</pre>
+    <h3><a name="AsRunnerforpre-definedcommands"
+        id="AsRunnerforpre-definedcommands"></a>As Runner for
+      pre-defined commands (in VM)</h3>
+    <p> The 2nd way of defining a <code>ScriptCommand</code> is through
+      a viewmodel implementation. The code can call <strong>{VM}.Commands.ScriptCommands.Execute/ExecuteAsync()</strong>,
+      in this case, to pass <code>VMParameterDic</code>. So the <code>ScriptCommand</code>
+      can actually access the ViewModel of the caller from the <code>ParameterDic</code>
+      (e.g. pd["FileList"] as <code>IFileListViewModel</code>).</p>
+    <p> Most commands are defined in viewmodels. The screenshot contains
+      a number of defined script commands.
+      <!-- Dirkster: Which screenshot? --> The Commands is based on the
+      <em>ICommandManager</em> interface and can be run on <code>VM.Commands.ExecuteAsync</code>(),
+
+
+
+
+
+
+
+
+
+
+
+      in this case.<br>
+      <br>
+      Lets, for example, have a look at what happens when the <code>Explorer</code>
+      received a root changed event message (when a user maps or unmaps
+      a root directory). The Explorer executes <code>Explorer.ChangeRoot()</code>
+      then <code>Explorer.Goto()</code>.</p>
+    <pre lang="cs">public void Handle(RootChangedEvent message)
+{
+    Queue&lt;IScriptCommand&gt; cmds = new Queue&lt;IScriptCommand&gt;();
+
+    cmds.Enqueue(Explorer.ChangeRoot(message.ChangeType, message.AppliedRootDirectories));
+    if (message.Sender != this)
+        cmds.Enqueue(Explorer.GoTo(CurrentDirectory.EntryModel));
+    else
+        switch (message.ChangeType)
+        {
+            case ChangeType.Created:
+            case ChangeType.Changed:
+                cmds.Enqueue(Explorer.GoTo(message.AppliedRootDirectories.First()));
+                break;
+            case ChangeType.Deleted:
+                cmds.Enqueue(Explorer.GoTo(RootModels.FirstOrDefault()));
+                break;
+        }
+
+    Commands.ExecuteAsync(cmds.ToArray());
+}</pre>
+    <p>The following view models:</p>
+    <ul>
+      <li><code>TabbedExplorer</code>,</li>
+      <li><code>Explorer</code>,</li>
+      <li><code>DirectoryTree</code>,</li>
+      <li><code>FileList</code>,</li>
+      <li>and <code>Sidebar</code></li>
+    </ul>
+    <p>implement the <code>ISupportCommandManager</code> interface,
+      which provides command properties that can call <code>Execute/ExecuteAsync()</code>,
+      but you can also call the <code>FileList</code>, <code>DirectoryTree
+
+
+
+
+
+
+
+
+
+
+
+      </code>based commands in the <code>ExplorerViewModel</code>
+      class.</p>
+    <p><a href="Explorer3.ViewModels.png"><img style="width: 600px;
+          height: 222px;" src="Explorer3.ViewModels.png"></a></p>
+    <p><em>The <code>UIEventHub</code> class makes also frequently use
+        of the <code>IScriptCommand<code> interface. It calls, for
+            examples, the <a
+href="http://quickzip.org/news/wp-content/uploads/2013/12/MultiSelectUIEventProcessor.png">MultiSelectEventProcessor</a></code></code></em><code><code>.</code></code></p>
+    <h2><a name="OtherViewModels" id="OtherViewModels"></a>Other View
+      Models</h2>
+    <h3><a name="ExplorerandTabbedExplorer"
+        id="ExplorerandTabbedExplorer"></a>Explorer and TabbedExplorer
+      (ExplorerViewModel)</h3>
+    <p><a href="Explorer3.ExplorerViewModel.png"><img style="width:
+          600px; height: 520px;" src="Explorer3.ExplorerViewModel.png"></a></p>
+    <p>The <code>ExplorerViewModel</code> is the view model that hosts
+      everything. Each <code>ExplorerViewModel</code> has it's own <code>FileList</code>,
+      <code>DirectoryTree</code>, <code>Breadcrumb</code>, <code>Navigation</code>,
+      <code>Statusbar </code>and <code>SidebarViewModel</code>.<br>
+      <br>
+      The file name filter is implemented in the <code>ToolWindow</code>
+      or <code>FilePicker</code>. You can specify the FilterStr, which
+      will set the <code>SelectedFilter</code>.</p>
+    <pre lang="cs">evm.FilterStr = "Texts (.txt)|*.txt|Pictures (.jpg, .png)|*.jpg,*.png|Songs (.mp3)|*.mp3|All Files (*.*)|*.*";</pre>
+    <p>The <code>CurrentDirectory</code> is in the <code>IEntryViewModel</code>
+      property type. You can get it's icon via the <code>Icon</code>
+      property (<code>ImageSource</code>) or through it's <code>EntryModel</code>
+      property of the actual entry (from <code>profile</code>).<br>
+      <br>
+      The internal and external events of the <code>ExplorerViewModel</code>
+      class are handled separately through different <code>EventAggregator</code>s
+      (from CaliburnMicro). Supported events include:</p>
+    <ul>
+      <li><code>RootChange</code>,</li>
+      <li><code>EntryChanged </code>(file system changed),</li>
+      <li><code>DirectoryChanged </code>(current directory)</li>
+    </ul>
+    <p> Internal events can broadcast to external events through the <code>BroadcastEvent</code>
+      aggregator.<br>
+      <br>
+      There can only be one active explorer (SelectedItem) at any time
+      in the tabbed explorer. It supports tab re-ordering (dragging one
+      tab to another tab to re-order) by setting a <code>DragHelper </code>and
+
+      <code>DropHelper</code> when creating new tab.</p>
+    <pre lang="cs">DragHelper = new TabControlDragHelper&lt;IExplorerViewModel&gt;(this);
+//..when creating new tab
+expvm.DropHelper = new TabDropHelper&lt;IExplorerViewModel&gt;(expvm, this);</pre>
+    <p>These helpers are re-usable. You can use a similar method if you
+      have a tabcontrol and want to support tab re-ordering.</p>
+    <h3><a name="DirectoryTreeandBreadcrumb"
+        id="DirectoryTreeandBreadcrumb"></a>DirectoryTree and Breadcrumb</h3>
+    <p><a href="Explorer3.DirectoryTree.png"><img style="width: 600px;
+          height: 525px;" src="Explorer3.DirectoryTree.png"></a></p>
+    <p>The <code>DirectoryTree </code>class and the <code>Breadcrumb(Tree)</code>
+      class so similar that I thought merging them into 1 class. But the
+      problem is that the expand mode is different. The <code>Breadcrumb</code>
+      displays, for example, unexpanded items in the root path while <code>DirectoryTree
+
+
+      </code>display them expanded:</p>
+    <pre lang="cs">//Breadcrumb
+await Selection.LookupAsync(value,
+    RecrusiveSearch&lt;IBreadcrumbItemViewModel, IEntryModel&gt;.LoadSubentriesIfNotLoaded,
+    SetSelected&lt;IBreadcrumbItemViewModel, IEntryModel&gt;.WhenSelected,
+    SetChildSelected&lt;IBreadcrumbItemViewModel, IEntryModel&gt;.ToSelectedChild);
+
+//DirectoryTree
+await Selection.LookupAsync(value,
+    RecrusiveSearch&lt;IDirectoryNodeViewModel, IEntryModel&gt;.LoadSubentriesIfNotLoaded,
+    SetSelected&lt;IDirectoryNodeViewModel, IEntryModel&gt;.WhenSelected,
+    SetExpanded&lt;IDirectoryNodeViewModel, IEntryModel&gt;.WhenChildSelected);
+</pre>
+    <p>Both ViewModels are hierarchically. The root viewModel has an <code>EntriesHelper</code>
+      that contains items in the next level, and vice versa. Please
+      review the <a
+href="http://www.codeproject.com/Articles/687853/WPF-BreadcrumbTree-control">the
+
+
+
+
+
+
+
+
+
+
+
+
+        BreadcrumbTree article</a> to understand how the <code>EntriesHelper
+
+
+
+
+
+
+
+
+
+
+
+      </code>and <code>BreadcrumbTree</code> work.</p>
+    <h3><a name="NavigationStatusbarandSidebar"
+        id="NavigationStatusbarandSidebar"></a>Navigation, Statusbar and
+      Sidebar</h3>
+    <p><a href="Explorer3.OtherControls.png"><img style="width: 600px;
+          height: 340px;" src="Explorer3.OtherControls.png"></a></p>
+    <p>The <code>Statusbar</code> and <code>Sidebar</code> both use <code>IEntriesHelper&lt;IMetadataViewModel&gt;</code>
+      to display metadata. The <code>IsVisibleInSidebar</code> property
+      and <code>IsVisibleStatusbar</code> property define the actual
+      display. There is a wide range of supported metadata. Modifying
+      metadata is currently not supported.</p>
+    <h2><a name="Conclusion" id="Conclusion"></a>Conclusion</h2>
+    <p> The previous version (<code>FileExplorer2</code>) was always
+      missing a feature to remove certain fucntions or change the
+      behavior of how the FileExplorer works. There was no unified
+      solution. I had to dig in the source code to tell everyone how to
+      change it. One purpose of this update is to offer as much
+      customization as possible. This customization should be possible
+      with ease and without changing the source code to make this more
+      than just a demo project. This implementation is designed for
+      usage by other projects.</p>
+    <h2><a name="Reference" id="Reference"></a>Reference</h2>
+    <ul>
+      <li><a
+href="http://www.codeproject.com/Articles/78517/WPF-x-FileExplorer-x-MVVM">WPF
+
+
+
+
+
+
+
+
+
+
+
+
+          x FileExplorer x MVVM</a> - The orginal article.</li>
+      <li><a href="https://caliburnmicro.codeplex.com/">Caliburn Micro</a>
+        - MVVM framework</li>
+      <li><a
+href="http://www.codeproject.com/Articles/760603/A-WPF-File-ListView-and-ComboBox-Version-II">A
+          WPF File ListView and ComboBox (Version II)</a> - A file
+        picker in tool window (the design of ToolWindow based on this)</li>
+      <li><a href="http://msdn.microsoft.com/library/dn641952">OneDrive
+          Dev Center</a> - Connect OneDrive.</li>
+      <li><a
+href="https://www.nuget.org/packages/Google.Apis.Drive.v2/1.7.0.112-beta">Google
+
+
+
+
+
+
+
+
+
+
+
+
+          Drive Api Library (Nuget)</a> - Connect GoogleDrive.</li>
+      <li><a href="http://dkdevelopment.net/what-im-doing/dropnet/">DropNet</a>
+        - Connect DropBox.</li>
+      <li><a
+href="http://www.codeproject.com/Articles/36342/ExifLib-A-Fast-Exif-Data-Extractor-for-NET">ExifLib</a>
+        - Get Exif from jpegs.</li>
+      <li><a href="https://wpfmdi.codeplex.com/">WPFMdi</a> - Mdi window
+        support for WPF.</li>
+    </ul>
+    <p>And a number of my projects that used:</p>
+    <ul>
+      <li><a
+href="http://www.codeproject.com/Articles/39224/Rewrite-DirectoryInfo-using-IShellFolder">DirectoryInfoEx</a>
+        - List shell and disk directories.</li>
+      <li><a
+href="http://www.codeproject.com/Articles/702432/WPF-UIEventHub-MultiSelect-and-DragnDrop">UIEventHub</a>
+        [<a
+href="http://fileexplorer.codeplex.com/wikipage?title=UIEventProcessor&amp;referringTitle=UIEventHub">Documentation</a>]
+        - Provide MultiSelect, DragDrop, TouchGesture and InputBinding
+        support for a control.</li>
+      <li><a
+href="http://www.codeproject.com/Articles/33196/WPF-Html-supported-TextBlock">HtmlTextBlock</a>
+        - Parse a limited set of HTML tags and display them as a
+        TextBlock.</li>
+      <li><a
+href="http://www.codeproject.com/Articles/687853/WPF-BreadcrumbTree-control">BreadcrumbTree</a>
+        - Breadcrumb in Tree structure (also include one in List
+        structure).</li>
+      <li><a
+          href="http://www.codeproject.com/Articles/109118/WPF-Aero-Titlebar">Aero
+
+
+
+
+
+
+
+
+
+
+
+
+          Titlebar</a> - Title bar component in Aero them</li>
+    </ul>
+    <h2>History</h2>
+    <ul>
+      <li>10 May 2014 - Initial article.</li>
+    </ul>
+  </body>
+</html>

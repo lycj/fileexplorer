@@ -1,0 +1,92 @@
+﻿<Window x:Class="Test_IOCPanelTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="http://www.quickzip.org/BaseControls" 
+        xmlns:hub="http://www.quickzip.org/UIEventHub"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"        
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="LayoutTypeEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:LayoutType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="OrientationEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Orientation"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="HAlignmentEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="HorizontalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="VAlignmentEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="VerticalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <WrapPanel Orientation="Horizontal" Grid.Row="0">
+            <ComboBox x:Name="cbLayout" ItemsSource="{Binding Source={StaticResource LayoutTypeEnum}}" SelectedIndex="0" />
+            <ComboBox x:Name="cbOrientation" ItemsSource="{Binding Source={StaticResource OrientationEnum}}" SelectedIndex="0" />
+            <ComboBox x:Name="cbHAlighment" ItemsSource="{Binding Source={StaticResource HAlignmentEnum}}" SelectedIndex="0" />
+            <ComboBox x:Name="cbVAlighment" ItemsSource="{Binding Source={StaticResource VAlignmentEnum}}" SelectedIndex="0" />
+            <Label Content="ItemWidth" />
+            <Slider x:Name="sWidth" Minimum="20" Maximum="180" Value="80" Width="50" />
+            <Label Content="ItemHeight" />
+            <Slider x:Name="sHeight" Minimum="20" Maximum="120" Value="60" Width="50" />
+        </WrapPanel>
+
+        <ListView x:Name="lv" Grid.Row="1" 
+                  IsTextSearchCaseSensitive="False" IsTextSearchEnabled="True"
+                  TextSearch.TextPath="Value" 
+                  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+            <hub:UIEventAdapter.Processors>                
+                <hub:MultiSelectEventProcessor UnselectAllCommand="{Binding UnselectAllCommand}" />
+            </hub:UIEventAdapter.Processors>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Value}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                FontSize="{Binding FontSize}" />
+                </DataTemplate>
+            </ListView.ItemTemplate> 
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}" >
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"  />                    
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <local:IOCPanel x:Name="testIOC" 
+                                    Orientation="{Binding SelectedValue, ElementName=cbOrientation}" 
+                                    Mode="{Binding SelectedValue, ElementName=cbLayout}" 
+                                    HorizontalContentAlignment="{Binding SelectedValue, ElementName=cbHAlighment}" 
+                                    VerticalContentAlignment="{Binding SelectedValue, ElementName=cbVAlighment}"
+                                    ItemHeight="{Binding Value, ElementName=sHeight}"
+                                    ItemWidth="{Binding Value, ElementName=sWidth}"
+                                    />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
+
+        </ListView>
+
+
+    </Grid>
+</Window>

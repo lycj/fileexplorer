@@ -1,0 +1,39 @@
+﻿using System;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
+using FileExplorer.IO;
+using FileExplorer.Models;
+using FileExplorer.Script;
+using Caliburn.Micro;
+
+namespace FileExplorer.TestScript
+{
+    public class CSharpScript
+   {
+      static void Main()
+{
+string downloadUrl = "http://www.quickzip.org/logo2.png";
+            string tempDirectory = "C:\\Temp";
+            string destFile = System.IO.Path.Combine(tempDirectory, "output.png");    
+
+IScriptCommand downloadCommand =
+              ScriptCommands.Download("Url", "Stream",
+                ScriptCommands.DiskParseOrCreateFile("DestinationFile", "Destination",
+                ScriptCommands.OpenStream("Destination", "DestinationStream", FileExplorer.Defines.FileAccess.Write,
+                ScriptCommands.CopyStream("Stream", "DestinationStream"))));
+
+				IProfile fsiProfile = new FileSystemInfoExProfile(null, null);
+            //var stream = new ScriptCommandSerializer(new Type[] {typeof(FileExplorer3Commands)}).SerializeScriptCommand(downloadCommand );
+
+            //Console.WriteLine(new StreamReader(stream).ReadToEnd());
+
+			ScriptRunner.RunScript(new ParameterDic() { 
+                { "Profile", new FileSystemInfoExProfile(null, null) },
+                { "Url", downloadUrl },
+                { "DestinationFile", destFile },                
+            }, downloadCommand);
+
+}
+}
+}

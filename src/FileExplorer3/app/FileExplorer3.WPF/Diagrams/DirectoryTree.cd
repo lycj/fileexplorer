@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="FileExplorer.ViewModels.DirectoryTreeViewModel">
+    <Position X="1.5" Y="1.25" Width="2.5" />
+    <Members>
+      <Field Name="_enableDrag" Hidden="true" />
+      <Field Name="_enableDrop" Hidden="true" />
+      <Field Name="_events" Hidden="true" />
+      <Field Name="_profiles" Hidden="true" />
+      <Field Name="_rootModels" Hidden="true" />
+      <Field Name="_windowManager" Hidden="true" />
+      <Method Name="setProfiles" Hidden="true" />
+      <Method Name="setRootModels" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="FileExplorer.ViewModels.DirectoryTreeViewModel.DirectoryTreeDragHelper" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ViewModels\DirectoryTreeViewModel.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AGAAAkAgAACCAmAIAAAAAAAAAJAAAEIgBAAAAAAAQSA=</HashCode>
+      <FileName>ViewModels\DirectoryTreeViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Selection" />
+      <Property Name="Entries" />
+      <Property Name="Commands" />
+      <Property Name="DragHelper" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FileExplorer.ViewModels.DirectoryNodeViewModel">
+    <Position X="1.5" Y="5.5" Width="2.75" />
+    <Members>
+      <Field Name="_events" Hidden="true" />
+      <Field Name="_isShown" Hidden="true" />
+      <Field Name="_rootModel" Hidden="true" />
+      <Field Name="_showCaption" Hidden="true" />
+      <Field Name="DummyNode" Hidden="true" />
+      <Method Name="loadEntriesTask" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Enum Name="FileExplorer.ViewModels.DirectoryNodeViewModel.NodeState" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ViewModels\DirectoryNodeViewModel.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Class Name="FileExplorer.ViewModels.DirectoryNodeViewModel.DirectoryNodeDropHelper" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ViewModels\DirectoryNodeViewModel.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QEAAAAAAABCAACAAAAAAAAAAAAAAAAkAAAAAAAQAQAg=</HashCode>
+      <FileName>ViewModels\DirectoryNodeViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Entries" />
+      <Property Name="Selection" />
+      <Property Name="DropHelper" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FileExplorer.ViewModels.Helpers.TreeSelector&lt;VM, T&gt;">
+    <Position X="5" Y="6" Width="2.25" />
+    <Members>
+      <Field Name="_currentValue" Hidden="true" />
+      <Field Name="_currentViewModel" Hidden="true" />
+      <Field Name="_isRoot" Hidden="true" />
+      <Field Name="_isSelected" Hidden="true" />
+      <Field Name="_lookupLock" Hidden="true" />
+      <Field Name="_prevSelected" Hidden="true" />
+      <Field Name="_selectedValue" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AwAoDCIAAAAAEAAEgCAAAAGAFEAQAAAAAQAwAQAAAAA=</HashCode>
+      <FileName>ViewModels\Helpers\TreeSelector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FileExplorer.ViewModels.BreadcrumbViewModel">
+    <Position X="11" Y="1" Width="2.5" />
+    <Members>
+      <Field Name="_bexp" Hidden="true" />
+      <Field Name="_entries" Hidden="true" />
+      <Field Name="_events" Hidden="true" />
+      <Field Name="_profiles" Hidden="true" />
+      <Field Name="_sbox" Hidden="true" />
+      <Field Name="_selection" Hidden="true" />
+      <Field Name="_showBreadcrumb" Hidden="true" />
+      <Field Name="_suggestedPath" Hidden="true" />
+      <Field Name="_suggestSources" Hidden="true" />
+      <Field Name="_switch" Hidden="true" />
+      <Method Name="setProfiles" Hidden="true" />
+      <Method Name="setRootModels" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AGAAAAEgAAGAAiUIAAAAAABAIAAAAEIAJAAAAAAIQgs=</HashCode>
+      <FileName>ViewModels\BreadcrumbViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Selection" />
+      <Property Name="Entries" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FileExplorer.ViewModels.BreadcrumbItemViewModel">
+    <Position X="11" Y="5.25" Width="2.25" />
+    <Members>
+      <Field Name="_events" Hidden="true" />
+      <Field Name="_isOverflowed" Hidden="true" />
+      <Field Name="_isShown" Hidden="true" />
+      <Field Name="_rootModel" Hidden="true" />
+      <Field Name="_showCaption" Hidden="true" />
+      <Method Name="loadEntriesTask" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>CEAIAIAAAACAACAAAEAAAAAAAAAAAAkAAAAAAAQAQAg=</HashCode>
+      <FileName>ViewModels\BreadcrumbItemViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Entries" />
+      <Property Name="Selection" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.179" />
+  </Class>
+  <Class Name="FileExplorer.ViewModels.Helpers.TreeRootSelector&lt;VM, T&gt;">
+    <Position X="7.75" Y="7.25" Width="2.25" />
+    <Members>
+      <Field Name="_comparers" Hidden="true" />
+      <Field Name="_prevPath" Hidden="true" />
+      <Field Name="_rootItems" Hidden="true" />
+      <Field Name="_selectedSelector" Hidden="true" />
+      <Field Name="_selectedValue" Hidden="true" />
+      <Method Name="updateRootItems" Hidden="true" />
+      <Method Name="updateRootItemsAsync" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAACAAKAAgQAAAYACADAAAAAAAIAgAAAgAgQAIAAQA=</HashCode>
+      <FileName>ViewModels\Helpers\TreeRootSelector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FileExplorer.ViewModels.Helpers.TreeDragHelper&lt;T&gt;" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EAABAAAAAAAAAAAggAABAAAAAAAQAEAIAgAIAAAAAAA=</HashCode>
+      <FileName>ViewModels\Helpers\TreeDragHelper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="FileExplorer.ViewModels.Helpers.ITreeSelector&lt;VM, T&gt;" Collapsed="true">
+    <Position X="5" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AwAgBAAAAAAAEAAAACAAAAEAFAAAAAAAAQAwAQAAAAA=</HashCode>
+      <FileName>ViewModels\Helpers\ITreeSelector.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.Helpers.IEntriesHelper&lt;VM&gt;" Collapsed="true">
+    <Position X="7.5" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAgAAQAgAAAAAAAIAAAAAAAAAAAIAAQAAIIAABAAAAA=</HashCode>
+      <FileName>ViewModels\Helpers\IEntriesHelper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.ICommandManager" Collapsed="true">
+    <Position X="5.5" Y="1.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>ViewModels\Helpers\IScriptCommandManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.Helpers.ISupportDrag" Collapsed="true">
+    <Position X="5.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EAABAAAAAAAAAAAAAAABAAAAAAAAAAAIAAAIAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\ISupportDrag.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FileExplorer.ViewModels.Helpers.ISupportDrop" Collapsed="true">
+    <Position X="1.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAIABAAQAAAAAAAAAAAgAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>UserControls\UIEvent\ISupportDrop.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,245 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+    xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+    xmlns:conv="clr-namespace:QuickZip.Converters"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Buttons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--<ControlTemplate x:Key="TreeView_ScrollViewerTemplate" TargetType="{x:Type ScrollViewer}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border Grid.Column="1"
+                  BorderThickness="0,1,1,1">
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
+                </Border.BorderBrush>
+                <DockPanel>
+                    <ContentPresenter DockPanel.Dock="Bottom"
+                      Content="{Binding ContentBelowScrollViewer, 
+                        RelativeSource={RelativeSource  AncestorType={x:Type uc:ListViewEx}}}" />
+                    <ScrollContentPresenter />
+                </DockPanel>
+            </Border>
+            <ScrollBar x:Name="PART_VerticalScrollBar"
+                     Value="{TemplateBinding VerticalOffset}"
+                     Maximum="{TemplateBinding ScrollableHeight}"
+                     ViewportSize="{TemplateBinding ViewportHeight}"
+                     Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+            <ScrollBar x:Name="PART_HorizontalScrollBar"
+                     Orientation="Horizontal"
+                     Grid.Row="1"
+                     Grid.Column="1"
+                     Value="{TemplateBinding HorizontalOffset}"
+                     Maximum="{TemplateBinding ScrollableWidth}"
+                     ViewportSize="{TemplateBinding ViewportWidth}"
+                     Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+
+        </Grid>
+    </ControlTemplate>-->
+
+
+    <Style TargetType="{x:Type bc:DockableScrollViewer}">
+        <Setter Property="Focusable" Value="false"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type bc:DockableScrollViewer}">
+                    <DockPanel>
+                        <ContentPresenter x:Name="OuterTopContent" DockPanel.Dock="Top" 
+                                                  Content="{TemplateBinding OuterTopContent}" Visibility="Visible" />
+                        <bc:DockPanelSplitter x:Name="OuterTopSplitter" DockPanel.Dock="Top" Visibility="Collapsed" />
+
+                        <ContentPresenter x:Name="OuterRightContent" DockPanel.Dock="Right" 
+                                                  Content="{TemplateBinding OuterRightContent}" Visibility="Visible" />
+                        <bc:DockPanelSplitter x:Name="OuterRightSplitter" DockPanel.Dock="Right" Visibility="Collapsed" />
+
+                        <ContentPresenter x:Name="OuterBottomContent" DockPanel.Dock="Bottom" 
+                                                  Content="{TemplateBinding OuterBottomContent}" Visibility="Visible" />
+                        <bc:DockPanelSplitter x:Name="OuterBottomSplitter" DockPanel.Dock="Bottom" Visibility="Collapsed" />
+
+                        <ContentPresenter x:Name="OuterLeftContent" DockPanel.Dock="Left" 
+                                                  Content="{TemplateBinding OuterLeftContent}" Visibility="Visible" />
+                        <bc:DockPanelSplitter x:Name="OuterLeftSplitter" DockPanel.Dock="Left" Visibility="Collapsed" />
+
+
+                        <Grid Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <DockPanel Margin="{TemplateBinding Padding}">
+                                <ContentPresenter x:Name="TopContent" DockPanel.Dock="Top" 
+                                                  Content="{TemplateBinding TopContent}" Visibility="Visible" />
+                                <bc:DockPanelSplitter x:Name="TopSplitter" DockPanel.Dock="Top" Visibility="Collapsed" />
+
+                                <ContentPresenter x:Name="RightContent" DockPanel.Dock="Right" 
+                                                  Content="{TemplateBinding RightContent}" Visibility="Visible" />
+                                <bc:DockPanelSplitter x:Name="RightSplitter" DockPanel.Dock="Right" Visibility="Collapsed"  />
+
+                                <ContentPresenter x:Name="BottomContent" DockPanel.Dock="Bottom" 
+                                                  Content="{TemplateBinding BottomContent}" Visibility="Visible" />
+                                <bc:DockPanelSplitter x:Name="BottomSplitter" DockPanel.Dock="Bottom" Visibility="Collapsed" />
+
+                                <ContentPresenter x:Name="LeftContent" DockPanel.Dock="Left" 
+                                                  Content="{TemplateBinding LeftContent}" Visibility="Visible" />
+                                <bc:DockPanelSplitter x:Name="LeftSplitter" DockPanel.Dock="Left" Visibility="Collapsed" />
+
+                                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" 
+                                                        ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" 
+                                                        KeyboardNavigation.DirectionalNavigation="Local" 
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </DockPanel>
+                            <ScrollBar x:Name="PART_HorizontalScrollBar" Cursor="Arrow" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0.0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>
+                            <ScrollBar x:Name="PART_VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0.0" Orientation="Vertical" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"/>
+                            <DockPanel Background="{Binding Background, ElementName=PART_VerticalScrollBar}" Grid.Column="1" LastChildFill="false" Grid.Row="1">
+                                <Rectangle DockPanel.Dock="Left" Fill="White" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Width="1"/>
+                                <Rectangle DockPanel.Dock="Top" Fill="White" Height="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                            </DockPanel>
+                        </Grid>
+                    </DockPanel>
+                    <ControlTemplate.Triggers>
+                         <!--Outer--> 
+                        <DataTrigger Binding="{Binding Path=OuterTopContent.(bc:DockableScrollViewer.IsContentVisible), 
+                            RelativeSource={RelativeSource TemplatedParent} }" Value="False">
+                            <Setter TargetName="OuterTopContent" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=OuterTopContent.(bc:DockableScrollViewer.IsContentVisible), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                                <Condition Binding="{Binding Path=OuterTopContent.(bc:DockableScrollViewer.IsResizable), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="OuterTopSplitter" Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+
+
+
+                        <DataTrigger Binding="{Binding Path=OuterRightContent.(bc:DockableScrollViewer.IsContentVisible), 
+                            RelativeSource={RelativeSource TemplatedParent} }" Value="False">
+                            <Setter TargetName="OuterRightContent" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=OuterRightContent.(bc:DockableScrollViewer.IsContentVisible), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                                <Condition Binding="{Binding Path=OuterRightContent.(bc:DockableScrollViewer.IsResizable), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="OuterRightSplitter" Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+
+
+                        <DataTrigger Binding="{Binding Path=OuterBottomContent.(bc:DockableScrollViewer.IsContentVisible), 
+                            RelativeSource={RelativeSource TemplatedParent} }" Value="False">
+                            <Setter TargetName="OuterBottomContent" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=OuterBottomContent.(bc:DockableScrollViewer.IsContentVisible), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                                <Condition Binding="{Binding Path=OuterBottomContent.(bc:DockableScrollViewer.IsResizable), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="OuterBottomSplitter" Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+
+                        <DataTrigger Binding="{Binding Path=OuterLeftContent.(bc:DockableScrollViewer.IsContentVisible), 
+                            RelativeSource={RelativeSource TemplatedParent} }" Value="False">
+                            <Setter TargetName="OuterLeftContent" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=OuterLeftContent.(bc:DockableScrollViewer.IsContentVisible), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                                <Condition Binding="{Binding Path=OuterLeftContent.(bc:DockableScrollViewer.IsResizable), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="OuterLeftSplitter" Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+
+                         <!--Inner--> 
+                        <DataTrigger Binding="{Binding Path=TopContent.(bc:DockableScrollViewer.IsContentVisible), 
+                            RelativeSource={RelativeSource TemplatedParent} }" Value="False">
+                            <Setter TargetName="TopContent" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=TopContent.(bc:DockableScrollViewer.IsContentVisible), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                                <Condition Binding="{Binding Path=TopContent.(bc:DockableScrollViewer.IsResizable), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="TopSplitter" Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+
+
+
+                        <DataTrigger Binding="{Binding Path=RightContent.(bc:DockableScrollViewer.IsContentVisible), 
+                            RelativeSource={RelativeSource TemplatedParent} }" Value="False">
+                            <Setter TargetName="RightContent" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=RightContent.(bc:DockableScrollViewer.IsContentVisible), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                                <Condition Binding="{Binding Path=RightContent.(bc:DockableScrollViewer.IsResizable), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="RightSplitter" Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+
+
+                        <DataTrigger Binding="{Binding Path=BottomContent.(bc:DockableScrollViewer.IsContentVisible), 
+                            RelativeSource={RelativeSource TemplatedParent} }" Value="False">
+                            <Setter TargetName="BottomContent" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=BottomContent.(bc:DockableScrollViewer.IsContentVisible), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                                <Condition Binding="{Binding Path=BottomContent.(bc:DockableScrollViewer.IsResizable), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="BottomSplitter" Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+
+                        <DataTrigger Binding="{Binding Path=LeftContent.(bc:DockableScrollViewer.IsContentVisible), 
+                            RelativeSource={RelativeSource TemplatedParent} }" Value="False">
+                            <Setter TargetName="LeftContent" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=LeftContent.(bc:DockableScrollViewer.IsContentVisible), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                                <Condition Binding="{Binding Path=LeftContent.(bc:DockableScrollViewer.IsResizable), 
+                                    RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="LeftSplitter" Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

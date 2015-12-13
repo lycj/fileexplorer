@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Mouse Down">
+    <Position X="0.714" Y="2.766" Height="0.75" Width="1.081" />
+  </Comment>
+  <Comment CommentText="Mouse Move">
+    <Position X="0.7" Y="6.486" Height="0.75" Width="1.081" />
+  </Comment>
+  <Comment CommentText="Mouse Up">
+    <Position X="0.7" Y="4.665" Height="0.75" Width="1.081" />
+  </Comment>
+  <Comment CommentText="-----\/ (IsSelecting != newValue)">
+    <Position X="5.666" Y="4.245" Height="0.415" Width="2.105" />
+  </Comment>
+  <Comment CommentText="-----/\ (True)">
+    <Position X="5.687" Y="6.201" Height="0.415" Width="1.1" />
+  </Comment>
+  <Comment CommentText="-----\/">
+    <Position X="3.732" Y="3.22" Height="0.415" Width="0.7" />
+  </Comment>
+  <Comment CommentText="-----/\">
+    <Position X="3.687" Y="4.661" Height="0.415" Width="0.7" />
+  </Comment>
+  <Comment CommentText="-----/\">
+    <Position X="11.591" Y="5.148" Height="0.415" Width="0.7" />
+  </Comment>
+  <Comment CommentText="-----\/">
+    <Position X="11.557" Y="6.086" Height="0.415" Width="0.7" />
+  </Comment>
+  <Comment CommentText="If Highlight">
+    <Position X="13.994" Y="4.766" Height="0.367" Width="1.208" />
+  </Comment>
+  <Comment CommentText="If Select">
+    <Position X="14.45" Y="6.159" Height="0.367" Width="0.781" />
+  </Comment>
+  <Comment CommentText="-----\/">
+    <Position X="18.651" Y="4.74" Height="0.415" Width="0.7" />
+  </Comment>
+  <Comment CommentText="-----/\">
+    <Position X="18.667" Y="6.189" Height="0.415" Width="0.7" />
+  </Comment>
+  <Comment CommentText="Preview Mouse Down">
+    <Position X="0.745" Y="1.449" Height="0.75" Width="1.081" />
+  </Comment>
+  <Comment CommentText="If Selecting -&gt; HighlightItems, otherwise SelectItems">
+    <Position X="11.513" Y="5.585" Height="0.378" Width="3.56" />
+  </Comment>
+  <Comment CommentText="If not in keyboard focus and user click on an list/treeviewitem, focus and indicate handled.">
+    <Position X="2.033" Y="0.992" Height="0.447" Width="3.574" />
+  </Comment>
+  <Comment CommentText="NoError">
+    <Position X="4.709" Y="1.738" Height="0.291" Width="0.71" />
+  </Comment>
+  <Comment CommentText="NoError">
+    <Position X="19.909" Y="6.066" Height="0.291" Width="0.71" />
+  </Comment>
+  <Comment CommentText="GridView for GridView, IChildInfo if the panel implemented it (VirtualWrap/StackPanel), otherwise HitTest.">
+    <Position X="8.5" Y="3.25" Height="0.75" Width="3.064" />
+  </Comment>
+  <Comment CommentText="-----&gt; NoError (False)">
+    <Position X="5.696" Y="6.699" Height="0.415" Width="1.527" />
+  </Comment>
+  <Comment CommentText="-----&gt; Noerror (Already selecting/selected)">
+    <Position X="5.673" Y="3.74" Height="0.415" Width="2.698" />
+  </Comment>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelectEventProcessor" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="5.75" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAQAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectEventProcessor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.SetHandledIfNotFocused" Collapsed="true">
+    <Position X="2" Y="1.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQBAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.BeginSelect" Collapsed="true">
+    <Position X="2" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQBAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.ContinueSelect" Collapsed="true">
+    <Position X="2" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.EndSelect" Collapsed="true">
+    <Position X="2" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQBAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.UpdateIsSelecting" Collapsed="true">
+    <Position X="4" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.CheckIsSelecting" Collapsed="true">
+    <Position X="4" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.ObtainPointerPosition" Collapsed="true">
+    <Position X="5.25" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.FindSelectedItemsUsingIChildInfo" Collapsed="true">
+    <Position X="8.75" Y="5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAQAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.FindSelectedItemsUsingGridView" Collapsed="true">
+    <Position X="8.75" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQQAAABAAAAAAACAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.FindSelectedItemsUsingHitTest" Collapsed="true">
+    <Position X="8.75" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAABAQAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.FindSelectedItems" Collapsed="true">
+    <Position X="7" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.HighlightItems" Collapsed="true">
+    <Position X="12.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.HighlightItemsByUpdate" Collapsed="true">
+    <Position X="12.25" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.SelectItemsByUpdate" Collapsed="true">
+    <Position X="12.25" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.SelectItems" Collapsed="true">
+    <Position X="12.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.AttachAdorner" Collapsed="true">
+    <Position X="15.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.UpdateAdorner" Collapsed="true">
+    <Position X="17" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.DetachAdorner" Collapsed="true">
+    <Position X="15.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExplorer.WPF.BaseControls.MultiSelect.AutoScroll" Collapsed="true">
+    <Position X="19" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserControls\UIEvent\MultiSelectScriptCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

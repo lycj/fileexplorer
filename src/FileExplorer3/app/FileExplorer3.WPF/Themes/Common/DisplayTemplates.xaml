@@ -1,0 +1,67 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+    xmlns:vm="clr-namespace:FileExplorer.WPF.ViewModels"
+    xmlns:m="clr-namespace:FileExplorer.WPF.Models"
+    xmlns:cali ="http://www.caliburnproject.org"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    
+    
+    <!-- Remember to assign the template to DisplayTemplateSelector below as well. -->
+    <DataTemplate x:Key="PercentTemplate">
+        <ProgressBar Maximum="100" Minimum="0" Width="100" Value="{Binding Mode=OneWay}" />
+    </DataTemplate>
+    <DataTemplate x:Key="NumberTemplate">
+        <TextBlock Text="{Binding Converter={StaticResource fnc}}" />
+    </DataTemplate>
+    <DataTemplate x:Key="LinkTemplate">
+        <TextBlock TextTrimming="CharacterEllipsis">
+            <Hyperlink NavigateUri="{TemplateBinding Content}" >
+                <TextBlock Text="{TemplateBinding Content}" TextTrimming="CharacterEllipsis" />
+            </Hyperlink>       
+        </TextBlock>
+    </DataTemplate>
+    <DataTemplate x:Key="DateTimeTemplate">
+        <TextBlock Text="{Binding Converter={StaticResource ft}}" />
+    </DataTemplate>
+    <DataTemplate x:Key="TimeElapsedTemplate">
+        <TextBlock Text="{Binding Converter={StaticResource te}}" />
+    </DataTemplate>
+    <DataTemplate x:Key="TextTemplate">
+        <TextBlock Text="{TemplateBinding Content}" />
+    </DataTemplate>
+    <DataTemplate x:Key="KbTemplate">
+        <TextBlock Text="{Binding Converter={StaticResource ffs}}" />
+    </DataTemplate>
+    <DataTemplate x:Key="FilenameTemplate">
+        <TextBlock Text="{TemplateBinding Content}"  />
+    </DataTemplate>
+    <DataTemplate x:Key="BooleanTemplate">
+        <CheckBox IsChecked="{TemplateBinding Content}" />        
+    </DataTemplate>
+    <DataTemplate x:Key="ImageTemplate">
+        <Image Source="{Binding Converter={StaticResource uti}}" />
+    </DataTemplate>
+
+    <uc:DisplayTemplateSelector x:Key="dts"                                          
+              TextTemplate="{StaticResource TextTemplate}"
+              NumberTemplate="{StaticResource NumberTemplate}"
+              LinkTemplate="{StaticResource LinkTemplate}"
+              DateTimeTemplate="{StaticResource DateTimeTemplate}"
+              TimeElapsedTemplate="{StaticResource TimeElapsedTemplate}"
+              KbTemplate="{StaticResource KbTemplate}"
+              PercentTemplate="{StaticResource PercentTemplate}"
+              FilenameTemplate="{StaticResource FilenameTemplate}"
+              BooleanTemplate="{StaticResource BooleanTemplate}"
+              ImageTemplate="{StaticResource ImageTemplate}"    
+              >
+    </uc:DisplayTemplateSelector>
+
+
+
+</ResourceDictionary>

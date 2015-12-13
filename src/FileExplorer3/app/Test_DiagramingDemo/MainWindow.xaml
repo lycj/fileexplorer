@@ -1,0 +1,91 @@
+﻿<Window x:Class="DiagramingDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:DiagramingDemo"
+        xmlns:bc="http://www.quickzip.org/BaseControls"        
+        Title="Diagraming Demo" Height="350" Width="525">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer.UIEventHub;component/Themes/Common/Converters.xaml" />                
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type local:ItemViewModel}">
+                <AdornerDecorator>
+                    <Border Width="{Binding Width}" Height="{Binding Height}" x:Name="border"
+                            BorderBrush="DarkGreen" Background="Lavender" BorderThickness="1">
+                        <TextBlock Text="{Binding Text}" />
+                    </Border>
+                </AdornerDecorator>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding IsSelecting}" Value="True">
+                        <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                        <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />                    
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" >
+            <CheckBox x:Name="cbShowWhenDragging" IsChecked="False" Content="Show Item when Dragging" />
+        </StackPanel>
+        
+        <ItemsControl x:Name="ic1"
+            Grid.Column="0" Grid.Row="1"
+            ItemsSource="{Binding Items}" Background="Transparent">
+
+            <bc:UIEventAdapter.Processors>
+                <bc:CanvasDragEventProcessor />
+                <bc:MultiSelectEventProcessor EnableMultiSelect="True" 
+                                            UnselectAllCommand="{Binding Commands.UnselectAllCommand}" />
+                <bc:CanvasResizeEventProcessor />
+            </bc:UIEventAdapter.Processors>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">                 
+                    <!--<Setter Property="Visibility" Value="{Binding IsDragging, Converter={StaticResource fbtv}}" />-->
+                    <Setter Property="Canvas.Left" Value="{Binding Left}" />
+                    <Setter Property="Canvas.Top" Value="{Binding Top}" />
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ElementName=cbShowWhenDragging, Path=IsChecked}" Value="False" />
+                                <Condition Binding="{Binding IsDragging}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter Property="Visibility" Value="Hidden" />
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.Template>
+                <ControlTemplate>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                        <ItemsPresenter x:Name="Test" />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas IsItemsHost="true" MinWidth="1000" MinHeight="1000" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <Border BorderBrush="Black" BorderThickness="1" />
+
+    </Grid>
+
+
+
+</Window>

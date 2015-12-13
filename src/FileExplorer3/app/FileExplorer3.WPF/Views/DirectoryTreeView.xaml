@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="FileExplorer.WPF.Views.DirectoryTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+             xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"             
+             xmlns:hub="http://www.quickzip.org/UIEventHub"
+             xmlns:def="clr-namespace:FileExplorer.WPF.Defines"
+             xmlns:m="clr-namespace:FileExplorer.WPF.Models"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Brushes.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/TreeView.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ItemTemplates.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ContextMenu.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <DockPanel>
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>-->
+        <!--<StackPanel Orientation="Horizontal" Grid.Row="0">
+            <TextBlock Text="Selected :" />
+            <ContentPresenter ContentTemplate="{StaticResource GridLabelTemplate}" 
+                          Content="{Binding SelectedViewModel.CurrentDirectory}" />
+        </StackPanel>-->
+        <uc:ToolbarEx DockPanel.Dock="Bottom"
+                    ItemsSource="{Binding Commands.ToolbarCommands.CommandModels.All}"                                  
+                                  hub:UIEventHubProperties.SkipLookup="True" >
+            <uc:ToolbarEx.Resources>
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ExplorerToolbar.xaml" />
+            </uc:ToolbarEx.Resources>
+        </uc:ToolbarEx>
+
+
+        <uc:TreeViewEx ItemsSource="{Binding Entries.All}" Grid.Row="0" BorderBrush="Transparent"                       
+                       hub:UIEventHubProperties.DragItemTemplate="{StaticResource GridLabelTemplate}"  
+                       ScrollViewer.PanningMode="Both"
+                       >
+            <uc:TreeViewEx.ItemContainerStyle>
+                <Style TargetType="{x:Type uc:TreeViewItemEx}" 
+                       BasedOn="{StaticResource TreeViewItemExStyle}" >
+                    <Setter Property="IsBringIntoView" Value="{Binding IsBringIntoView, Mode=TwoWay}" />
+                    <Setter Property="IsLoading" Value="{Binding Entries.IsLoading, Mode=OneWay}"  />
+                    <Setter Property="IsExpanded" Value="{Binding Entries.IsExpanded, Mode=TwoWay}"  />
+                    <Setter Property="IsSelected" Value="{Binding Selection.IsSelected, Mode=TwoWay}"  />
+                    <Setter Property="IsDraggingOver" Value="{Binding DropHelper.IsDraggingOver, Mode=OneWay}" />
+                    <Setter Property="AllowDrop" Value="True" />
+                    <Setter Property="hub:UIEventHubProperties.DragItemTemplate" Value="{StaticResource GridLabelTemplate}" />
+                </Style>
+            </uc:TreeViewEx.ItemContainerStyle>
+            <hub:UIEventAdapter.Processors>
+                <hub:InputBindingsEventProcessor >
+                    <hub:InputBindingsEventProcessor.InputBindings>
+                        <MouseBinding Command="ApplicationCommands.Open" MouseAction="LeftDoubleClick" />
+                        <KeyBinding Command="def:ExplorerCommands.OpenTab" Key="T" Modifiers="Control" />
+                    </hub:InputBindingsEventProcessor.InputBindings>
+                </hub:InputBindingsEventProcessor>
+                <hub:DragDropEventProcessor EnableDrag="{Binding EnableDrag}" EnableDrop="{Binding EnableDrop}" />
+                <hub:DragDropLiteEventProcessor EnableDrag="{Binding EnableDrag}" EnableDrop="{Binding EnableDrop}"
+                                               EnableMouse="False" EnableTouch="True" />
+                <hub:ContextMenuEventProcessor EnableContextMenu="{Binding EnableContextMenu}">
+                    <hub:ContextMenuEventProcessor.ContextMenu>
+                        <ContextMenu ItemsSource="{Binding Commands.ToolbarCommands.CommandModels.All}" 
+                                     ItemContainerStyle="{StaticResource CommandModelContextMenuMenuItemStyle}" />
+                    </hub:ContextMenuEventProcessor.ContextMenu>
+                </hub:ContextMenuEventProcessor>
+            </hub:UIEventAdapter.Processors>
+            
+            <!--<uc:TreeViewEx.BottomContent>
+                <uc:ToolbarEx 
+                    ItemsSource="{Binding Commands.ToolbarCommands.CommandModels.All}"                                  
+                                  def:UIEventHubProperties.SkipLookup="True" >
+                    <uc:ToolbarEx.Resources>
+                        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ExplorerToolbar.xaml" />
+                    </uc:ToolbarEx.Resources>
+                </uc:ToolbarEx>
+            </uc:TreeViewEx.BottomContent>-->
+        </uc:TreeViewEx>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252" http-equiv="content-type">
+    <title>BreadcrumbTree</title>
+  </head>
+  <body>
+    <p> </p>
+    <img alt="FileExplorer3.BreadcrumbTree1" src="FileExplorer3.BreadcrumbTree1.png">
+    <p>There have been a number WPF breadcrumb implementation around, even I
+      have written this control twice (UserControls.Breadcrumb is also available
+      in the demo), both times I have to rely in reflection to retrieve the
+      Hierarchy (e.g. .typeof(T).GetProperty(subEntriesPath)), this is because
+      the breadcrumb component is a List object that contains a number of
+      BreadcrumbItems. </p>
+    <p>In many aspect a breadcrumb is very similar to TreeView, it has an item
+      source, a selected value and all items can expand to show it's sub-items.
+      Making BreadcrumbTree a TreeView also allow it easier to bindable to
+      ViewModel.&nbsp; Because it's a TreeView, the items are loaded based on
+      your HierarchicalDataTemplate instead of using a home-grown method like
+      using <a href="http://stackoverflow.com/questions/1196991/get-property-value-from-string-using-reflection-in-c-sharp">System.Reflection</a>
+      or using <a href="http://stackoverflow.com/questions/3577802/wpf-getting-a-property-value-from-a-binding-path">Binding
+        from UI</a>, noticed that there's no HierarchicalPath in the xaml code:</p>
+    <pre>&lt;uc:BreadcrumbTree x:Name="btree" Height="30" ItemsSource="{Binding Entries.All}"&gt;
+    &lt;uc:BreadcrumbTree.ItemContainerStyle&gt;
+        &lt;Style TargetType="{x:Type uc:BreadcrumbTreeItem}" BasedOn="{StaticResource BreadcrumbTreeItemStyle}" &gt;
+            &lt;Setter Property="ValuePath" Value="Selection.Value" /&gt;
+            &lt;Setter Property="IsExpanded" Value="{Binding Entries.IsExpanded, Mode=TwoWay}"  /&gt;
+            &lt;Setter Property="IsCurrentSelected" Value="{Binding Selection.IsSelected, Mode=TwoWay}"  /&gt;
+            &lt;Setter Property="SelectedChild" Value="{Binding Selection.SelectedChild, Mode=TwoWay}"  /&gt;
+            &lt;Setter Property="IsChildSelected" Value="{Binding Selection.IsChildSelected, Mode=OneWay}"  /&gt;
+            &lt;!--Updated by BreadcrumbTreeItem and it's OverflowableStackPanel--&gt;
+            &lt;Setter Property="IsOverflowed" Value="{Binding IsOverflowed, Mode=OneWayToSource}"  /&gt;
+        &lt;/Style&gt;
+    &lt;/uc:BreadcrumbTree.ItemContainerStyle&gt;
+    &lt;uc:BreadcrumbTree.MenuItemTemplate&gt;
+        &lt;DataTemplate&gt;
+                &lt;TextBlock Text="{Binding Header}" /&gt;
+        &lt;/DataTemplate&gt;
+    &lt;/uc:BreadcrumbTree.MenuItemTemplate&gt;
+    &lt;uc:BreadcrumbTree.ItemTemplate&gt;
+        &lt;HierarchicalDataTemplate ItemsSource="{Binding Entries.All}"&gt;
+            &lt;TextBlock Text="{Binding Header}" /&gt;
+        &lt;/HierarchicalDataTemplate&gt;
+    &lt;/uc:BreadcrumbTree.ItemTemplate&gt;
+&lt;/uc:BreadcrumbTree&gt;
+</pre>
+    <p><br>
+    </p>
+    <p>I found two problems when developing BreadcrumbTree, and here's my
+      solution for these problems:<br>
+    </p>
+    <p>TreeView Selection support</p>
+    <img alt="FileExplorer3.BreadcrumbTree2" src="FileExplorer3.BreadcrumbTree2.png">
+    <p>The reason that most breadcrumb is not TreeView is that the TreeView does
+      not provide selection support.&nbsp; In the earlier days of WPF people do
+      <a href="http://blogs.msdn.com/b/wpfsdk/archive/2010/02/23/finding-an-object-treeviewitem.aspx">lookup
+        using the UI thread</a> from root TreeViewItem and find the selected
+      item, this doesn't work well because the lookup jammed the UI thread.</p>
+    <p>Then I developed another approach (Bounty in <a href="http://www.codeproject.com/Articles/78517/WPF-x-FileExplorer-x-MVVM">FileExplorer2</a>,
+      please find in the documentation inside the control), which do the lookup
+      in ViewModel, by setting TreeNodeViewModel.IsExpaned to true, it force the
+      UI to load the sub-contents of the ViewModel when the TreeViewItem is
+      loaded, and continue search when a TreeViewItem is loaded,&nbsp; resulting
+      very smooth tree view expand and selection.</p>
+    <p>But the problem is that all code has to be done in ViewModel, and the
+      ViewModel is not reusable, so under Single responsibility principle, I
+      have refactored the code to IEntriesHelper (which control the loading of
+      sub-entries), ITreeSelector and ITreeNodeSelector. Because the
+      availability of async/await, this approach use Task instead of previous
+      method.</p>
+    <p><br>
+    </p>
+    <p>BreadcrumbTree require the view model implement these
+      ISupportTreeSelector&lt;ViewModelType, ValueType&gt;, where ViewModelType
+      is your tree node View Model Type, ValueType is used to determine the
+      hierarchy (using the compareFunc).</p>
+    <pre>public class TreeViewModel : INotifyPropertyChanged, ISupportTreeSelector&lt;TreeNodeViewModel, string&gt;      
+{<br> &nbsp; public TreeViewModel()
+   {<br>     ...<br>  &nbsp;&nbsp; Entries = new SubEntriesHelper&lt;TreeNodeViewModel&gt;(); //Value is based on string<br>     Selection = new TreeRootSelector&lt;TreeNodeViewModel, string&gt;(Entries, compareFunc);      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     Entries.SetEntries(new TreeNodeViewModel("", "Root", this, null));<br>&nbsp;  }<br>&nbsp;&nbsp; public ITreeSelector&lt;TreeNodeViewModel, string&gt; Selection { get; set; }<br>   public IEntriesHelper&lt;TreeNodeViewModel&gt; Entries { get; set; }<br>
+
+}
+public class TreeNodeViewModel : INotifyPropertyChanged, ISupportTreeSelector&lt;TreeNodeViewModel, string&gt;<br>{<br>&nbsp;&nbsp; public TreeNodeViewModel(TreeViewModel root, TreeNodeViewModel parentNode)<br>&nbsp;  {<br>     ...<br>  &nbsp;&nbsp; Entries = new SubEntriesHelper&lt;TreeNodeViewModel&gt;(() =&gt; Task.Run(() =&gt; { /* Load your subentries (when needed) */ )));<br> &nbsp;&nbsp;&nbsp; Selection = new TreeSelector&lt;TreeNodeViewModel, string&gt;(value, this, parentNode == null ? root.Selection : parentNode.Selection, Entries);<br>   }<br>&nbsp;&nbsp; public ITreeSelector&lt;TreeNodeViewModel, string&gt; Selection { get; set; }<br>   public IEntriesHelper&lt;TreeNodeViewModel&gt; Entries { get; set; }<br>
+}</pre>
+    <br>
+    The default implementation of Selector uses await instead of previous method
+    (e.g. setting IsExpand), for examples, the SelectAsync calls the following:<br>
+    <br>
+    &nbsp;await LookupAsync(value, RecrusiveSearch&lt;VM,
+    T&gt;.LoadSubentriesIfNotLoaded, <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    SetSelected&lt;VM, T&gt;.WhenSelected, SetChildSelected&lt;VM,
+    T&gt;.ToSelectedChild);<br>
+    <br>
+    It involve a value (which is string in this case),&nbsp; ITreeLookup
+    (RecrusiveSearch) and ITreeLookupProcessor (SetChild,
+    SetChildSelected).&nbsp; SetChildSelected is required because
+    BreadcrumbTreeItem contains a themed ComboBox, which has it's SelectedValue
+    binded to Selector's SelectedValue property, so it has to be updated as
+    well.<br>
+    <br>
+    RecrusiveSerch lookup the hierarchy, and call the processors whenever it's
+    along the path.&nbsp; LookupAsync does not return anything.<br>
+    <br>
+    Other ITreeLookups and ITreeLookupProcessors included : <br>
+    <ul>
+      <li>SearchNextLevel - just like recrusive search but only work until next
+        level, this is used when ComboBox value changes, it find the appropriate
+        item in next level and set it's IsSelected to true.</li>
+      <li>RecrusiveSearch - Recrusive search to find the required value, this is
+        used when SelectAsync(value) is called</li>
+      <li>RecrusiveBroadcast - Recrusive, but unlike Recrusive search, broadcast
+        to all nodes.</li>
+      <li>SearchNextUsingReverseLookup - Search item in next level, based on
+        your supplied value and an ITreeSelector that's associated with
+        it.&nbsp; This is required because in DirectoryInfoEx, there may be
+        different ways to reach a path (e.g. Desktop \ This PC \ Documents and
+        C:\Users\{User}\Documents), to update the SelectedValue when an item no
+        longer selected.</li>
+    </ul>
+    <ul>
+      <li>SetSelected - Update Selector.IsSelected to true when&nbsp;
+        HierarchicalResult is Current.</li>
+      <li>SetNotSelected - Update Selector.IsSelected to true when&nbsp;
+        HierarchicalResult is / is not Current.</li>
+      <li>SetExpanded - Update Entries.IsExpanded to true when&nbsp;
+        HierarchicalResult is Child.</li>
+      <li>SetChildSelected - Update Selector.SelectedValue to child's value
+        when&nbsp; HierarchicalResultis Current or Child.</li>
+      <li>SetChildNotSelected - Update Selector.SelectedValue to null when&nbsp;
+        HierarchicalResultis Current or Child.</li>
+    </ul>
+    <p>These helper class can be used in any TreeView inherited items.</p>
+    <br>
+    <br>
+    <p>BreadcrumbTree Overflow support (Expander)</p>
+    <p>The another problem is overflowing, Breadcrumb should hide the leftmost
+      BreadcrumbItem if not enough space is available, and show them in the
+      expander.&nbsp; This can and should be solved by writing a panel, but the
+      problem is more complicate when it's a tree, e.g:</p>
+    <p><br>
+    </p>
+    <p>BreadcrumbTree is a restyled TreeView, it has a header, a expander
+      comboBox and item list all align in a horizontal stack panel. </p>
+    <p>BreadcrumbTree is a container of root's BreadcrumbItem, which is a
+      container of more BreadcrumbItems, a BreadcrumbItem has three parts</p>
+    <ol>
+      <li>The header is depended on the BreadcrumbTree.ItemTemplate.</li>
+      <li>The expander combobox (DropDownList) binded to Entries.All
+        (ObservableCollection), which is loaded when Entries.IsExpanded (also
+        binded to the combobox), it's items are render using
+        BreadcrumbTree.MenuItemTemplate</li>
+      <li>The itemList, although is a list, display one items only, only the
+        item that is selected (Selection.IsSelected) or is along the path to
+        selected (Selection.IsChildSelected) is visible, the panel of this list
+        is OneItemPanel.</li>
+    </ol>
+    <p>Where 1 and 2 should render invisible while 3 should be visible when an
+      item is overflowed, because all visible BreadcrumbItems are in different
+      branch, thus different panel, overflow have to be handled separately.</p>
+    <p>To solve the problem, 1, 2 and 3 is placed inside an
+      OverflowableStackPanel, this panel, when there's not sufficient space, it
+      will collapse items that's OverflowableStackPanel.CanOverflow, and set
+      OverflowableStackPanel.OverflowItemCount to true, which is binded to
+      specific BreadcrumbItem.OverflowItemCount.&nbsp; When OverflowItemCount is
+      &gt;0, BreadcrumbItem set it's IsOverflowed to true, and thus
+      TreeNodeViewModel.Selector.IsOveflowed is true.</p>
+    <p>Once the ViewModel is notified it's Overflowed, expanded items can be
+      display in a themed ComboBox (DropDownList).</p>
+    <pre>      
+&lt;bc:DropDownList x:Name="bexp" DockPanel.Dock="Left" ItemsSource="{Binding Selection.OverflowedAndRootItems}"
+                        SelectedValuePath="Selection.Value"
+                        ItemTemplate="{Binding ItemTemplate, ElementName=btree}"&gt;
+    &lt;bc:DropDownList.Header&gt;
+        &lt;Path x:Name="path"  Stroke="Black" StrokeThickness="1.2" Data="{StaticResource ExpanderArrow}"
+            HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="True" /&gt;
+    &lt;/bc:DropDownList.Header&gt;
+    &lt;bc:DropDownList.ItemContainerStyle&gt;
+        &lt;Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource ComboboxNullAsSeparatorStyle}"&gt;
+            &lt;Setter Property="Visibility" Value="{Binding IsOverflowedOrRoot, Mode=OneWay, Converter={StaticResource btvc}}"  /&gt;
+        &lt;/Style&gt;
+    &lt;/bc:DropDownList.ItemContainerStyle&gt;
+
+&lt;/bc:DropDownList&gt;     </pre>
+    <p><br>
+    </p>
+    <p>BreadcrumbTree doesn't include SuggestBox, you have to combine the
+      expander DropDownList, BreadcrumbTree and SuggestBox manually.<br>
+    </p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+    <p>Reusable controls</p>
+    <p>When developing the BreadcrumbTree I have developed a number of reusable
+      controls, it may be useful when develop other controls:</p>
+    <p><br>
+    </p>
+    <p>Breadcrumb - </p>
+    <p>Breadcrumb control is a List version of Breadcrumb, it's an updated from
+      the original version found <a href="http://www.codeproject.com/Articles/32189/WPF-Breadcrumb-Folder-TextBox">here</a>.&nbsp;
+      </p>
+    <p>This Breadcrumb is easier to use and more featured (also with SuggestBox)
+      than the BreadcrumbTree described in this article, all you need is to set
+      the Parent/Value and Subentries path.&nbsp;&nbsp;</p>
+    <pre>&lt;uc:Breadcrumb x:Name="breadcrumb2"  Height="30"
+  ParentPath="Parent" ValuePath="Value" SubentriesPath="SubDirectories" 
+  SelectedPathValue="{Binding SelectedPathValue, ElementName=breadcrumb1, Mode=TwoWay}"
+  IconTemplate="{StaticResource FakeVMIconTemplate}" 
+  IsProgressbarVisible="True" IsIndeterminate="False"
+  HeaderTemplate="{StaticResource FakeVMHeaderTemplate}"
+/&gt;
+</pre>
+    <p>However, it's less flexible than BreadcrumbTree, because most inner
+      working is not controllable by user's ViewModel.</p>
+    <p><br>
+    </p>
+    <p>SuggestBoxBase / SuggestBox</p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+    <p>HotTrack - </p>
+    <p>HotTrack is a re-styled Border that highlight itself when IsMouseOver,
+      IsDragging and IsSelected</p>
+    <p><br>
+      DropDown / DropDownList&nbsp; - </p>
+    <p>DropDown is a button that create a drop down menu, you can use any header
+      or content.&nbsp; DropDownList is a DropDown that contains a list.</p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+  </body>
+</html>

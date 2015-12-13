@@ -1,0 +1,128 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:QuickZip.Converters"            
+    xmlns:local="clr-namespace:FileExplorer.WPF.BaseControls"            
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Buttons.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ComboBox.xaml" />
+        <!--<ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Templates.xaml" />-->
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--<Geometry x:Key="ServeMan1">M4,8 L12,8 12,15 4,15 z</Geometry>
+    <PathGeometry x:Key="ServeMan2">
+        <PathFigure StartPoint="4,8" IsClosed="True">
+            <ArcSegment Point="12,8" Size="3,3"  IsLargeArc="False"  />
+            <LineSegment Point="9,8" />
+            <ArcSegment Point="7,8" Size="2,2" IsLargeArc="True" />
+        </PathFigure>
+    </PathGeometry>-->
+
+    <Style x:Key="{x:Type local:DropDown}" 
+           TargetType="{x:Type local:DropDown}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="HeaderButtonTemplate" Value="{StaticResource BaseToggleButton}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DropDown}">
+                    <Grid>
+                        <ToggleButton x:Name="PART_ToggleButton"  MinWidth="16" 
+                                      Template="{Binding HeaderButtonTemplate, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" 
+                                      BorderBrush="{TemplateBinding BorderBrush}" 
+                                      BorderThickness="{TemplateBinding BorderThickness}"  
+                                      HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                            <Grid>
+                                <ContentPresenter Content="{TemplateBinding Header}" />
+                            </Grid>
+                        </ToggleButton>                        
+                        <Popup x:Name="PART_Popup" Focusable="False"
+                               IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, 
+                                            RelativeSource={RelativeSource TemplatedParent}}"
+                               StaysOpen="False" 
+                               HorizontalOffset="{TemplateBinding HorizontalOffset}"
+                               VerticalOffset="{TemplateBinding VerticalOffset}"
+                               Placement="{TemplateBinding Placement}" 
+                               PlacementTarget="{TemplateBinding PlacementTarget}"
+                               
+                               PopupAnimation="Slide" AllowsTransparency="True">
+                            <Border BorderThickness="{TemplateBinding BorderThickness}" MinWidth="100" MinHeight="10"
+                                        BorderBrush="{TemplateBinding BorderBrush}" 
+                                            Background="{TemplateBinding Background}" Name="DropDownBorder">
+                                <Grid x:Name="PART_DropDown">
+                                    <Border x:Name="PART_DropDownBorder" 
+                                        Background="{TemplateBinding Background}" 
+                                            Padding="{TemplateBinding Padding}"
+                                        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter x:Name="PART_Content"  Content="{TemplateBinding Content}" />
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Header" Value="{x:Null}">
+                            <Setter TargetName="PART_ToggleButton" Property="Template" Value="{StaticResource BasicArrowButton}" />
+                        </Trigger>
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="IsDropDownAlignLeft" Value="True">
+                            <Setter TargetName="PART_Popup" Property="HorizontalOffset"
+                                    Value="{Binding ActualWidth, ElementName=PART_ToggleButton}" />
+                            <Setter TargetName="PART_Popup" Property="VerticalOffset"
+                                    Value="{Binding ActualHeight, ElementName=PART_ToggleButton}" />
+                            <Setter TargetName="PART_Popup" Property="Placement" Value="Left" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="{x:Type local:DropDownList}" 
+           TargetType="{x:Type local:DropDownList}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
+        <Setter Property="HeaderButtonTemplate" Value="{StaticResource BaseToggleButton}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DropDownList}">
+                    <local:DropDown IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay,
+                        RelativeSource={RelativeSource TemplatedParent}}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}" 
+                                    
+                        HorizontalOffset="{TemplateBinding HorizontalOffset}"
+                        VerticalOffset="{TemplateBinding VerticalOffset}"
+                        Placement="{TemplateBinding Placement}" 
+                        PlacementTarget="{TemplateBinding PlacementTarget}"
+                                    
+                        Header="{Binding Header,RelativeSource={RelativeSource TemplatedParent}}"
+                        HeaderButtonTemplate="{Binding HeaderButtonTemplate,RelativeSource={RelativeSource TemplatedParent}}"            
+                                    >
+                        <ScrollViewer x:Name="DropDownScrollViewer" VerticalScrollBarVisibility="Auto">
+                            <StackPanel Orientation="Vertical">
+                                <ItemsPresenter x:Name="ItemsPresenter" 
+                                        KeyboardNavigation.DirectionalNavigation="Contained" 
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </local:DropDown>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ComboboxNullAsSeparatorStyle}" />
+    </Style>
+
+
+    
+</ResourceDictionary>

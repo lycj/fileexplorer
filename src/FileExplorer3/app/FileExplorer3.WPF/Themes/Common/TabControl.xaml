@@ -1,0 +1,215 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+    xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+    xmlns:conv="clr-namespace:QuickZip.Converters"
+    xmlns:def="clr-namespace:FileExplorer.WPF.Defines"
+    xmlns:mwt="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+    xmlns:tcs="clr-namespace:TabControlStyle"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Geometry.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Colors.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Buttons.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/TabItem.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- http://www.blogs.intuidev.com/post/2010/01/25/TabControlStyling_PartOne.aspx-->
+
+    <Style x:Key="TabPanelScrollViewerStyle" TargetType="{x:Type ScrollViewer}" >
+        <Style.Resources>
+            <tcs:ScrollbarOnFarLeftConverter x:Key="sbofl" />
+            <tcs:ScrollbarOnFarRightConverter x:Key="sbofr" />
+            <Style TargetType="TextBlock" >
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="FontFamily" Value="Segoe UI Symbol" />
+            </Style>
+
+            <Style TargetType="Image" >
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Height" Value="20" />
+            </Style>
+        </Style.Resources>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid SnapsToDevicePixels="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <!-- Hold tab items-->
+                            <ColumnDefinition Width="Auto" />
+                            <!-- Buttons -->
+                            <ColumnDefinition Width="Auto" />
+                            <!-- Title bar -->
+                        </Grid.ColumnDefinitions>
+
+
+                        <StackPanel  x:Name="leftButtons" HorizontalAlignment="Stretch" Orientation="Horizontal"
+            
+                                     VerticalAlignment="Bottom" Grid.Column="0">
+                            <ContentControl Content="{Binding LeftTabHeaderContent, 
+                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type uc:TabControlEx}}}" />
+                            <RepeatButton Template="{StaticResource BaseButton}"
+                                                  Command="ScrollBar.PageLeftCommand"
+                                                  IsEnabled="{Binding Path=HorizontalOffset,
+                                                                      RelativeSource={RelativeSource TemplatedParent},  
+                                                                      Converter={StaticResource sbofl}}">
+                                <!--<Path Margin="4,3" Data="{StaticResource LeftArrow}"
+                                      Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type RepeatButton}}}"
+                                      Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                      />-->
+                                <!--<TextBlock Text="&#xe239;" />-->
+                                <Image Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Resources/SegoeUISymbols/E239.png" />
+                            </RepeatButton>
+                        </StackPanel>
+
+                        <StackPanel x:Name="rightButtons" HorizontalAlignment="Right"  Orientation="Horizontal"
+                                    VerticalAlignment="Stretch" Grid.Column="2">
+                            <RepeatButton Template="{StaticResource BaseButton}" 
+                                                  Command="ScrollBar.PageRightCommand"
+                                                
+                                                  >
+                                <RepeatButton.Content>
+                                    <!--<Path Margin="4,3" Data="{StaticResource RightArrow}"
+                                      Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type RepeatButton}}}"
+                                      Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                      />-->
+                                    <Image Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Resources/SegoeUISymbols/E23A.png" />
+                                    <!--<TextBlock Text="&#xe23a;" />-->
+                                </RepeatButton.Content>
+                                <RepeatButton.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource sbofr}">
+                                        <Binding Path="HorizontalOffset" RelativeSource="{RelativeSource TemplatedParent}"  />
+                                        <Binding Path="ViewportWidth"  RelativeSource="{RelativeSource TemplatedParent}" />
+                                        <Binding Path="ExtentWidth"  RelativeSource="{RelativeSource TemplatedParent}" />
+                                    </MultiBinding>
+                                </RepeatButton.IsEnabled>
+                            </RepeatButton>
+
+                            <bc:DropDownList ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                                AncestorType={x:Type TabControl}}, Path=Items}"
+                                              SelectedIndex="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                                AncestorType={x:Type TabControl}}, Path=SelectedIndex}"
+                                             >
+                                <bc:DropDownList.Header>
+                                    <Image Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Resources/SegoeUISymbols/E138.png" />
+                                    <!--<TextBlock Text="&#xE138;" />-->
+                                </bc:DropDownList.Header>
+                                <bc:DropDownList.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ComboBoxItem}">
+                                        <Setter Property="Content" Value="{Binding}" />
+                                        <Setter Property="ContentTemplate" Value="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                                AncestorType={x:Type TabControl}}, Path=ItemTemplate}" />
+                                        <Setter Property="IsEnabled" Value="{Binding Path=IsEnabled}" />
+                                        <!--<Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay, 
+                                                RelativeSource={RelativeSource FindAncestor, 
+                                                AncestorType={x:Type TabItem}}}" />-->
+                                    </Style>
+                                </bc:DropDownList.ItemContainerStyle>
+                            </bc:DropDownList>
+
+                            <ContentControl Content="{Binding RightTabHeaderContent,
+                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type uc:TabControlEx}}}" />
+                            
+                            
+
+                        </StackPanel>
+
+                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+                                    VirtualizingStackPanel.IsVirtualizing="False" SnapsToDevicePixels="True"
+                                    Grid.Column="1" Content="{TemplateBinding ScrollViewer.Content}">
+
+                        </ScrollContentPresenter>
+
+                    </Grid>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+    <Style TargetType="{x:Type uc:TabControlEx}">
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+
+        <Setter Property="ItemContainerStyle" Value="{StaticResource TabItemExStyle}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid x:Name="templateRoot">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <!-- Create a border in top of content, which is covered by the tab panel -->
+                        <Rectangle Fill="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" 
+                                   Height="1" VerticalAlignment="Bottom" />
+
+                        <Border Grid.Row="0" 
+                                Visibility="{Binding ShowTabPanelUI, 
+                                            RelativeSource={RelativeSource TemplatedParent}, 
+                                            Converter={StaticResource btvc}}" >
+                            <ScrollViewer x:Name="HeaderPanelScrollViewer" Grid.Row="0" ScrollViewer.PanningMode="HorizontalOnly"
+                                          Style="{StaticResource TabPanelScrollViewerStyle}"
+                                VerticalScrollBarVisibility="Disabled"
+                                CanContentScroll="True" 
+                                 HorizontalScrollBarVisibility="Hidden" 
+                                IsDeferredScrollingEnabled="False"
+                                SnapsToDevicePixels="True" 
+                                HorizontalAlignment="Stretch" 
+                                    VerticalAlignment="Stretch"                                         
+                                          >
+                                <!--<tcs:ScrollableTabPanel IsItemsHost="True"
+                                                        x:Name="PART_ScrollContentPresenter"
+                                                        Margin="{StaticResource TabItemPanel_Padding}"                                  
+                                                        RightOverflowMargin="4"  
+                                                        AnimationTimeSpan="0:0:0.25" 
+                                                        LineScrollPixelCount="100" 
+                                                        KeyboardNavigation.TabIndex="1"/>-->
+                                <StackPanel x:Name="HeaderPanel"
+                                            IsItemsHost="True" Margin="{StaticResource TabItemPanel_Padding}" 
+                                            FocusManager.IsFocusScope="False"
+                                            Orientation="Horizontal" />
+                            </ScrollViewer>
+                        </Border>
+
+
+                        <!--<Border Padding="{StaticResource TabItemPanel_Padding}" >     
+                            <TabPanel IsItemsHost="True"/>
+                        </Border>-->
+
+                        <Border BorderThickness="1,0,1,1" Grid.Row="1"
+                                BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                                Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+                            <!--This is where the Content of the selected TabPage will be rendered.-->
+                            <ContentPresenter x:Name="PART_ScrollContentPresenter" ContentSource="SelectedContent" Margin="0" />
+                        </Border>
+
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

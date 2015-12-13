@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="FileExplorer.WPF.Views.SidebarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+             xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/DisplayTemplates.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Expander.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/ListViewItem.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid >
+
+        <ListView ItemsSource="{Binding Metadata.All}" BorderThickness="0" 
+                       ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template" Value="{StaticResource InactiveListViewItem}"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding MetadataModel.HeaderText}" FontWeight="Bold" />
+                        <TextBlock x:Name="ColonTextBlock" Text=":" Padding="5,0"  />
+                        <!--See DisplayTemplates-->
+                        <bc:DisplayContentControl Content="{Binding MetadataModel.Content}" Type="{Binding MetadataModel.DisplayType}" 
+                                          ContentTemplateSelector="{StaticResource dts}" />
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.GroupStyle>
+                <GroupStyle ContainerStyle="{StaticResource SimpleGroupItemTemplate}" />
+            </ListView.GroupStyle>
+
+        </ListView>
+    </Grid>
+
+</UserControl>

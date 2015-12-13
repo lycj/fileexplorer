@@ -1,0 +1,1 @@
+nuget pack Nuget.FileExplorer.WPF.csproj -Prop Configuration=Release -IncludeReferencedProject

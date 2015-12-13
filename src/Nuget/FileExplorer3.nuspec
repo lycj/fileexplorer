@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>FileExplorer</id>
+    <version>1.2.3.4</version>
+    <authors>lycj</authors>
+    <owners>lycj</owners>
+    <licenseUrl>http://fileexplorer.codeplex.com/license</licenseUrl>
+    <projectUrl>http://fileexplorer.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WPF based control that implements most aspects of Windows Explorer. It can be used to display shell objects or any hierarchical data.</description>
+    <releaseNotes>Support archive (zip,7z), Improve performance, Bugfixes</releaseNotes>
+    <copyright>Copyright 2009-2014, Released under MIT license</copyright>
+    <tags>WPF Shell File Explorer</tags>
+    <dependencies>
+      <dependency id="Caliburn.Micro" version="2.0.0" />
+      <dependency id="MetroLog" version="0.8.6" />      
+      <dependency id="Google.Apis.Drive.v2" version="1.8.1" />
+      <dependency id="DropNet" version="1.9.6" />
+      <dependency id="ExifLib" version="1.5.1" />
+      <dependency id="DirectoryInfoEx" version="0.25.0" />
+      <dependency id="HtmlTextBlock" version="1.0.1" />
+    </dependencies>
+  </metadata>
+</package>

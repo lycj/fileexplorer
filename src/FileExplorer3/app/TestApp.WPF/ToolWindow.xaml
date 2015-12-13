@@ -1,0 +1,75 @@
+﻿<Window x:Class="TestApp.ToolWindowTest"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:e="http://www.quickzip.org/Views/Explorer"
+        xmlns:uc="http://www.quickzip.org/UserControls"
+        xmlns:bc="http://www.quickzip.org/BaseControls"
+        xmlns:conv="http://www.quickzip.org/Converters"
+        xmlns:hub="http://www.quickzip.org/UIEventHub"
+        xmlns:cal="http://www.caliburnproject.org"
+        Title="ToolWindowTest" Height="300" Width="300">
+    <Grid>
+        <Grid.Resources>
+            <conv:EntryModelToStringConverter x:Key="emts" />
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+
+
+        <AdornerDecorator x:Name="PART_DragDropAdorner" Grid.ColumnSpan="3" />
+
+        <uc:Explorer x:Name="explorer" Mode="{Binding SelectedValue, ElementName=cbExplorerMode}"
+                     EnableBookmark="{Binding IsChecked, ElementName=cbEnableBookmark}" 
+                     EnableContextMenu="{Binding IsChecked, ElementName=cbEnableContextMenu}" 
+                     EnableDrag="{Binding IsChecked, ElementName=cbEnableDrag}"
+                     EnableDrop="{Binding IsChecked, ElementName=cbEnableDrop}"
+                     EnableMultiSelect="{Binding IsChecked, ElementName=cbEnableMultiSelect}"
+                     />
+        <GridSplitter ResizeDirection="Columns" 
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      ResizeBehavior="PreviousAndNext" Grid.Column="1" />
+        <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Grid.Column="2">
+            <hub:UIEventAdapter.Processors>
+                <hub:DragDropLiteEventProcessor />
+            </hub:UIEventAdapter.Processors>
+            <TextBlock Text="Mode" FontWeight="Bold" />
+            <ComboBox x:Name="cbExplorerMode" />
+            <TextBlock Text="CurrentDirectory (CurrentDirectory or ViewModel.FileList.Selection.SelectedItems)" FontWeight="Bold" />
+            <!--ViewModel.FileList.Selection.SelectedItems is IEntryModel-->
+            <!--<TextBlock Text="{Binding ViewModel.FileList.CurrentDirectory, 
+                Converter={StaticResource emts},
+                ElementName=explorer}" />-->
+            <TextBlock Text="{Binding CurrentDirectory, Converter={StaticResource emts}, ElementName=explorer}" />
+            <TextBlock Text="Selection (SelectedEntries or ViewModel.FileList.Selection.SelectedItems)" FontWeight="Bold" />
+            <!--ViewModel.FileList.Selection.SelectedItems is List<IEntryViewModel>-->
+            <!--<TextBlock Text="{Binding ViewModel.FileList.Selection.SelectedItems, 
+                Converter={StaticResource emts},
+                ElementName=explorer}" />-->
+            <TextBlock Text="{Binding SelectedEntries, Converter={StaticResource emts}, ElementName=explorer}" />
+            
+            <WrapPanel Orientation="Horizontal">
+                <CheckBox x:Name="cbEnableContextMenu" Content="ContextMenu" IsChecked="True" />
+                <CheckBox x:Name="cbEnableDrag" Content="Drag" IsChecked="True" />
+                <CheckBox x:Name="cbEnableDrop" Content="Drop" IsChecked="True" />
+                <CheckBox x:Name="cbEnableMultiSelect" Content="MultiSelect" IsChecked="True" />
+                <CheckBox x:Name="cbEnableBookmark" Content="Bookmark" IsChecked="False" />
+            </WrapPanel>
+            <TextBlock Text="Drop Target" FontWeight="Bold" />
+            <TextBlock x:Name="testDroppable" 
+                   AllowDrop="True"
+                   Text="{Binding Label}" >
+              <hub:UIEventAdapter.Processors>
+                <hub:DragDropEventProcessor EnableDrag="false" EnableDrop="true" />
+                <hub:DragDropLiteEventProcessor EnableDrag="false" EnableDrop="true"
+                                               EnableMouse="False" EnableTouch="True" />
+              </hub:UIEventAdapter.Processors>
+
+            </TextBlock>
+            
+        </StackPanel>
+    </Grid>
+</Window>

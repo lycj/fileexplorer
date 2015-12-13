@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="FileExplorer.WPF.Views.TabbedExplorerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+             xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+             xmlns:hub="http://www.quickzip.org/UIEventHub"
+             xmlns:cal="http://www.caliburnproject.org"  
+             xmlns:def="clr-namespace:FileExplorer.WPF.Defines"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Buttons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/TabItem.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!--<Button x:Name="OpenTab"  Grid.Row="1"  Content="Add" />-->
+        <AdornerDecorator x:Name="PART_DragDropAdorner" Grid.RowSpan="2" />
+        <uc:TabControlEx x:Name="Items" ShowTabPanel="{Binding ShowTabs, Mode=OneWay}" >
+            
+            <uc:TabControlEx.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Background="Transparent" AllowDrop="True">
+                        <Image Source="{Binding CurrentDirectory.Icon}" Width="16" Height="16" />
+                        <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" Margin="2,0" />
+                    </StackPanel>
+                </DataTemplate>
+            </uc:TabControlEx.ItemTemplate>
+            <uc:TabControlEx.ItemContainerStyle>
+                <Style TargetType="{x:Type uc:TabItemEx}" BasedOn="{StaticResource TabItemExStyle}">
+                    <Setter Property="ShowPlaceHolder" Value="{Binding DropHelper.ShowPlaceHolder}" />
+                    <Setter Property="HeaderOpacity" Value="{Binding HeaderOpacity}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                </Style>
+            </uc:TabControlEx.ItemContainerStyle>
+            <hub:UIEventAdapter.Processors>
+                <hub:InputBindingsEventProcessor >
+                    <hub:InputBindingsEventProcessor.InputBindings>
+                        <KeyBinding Command="def:ExplorerCommands.NewTab" Key="T" Modifiers="Control" />
+                        <KeyBinding Command="def:ExplorerCommands.CloseTab" Key="F4" Modifiers="Control" />
+                    </hub:InputBindingsEventProcessor.InputBindings>
+                </hub:InputBindingsEventProcessor>
+                <hub:DragDropLiteEventProcessor EnableMouse="False" EnableTouch="True" 
+                                               EnableDrag="True" EnableDrop="True" />
+                <hub:DragDropEventProcessor EnableDrag="True" EnableDrop="True" />
+            </hub:UIEventAdapter.Processors>
+            
+            <uc:TabControlEx.RightTabHeaderContent>
+                <StackPanel Orientation="Horizontal">
+                    <Button Template="{StaticResource BaseButton}"  
+                                    Command="def:ExplorerCommands.NewTab">
+
+                        <Image Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Resources/SegoeUISymbols/E109.png" />
+                        <!--<TextBlock Text="&#xE109;" />-->
+                    </Button>
+
+                    <uc:Titlebar x:Name="PART_TitleBar" 
+                                         VisibilityWhenNormal="Collapsed" 
+                                         WindowStyleWhenMaximized="None"
+                                         />
+                </StackPanel>
+            </uc:TabControlEx.RightTabHeaderContent>
+            
+        </uc:TabControlEx>
+    </Grid>
+</UserControl>

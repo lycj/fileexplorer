@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="FileExplorer.WPF.Views.FilePickerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" MinHeight="30" MaxHeight="100" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <DockPanel Grid.ColumnSpan="2" Grid.Row="0" Margin="0,0,0,5" >
+                <Viewbox DockPanel.Dock="Left" >
+                    <ContentControl Name="Navigation" />
+                </Viewbox>
+                <ContentControl Name="Breadcrumb" />
+            </DockPanel>
+
+            <AdornerDecorator x:Name="PART_DragDropAdorner" Grid.ColumnSpan="2" Grid.RowSpan="3" />
+            <ContentControl Grid.Column="0" Grid.Row="1"  Name="DirectoryTree" Margin="2" />
+            <ContentControl  Name="FileList" Grid.Column="1" Grid.Row="1" Margin="2" />
+            <!--<ContentControl Grid.ColumnSpan="2" Grid.Row="2"  Name="Statusbar" Margin="0,5,0,0" />-->
+
+            <GridSplitter Grid.Row="1" Grid.Column="0" ResizeDirection="Columns" Width="1"  Margin="0,5"
+                          HorizontalAlignment="Right" VerticalAlignment="Stretch" />
+            <GridSplitter Grid.Row="1" Grid.ColumnSpan="2" ResizeDirection="Rows" Height="1"  Margin="5,0"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+            <!--<GridSplitter Grid.Row="1" Grid.ColumnSpan="2" ResizeDirection="Rows" Height="1" Margin="5,0"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Bottom" />-->
+
+            <Grid Grid.Row="2" Grid.ColumnSpan="2" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+                <Grid.Resources>
+                    <Style TargetType="Button" >
+                        <Setter Property="Margin" Value="5,0,0,0" />
+                        <Setter Property="Width" Value="100" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ComboBox ItemsSource="{Binding Filters.All}" SelectedValuePath="Filter" 
+                          Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="10,5"
+                          SelectedIndex="0" DisplayMemberPath="Description"
+                          SelectedValue="{Binding SelectedFilter}" >
+                </ComboBox>
+                <Button x:Name="Cancel" Content="Cancel" Grid.Row="1" Grid.Column="1" Margin="10,5,5,5" />
+                <Button x:Name="Open" IsDefault="True" Grid.Row="1" Grid.Column="2" Margin="5,5,10,5"
+                        Visibility="{Binding IsOpenEnabled, Converter={StaticResource btvc}}">
+                    <TextBlock FontWeight="Bold" Text="Open"  />
+                </Button>
+                <Button x:Name="Save" IsDefault="True" Grid.Row="1" Grid.Column="2" Margin="5,5,10,5" 
+                        Visibility="{Binding IsSaveEnabled, Converter={StaticResource btvc}}">
+                    <TextBlock FontWeight="Bold" Text="Save"  />
+                </Button>
+                <DockPanel Grid.Row="0" Grid.Column="0" Margin="10,5" HorizontalAlignment="Stretch"  >
+                    <Label DockPanel.Dock="Left" Content="File _name:" Target="{Binding ElementName=tboxFileName}"/>
+                    <TextBox Text="{Binding FileName, UpdateSourceTrigger=PropertyChanged}"
+                             VerticalContentAlignment="Center"
+                             x:Name="tboxFileName" />
+                </DockPanel>
+
+
+
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -37,4 +37,3 @@ goto end
 ..\tools\nant\nant.exe init doxygen -buildfile:%1 -logfile:log\%1.log 
 
 :end
-pause

@@ -1,0 +1,72 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+    xmlns:cali ="http://www.caliburnproject.org"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Converters.xaml" />
+        <ResourceDictionary Source="ItemTemplates.xaml" />        
+        <ResourceDictionary Source="ListViewItem.xaml" />
+        <ResourceDictionary Source="ListView.xaml" />
+        
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <!--Grid View-->
+    
+    <GridView x:Key="GridView"  
+        ColumnHeaderContainerStyle="{StaticResource ListViewExGridColumnHeaderContainerStyle}" >
+    </GridView>
+
+    <!--Icon View-->
+
+    <Style x:Key="IconItemContainerStyle" TargetType="{x:Type uc:ListViewItemEx}"
+                   BasedOn="{StaticResource FileListItemStyle}">
+    </Style>
+    
+    <uc:VirtualWrapPanelView x:Key="IconView"  
+                             ColumnHeaderContainerStyle="{StaticResource ListViewExColumnHeaderContainerStyle}"
+                             SmallChanges="{Binding Path=ItemHeight, RelativeSource={RelativeSource Self}}"                             
+                             CacheItemCount="5"  
+                             
+                             ItemTemplate="{DynamicResource IconItemTemplate}"
+                             ItemContainerStyle="{StaticResource IconItemContainerStyle}"
+                             ItemHeight="{Binding Parameters.ItemSize, Converter={StaticResource add40p}}"
+                             ItemWidth="{Binding Parameters.ItemSize, Converter={StaticResource add40p}}" 
+                             HorizontalContentAlignment="Left" >       
+    </uc:VirtualWrapPanelView>
+    <!--ItemWidth="{Binding RelativeSource={RelativeSource AncestorType=uc:FileList}, Path=Parameters.ItemSize, Mode=OneWay}"-->
+    
+    <!-- Small Icon View -->
+
+    <Style x:Key="SmallIconItemContainerStyle" TargetType="{x:Type uc:ListViewItemEx}"
+                   BasedOn="{StaticResource FileListItemStyle}">
+    </Style>
+    
+    <uc:VirtualWrapPanelView x:Key="SmallIconView"  
+                             ColumnHeaderContainerStyle="{StaticResource ListViewExColumnHeaderContainerStyle}"
+                             SmallChanges="{Binding Path=ItemHeight, RelativeSource={RelativeSource Self}}"                             
+                             CacheItemCount="5"  
+                             ItemHeight="30"
+                             ItemWidth="250"
+                             Orientation="Vertical"
+                             ItemTemplate="{DynamicResource SmallIconItemTemplate}"
+                             ItemContainerStyle="{StaticResource SmallIconItemContainerStyle}"
+                             HorizontalContentAlignment="Left" >
+    </uc:VirtualWrapPanelView>
+
+    <uc:VirtualStackPanelView x:Key="ListView"  
+                             ColumnHeaderContainerStyle="{StaticResource ListViewExColumnHeaderContainerStyle}"
+                             SmallChanges="{Binding Path=ItemHeight, RelativeSource={RelativeSource Self}}"                             
+                             CacheItemCount="5"  
+                             ItemHeight="30"
+                             Orientation="Vertical"
+                             ItemTemplate="{DynamicResource SmallIconItemTemplate}"
+                             ItemContainerStyle="{StaticResource SmallIconItemContainerStyle}"
+                             HorizontalContentAlignment="Left" >
+    </uc:VirtualStackPanelView>
+
+
+
+</ResourceDictionary>

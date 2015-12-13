@@ -1,0 +1,67 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc="clr-namespace:FileExplorer.WPF.UserControls"
+    xmlns:bc="clr-namespace:FileExplorer.WPF.BaseControls"
+    xmlns:cali ="http://www.caliburnproject.org"
+    xmlns:conv="clr-namespace:QuickZip.Converters"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Colors.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Default/Geometry.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/FileExplorer3.WPF;component/Themes/Common/Toolbar.xaml" />
+
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type uc:ToolbarItemEx}" BasedOn="{StaticResource ToolbarItemExStyle}" >
+        <Setter Property="Header" Value="{Binding CommandModel.Header, Mode=OneWay}"  />
+        <Setter Property="Command" Value="{Binding CommandBinding.Command, Mode=OneWay}" />
+        <Setter Property="CommandParameter" Value="{Binding DataContext.Commands.ToolbarCommands.AppliedModels, 
+                                    RelativeSource={RelativeSource AncestorType={x:Type uc:ToolbarEx}}}" />
+        <Setter Property="CommandTarget" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter Property="Visibility" Value="{Binding IsVisibleOnToolbar, Converter={StaticResource btvc}}" />
+        <Setter Property="Icon" Value="{Binding Icon, Mode=OneWay}" />
+        <Setter Property="Symbol" Value="{Binding CommandModel.Symbol, Mode=OneWay}"  />
+        <Setter Property="HeaderType" Value="{Binding CommandType, Mode=OneWay}" />
+        <Setter Property="IsHeaderVisible" Value="{Binding CommandModel.IsHeaderVisible, Mode=OneWay}" />
+        <Setter Property="IsSliderEnabled" Value="{Binding IsSliderEnabled, Mode=OneWay}" />
+        <Setter Property="IsHeaderAlignRight" Value="{Binding CommandModel.IsHeaderAlignRight, Mode=OneWay}" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Trigger>
+            <Trigger Property="HeaderType" Value="MenuButton">
+                <Setter Property="ItemsSource" Value="{Binding SubCommands.All}" />
+            </Trigger>
+            <Trigger Property="IsSliderEnabled" Value="True">
+                <Setter Property="SliderMaximum" Value="{Binding CommandModel.SliderMaximum, Mode=OneWay}" />
+                <Setter Property="SliderMinimum" Value="{Binding CommandModel.SliderMinimum, Mode=OneWay}" />
+                <Setter Property="SliderValue" Value="{Binding CommandModel.SliderValue, Mode=TwoWay}" />
+            </Trigger>
+
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="{x:Type uc:ToolbarSubItemEx}" BasedOn="{StaticResource ToolbarSubItemExStyle}"  >
+        <Setter Property="Header" Value="{Binding CommandModel.Header, Mode=OneWay}"  />
+        <Setter Property="Command" Value="{Binding CommandBinding.Command, Mode=OneWay}" />
+        <Setter Property="CommandParameter" Value="{Binding DataContext.ToolbarCommands.AppliedModels, 
+                                    RelativeSource={RelativeSource AncestorType={x:Type uc:ToolbarEx}}}" />
+        <Setter Property="Visibility" Value="{Binding CommandModel.IsEnabled, Converter={StaticResource btvc}}" />
+        <Setter Property="Icon" Value="{Binding Icon, Mode=OneWay}" />
+        <Setter Property="Symbol" Value="{Binding CommandModel.Symbol, Mode=OneWay}"  />
+        <Setter Property="HeaderType" Value="{Binding CommandType, Mode=OneWay}" />
+        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalAlignment, Mode=OneWay}" />
+        <Style.Triggers>
+            <Trigger Property="HeaderType" Value="MenuButton">
+                <Setter Property="ItemsSource" Value="{Binding SubCommands.All}" />
+            </Trigger>
+            <DataTrigger Binding="{Binding IsSliderStep}" Value="True">
+                <Setter Property="Value" Value="{Binding CommandModel.SliderStep, Mode=OneWay}" />
+                <Setter Property="Height" Value="{Binding CommandModel.ItemHeight, Mode=TwoWay}" />
+                <Setter Property="IsStepStop" Value="True" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+
+</ResourceDictionary>
