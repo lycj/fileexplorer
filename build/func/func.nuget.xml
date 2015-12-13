@@ -34,17 +34,22 @@
 
   
   <target name="nuget">
-    <call target="nuget-copy-nuspec" />
-    <call target="nuget-copy-contents" />
-    <call target="nuget-copy-lib" />
+    <property name="nuget.nuspec.path" value="${nuget.source.dir}\${nuget.nuspec}" />
+    <!--<echo message="Nuget.nuspec.path = ${nuget.nuspec.path}" />-->
+    <if test="${file::exists((nuget.nuspec.path))}">
+      <echo message="Found ${nuget.nuspec.path}." />
+      <call target="nuget-copy-nuspec" />
+      <call target="nuget-copy-contents" />
+      <call target="nuget-copy-lib" />
 
-    <exec program="${nuget.compilier}">
-      <arg line="pack" />
-      <arg line='"${nuget.tmp.dir}\${nuget.nuspec}"' />
-      <arg line='-Version ${version}' />
-      <arg line='-OutputDirectory ${path::get-full-path(nuget.output.dir)}' />
-    </exec>
+      <exec program="${nuget.compilier}">
+        <arg line="pack" />
+        <arg line='"${nuget.tmp.dir}\${nuget.nuspec}"' />
+        <arg line='-Version ${version}' />
+        <arg line='-OutputDirectory ${path::get-full-path(nuget.output.dir)}' />
+      </exec>
 
-    <delete dir='${nuget.tmp.dir}' />
+      <delete dir='${nuget.tmp.dir}' />
+    </if>
   </target>
 </properties>
