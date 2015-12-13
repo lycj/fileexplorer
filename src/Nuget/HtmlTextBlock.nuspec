@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>HtmlTextBlock</id>
+    <version>1.0.1</version>
+    <authors>lycj</authors>
+    <owners>lycj</owners>
+    <licenseUrl>https://htmltextblock.codeplex.com/license</licenseUrl>
+    <projectUrl>https://htmltextblock.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>HtmlTextBlock is a light-weighted WPF control that allow you to display rich text, by translating html like tags into TextBlock.Inlines.</description>
+    <releaseNotes>Mar17 - Remove Windows Forms reference code.</releaseNotes>
+    <copyright>Copyright 2009, Released under MIT License</copyright>
+    <tags>html wpf textblock</tags>
+  </metadata>
+</package>

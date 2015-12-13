@@ -18,6 +18,12 @@
 
     <call target="constructProjFile" />
 
+    <if test="${msbuild.version=='2'}">
+      <property name="msbuild.compilier" value="${net.msbuild.2}" />
+    </if>
+    <if test="${msbuild.version=='3'}">
+      <property name="msbuild.compilier" value="${net.msbuild.3}" />
+    </if>
     <if test="${msbuild.version=='35'}">
       <property name="msbuild.compilier" value="${net.msbuild.35}" />
     </if>

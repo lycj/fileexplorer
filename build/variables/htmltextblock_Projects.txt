@@ -1,0 +1,2 @@
+HtmlTextBlock,dll,4
+TestApp.WPF,exe,4

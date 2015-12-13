@@ -14,8 +14,8 @@ choice /C YN /T 5 /D N /M "Generate Documentation?"
 IF %ERRORLEVEL% EQU 1 goto Doxygen
 
 :MajorVersion
-choice /C YN /T 5 /D Y /M "Build directly?" 
-IF %ERRORLEVEL% EQU 1 goto Nant
+choice /C YN /T 5 /D N /M "Abort Build?" 
+IF %ERRORLEVEL% EQU 2 goto Nant
 
 echo "Aborting..."
 pause
