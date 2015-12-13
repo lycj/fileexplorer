@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<properties>
+
+  <property name="doxygen.config" value="${project::get-name()}.config" overwrite="false" />
+  <property name="doxygen.tmp.dir" value="..\tmp\doxygen\" />
+  <property name="doxygen.source.dir" value="..\src\doxygen" />
+  <property name="doxygen.compilier" value="..\tools\doxygen\doxygen.exe" />
+ 
+
+  <target name="doxygen-copy-config" description="Copy config file to tmp">
+   
+    <copy file="${doxygen.source.dir}\${doxygen.config}"
+       tofile="${configfile}" />
+  </target>
+  
+    <target name="doxygen-set-version" description="Stamp the version info onto doxygen config file.">
+    <script language="C#">
+          <references>
+            <include name="System.dll" />
+          </references>
+          <imports>
+            <import namespace="System.Text.RegularExpressions" />
+          </imports>
+          <code>
+            <![CDATA[
+     public static void ScriptMain(Project project)
+     {
+      //FileStream file = File.Open(project.Properties["filename"], FileMode.Open, FileAccess.ReadWrite);   
+      Console.WriteLine(project.Properties["configfile"]);
+      
+      StreamReader reader = new StreamReader(project.Properties["configfile"]);
+      string contents = reader.ReadToEnd();
+      reader.Close();
+      string replacement = string.Format(
+       "PROJECT_NUMBER         = {0}.{1}.{2}.{3}",
+       project.Properties["build.version.major"],
+       project.Properties["build.version.minor"],
+       project.Properties["build.version.build"],
+       project.Properties["build.version.revision"]
+      );
+
+      string outputpathreplacement = string.Format(
+       "OUTPUT_DIRECTORY       = {0}",
+       project.Properties["outputdir"]
+      );
+
+      string newText = Regex.Replace(contents, @"(PROJECT_NUMBER)\s*=\s*(\d*\.){3}\d", replacement);
+      newText = Regex.Replace(newText, @"(OUTPUT_DIRECTORY)[^\r]*", outputpathreplacement);
+      StreamWriter writer = new StreamWriter(project.Properties["configfile"], false);
+      writer.Write(newText);
+      writer.Close();
+     }
+     ]]>
+          </code>
+        </script>
+
+  </target>
+
+  <!--http://flcweb02.desy.de/flcwiki/How%20to%20document%20your%20code%20using%20doxygen-->
+  <target name="doxygen">
+    <property name="configfile" value="${doxygen.tmp.dir}\${doxygen.config}" />
+    <property name="outputdir" value="..\release\v${version}\doc\${project::get-name()}" />
+    <mkdir dir="${outputdir}" />
+    
+    <call target="doxygen-copy-config" />
+    <call target="doxygen-set-version" />
+
+    <exec program="${doxygen.compilier}">
+      <arg line="${configfile}" />
+    </exec>
+
+    <delete dir='${doxygen.tmp.dir}' />
+  </target>
+
+</properties>

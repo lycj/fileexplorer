@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<properties>
+  <!--<target name="parseProjectProps" description="Load the projects list in projects.txt, and write the variables">
+    
+    <property name="build.projects.fullpath" value="${variables.dir}\${projects.filename}" />
+    <script language="C#">
+      <references>
+        <include name="System.dll" />
+        <include name="System.Core.dll" />
+      </references>
+      <imports>
+        <import namespace="System.Text.RegularExpressions" />
+        <import namespace="System.Collections.Generic" />
+      </imports>
+      <code>
+        <![CDATA[
+        public static void ScriptMain(Project project)
+        {
+           string fileName = project.Properties["build.projects.fullpath"];
+           //Console.WriteLine(fileName);
+           string srcAppPath = project.Properties["src.app.path"];           
+           List<string> projectList = new List<string>();
+           List<string> csprojList = new List<string>();
+           List<string> outputList = new List<string>();
+           
+           using (StreamReader sr = new StreamReader(fileName))
+             while (!sr.EndOfStream)
+             {
+               string projectString = sr.ReadLine();
+               
+                 Regex regex = new Regex(@"\[[(?<type>dll|exe)|(?<ver>net\d*)?]*\](?<proj>.*)");
+               if (regex.IsMatch(projectString))
+               {
+	                 var match = regex.Match(projectString);
+                   projectList.Add(match.Groups["proj"].Value);
+                   
+                   string projectName = match.Groups["proj"].Value.ToLower();
+                   string projectType = match.Groups["type"].Value.ToLower();
+	                 
+                   string srcFullPath = String.Format("{0}{1}\\", srcAppPath, projectName);
+                   project.Properties.Add(String.Format("src.{0}.path", projectName), srcFullPath);
+                    
+                   string srcCsprojPath = String.Format("{0}{1}\\{1}.csproj", srcAppPath, projectName);
+                   csprojList.Add(srcCsprojPath);
+                   project.Properties.Add(String.Format("src.{0}.csproj", projectName), srcCsprojPath);
+                   
+                   if (!(String.IsNullOrEmpty(projectType)))
+                   {
+                    string projectFname = projectName + "." + projectType;
+                    project.Properties.Add(String.Format("dest.{0}.{1}", projectName, projectType), projectFname);
+                    outputList.Add(projectFname);
+                   }
+                   
+                   string projectPdb = projectName + ".pdb";
+                   project.Properties.Add(String.Format("dest.{0}.pdb", projectName), projectPdb);
+                   outputList.Add(projectPdb);
+               }
+               else throw new Exception(String.Format(
+                  "{0} is not recognized (e.g. [dll]FileExplorer3)", projectString));
+               
+         
+             }
+               project.Properties.Add("projects.name", String.Join(",", projectList));
+               project.Properties.Add("projects.name.count", projectList.Count.ToString());
+               project.Properties.Add("projects.csproj", String.Join(",", csprojList));
+               project.Properties.Add("projects.csproj.count", csprojList.Count.ToString());
+               project.Properties.Add("projects.output", String.Join(",", outputList));
+               project.Properties.Add("projects.output.count", outputList.Count.ToString());
+        }        
+      ]]>
+      </code>    
+    </script>
+    <echo message="Parsed ${projects.name.count} projects." />
+    
+  </target>-->
+
+
+  <!--<foreach item="String" in="${projects.csproj}" delim=" ," property="csproj.path">
+      <property name="msbuild.csproj.path" value="${csproj.path}" />
+      <property name="msbuild.version" value="4" />
+      <call target="msbuild" />
+    </foreach>-->
+
+
+</properties>
