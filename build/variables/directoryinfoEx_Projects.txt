@@ -1,0 +1,3 @@
+DirectoryInfoEx,dll,4
+ListSpecialDirectoryGuid,exe,4
+WPFDemo,exe,4

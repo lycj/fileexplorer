@@ -1,0 +1,18 @@
+﻿<Window x:Class="AsyncTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <DockPanel>
+        <TextBox x:Name="tbFolder" Text="C:\" DockPanel.Dock="Top" />
+        <CheckBox x:Name="cbRecrusive" Content="Recrusive" DockPanel.Dock="Top" />
+        <Button x:Name="btnList" Content="List" DockPanel.Dock="Top" Click="btnList_Click" />
+        <Button x:Name="btnCabcel" Content="Cancel" DockPanel.Dock="Top" Click="btnCabcel_Click" />
+        <ListBox x:Name="lbList" >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding FullName}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+</Window>

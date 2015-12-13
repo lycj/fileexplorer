@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>DirectoryInfoEx</id>
+    <version>0.26.0</version>
+    <authors>lycj</authors>
+    <owners>lycj</owners>
+    <licenseUrl>https://directoryinfoex.codeplex.com/license</licenseUrl>
+    <projectUrl>https://directoryinfoex.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>DirectoryInfoEx has a similar interface as DirectoryInfo, but it use IShellFolder, and it support special folders like desktop, mycomputer.</description>
+    <releaseNotes>09Nov14 Fixed crashes related to x64 mode</releaseNotes>
+    <copyright>Copyright 2009, Released under LGPL License.</copyright>
+    <tags>shell api directoryinfo disk io</tags>
+  </metadata>
+</package>
