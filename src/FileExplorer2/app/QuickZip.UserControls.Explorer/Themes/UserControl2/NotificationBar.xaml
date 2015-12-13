@@ -1,0 +1,87 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:local="clr-namespace:QuickZip.UserControls.Themes"
+    xmlns:mvvm="http://www.quickzip.org/MVVM"
+    xmlns:uc="http://www.quickzip.org/UserControls"
+    xmlns:conv="http://www.quickzip.org/Converters"
+    xmlns:pBarTest="clr-namespace:ProgressBarTest;assembly=QuickZip.UserControls"
+     xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Geometry.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Templates.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Styles/StaticProgressBarStyle.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/ThirdParty/CircularProgressBar2/CircleProgressBarDictionary.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Templates/NotificationBarTemplates.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/NotificationBarItem/NotificationBarItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/NotificationBarBase/NotificationBarBase.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <Style x:Key="qz_NotificationSubItem_Style" BasedOn="{StaticResource {x:Type uc:NotificationBarSubItem}}"                      
+           TargetType="{x:Type uc:NotificationBarSubItem}" >
+        <Setter Property="Header" Value="{Binding EmbeddedModel.Header, Mode=OneWay}" />
+        <!--<Setter Property="Header" Value="{Binding DoWorkCommand, Mode=OneWay, Converter={StaticResource ts},  FallbackValue=Error}" />-->
+        <Setter Property="Icon" Value="{Binding EmbeddedModel.HeaderIcon, Mode=OneWay}" />
+        <!--<Setter Property="ToolTip" Value="{Binding EmbeddedModel.ToolTip, Mode=OneWay}" />-->
+        <Setter Property="Command" Value="{Binding DoWorkCommand, Mode=OneWay}" />
+
+    </Style>
+
+    <Style x:Key="qz_NotificationItem_Style" BasedOn="{StaticResource {x:Type uc:NotificationBarItem}}"                      
+           TargetType="{x:Type uc:NotificationBarItem}" >
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource qz_NotificationSubItem_Style}" />
+        <Setter Property="Header" Value="{Binding EmbeddedModel.Header, Mode=OneWay}" />
+        <Setter Property="Progress" Value="{Binding PercentCompleted, Mode=OneWay}" />
+        <Setter Property="Icon" Value="{Binding EmbeddedModel.Icon, Converter={StaticResource btbi}}" />
+        <Setter Property="ProgressForeground" Value="{Binding ProgressForeground, Mode=OneWay}" />
+        <Setter Property="IsActive" Value="{Binding EmbeddedModel.IsActive, Mode=OneWay}" />
+        <Setter Property="ItemsSource" Value="{Binding Commands, Mode=OneWay}" />
+        <Setter Property="ToolTip" Value="{Binding EmbeddedModel.HintMessage, Mode=OneWay}" />
+        <Setter Property="Command" Value="{Binding DoWorkCommand, Mode=OneWay}" />
+    </Style>
+
+    <Style x:Key="qz_NotificationBarBase_Style" BasedOn="{StaticResource {x:Type uc:NotificationBarBase}}"                       
+           TargetType="{x:Type uc:NotificationBarBase}" >
+        <!--<Setter Property="HorizontalAlignment" Value="Stretch"  />
+        <Setter Property="VerticalAlignment" Value="Stretch"  />        
+        <Setter Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />-->
+        <Setter Property="ItemsSource" Value="{Binding NotificationItemList}" />
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource qz_NotificationItem_Style}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type uc:NotificationBarBase}">
+                    <Border Visibility="{Binding HasNotification, Mode=OneWay, Converter={StaticResource btv}}">
+                        <StackPanel Orientation="Horizontal"  IsItemsHost="True"  />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="qz_NotificationBar_Style" TargetType="{x:Type uc:NotificationBar2}">
+        <Setter Property="ItemsSource" Value="{Binding NotificationSources}" />
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource qz_NotificationBarBase_Style}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type uc:NotificationBar2}">
+                    <Border BorderThickness="0,0,0,0.5" BorderBrush="{StaticResource HorizontalNormalBorderBrush}" Background="{TemplateBinding Background}"
+                            Padding="0,4,0,4" Visibility="{Binding HasNotification, Mode=OneWay, Converter={StaticResource btvc}}">
+                        <DockPanel>
+                            <Button DockPanel.Dock="Right" Content="Clear" Command="{Binding ClearNotificationCommand}" 
+                                    Template="{StaticResource BasicCrossButton}"                                    
+                                    VerticalAlignment="Stretch" 
+                                    />
+                            <StackPanel Orientation="Horizontal"  IsItemsHost="True"  />
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>

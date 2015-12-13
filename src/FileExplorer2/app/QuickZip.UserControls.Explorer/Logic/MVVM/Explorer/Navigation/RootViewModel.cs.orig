@@ -1,0 +1,187 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using QuickZip.UserControls.MVVM.ViewModel;
+using System.Windows.Data;
+using System.Collections.ObjectModel;
+using Cinch;
+using System.Threading;
+using System.Diagnostics;
+using System.Windows;
+using QuickZip.UserControls.MVVM.Model;
+using System.ComponentModel;
+
+namespace QuickZip.UserControls.MVVM
+{
+    public class DirectoryChangedEventArgs : EventArgs
+    {
+        public string DirectoryString { get; private set; }
+        public bool ChangeAllowed { get; set; }
+
+        public DirectoryChangedEventArgs(string directoryString)
+        {
+            DirectoryString = directoryString;
+            ChangeAllowed = true;
+        }
+    }
+
+
+
+    public class DirectoryChangedEventArgs<FI, DI, FSI> : DirectoryChangedEventArgs
+        where FI : FSI
+        where DI : FSI
+    {
+        public EntryViewModel<FI, DI, FSI> Directory { get; set; }        
+        public DirectoryChangedEventArgs(EntryViewModel<FI, DI, FSI> entry)
+            : base(entry.EmbeddedModel.ParseName)
+        {
+            Directory = entry;
+        }
+
+        public DirectoryChangedEventArgs(string directoryString)
+            : base(directoryString)
+        {           
+        }
+    }
+
+    public class NavigationRootViewModel<FI, DI, FSI> : RootModelBase
+        where FI : FSI
+        where DI : FSI
+    {
+
+
+        #region Constructor
+
+        public NavigationRootViewModel(Profile<FI, DI, FSI> profile)
+        {
+            _profile = profile;
+            _subDirectories = new ObservableCollection<NavigationItemViewModel<FI, DI, FSI>>();
+            foreach (DI rootDirectory in profile.RootDirectories)
+            {
+                _subDirectories.Add(
+                    new NavigationItemViewModel<FI, DI, FSI>
+                        (this, null, profile.ConstructDirectoryModel(rootDirectory)) { });
+            }
+
+
+            //_hierarchy = new ObservableCollection<NavigationItemViewModel<FI, DI, FSI>>();
+            //setupBackgroundWorker();
+        }
+
+        #endregion
+
+        #region Methods
+
+        internal void RequestBountyReward(NavigationItemViewModel<FI, DI, FSI> foundModel)
+        {
+            Bounty = default(DirectoryModel<FI, DI, FSI>);
+            foundModel.IsSelected = true;
+        }
+
+        #region Bounty related
+        internal void ReportBeingSelected(NavigationItemViewModel<FI, DI, FSI> selectedModel)
+        {
+            if (!selectedModel.Equals(SelectedNavigationViewModel))
+            {
+                SelectedNavigationViewModel = selectedModel;
+                DirectoryChanged(this, new DirectoryChangedEventArgs<FI, DI, FSI>(selectedModel.EmbeddedEntryViewModel));
+            }
+            //ProcessHierarchy(selectedModel);
+        }
+
+
+        public virtual void PlaceBounty(EntryViewModel<FI, DI, FSI> bountyModel)
+        {
+            if (bountyModel is DirectoryViewModel<FI, DI, FSI>)
+            {
+
+                if (SelectedNavigationViewModel != null &&
+                    SelectedNavigationViewModel.EmbeddedDirectoryModel.EmbeddedDirectory.Equals(bountyModel))
+                {
+                    //False alarm, already Selected
+                    SelectedNavigationViewModel.IsSelected = true;
+                    return;
+                }
+                else
+                {
+                    if (SelectedNavigationViewModel != null)
+                        SelectedNavigationViewModel.IsSelected = false;
+
+                    Bounty = ((DirectoryViewModel<FI, DI, FSI>)bountyModel).EmbeddedDirectoryModel;
+
+                    foreach (NavigationItemViewModel<FI, DI, FSI> subDir in
+                        _subDirectories.OrderBy((nivm) => { return -nivm.EmbeddedEntryModel.CustomPosition; }))
+                        if (subDir.EmbeddedDirectoryModel.EqualsOrHasChild(Bounty))
+                        {
+                            subDir.PlaceBounty();
+                            break;
+                        }
+                        else subDir.CollapseAll();
+                }
+            }
+        }
+        #endregion
+
+
+
+
+        #endregion
+
+        #region Data
+        internal Profile<FI, DI, FSI> _profile;
+        private ObservableCollection<NavigationItemViewModel<FI, DI, FSI>> _subDirectories;
+
+        private NavigationItemViewModel<FI, DI, FSI> _selectedNavigationViewModel = null;
+
+
+        #endregion
+
+        #region Public Properties
+        public EventHandler<DirectoryChangedEventArgs<FI, DI, FSI>> DirectoryChanged = (o, args) => { };
+        internal DirectoryModel<FI, DI, FSI> Bounty { get; private set; }
+
+        public NavigationItemViewModel<FI, DI, FSI> SelectedNavigationViewModel
+        {
+            get { return _selectedNavigationViewModel; }
+            protected set
+            {
+                _selectedNavigationViewModel = value;
+                NotifyPropertyChanged("SelectedNavigationViewModel");
+                NotifyPropertyChanged("SelectedViewModel");
+                NotifyPropertyChanged("SelectedModel");
+            }
+        }
+
+        public NavigationItemViewModel<FI, DI, FSI> UISelectedNavigationViewModel
+        {
+            get { return _selectedNavigationViewModel; }
+            set
+            {
+                if (value != null)
+                    SelectedViewModel = value.EmbeddedEntryViewModel;
+            }
+        }
+
+
+        public EntryModel<FI, DI, FSI> SelectedModel
+        {
+            get { return SelectedViewModel == null ? null : SelectedViewModel.EmbeddedModel; }
+            //set { PlaceBounty(value); }
+        }
+
+        public EntryViewModel<FI, DI, FSI> SelectedViewModel
+        {
+            get { return SelectedNavigationViewModel == null ? null : SelectedNavigationViewModel.EmbeddedEntryViewModel; }
+            set { PlaceBounty(value); }
+        }
+
+        //public ObservableCollection<NavigationItemViewModel<FI, DI, FSI>> Hierarchy
+        //{ get { return _hierarchy; } }
+
+        public ObservableCollection<NavigationItemViewModel<FI, DI, FSI>> SubDirectories
+        { get { return _subDirectories; } }
+
+        #endregion
+    }
+}

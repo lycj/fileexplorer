@@ -1,0 +1,38 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns:uc="http://www.quickzip.org/UserControls"    
+    xmlns:trans="http://www.quickzip.org/Translation"
+    xmlns:local="clr-namespace:QuickZip.UserControls.Themes"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="Common.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <uc:VirtualWrapPanelView x:Key="SmallIconView"  ColumnHeaderContainerStyle="{StaticResource ColumnHeaderContainerStyle}"
+                             ItemContainerStyle="{StaticResource qz_FileListItem_Style}"
+                             ItemHeight="20" ItemWidth="150" HorizontalContentAlignment="Left" SmallChanges="20" >
+        <uc:VirtualWrapPanelView.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal" >
+                    <Image x:Name="img" Source="{Binding SmallIcon.Item2.Value}" Width="16"/>
+                    <uc:EditBox x:Name="eb" Margin="5,0" DisplayValue="{Binding EmbeddedModel.Label}" 
+                        ActualValue="{Binding Name, Mode=TwoWay}" 
+                        IsEditable="{Binding EmbeddedModel.IsEditable}"        
+                        IsEditing="{Binding IsEditing, Mode=TwoWay}"
+                        />
+                    <TextBlock Text="[*]" Visibility="{Binding EmbeddedModel.IsEncrypted, Converter={StaticResource btv}}" />
+                </StackPanel>
+            </DataTemplate>
+        </uc:VirtualWrapPanelView.ItemTemplate>
+        <uc:VirtualWrapPanelView.Columns>
+            <GridViewColumn Width="100" Header="{x:Static trans:Texts.strHeaderFile}"  uc:FileList2.SortPropertyName="sortByFullName" />
+            <GridViewColumn Width="100" Header="{x:Static trans:Texts.strHeaderType}" uc:FileList2.SortPropertyName="sortByType" />
+            <GridViewColumn Width="100" Header="{x:Static trans:Texts.strHeaderTime}" uc:FileList2.SortPropertyName="sortByLastWriteTime" />
+            <GridViewColumn Width="100" Header="{x:Static trans:Texts.strHeaderSize}" uc:FileList2.SortPropertyName="sortByLength" />
+        </uc:VirtualWrapPanelView.Columns>
+    </uc:VirtualWrapPanelView>
+   
+</ResourceDictionary>

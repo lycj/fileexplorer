@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="ExplorerVM that maintain a list of CurrentBrowserViewModel (which is ViewerBaseVM), so it can go Prev/Next anytime.">
+    <Position X="11.055" Y="5.517" Height="0.805" Width="2.371" />
+  </Comment>
+  <Comment CommentText="Poll Statusbar items (MetadataViewModel)">
+    <Position X="7.761" Y="2.261" Height="0.571" Width="2.092" />
+  </Comment>
+  <Comment CommentText="Poll Toolbar items (CommandViewModel)">
+    <Position X="7.809" Y="3.452" Height="0.56" Width="2.059" />
+  </Comment>
+  <Comment CommentText="Define a number of commands (eg. OpenCommand : SimpleCommand)">
+    <Position X="7.675" Y="0.684" Height="0.448" Width="2.193" />
+  </Comment>
+  <Comment CommentText="Base class for Directory, W3 or FileViewerViewModel">
+    <Position X="7.868" Y="4.795" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Directory listing (e.g. list IEntryViewModel)">
+    <Position X="7.694" Y="6.969" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Drag and Drop support.">
+    <Position X="7.86" Y="8.752" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Inserted &quot;Select n items&quot; MetadataViewModel">
+    <Position X="8.432" Y="10.214" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Get Commands from profile.">
+    <Position X="8.275" Y="11.778" Height="0.75" Width="1.7" />
+  </Comment>
+  <Class Name="QuickZip.UserControls.MVVM.ExplorerRootModelBase" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AQyAEJAEAOgAUAEAggAhAACAAMAAAAAAAAAAAgAAYBA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Helper\ExplorerRootModelBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.ExplorerViewModel&lt;FI, DI, FSI&gt;" Collapsed="true">
+    <Position X="10.75" Y="4.75" Width="3" />
+    <Members>
+      <Field Name="_breadcrumbViewModel" Hidden="true" />
+      <Field Name="_copyCommand" Hidden="true" />
+      <Field Name="_currentBrowserViewModel" Hidden="true" />
+      <Field Name="_isDirectoryTreeVisible" Hidden="true" />
+      <Field Name="_navigationViewModel" Hidden="true" />
+      <Field Name="_notificationViewModel" Hidden="true" />
+      <Field Name="_profile" Hidden="true" />
+      <Field Name="_refreshCommand" Hidden="true" />
+      <Field Name="_searchViewModel" Hidden="true" />
+      <Field Name="_viewMode" Hidden="true" />
+      <Field Name="_viewSize" Hidden="true" />
+      <Method Name="dirChangedHandler" Hidden="true" />
+      <Method Name="propertyChangeHandler" Hidden="true" />
+      <Method Name="setupCommands" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>EAAIAEAAAACAAICCgCABAgIYASBBIBCAgRACEkAAANA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\ExplorerVM.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CurrentEntryBrowserViewModel" />
+      <Property Name="CurrentBrowserViewModel" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.HistoryExplorerViewModel&lt;FI, DI, FSI&gt;" Collapsed="true">
+    <Position X="10.75" Y="7" Width="3" />
+    <Members>
+      <Field Name="_canGoBack" Hidden="true" />
+      <Field Name="_canGoNext" Hidden="true" />
+      <Field Name="_goBackCommand" Hidden="true" />
+      <Field Name="_goNextCommand" Hidden="true" />
+      <Field Name="_navigationHistory" Hidden="true" />
+      <Field Name="_navigationPosition" Hidden="true" />
+      <Method Name="AddNavigationHistory" Hidden="true" />
+      <Field Name="canGoBackChangeArgs" Hidden="true" />
+      <Field Name="canGoNextChangeArgs" Hidden="true" />
+      <Field Name="MAX_FULL_CACHE_COUNT" Hidden="true" />
+      <Field Name="navigationPositionChangeArgs" Hidden="true" />
+      <Field Name="navigatorHistoryChangeArgs" Hidden="true" />
+      <Method Name="setupCommands" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAEEAKAAAQCAAEAAAAACSAIAGgAgEAAhSBBAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\HistoryExplorerVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.ViewerBaseVM" Collapsed="true">
+    <Position X="5.25" Y="4.5" Width="2" />
+    <InheritanceLine Type="QuickZip.UserControls.MVVM.BaseToolbarViewModel" FixedToPoint="true">
+      <Path>
+        <Point X="6.375" Y="3.941" />
+        <Point X="6.375" Y="4.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>MQIhIAAAEgBAAAABAAAAACkJAKACEAAAIAAAlAgQABg=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\0 - Base\BaseViewerVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.ViewerBaseViewModel&lt;FI, DI, FSI&gt;" Collapsed="true">
+    <Position X="5" Y="5.75" Width="2.5" />
+    <InheritanceLine Type="QuickZip.UserControls.MVVM.ViewerBaseVM" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.375" Y="5.191" />
+        <Point X="6.375" Y="5.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>BAAAAIEAwCCAAACYAAhAAgAAESABADAAwAAAAAAGBAo=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\0 - Base\BaseViewerVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.BaseToolbarViewModel" Collapsed="true">
+    <Position X="5.25" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BACAAAEAAgAAAAgAggAAAAABAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\0 - Base\BaseToolbarVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.BaseStatusbarViewModel" Collapsed="true">
+    <Position X="5.25" Y="2" Width="2.25" />
+    <InheritanceLine Type="QuickZip.UserControls.MVVM.ExplorerRootModelBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.438" Y="1.191" />
+        <Point X="6.438" Y="2" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAEIAAgAAAAAAICCAAAAAAAACAAAAAAEgAAACAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\0 - Base\BaseStatusbarVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.DirectoryViewerViewModel&lt;FI, DI, FSI&gt;" Collapsed="true">
+    <Position X="4.75" Y="11.75" Width="2.75" />
+    <InheritanceLine Type="QuickZip.UserControls.MVVM.StatusDirectoryViewerViewModel&lt;FI, DI, FSI&gt;" FixedFromPoint="true">
+      <Path>
+        <Point X="6.125" Y="10.941" />
+        <Point X="6.125" Y="11.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgiAAAAgAAAAAAAAAACAAAAIAAQAEAAACAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\4 - ToolbarSupport\DirectoryViewerVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.StatusDirectoryViewerViewModel&lt;FI, DI, FSI&gt;" Collapsed="true">
+    <Position X="4.75" Y="10.25" Width="3.25" />
+    <InheritanceLine Type="QuickZip.UserControls.MVVM.DndDirectoryViewerViewModel&lt;FI, DI, FSI&gt;" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.312" Y="9.441" />
+        <Point X="6.312" Y="10.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAEIAAAAAAAAQAAAAAAAAAAAACAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\3 - StatusbarSupport\StatusDirectoryViewerVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.DndDirectoryViewerViewModel&lt;FI, DI, FSI&gt;" Collapsed="true">
+    <Position X="5" Y="8.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AgAAABBABAoQAAAAQAAAAAAIAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\2 - DragnDropSupport\DnDDirectoryViewerVM.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.BaseDirectoryViewerViewModel&lt;FI, DI, FSI&gt;" Collapsed="true">
+    <Position X="5" Y="7" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>EQAACEAEAiRiAAAEAEgAAAAIACAgEAAACAAQAAgSAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\1- WithoutStatusbarSupport\BaseDirectoryViewerVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

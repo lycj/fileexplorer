@@ -1,0 +1,20 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    xmlns:mvvm="http://www.quickzip.org/MVVM"
+    xmlns:uc="http://www.quickzip.org/UserControls"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="UserControl2/Breadcrumb.xaml" />
+        <ResourceDictionary Source="UserControl2/DirectoryTree.xaml" />
+        <ResourceDictionary Source="UserControl2/FileList.xaml" />
+        <ResourceDictionary Source="UserControl2/Explorer.xaml" />
+        <ResourceDictionary Source="UserControl2/EmbedExplorer.xaml" />
+        <ResourceDictionary Source="UserControl2/Statusbar.xaml" />
+        <!--<ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Styles/AeroListView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />-->
+    </ResourceDictionary.MergedDictionaries>
+
+
+</ResourceDictionary>

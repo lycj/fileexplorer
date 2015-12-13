@@ -1,0 +1,175 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:local="clr-namespace:QuickZip.UserControls.Themes"
+    xmlns:mvvm="http://www.quickzip.org/MVVM"
+    xmlns:uc="http://www.quickzip.org/UserControls"
+    xmlns:conv="http://www.quickzip.org/Converters"
+     xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Styles/W7TreeViewItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Styles/StaticProgressBarStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+
+    <DataTemplate x:Key="EntryInfoViewModel_DateTemplate" >
+        <DataTemplate.Resources>
+            <conv:StringArrayToStringConverter x:Key="sa2s" />                       
+        </DataTemplate.Resources>
+        <Grid x:Name="baseGrid" MinWidth="120" 
+              Visibility="{Binding EmbeddedModel.IsValid, Converter={StaticResource btv}}" Margin="0,0,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" x:Name="col0" Text="{Binding EmbeddedModel.Header}" Foreground="Gray" TextAlignment="Right" />
+            <TextBlock Grid.Column="1" x:Name="col1" Text=":" Foreground="Gray" TextAlignment="Center" />
+
+            <Grid Grid.Column="2" x:Name="col2">
+                <TextBlock Text="{Binding EmbeddedModel.Value}" TextAlignment="Left"
+                           Visibility="{Binding IsNumber, Converter={StaticResource btvc}}" />
+
+                <TextBlock Text="{Binding EmbeddedModel.Value}" TextAlignment="Left"
+                           Visibility="{Binding IsDateTime, Converter={StaticResource btvc}}" />
+
+                <TextBlock Text="{Binding EmbeddedModel.Value}" TextAlignment="Left"
+                           Visibility="{Binding IsString, Converter={StaticResource btvc}}" />
+
+                <TextBlock Text="{Binding EmbeddedModel.Value, Converter={StaticResource sa2s}}" TextAlignment="Left" 
+                           Visibility="{Binding IsStringArray, Converter={StaticResource btvc}}" />
+
+                <ProgressBar x:Name="pBar" HorizontalAlignment="Stretch" Margin="0,2,10,0" Foreground="CadetBlue" Style="{DynamicResource staticProgressBarStyle}"                                 
+                             Height="10"  Maximum="100" Width="150" 
+                             Visibility="{Binding IsPercent, Converter={StaticResource btvc}}"
+                             />
+            </Grid>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsPercent}" Value="True">
+                <Setter TargetName="pBar" Property="Value" Value="{Binding EmbeddedModel.Value, Mode=OneWay}" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding EmbeddedModel.Header}" Value="">
+                <Setter TargetName="baseGrid" Property="Width" Value="10000" />
+                <Setter TargetName="col0" Property="Visibility" Value="Hidden" />
+                <Setter TargetName="col1" Property="Visibility" Value="Hidden" />
+                <Setter TargetName="col2" Property="Grid.Column" Value="0" />
+                <Setter TargetName="col2" Property="Grid.ColumnSpan" Value="3" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding EmbeddedModel.Value}" Value="">
+                <Setter TargetName="baseGrid" Property="Width" Value="10000" />
+                <Setter TargetName="col2" Property="Visibility" Value="Hidden" />
+                <Setter TargetName="col1" Property="Visibility" Value="Hidden" />
+                <Setter TargetName="col0" Property="Grid.Column" Value="0" />
+                <Setter TargetName="col0" Property="TextAlignment" Value="Left" />
+                <Setter TargetName="col0" Property="Grid.ColumnSpan" Value="3" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding EmbeddedModel.OccupyFullLine}" Value="True">
+                <Setter TargetName="baseGrid" Property="Width" Value="10000" />
+                <Setter TargetName="baseGrid" Property="Margin" Value="25,0,0,0" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="EntryInfoViewModel_IconDataTemplate">
+        <Image Source="{Binding JumboIcon.Item2.Value}" Stretch="Uniform" />
+    </DataTemplate>
+
+
+
+
+    <Style x:Key="qz_Statusbar_Style" TargetType="{x:Type uc:Statusbar2}">
+        <Setter Property="HorizontalAlignment" Value="Stretch"  />
+        <Setter Property="VerticalAlignment" Value="Stretch"  />
+        <Setter Property="Background" Value="{StaticResource LightBrush}"  />
+        <Setter Property="MaxHeight" Value="1000" />
+        <Setter Property="BorderBrush" Value="{StaticResource SolidBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1,0" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemIconTemplate" Value="{DynamicResource EntryInfoViewModel_IconDataTemplate}" />
+        <Setter Property="ItemTemplate" Value="{DynamicResource EntryInfoViewModel_DateTemplate}" />        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type uc:Statusbar2}">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}" Padding="2,1,2,0">
+                        <DockPanel>
+                            <!--<Border DockPanel.Dock="Top" BorderThickness="0,0,0,1" BorderBrush="{TemplateBinding Background}" Padding="2,0,2,2">-->
+                                <ContentControl 
+                                    DockPanel.Dock="Top"
+                                    Content="{TemplateBinding NotificationBar}"/>
+                            <!--</Border>-->
+                            <DockPanel>
+                                <Grid DockPanel.Dock="Left" Margin="5,5,15,5"  Width="{TemplateBinding ActualHeight}" >
+                                    <ItemsControl ItemsSource="{Binding SelectedViewModels}"
+                                              Visibility="{Binding IsSelectedViewModelsEmpty, Converter={StaticResource fbtv}}"
+                                                  ItemTemplate="{TemplateBinding ItemIconTemplate}"
+                                              >
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <uc:OverlappingPanel OverlapX="0.05" OverlapY="0.05" MaxItems="10"  IsItemsHost="True" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        
+                                    </ItemsControl>
+                                    <ContentControl Content="{Binding EmbeddedDirectoryViewModel}" HorizontalAlignment="Center"
+                                                    Visibility="{Binding IsSelectedViewModelsEmpty, Converter={StaticResource btv}}"                                                    
+                                                    ContentTemplate="{TemplateBinding ItemIconTemplate}"
+                                        />
+                                </Grid>                                
+                                <Grid Margin="2">                                 
+                                    <ItemsPresenter />                                   
+                                </Grid>
+                            </DockPanel>
+                        </DockPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="uc:Statusbar2.EnterSimpleStatusbar">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.Target="{Binding}" Storyboard.TargetProperty="MaxHeight">
+                                    <DoubleAnimation Duration="0:0:1"  To="32" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+
+                        <EventTrigger RoutedEvent="uc:Statusbar2.ExitSimpleStatusbar">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.Target="{Binding}" Storyboard.TargetProperty="MaxHeight">
+                                    <DoubleAnimation Duration="0:0:1"   />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <!--<EventTrigger  SourceName="nbar" RoutedEvent="Control.MouseEnter"> 
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="nbar" Storyboard.TargetProperty="MaxHeight">
+                                    <DoubleAnimation Duration="0:0:1" To="25" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger  SourceName="nbar" RoutedEvent="Control.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="nbar" Storyboard.TargetProperty="MaxHeight">
+                                    <DoubleAnimation Duration="0:0:1" To="10" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>-->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>

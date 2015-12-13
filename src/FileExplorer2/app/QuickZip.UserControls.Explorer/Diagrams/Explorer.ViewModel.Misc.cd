@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="GetSuggestions() method calls profile.Lookup() method to return suggestions.">
+    <Position X="5.412" Y="4.369" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="See Model.Notification diagram.">
+    <Position X="16.381" Y="1.473" Height="0.497" Width="1.7" />
+  </Comment>
+  <Comment CommentText="NotificationSources ---&gt; Collection of NotificationSourceVM">
+    <Position X="13.863" Y="1.231" Height="0.75" Width="1.7" />
+  </Comment>
+  <Class Name="QuickZip.UserControls.MVVM.SearchViewModel&lt;FI, DI, FSI&gt;">
+    <Position X="5" Y="0.75" Width="2.5" />
+    <Members>
+      <Field Name="_confirmedParseName" Hidden="true" />
+      <Field Name="_hasSuggestions" Hidden="true" />
+      <Field Name="_profile" Hidden="true" />
+      <Field Name="_searchText" Hidden="true" />
+      <Field Name="_searchThread" Hidden="true" />
+      <Field Name="_selectedModel" Hidden="true" />
+      <Field Name="_suggestions" Hidden="true" />
+      <Method Name="changeDirectory" Hidden="true" />
+      <Method Name="setupProperties" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>QASAAAAAAACAAAABAQAABABAAIAEAQgAMCAAEAIAAAg=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Search\SearchViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Notification.ViewModel.NotificationBarViewModel">
+    <Position X="11" Y="0.5" Width="2.5" />
+    <Members>
+      <Field Name="_clearNotificationCommand" Hidden="true" />
+      <Field Name="_hasNotification" Hidden="true" />
+      <Field Name="_sources" Hidden="true" />
+      <Field Name="clearNotificationCommandCommandChangeArgs" Hidden="true" />
+      <Method Name="NotificationBarViewModel" Hidden="true" />
+      <Method Name="setupCommand" Hidden="true" />
+      <Method Name="sourceModel_PropertyChanged" Hidden="true" />
+      <Method Name="updateHasNotification" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AACAAEAgAAAAQAAgAAACQAAAAAAAAJAIAYAAAAACAAA=</HashCode>
+      <FileName>Logic\MVVM\Notification\ViewModel\NotificationBarViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Notification.ViewModel.NotificationItemViewModel" Collapsed="true">
+    <Position X="14.25" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AACQGgAABQAAAAAYAAAAigAAAAgAAACAABAARRgAAAA=</HashCode>
+      <FileName>Logic\MVVM\Notification\ViewModel\NotificationItemViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Notification.ViewModel.NotificationSourceViewModel" Collapsed="true">
+    <Position X="14.25" Y="2.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AEIAAEAAAAAEQAAEAAACDAAQAAAAKAAAAYAAAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Notification\ViewModel\NotificationSourceViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Notification.Model.NotificationItemModel" Collapsed="true">
+    <Position X="16.75" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BQAAAgAAFIQCgEAFEIDAQGAEACAIEACAkYgBRQFAAEE=</HashCode>
+      <FileName>Logic\MVVM\Notification\Model\NotificationItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Notification.Model.NotificationSourceModel" Collapsed="true">
+    <Position X="16.75" Y="2.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAQAAAAAAAAAAAAEBAAAAAAEAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Notification\Model\NotificationSourceModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.Suggestion">
+    <Position X="7.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

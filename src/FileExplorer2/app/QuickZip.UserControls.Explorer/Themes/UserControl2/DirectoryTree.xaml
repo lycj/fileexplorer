@@ -1,0 +1,88 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:local="clr-namespace:QuickZip.UserControls.Explorer"
+    xmlns:mvvm="http://www.quickzip.org/MVVM"
+    xmlns:uc="http://www.quickzip.org/UserControls"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Styles/W7TreeViewItem.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--<DataTemplate x:Key="qz_EntryVM_Small">
+        <StackPanel Orientation="Horizontal">
+            <Image Source="{Binding SmallIcon.Item2.Value}" />
+            <uc:EditBox x:Name="eb" Margin="5,2" DisplayValue="{Binding EmbeddedModel.Label}" 
+                        ActualValue="{Binding Name, Mode=TwoWay}" 
+                        IsEditable="{Binding EmbeddedModel.IsEditable}"
+                        IsEditing="{Binding Path=(local:DirectoryTree.IsEditing),
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}}, Mode=TwoWay}"
+                        />
+        </StackPanel>
+    </DataTemplate>-->
+
+    <HierarchicalDataTemplate x:Key="qz_DirectoryTreeItem_DataTemplate"
+                              ItemsSource="{Binding SubDirectories}"
+                              >
+        <StackPanel x:Name="itemRoot" Orientation="Horizontal" DataContext="{Binding EmbeddedDirectoryViewModel}" 
+                    HorizontalAlignment="Stretch" Background="Transparent" ToolTip="{Binding ToolTip, Mode=OneWay}">
+            <Image Source="{Binding SmallIcon.Item1.Value}" />
+            <uc:EditBox x:Name="eb" Margin="5,2" DisplayValue="{Binding EmbeddedModel.Label}" 
+                        ActualValue="{Binding Name, Mode=TwoWay}"                         
+                        IsEditable="{Binding EmbeddedModel.IsEditable}"
+                        IsEditing="{Binding IsEditing, Mode=TwoWay}" />
+        </StackPanel>
+        <HierarchicalDataTemplate.Triggers>
+            <DataTrigger Value="True" Binding="{Binding IsDraggingOver, Mode=OneWay}">
+                <Setter TargetName="eb" Property="FontWeight" Value="Bold"/>
+            </DataTrigger>
+            <Trigger SourceName="eb" Property="IsEditing" Value="True">
+                <Setter TargetName="itemRoot" Property="Background" Value="Transparent"/>
+            </Trigger>
+        </HierarchicalDataTemplate.Triggers>
+    </HierarchicalDataTemplate>
+
+    <Style TargetType="{x:Type uc:DirectoryTreeItem2}" >
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="ItemContainerStyle" Value="{StaticResource W7TreeViewItemStyle}" />
+    </Style>
+    
+    <Style x:Key="qz_DirectoryTree_Style" TargetType="{x:Type uc:DirectoryTree2}">
+        <Style.Resources>
+          
+            
+            <Style x:Key="TVItemStyle" TargetType="{x:Type uc:DirectoryTreeItem2}" 
+                   BasedOn="{StaticResource W7TreeViewItemStyle}" >
+                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                <Setter Property="IsDraggingOver" Value="{Binding IsDraggingOver, Mode=OneWayToSource}" />
+
+                <Setter Property="FontWeight" Value="Normal" />
+            </Style>
+        </Style.Resources>
+
+        <Setter Property="ItemTemplate" Value="{DynamicResource qz_DirectoryTreeItem_DataTemplate}" />
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type uc:DirectoryTreeItem2}" BasedOn="{StaticResource TVItemStyle}">
+                    <Setter Property="Margin" Value="0,0,0,10" />
+                    <Setter Property="ItemContainerStyle">
+                        <Setter.Value>
+                            <Style TargetType="{x:Type uc:DirectoryTreeItem2}" BasedOn="{StaticResource TVItemStyle}" />
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!--Do not enable Virtualization, or BringToView is not working.-->
+        <!--<Setter Property ="VirtualizingStackPanel.IsVirtualizing" Value="True" />
+        <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Standard" />-->
+
+    </Style>
+
+
+</ResourceDictionary>

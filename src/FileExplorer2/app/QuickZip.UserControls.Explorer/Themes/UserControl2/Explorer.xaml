@@ -1,0 +1,195 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    xmlns:mvvm="http://www.quickzip.org/MVVM"
+    xmlns:uc="http://www.quickzip.org/UserControls"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Common.xaml" />
+        <ResourceDictionary Source="Breadcrumb.xaml" />
+        <ResourceDictionary Source="DirectoryTree.xaml" />
+        <ResourceDictionary Source="FileList.xaml" />
+        <ResourceDictionary Source="Navigator.xaml" />
+        <ResourceDictionary Source="Statusbar.xaml" />
+        <ResourceDictionary Source="Toolbar.xaml" />
+        <ResourceDictionary Source="NotificationBar.xaml" />
+        <ResourceDictionary Source="MediaPlayer.xaml" />
+
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Styles/StaticProgressBarStyle.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/BreadcrumbItem/BreadcrumbItem.xaml" />
+
+    </ResourceDictionary.MergedDictionaries>
+    <Style x:Key="qz_Explorer_Style" TargetType="{x:Type uc:Explorer2}">
+        <Setter Property="BorderBrush" Value="{StaticResource SolidBorderBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type uc:Explorer2}">
+                    <Grid TextOptions.TextFormattingMode="Display" 
+                          TextOptions.TextRenderingMode="ClearType"
+                          >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="2" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        
+                        <AdornerDecorator x:Name="PART_DragDropAdorner" Grid.ColumnSpan="2" Grid.RowSpan="3" />
+                        
+                        <uc:Navigator2 x:Name="PART_Navigator" Grid.Row="0" Grid.Column="0" 
+                                       Style="{DynamicResource qz_Navigator_Style}"                                       
+                                       GoBackCommand="{Binding GoBackCommand}"
+                                       GoNextCommand="{Binding GoNextCommand}"
+                                       />
+                        <uc:Breadcrumb2 x:Name="PART_Breadcrumb" Grid.Row="0" Grid.Column="1"
+                           DataContext="{Binding BreadcrumbViewModel}"
+                           Style="{DynamicResource qz_Breadcrumb_Style}" 
+                           IsBreadcrumbEnabled="{Binding IsBreadcrumbEnabled, Mode=OneWay}"
+                           IsLoading="{Binding DataContext.CurrentBrowserViewModel.IsLoading, 
+                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type uc:Explorer2}}}"
+                                                                                >
+                            <uc:Breadcrumb2.Content>
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Button Command="{x:Static uc:ExplorerCommands.ToggleBookmark}" 
+                                            CommandParameter="{Binding CurrentDirectory, 
+                                                    Mode=OneWay,
+                                                    RelativeSource={RelativeSource TemplatedParent}}"
+                                            Template="{StaticResource BaseBreadcrumbButton}"
+                                            >
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Path x:Name="pathBookmark" Data="{StaticResource Star}" Fill="White" Stroke="DimGray"  StrokeThickness="1" 
+                                                    StrokeLineJoin="Round"  />
+                                        </Grid>
+                                    </Button>
+                                    <Button Command="{x:Static uc:ExplorerCommands.Refresh}"                                             
+                                        Template="{StaticResource BaseBreadcrumbButton}" Padding="0,0,2,0">
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Path Stroke="#FF000000" StrokeThickness="1" Data="{StaticResource RefreshBranch}"   />
+                                            <Path Fill="#FF000000" Data="{StaticResource RefreshArrow}"   />
+                                        </Grid>
+                                    </Button>
+                                </StackPanel>
+                            </uc:Breadcrumb2.Content>
+                        </uc:Breadcrumb2>
+
+
+                        <uc:Toolbar2  Grid.Row="2" Grid.ColumnSpan="2" 
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                         Style="{DynamicResource qz_Toolbar_Style}"
+                                         DataContext="{Binding CurrentBrowserViewModel}"
+                                         ItemsSource="{Binding ToolbarItemList}"
+                        />
+
+                        <DockPanel Grid.Row="3" Grid.ColumnSpan="2">
+                            <uc:Statusbar2 x:Name="PART_Statusbar"
+                                            Style="{DynamicResource qz_Statusbar_Style}"       
+                                           BorderBrush="{TemplateBinding BorderBrush}"
+                                            IsSimpleStatusbar="{Binding IsSimpleStatusbar, Mode=OneWay}"
+                                            DataContext="{Binding CurrentBrowserViewModel}"
+                                            ItemsSource="{Binding StatusItemList}" Height="70"
+                                            DockPanel.Dock="Bottom" >
+                                <uc:Statusbar2.NotificationBar>
+                                    <uc:NotificationBar2 
+                                        Style="{DynamicResource qz_NotificationBar_Style}"
+                                        DataContext="{Binding DataContext.NotificationViewModel, 
+                                            RelativeSource={RelativeSource AncestorType={x:Type uc:Explorer2}}}" 
+                                        
+                                                         
+                                                         />
+                                </uc:Statusbar2.NotificationBar>
+                            </uc:Statusbar2>
+
+                            <uc:DockPanelSplitter DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" 
+                                   Background="{x:Static SystemColors.ControlBrush}" Margin="0" 
+                                                  BorderThickness="1,0"
+                                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                    Visibility="{Binding Visibility, ElementName=PART_Statusbar}"
+                                                          />
+
+                            <uc:DirectoryTree2  
+                                DockPanel.Dock="Left" Width="200"
+                                x:Name="PART_DirectoryTree" Grid.Column="0" Grid.Row="1"                                   
+                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                   DataContext="{Binding NavigationViewModel}"  
+                                   ContextMenuCommand="{Binding ContextMenuCommand}"
+                                  ItemsSource="{Binding SubDirectories}"                  
+                                    Style="{DynamicResource qz_DirectoryTree_Style}"
+                                   Visibility="{Binding IsDirectoryTreeVisible, Converter={StaticResource btv}, 
+                                        RelativeSource={RelativeSource AncestorType={x:Type uc:Explorer2}}}"
+                                   
+                                   />
+
+                            <uc:DockPanelSplitter DockPanel.Dock="Left" HorizontalAlignment="Stretch" 
+                                   Background="{x:Static SystemColors.ControlBrush}"
+                                    Visibility="{Binding Visibility, ElementName=PART_DirectoryTree}"
+                                                          />
+                            <DockPanel>
+                                <uc:MediaPlayer2 x:Name="PART_Previewer" DockPanel.Dock="Right" Width="150"
+                                                 Content="{Binding CurrentBrowserViewModel.PreviewerSource, Mode=OneWay}"                                                  
+                                                 Style="{DynamicResource qz_MediaPlayer_Style}"
+                                                 Visibility="{Binding CurrentBrowserViewModel.IsPreviewerVisible, Converter={StaticResource btv}}"
+                                                 />
+
+                                <uc:DockPanelSplitter DockPanel.Dock="Right" HorizontalAlignment="Stretch" 
+                                   Background="{x:Static SystemColors.ControlBrush}"
+                                    Visibility="{Binding Visibility, ElementName=PART_Previewer}"
+                                                          />
+
+                                <Grid>
+                                    <uc:FileList2 x:Name="PART_FileList" 
+                                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                                  Visibility="{Binding IsDirectoryViewModel, Mode=OneWay, Converter={StaticResource btvc}}"
+                                              DataContext="{Binding CurrentBrowserViewModel}"
+                                              ContextMenuCommand="{Binding ContextMenuCommand}"
+                                              UnSelectAllCommand="{Binding UnselectAllCommand}"
+                                              RenameCommand="{Binding RenameCommand}"
+                                                  
+                                              ViewSize="{Binding ViewSize, Mode=TwoWay}"
+                                              ViewMode="{Binding ViewMode, Mode=TwoWay}"
+                                              SortBy="{Binding SortBy}"
+                                              SortDirection="{Binding SortDirection}"
+                                              uc:FileList2.BindableSelectedItems="{Binding UISelectedItems, Mode=OneWayToSource}"
+                                              uc:SelectionHelper.HighlightCount="{Binding UIHighlightCount, Mode=OneWayToSource}"
+                                              uc:CommandProvider.DoubleClickCommand="{Binding ExpandCommand}"
+                                              uc:CommandProvider.DoubleClickCommandParameter="{Binding}"
+                                              ItemsSource="{Binding SubEntries.View}"
+                                              Style="{DynamicResource qz_FileList_Style}"                                             
+                                              VirtualizingStackPanel.IsVirtualizing="True" 
+                                              VirtualizingStackPanel.VirtualizationMode="Recycling" />
+                                  
+                                    <uc:BindableWebBrowser x:Name="PART_WebBrowser"
+                                                           Visibility="{Binding IsWWWViewModel, Mode=OneWay, Converter={StaticResource btvc}}"
+                                    DataContext="{Binding CurrentBrowserViewModel}"                                                           
+                                    Source="{Binding UIWebAddress, Mode=TwoWay}"                                                                                                               
+                                                   />
+
+
+                                    <!--<uc:BasicMediaPlayer x:Name="PART_MediaPlayer"
+                                                         Visibility="{Binding IsMediaViewModel, Mode=OneWay, Converter={StaticResource btvc}}"
+                                                         Source="{Binding MediaFile}"
+                                                         DataContext="{Binding CurrentBrowserViewModel}"                                                         
+                                                         />-->
+
+                                </Grid>
+                            </DockPanel>
+                        </DockPanel>    
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding CurrentBrowserViewModel.IsBookmarked}" Value="True">
+                            <Setter TargetName="pathBookmark" Property="Fill" Value="Yellow" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

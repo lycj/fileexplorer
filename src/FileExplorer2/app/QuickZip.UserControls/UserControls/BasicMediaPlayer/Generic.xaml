@@ -1,0 +1,119 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:QuickZip.Converters"            
+    xmlns:local="clr-namespace:QuickZip.UserControls"            
+    xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+    xmlns:draw="clr-namespace:System.Drawing;assembly=System.Drawing"
+    xmlns:lc="clr-namespace:LoadingControl.Control"
+    xmlns:ce="clr-namespace:CircularAnimations.Examples"
+    >
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Geometry.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Templates.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Styles.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Templates/SliderTemplates.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{x:Type local:BasicMediaPlayer}"                       
+           TargetType="{x:Type local:BasicMediaPlayer}" >
+
+        <!--<Setter Property="Height" Value="20"  />-->
+        <Setter Property="HorizontalAlignment" Value="Stretch"  />
+        <Setter Property="VerticalAlignment" Value="Stretch"  />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource focusVisualStyle}" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:BasicMediaPlayer}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="fadeController" 
+                                    Storyboard.TargetProperty="Opacity"
+                                    Storyboard.TargetName="controllerPanel">
+                            <DoubleAnimation To="0" Duration="0:0:1" DecelerationRatio="0.6" />
+                        </Storyboard>
+                        <Storyboard x:Key="unfadeController" 
+                                    Storyboard.TargetProperty="Opacity"
+                                    Storyboard.TargetName="controllerPanel">
+                            <DoubleAnimation To="1" Duration="0:0:1" DecelerationRatio="0.6" />
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Grid Background="{TemplateBinding Background}">
+                        <Grid x:Name="PART_InnerContainer" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="100">
+                            <ContentPresenter x:Name="presenter" />                            
+                            <Border x:Name="PART_PauseNotifier" Background="Gray" Opacity="0.7" 
+                                Visibility="{Binding IsMediaPlaying, Converter={StaticResource fbtv},
+                                        RelativeSource={RelativeSource TemplatedParent}}" Cursor="Hand" >
+
+                                <Path Data="{StaticResource NormalArrow}" Fill="Silver" Stretch="Fill" 
+                                  Stroke="Silver" StrokeThickness="5" 
+                                  Width="30" Height="30" 
+                                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                                  />
+                            </Border>
+
+                            <DockPanel LastChildFill="False" Opacity="0"  x:Name="controllerPanel">
+
+                                <Border DockPanel.Dock="Bottom"  Margin="5,0" Height="10"                                
+                                Visibility="{Binding IsMediaPlaying, Converter={StaticResource btv},                                
+                                        RelativeSource={RelativeSource TemplatedParent}}">
+                                    <Slider x:Name="PART_Slider" Template="{StaticResource SimpleSlider}"
+                                            Background="DimGray" Foreground="Silver" LargeChange="10000"
+                                    Maximum="{Binding MediaInterval, Converter={StaticResource t2ms},
+                                                RelativeSource={RelativeSource TemplatedParent}}"                                    
+                                    Value="{Binding MediaPosition, Converter={StaticResource t2ms},
+                                                RelativeSource={RelativeSource TemplatedParent}}"
+                                    Visibility="{Binding ShowTimeLine, Converter={StaticResource btv},
+                                                RelativeSource={RelativeSource TemplatedParent}}"
+                                    
+                                    />
+                                </Border>
+                            </DockPanel>
+                        </Grid>
+                        
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter" >
+                            <BeginStoryboard Storyboard="{StaticResource unfadeController}" />
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave" >
+                            <BeginStoryboard Storyboard="{StaticResource fadeController}" />
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{x:Type local:ImageViewer}"                       
+           TargetType="{x:Type local:ImageViewer}" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ImageViewer}">
+                    <Border Grid.Row="1" Name="PART_Border">
+                        <Image Name="PART_Image" Source="{TemplateBinding Source}" 
+                               Opacity="1" RenderTransformOrigin="0.5,0.5"  >
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="{Binding Scale, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ImageViewer}}}" 
+                                                    ScaleY="{Binding Scale, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ImageViewer}}}" />
+                                    <TranslateTransform X="{Binding OriginX, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ImageViewer}}}" 
+                                                        Y="{Binding OriginY, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ImageViewer}}}" />
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                        </Image>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>

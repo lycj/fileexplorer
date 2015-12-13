@@ -1,0 +1,48 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns:uc="http://www.quickzip.org/UserControls"    
+    xmlns:conv="http://www.quickzip.org/Converters"
+    xmlns:trans="http://www.quickzip.org/Translation"
+    xmlns:local="clr-namespace:QuickZip.UserControls.Themes"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="Common.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <conv:IntSubstractConverter Subtract="0" x:Key="idc" />
+
+    <!--<uc:VirtualStackPanelView x:Key="ViewerView"  ColumnHeaderContainerStyle="{StaticResource ColumnHeaderContainerStyle}" 
+                              Orientation="Horizontal"
+                              ItemWidth="125"                             
+                              ItemHeight="100"
+                              HorizontalContentAlignment="Left" SmallChanges="20" >
+        <uc:VirtualStackPanelView.ItemTemplate>
+            <DataTemplate>
+                <DockPanel >
+                    <StackPanel DockPanel.Dock="Bottom" 
+                                Orientation="Horizontal" HorizontalAlignment="Center">
+                        <uc:EditBox x:Name="eb" Margin="5,0" DisplayValue="{Binding EmbeddedModel.Label}" 
+                                
+                        ActualValue="{Binding EmbeddedModel.Name, Mode=TwoWay}" 
+                        IsEditable="{Binding EmbeddedModel.IsEditable}"        
+                        IsEditing="{Binding Path=(local:CommonProperties.IsEditing),
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, Mode=TwoWay}"
+                        />
+                    </StackPanel>
+                    <Image x:Name="img" Source="{Binding JumboIcon.Item2.Value}"/>
+
+
+                </DockPanel>
+            </DataTemplate>
+        </uc:VirtualStackPanelView.ItemTemplate>
+        <uc:VirtualStackPanelView.Columns>
+            <GridViewColumn Width="100" Header="{x:Static trans:Texts.strHeaderFile}"  uc:FileList2.SortPropertyName="sortByFullName" />
+            <GridViewColumn Width="100" Header="{x:Static trans:Texts.strHeaderType}" uc:FileList2.SortPropertyName="sortByType" />
+            <GridViewColumn Width="100" Header="{x:Static trans:Texts.strHeaderTime}" uc:FileList2.SortPropertyName="sortByLastWriteTime" />
+            <GridViewColumn Width="100" Header="{x:Static trans:Texts.strHeaderSize}" uc:FileList2.SortPropertyName="sortByLength" />
+        </uc:VirtualStackPanelView.Columns>
+    </uc:VirtualStackPanelView>-->
+
+</ResourceDictionary>

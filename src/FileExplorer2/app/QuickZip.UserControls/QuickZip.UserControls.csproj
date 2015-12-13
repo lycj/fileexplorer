@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AED294F4-F7F7-4286-88D0-0122846CA526}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>QuickZip.UserControls</RootNamespace>
+    <AssemblyName>QuickZip.UserControls</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\..\..\..\Common\quickzip.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework.Classic">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="QuickZip.IO.PIDL">
+      <HintPath>..\..\..\..\lib\QuickZip.IO.PIDL.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickZip.Translation">
+      <HintPath>..\..\..\..\lib\QuickZip.Translation.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Components\DynamicConverter.cs" />
+    <Compile Include="Components\ListViewBase\VirutalStackPanelView.cs" />
+    <Compile Include="Components\ListViewBase\VirutalWrapPanelView.cs" />
+    <Compile Include="Components\SelectionHelper\IChildInfo.cs" />
+    <Compile Include="Components\SelectionHelper\IVirtualListView.cs" />
+    <Compile Include="Components\SelectionHelper\SelectionAdorner.cs" />
+    <Compile Include="Components\SelectionHelper\SelectionHelper.cs" />
+    <Compile Include="Components\VirutalPanel\AnimatedVirtualizingPanel.cs" />
+    <Compile Include="Components\VirutalPanel\VirtualWrapPanel.cs" />
+    <Compile Include="Components\VirutalPanel\VirutalStackPanel.cs" />
+    <Compile Include="Dialogs\OverwriteDialog\dlgOverwrite.xaml.cs">
+      <DependentUpon>dlgOverwrite.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\PasswordDialog\dlgPassword.xaml.cs">
+      <DependentUpon>dlgPassword.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ProgressDialog\dlgProgress.xaml.cs">
+      <DependentUpon>dlgProgress.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Themes\Styles\W7TreeViewItemUtils.cs" />
+    <Compile Include="Tools\AutoNotifyPropertyChanged\AutoNotifyPropertyChanged.cs" />
+    <Compile Include="Tools\CommandProvider\ClickCommand.cs" />
+    <Compile Include="Tools\CommandProvider\CommandProvider.cs" />
+    <Compile Include="Tools\CommandProvider\RightClickCommand.cs" />
+    <Compile Include="Tools\CommandProvider\DoubleClickCommand.cs" />
+    <Compile Include="Tools\CommandProvider\EnterPressCommand.cs" />
+    <Compile Include="Tools\CommandProvider\PrevCommand.cs" />
+    <Compile Include="Tools\CommandProvider\TreeViewSelectionChangedCommand.cs" />
+    <Compile Include="Tools\Converter\ToStringConverter.cs" />
+    <Compile Include="Tools\DataTemplateSelector\SimpleDataTemplateSelector.cs" />
+    <Compile Include="Tools\GenericWeakReference.cs" />
+    <Compile Include="Tools\ThirdParty\CustomVirtualizingStackPanel.cs" />
+    <Compile Include="Tools\ThirdParty\TreeViewItemBehaviour.cs" />
+    <Compile Include="UserControls2\Breadcrumb2\Breadcrumb2.cs" />
+    <Compile Include="UserControls2\DirectoryTree2\DirectoryTree2.cs" />
+    <Compile Include="UserControls2\Explorer2\BindableWebBrowser.cs" />
+    <Compile Include="UserControls2\Explorer2\Explorer2.cs" />
+    <Compile Include="UserControls2\Explorer2\Explorer2ContentSelector.cs" />
+    <Compile Include="UserControls2\Explorer2\WebBrowserUtil.cs" />
+    <Compile Include="UserControls2\FileList2\FileList2.cs" />
+    <Compile Include="UserControls2\FileList2\FileListEnums.cs" />
+    <Compile Include="UserControls2\MediaPlayer2\MediaPlayer2.cs" />
+    <Compile Include="UserControls2\Navigator2\Navigator2.cs" />
+    <Compile Include="UserControls2\Navigator2\NavigatorItem2.cs" />
+    <Compile Include="UserControls2\NotificationBar2\NotificationBar2.cs" />
+    <Compile Include="UserControls2\Statusbar2\OverlappingPanel.cs" />
+    <Compile Include="UserControls2\Statusbar2\StatusBar2.cs" />
+    <Compile Include="UserControls2\Toolbar2\ToolBar2.cs" />
+    <Compile Include="UserControls\AutoCompleteTextBoxBase\SimpleAutoCompleteTextBox.cs" />
+    <None Include="UserControls\Breadcrumb\Breadcrumb2.cs" />
+    <Compile Include="Tools\Constants.cs" />
+    <Compile Include="Tools\Converter\BitmapToBitmapImage.cs" />
+    <Compile Include="Tools\Converter\BoolToVisibilityConverter.cs" />
+    <Compile Include="Tools\Converter\BoolToVisibilityCollapsed.cs" />
+    <Compile Include="Tools\Converter\EnumMatchToBooleanConverter.cs" />
+    <Compile Include="Tools\Converter\FormatDouble.cs" />
+    <Compile Include="Tools\Converter\FlipBool.cs" />
+    <Compile Include="Tools\Converter\TimeRelated\TimeSpanToMsecConverter.cs" />
+    <Compile Include="Tools\Converter\IconConverter\SystemImageList.cs" />
+    <Compile Include="Tools\Converter\IconConverter\Win32API.cs" />
+    <Compile Include="Tools\Converter\UserFriendlyTextConverter.cs" />
+    <Compile Include="Tools\Converter\InvertSignConverter.cs" />
+    <Compile Include="Tools\Converter\StringArrayToString.cs" />
+    <Compile Include="Tools\Converter\TagToBold.cs" />
+    <Compile Include="Tools\Converter\FlipBoolToVisibilityCollapsed.cs" />
+    <Compile Include="Tools\Converter\FlipBoolToVisibility.cs" />
+    <Compile Include="Tools\Converter\FormatFileSize.cs" />
+    <Compile Include="Tools\Converter\FormatTime.cs" />
+    <Compile Include="Tools\Converter\IconConverter\IconConverter.cs" />
+    <Compile Include="Tools\Converter\IconConverter\IconConverterBase.cs" />
+    <Compile Include="Tools\Converter\IntAdd.cs" />
+    <Compile Include="Tools\Converter\IntSubstract.cs" />
+    <Compile Include="Tools\Converter\PathRelated\AddBracketConverter.cs" />
+    <Compile Include="Tools\Converter\PathRelated\GetExtConverter.cs" />
+    <Compile Include="Tools\Converter\PathRelated\PathToDirName.cs" />
+    <Compile Include="Tools\Converter\PathRelated\StripExtConverter.cs" />
+    <Compile Include="Tools\Converter\PathRelated\StripPathConverter.cs" />
+    <Compile Include="Tools\Converter\TimeRelated\TimeSpanToIntConverter.cs" />
+    <Compile Include="Tools\Converter\TimeRelated\TimeSpanToStrConverter.cs" />
+    <Compile Include="Tools\Delegates.cs" />
+    <Compile Include="Tools\DataTemplateSelector\EntryDataTemplateSelector.cs" />
+    <Compile Include="Tools\IniFiles.cs" />
+    <Compile Include="Tools\InputGesture\ExtraMouseGesture.cs" />
+    <Compile Include="Tools\InputGesture\MouseWheelGesture.cs" />
+    <Compile Include="Tools\SerializeHelper.cs" />
+    <Compile Include="Tools\SingleInstance\SingleInstance.cs" />
+    <Compile Include="Tools\ThirdParty\CRC32\crc32.cs" />
+    <Compile Include="Tools\ThirdParty\DockPanelSplitter\DockPanelSplitter.cs" />
+    <Compile Include="Tools\ThirdParty\OSVersion.cs" />
+    <Compile Include="Tools\ThirdParty\RGGlassEffect.cs" />
+    <Compile Include="Tools\ThirdParty\SysImageList.cs" />
+    <Compile Include="Tools\ThirdParty\TreeViewExtensions.cs" />
+    <Compile Include="Tools\ThirdParty\Tuple\Tuple.cs" />
+    <Compile Include="Tools\ThirdParty\Tuple\Utility.cs" />
+    <Compile Include="Tools\ThirdParty\VersionChecker.cs" />
+    <Compile Include="UserControls\BasicMediaPlayer\ImageViewer.cs" />
+    <Compile Include="UserControls\DialogControl\DialogControl.cs" />
+    <Compile Include="UserControls\DialogControl\Implements\ShowMessageBoxControl.xaml.cs">
+      <DependentUpon>ShowMessageBoxControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DialogControl\Interfaces\IDialogCommon.cs" />
+    <Compile Include="UserControls\DialogControl\Interfaces\IShowMessageBox.cs" />
+    <Compile Include="UserControls\DropDownControl\DropDownControl.cs" />
+    <Compile Include="UserControls\HtmlTextBlock\HtmlHighlightTextBlock.cs" />
+    <Compile Include="UserControls\PreviewPanelBase\PreviewPanelBase.cs" />
+    <Compile Include="UserControls\PreviewPanelBase\PreviewPanelBaseItem.cs" />
+    <Compile Include="UserControls\BasicMediaPlayer\BasicMediaPlayer.cs" />
+    <Compile Include="UserControls\Titlebar\Titlebar.cs" />
+    <Compile Include="UserControls\Titlebar\TitlebarContainer.cs" />
+    <Compile Include="UserControls\Titlebar\TitlebarControlButton.cs" />
+    <Compile Include="Tools\UITools.cs" />
+    <Compile Include="Tools\UserControlCommands.cs" />
+    <Compile Include="UserControls\AutoCompleteTextBoxBase\AutoCompleteTextBoxBase.cs" />
+    <Compile Include="UserControls\AutoCompleteTextBoxBase\DirectoryExistRule.cs" />
+    <Compile Include="UserControls\BreadcrumbCore\BreacrumbCorePanel.cs" />
+    <Compile Include="UserControls\BreadcrumbCore\BreadcrumbCore.cs" />
+    <Compile Include="UserControls\BreadcrumbItem\BreadcrumbItem.cs" />
+    <Compile Include="UserControls\DefaultButton.cs" />
+    <Compile Include="UserControls\EditBox\EditBox.cs" />
+    <Compile Include="UserControls\EditBox\EditBoxAdorner.cs" />
+    <Compile Include="UserControls\HtmlTextBlock\Defines\CurrentState.cs" />
+    <Compile Include="UserControls\HtmlTextBlock\Defines\Defines.cs" />
+    <Compile Include="UserControls\HtmlTextBlock\Defines\DependencyProperty.cs" />
+    <Compile Include="UserControls\HtmlTextBlock\Defines\Header.cs" />
+    <Compile Include="UserControls\HtmlTextBlock\Defines\PropertyList.cs" />
+    <Compile Include="UserControls\HtmlTextBlock\Defines\Stylelist.cs" />
+    <Compile Include="UserControls\HtmlTextBlock\Defines\Utils.cs" />
+    <Compile Include="UserControls\HtmlTextBlock\HtmlTextBlock.cs" />
+    <Compile Include="UserControls\HtmlTextBlock\Parse\HtmlParser.cs" />
+    <Compile Include="UserControls\HtmlTextBlock\Parse\HtmlTag.cs" />
+    <Compile Include="UserControls\HtmlTextBlock\Parse\HtmlTagNode.cs" />
+    <Compile Include="UserControls\HtmlTextBlock\Parse\HtmlTagTree.cs" />
+    <Compile Include="UserControls\HtmlTextBlock\Parse\HtmlUpdater.cs" />
+    <Compile Include="UserControls\LoadingAdorner.cs" />
+    <Compile Include="UserControls\NotificationBarBase\NotificationBarBase.cs" />
+    <Compile Include="UserControls\NotificationBarItem\NotificationBarItem.cs" />
+    <Compile Include="UserControls\ThirdParty\CircularProgressBar2\CircularProgressBar.cs" />
+    <Compile Include="UserControls\ThirdParty\CircularProgressBar2\DoubleSecondsToDurationConverter.cs" />
+    <Compile Include="UserControls\ThirdParty\CircularProgressBar\CircularProgressBar.xaml.cs">
+      <DependentUpon>CircularProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ToolbarMenuItem\MultiStepSlider\MultiStepSlider.cs" />
+    <Compile Include="UserControls\NavigatorBase\NavigatorBase.cs" />
+    <Compile Include="UserControls\NavigatorItem\NavigatorItem.cs" />
+    <Compile Include="UserControls\StatusbarItem\StatusbarItem.cs" />
+    <Compile Include="UserControls\StatusbarBase\StatusBarBase.cs" />
+    <Compile Include="UserControls\StatusbarItem\StatusbarItemContentTemplateSelector.cs" />
+    <Compile Include="UserControls\ThirdParty\CircularAnimation\BlueDot.xaml.cs">
+      <DependentUpon>BlueDot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ThirdParty\CircularAnimation\SilverLightMain.xaml.cs">
+      <DependentUpon>SilverLightMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ThirdParty\LoadingAnimation\Block.xaml.cs">
+      <DependentUpon>Block.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ThirdParty\LoadingAnimation\LoadingAnimation.xaml.cs">
+      <DependentUpon>LoadingAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ToolbarMenuItem\SliderSupportedPanel.cs" />
+    <Compile Include="UserControls\ToolbarBase\ToolbarPanel.cs" />
+    <Compile Include="UserControls\ToolbarBase\ToolbarBase.cs" />
+    <Compile Include="UserControls\ToolbarMenuItem\ToolbarMenuItem.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Components\ListViewBase\VirtualStackPanelView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\OverwriteDialog\dlgOverwrite.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\PasswordDialog\dlgPassword.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\ProgressDialog\dlgProgress.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Templates\SliderTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Templates\TitlebarTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Tools\ThirdParty\DockPanelSplitter\DockPanelSplitter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\DialogControl\DialogControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\DialogControl\Implements\ShowMessageBoxControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\DropDownControl\DropDownControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\PreviewPanelBase\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\BasicMediaPlayer\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\EditBox\EditBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Components\ListViewBase\VirtualWrapPanelView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Brushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Geometry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\AeroListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\W7ListGridViewItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\SimpleScrollViewerStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\StaticProgressBarStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\W7TreeViewItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Templates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Templates\BreadcrumbTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Templates\NotificationBarTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Templates\ToolbarTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Templates\NavigatorTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\AutoCompleteTextBoxBase\AutoCompleteTextBoxBase.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\BreadcrumbCore\BreadcrumbCore.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\BreadcrumbItem\BreadcrumbItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\NotificationBarBase\NotificationBarBase.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\NotificationBarItem\NotificationBarItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ThirdParty\CircularProgressBar2\BarbedWireProgressBarDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ThirdParty\CircularProgressBar2\CircleProgressBarDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ThirdParty\CircularProgressBar2\PentagonProgressBarDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ThirdParty\CircularProgressBar2\PintGlassProgressBarDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ThirdParty\CircularProgressBar\CircularProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ToolbarMenuItem\MultiStepSlider\MultiStepSlider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\NavigatorBase\NavigatorBase.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\NavigatorItem\NavigatorItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\StatusbarItem\StatusbarItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\StatusbarBase\StatusbarBase.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ThirdParty\CircularAnimation\BlueDot.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ThirdParty\CircularAnimation\SilverLightMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ThirdParty\LoadingAnimation\Block.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ThirdParty\LoadingAnimation\LoadingAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ToolbarBase\ToolbarBase.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Components\SelectionHelper\ChangeLog.txt" />
+    <Content Include="LGPL.txt" />
+    <Resource Include="Resources\arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Themes\WPFThemes\" />
+    <Folder Include="Tools\Interface\" />
+    <Folder Include="UserControls\HighlightContentControl\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_ConfigurationName="Release" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Base class for Viewer">
+    <Position X="10.407" Y="15.132" Height="0.354" Width="1.733" />
+  </Comment>
+  <Comment CommentText="Base implementation, Directory, MediaPlayer and WWW">
+    <Position X="10.651" Y="19.106" Height="0.649" Width="1.476" />
+  </Comment>
+  <Comment CommentText="Drag and drop support, by implementing ISupportDrag/Drop and IDropTarget interface, which is used by DragDropHelper.">
+    <Position X="4.351" Y="23.023" Height="0.65" Width="2.718" />
+  </Comment>
+  <Comment CommentText="Status bar support">
+    <Position X="8.443" Y="24.772" Height="0.306" Width="1.906" />
+  </Comment>
+  <Comment CommentText="Overrided getActionModel(), which adds preview, viewmode and organize commands. ">
+    <Position X="5.01" Y="29.13" Height="0.49" Width="2.721" />
+  </Comment>
+  <Comment CommentText="Overrided getMetadataModel(), which adds statusbar items selected count and user defined (profile.GetMetadata() method) commands.">
+    <Position X="8.406" Y="25.224" Height="0.792" Width="2.721" />
+  </Comment>
+  <Comment CommentText="Bases defined a number of properties, they will be defined as interface when refactored.">
+    <Position X="5.278" Y="10.314" Height="0.663" Width="2.646" />
+  </Comment>
+  <Class Name="QuickZip.UserControls.MVVM.ViewerBaseVM">
+    <Position X="8.25" Y="12" Width="2" />
+    <Members>
+      <Field Name="_enableContextMenu" Hidden="true" />
+      <Field Name="_isBreadcrumbVisible" Hidden="true" />
+      <Field Name="_isSelectedViewModelsEmpty" Hidden="true" />
+      <Field Name="_mediaFile" Hidden="true" />
+      <Field Name="_showDirectoryTree" Hidden="true" />
+      <Field Name="_viewerMode" Hidden="true" />
+      <Method Name="getLabel" Hidden="true" />
+      <Method Name="getSmallIcon" Hidden="true" />
+      <Method Name="getToolTip" Hidden="true" />
+      <Method Name="setupCommands" Hidden="true" />
+      <Method Name="ViewerBaseVM" Hidden="true" />
+    </Members>
+    <AssociationLine Name="DirectoryChanged" Type="System.EventHandler&lt;TEventArgs&gt;">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="1.412" Y="0.102" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>MQIhIAAAEgBAAAABAAAAACkJAKACEAAAIAAAlAgQABg=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\0 - Base\BaseViewerVM.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="DirectoryChanged" />
+      <Property Name="CurrentViewerMode" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.ViewerBaseViewModel&lt;FI, DI, FSI&gt;">
+    <Position X="4.75" Y="16.5" Width="2.5" />
+    <Members>
+      <Field Name="_directoryOpenMode" Hidden="true" />
+      <Field Name="_embeddedEntryViewModel" Hidden="true" />
+      <Field Name="_fileOpenMode" Hidden="true" />
+      <Field Name="_isBookmarked" Hidden="true" />
+      <Field Name="_isLoading" Hidden="true" />
+      <Field Name="_profile" Hidden="true" />
+      <Field Name="_selectedItems" Hidden="true" />
+      <Field Name="_viewMode" Hidden="true" />
+      <Field Name="_viewSize" Hidden="true" />
+      <Field Name="isBookmarkedChangeArgs" Hidden="true" />
+      <Field Name="isLoadingChangeArgs" Hidden="true" />
+      <Method Name="OnDispose" Hidden="true" />
+      <Method Name="OnSelectionChanged" Hidden="true" />
+      <Method Name="setupCommands" Hidden="true" />
+      <Method Name="unselectAll" Hidden="true" />
+      <Method Name="ViewerBaseViewModel" Hidden="true" />
+      <Field Name="ViewModeChangeArgs" Hidden="true" />
+      <Field Name="ViewSizeChangeArgs" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="QuickZip.UserControls.MVVM.ViewerBaseVM" FixedFromPoint="true">
+      <Path>
+        <Point X="8.25" Y="15.951" />
+        <Point X="6" Y="15.951" />
+        <Point X="6" Y="16.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>BAAAAIEAwCCAAACYAAhAAgAAESABADAAwAAAAAAGBAo=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\0 - Base\BaseViewerVM.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DirectoryOpenMode" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.BaseDirectoryViewerViewModel&lt;FI, DI, FSI&gt;">
+    <Position X="1.25" Y="18.75" Width="3" />
+    <Members>
+      <Field Name="_sortBy" Hidden="true" />
+      <Field Name="_sortDirection" Hidden="true" />
+      <Field Name="_subEntries" Hidden="true" />
+      <Method Name="getLabel" Hidden="true" />
+      <Method Name="getSmallIcon" Hidden="true" />
+      <Method Name="getToolTip" Hidden="true" />
+      <Method Name="OnDispose" Hidden="true" />
+      <Method Name="OnSelectionChanged" Hidden="true" />
+      <Method Name="setupCommands" Hidden="true" />
+      <Field Name="sortByChangeArgs" Hidden="true" />
+      <Field Name="sortDirectionChangeArgs" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+      <Method Name="unselectAll" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>EQAACEAEAiRiAAAEAEgAAAAIACAgEAAACAAQAAgSAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\1- WithoutStatusbarSupport\BaseDirectoryViewerVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.BaseW3ViewerViewModel">
+    <Position X="12.25" Y="18.75" Width="2.25" />
+    <Members>
+      <Field Name="_uri" Hidden="true" />
+      <Method Name="getLabel" Hidden="true" />
+      <Method Name="getSmallIcon" Hidden="true" />
+      <Method Name="getToolTip" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="QuickZip.UserControls.MVVM.ViewerBaseVM" FixedFromPoint="true">
+      <Path>
+        <Point X="10.25" Y="16.011" />
+        <Point X="13.375" Y="16.011" />
+        <Point X="13.375" Y="18.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>EQAAAAAAAgBAAAAEAAACAAAAACAAEgAAAAAAAAIQAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\1- WithoutStatusbarSupport\BaseW3ViewerViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.DndDirectoryViewerViewModel&lt;FI, DI, FSI&gt;">
+    <Position X="1.25" Y="23" Width="3" />
+    <Members>
+      <Method Name="DndDirectoryViewerViewModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AgAAABBABAoQAAAAQAAAAAAIAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\2 - DragnDropSupport\DnDDirectoryViewerVM.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.StatusDirectoryViewerViewModel&lt;FI, DI, FSI&gt;">
+    <Position X="5" Y="24.75" Width="3.25" />
+    <Members>
+      <Field Name="_uIHighlightCount" Hidden="true" />
+      <Method Name="countModels" Hidden="true" />
+      <Method Name="setupCommands" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEIAAAAAAAAQAAAAAAAAAAAACAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\3 - StatusbarSupport\StatusDirectoryViewerVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.StatusW3ViewerViewModel">
+    <Position X="12.25" Y="27.25" Width="2.25" />
+    <Members>
+      <Method Name="ToString" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\3 - StatusbarSupport\StatusW3ViewerViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.DirectoryViewerViewModel&lt;FI, DI, FSI&gt;">
+    <Position X="5" Y="27.25" Width="3.25" />
+    <Members>
+      <Field Name="_organizeM" Hidden="true" />
+      <Field Name="_togglePrevieM" Hidden="true" />
+      <Field Name="_viewModeM" Hidden="true" />
+      <Method Name="init" Hidden="true" />
+      <Method Name="setupCommands" Hidden="true" />
+      <Method Name="updatePreviewerSource" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgiAAAAgAAAAAAAAAACAAAAIAAQAEAAACAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\4 - ToolbarSupport\DirectoryViewerVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.MediaViewerViewModel&lt;FI, DI, FSI&gt;">
+    <Position X="7.75" Y="18.75" Width="2.75" />
+    <Members>
+      <Field Name="_subMedias" Hidden="true" />
+      <Method Name="getLabel" Hidden="true" />
+      <Method Name="getSmallIcon" Hidden="true" />
+      <Method Name="getToolTip" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>EQAAAAAAAgBAAAAAAAAAAAAAAAAAEEAAAACAAAAQAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\MediaViewerVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.BaseToolbarViewModel">
+    <Position X="11.75" Y="11" Width="2.5" />
+    <Members>
+      <Field Name="_isPreviewerVisible" Hidden="true" />
+      <Field Name="_previewerSource" Hidden="true" />
+      <Field Name="_toolbarItemList" Hidden="true" />
+      <Method Name="getActionModel" Hidden="true" />
+      <Method Name="OnIsPreviewerVisibleChanged" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BACAAAEAAgAAAAgAggAAAAABAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\0 - Base\BaseToolbarVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.BaseStatusbarViewModel">
+    <Position X="11.75" Y="8" Width="2.5" />
+    <Members>
+      <Field Name="_isSimpleStatusbar" Hidden="true" />
+      <Field Name="_statusItemList" Hidden="true" />
+      <Field Name="_statusText" Hidden="true" />
+      <Method Name="getMetadataModel" Hidden="true" />
+      <Method Name="innerGetMetadataModel" Hidden="true" />
+      <Method Name="setupItemList" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEIAAgAAAAAAICCAAAAAAAACAAAAAAEgAAACAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\0 - Base\BaseStatusbarVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.ExplorerRootModelBase">
+    <Position X="8.25" Y="8" Width="2.25" />
+    <Members>
+      <Field Name="_contextMenuCommand" Hidden="true" />
+      <Field Name="_copyCommand" Hidden="true" />
+      <Field Name="_deleteCommand" Hidden="true" />
+      <Field Name="_dropCommand" Hidden="true" />
+      <Field Name="_expandCommand" Hidden="true" />
+      <Field Name="_newFolderCommand" Hidden="true" />
+      <Field Name="_openCommand" Hidden="true" />
+      <Field Name="_pasteCommand" Hidden="true" />
+      <Field Name="_propertiesCommand" Hidden="true" />
+      <Field Name="_refreshCommand" Hidden="true" />
+      <Field Name="_renameCommand" Hidden="true" />
+      <Field Name="_selectAllCommand" Hidden="true" />
+      <Field Name="_toggleBookmarkCommand" Hidden="true" />
+      <Field Name="_unselectAllCommand" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AQyAEJAEAOgAUAEAggAhAACAAMAAAAAAAAAAAgAAYBA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Helper\ExplorerRootModelBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.RootModelBase">
+    <Position X="5.25" Y="8.5" Width="1.5" />
+    <Members>
+      <Field Name="_disposed" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAEAAAAAAAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\RootModelBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cinch.ViewModelBase" Collapsed="true">
+    <Position X="8.25" Y="6.5" Width="2.25" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.DirectoryChangedEventArgs">
+    <Position X="3.75" Y="11.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ABCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Navigation\RootViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.DirectoryChangedEventArgs&lt;FI, DI, FSI&gt;">
+    <Position X="3" Y="14" Width="3" />
+    <InheritanceLine Type="QuickZip.UserControls.MVVM.DirectoryChangedEventArgs" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.75" Y="13.127" />
+        <Point X="5.75" Y="14" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Navigation\RootViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="QuickZip.UserControls.MVVM.ViewerMode">
+    <Position X="11.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAQ=</HashCode>
+      <FileName>Logic\MVVM\Explorer\ExplorerVM.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QuickZip.UserControls.MVVM.OpenMode">
+    <Position X="1.5" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAEIAAA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Viewer\0 - Base\BaseViewerVM.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="System.EventHandler&lt;TEventArgs&gt;" Collapsed="true">
+    <Position X="3" Y="13.25" Width="1.5" />
+    <TypeIdentifier />
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

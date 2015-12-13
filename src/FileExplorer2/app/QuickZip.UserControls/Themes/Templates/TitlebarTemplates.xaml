@@ -1,0 +1,297 @@
+﻿<ResourceDictionary    
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:QuickZip.Converters"            
+    xmlns:local="clr-namespace:QuickZip.UserControls"            
+    xmlns:sys="clr-namespace:System;assembly=mscorlib" >
+
+    <!-- LYCJ (c) 2010 LGPL -->
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Geometry.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Converters.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Color x:Key="ControlLightColor">White</Color>
+    <Color x:Key="ControlMediumColor">#FF7381F9</Color>
+    <Color x:Key="ControlDarkColor">#FF211AA9</Color>
+
+    <Color x:Key="redGlowColor">#EB988C</Color>
+    <Color x:Key="normalGlowColor">#64C9F3</Color>
+
+    <LinearGradientBrush x:Key="redMouseOverBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+        <LinearGradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#EB988C" Offset="0" />
+                <GradientStop Color="#D46756" Offset="0.4" />
+                <GradientStop Color="#AC220C" Offset="0.5" />
+                <GradientStop Color="#B53413" Offset="0.8" />
+                <GradientStop Color="#C35626" Offset="1" />
+            </GradientStopCollection>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush  x:Key="normalMouseOverBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+        <LinearGradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#B3D4ED" Offset="0" />
+                <GradientStop Color="#81B0D2" Offset="0.4" />
+                <GradientStop Color="#2B7BAF" Offset="0.5" />
+                <GradientStop Color="#2A7AB1" Offset="0.8" />
+                <GradientStop Color="#3D85BC" Offset="1" />
+            </GradientStopCollection>
+        </LinearGradientBrush.GradientStops>
+
+    </LinearGradientBrush>
+
+    <Style TargetType="{x:Type local:TitlebarContainer}">
+        <Setter Property="Background" Value="Silver" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:TitlebarContainer}">
+                    <ControlTemplate.Resources>
+                        <Style x:Key="rectStyle" TargetType="{x:Type Rectangle}"  >
+                            <Setter Property="Fill" Value="{Binding Background, 
+                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                AncestorType={x:Type local:TitlebarContainer}}}" />
+                            <Setter Property="Visibility" Value="{Binding ResizeGripVisibility, 
+                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                AncestorType={x:Type local:TitlebarContainer}}}" />
+                            <Setter Property="Opacity" Value="0.85" />
+                        </Style>
+                        <Style x:Key="rectStyleW" TargetType="{x:Type Rectangle}" BasedOn="{StaticResource rectStyle}"  >                            
+                            <Setter Property="MinWidth" Value="6" />
+                        </Style>
+                        <Style x:Key="rectStyleH" TargetType="{x:Type Rectangle}" BasedOn="{StaticResource rectStyle}"  >
+                            <Setter Property="MinHeight" Value="6" />
+                        </Style>
+                        <Style x:Key="rectStyleWH" TargetType="{x:Type Rectangle}" BasedOn="{StaticResource rectStyle}"  >
+                            <Setter Property="MinWidth" Value="6" />
+                            <Setter Property="MinHeight" Value="6" />
+                        </Style>
+                    </ControlTemplate.Resources>
+                    <Border BorderThickness="1"
+                                    BorderBrush="{StaticResource DefaultedBorderBrush}"
+                                    CornerRadius="6"
+                            >                        
+                        <Grid>
+                            <!--<Rectangle x:Name="background" Style="{StaticResource rectStyle}" Visibility="Visible" />-->
+                            <Grid Background="Transparent">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Row="1" Grid.Column="1" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Row="1"
+                                        Background="{StaticResource WindowBackgroundBrush}" BorderThickness="1"
+                                        BorderBrush="{StaticResource DefaultedBorderBrush}"
+                                    >
+                                        <ContentPresenter />
+                                    </Border>
+                                    <local:Titlebar x:Name="Titlebar" Grid.Row="0" Content="{TemplateBinding Title}" 
+                                                    Background="{TemplateBinding Background}" 
+                                                    Opacity="0.85"
+                                                    />
+                                </Grid>
+
+                                <Rectangle x:Name="TopLeft" Style="{StaticResource rectStyleWH}" Grid.Row="0" Grid.Column="0" Cursor="SizeNWSE" />
+                                <Rectangle x:Name="BottomLeft" Style="{StaticResource rectStyleWH}" Grid.Row="2" Grid.Column="0" Cursor="SizeNESW" />
+                                <Rectangle x:Name="Left" Style="{StaticResource rectStyleW}" Grid.Row="1" Grid.Column="0" Cursor="SizeWE" />
+
+                                <Rectangle x:Name="TopRight" Style="{StaticResource rectStyleWH}" Grid.Row="0" Grid.Column="2" Cursor="SizeNESW" />
+                                <Rectangle x:Name="BottomRight" Style="{StaticResource rectStyleWH}" Grid.Row="2" Grid.Column="2" Cursor="SizeNWSE" />
+                                <Rectangle x:Name="Right" Style="{StaticResource rectStyleW}" Grid.Row="1" Grid.Column="2" Cursor="SizeWE" />
+
+                                <Rectangle x:Name="Bottom" Style="{StaticResource rectStyleH}" Grid.Row="2" Grid.Column="1" Cursor="SizeNS" />
+                                <Rectangle x:Name="Top" Style="{StaticResource rectStyleH}" Grid.Row="0" Grid.Column="1" Cursor="SizeNS" /> 
+
+                            </Grid>
+                            <!--<DockPanel Background="Transparent" >
+                                <DockPanel DockPanel.Dock="Left" Width="6" Visibility="{TemplateBinding ResizeGripVisibility}">
+                                    <Rectangle x:Name="TopLeft" Fill="Transparent" DockPanel.Dock="Top" Height="6" Cursor="SizeNWSE" />
+                                    <Rectangle x:Name="BottomLeft" Fill="Transparent" DockPanel.Dock="Bottom" Height="6" Cursor="SizeNESW" />
+                                    <Rectangle x:Name="Left" Fill="Transparent" Cursor="SizeWE" />
+                                </DockPanel>
+                                <DockPanel DockPanel.Dock="Right" Width="6" Visibility="{TemplateBinding ResizeGripVisibility}">
+                                    <Rectangle x:Name="TopRight" Fill="Transparent" DockPanel.Dock="Top" Height="6" Cursor="SizeNESW" />
+                                    <Rectangle x:Name="BottomRight" Fill="Transparent" DockPanel.Dock="Bottom" Height="6" Cursor="SizeNWSE" />
+                                    <Rectangle x:Name="Right" Fill="Transparent" Cursor="SizeWE" />
+                                </DockPanel>
+                                <Rectangle x:Name="Bottom" Fill="Transparent" DockPanel.Dock="Bottom" Height="6" Cursor="SizeNS" Visibility="{TemplateBinding ResizeGripVisibility}" />
+                                <Rectangle x:Name="Top" Fill="Transparent" DockPanel.Dock="Top" Height="1" Cursor="SizeNS" Visibility="{TemplateBinding ResizeGripVisibility}" />
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Row="1"
+                                        Background="{StaticResource WindowBackgroundBrush}" BorderThickness="1"
+                                    BorderBrush="{StaticResource DefaultedBorderBrush}"
+                                    >
+                                        <ContentPresenter />
+                                    </Border>
+                                    <local:Titlebar Grid.Row="0" Content="{TemplateBinding Title}" Background="{TemplateBinding Background}" />
+                                </Grid>
+
+                            </DockPanel>-->
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowIsActive" Value="False">
+                            <Setter TargetName="TopLeft" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="BottomLeft" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="Left" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="TopRight" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="BottomRight" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="Right" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="Bottom" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="Top" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="Titlebar" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:Titlebar}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Titlebar}">
+
+                    <!--Title bar, main part-->
+                    <DockPanel DockPanel.Dock="Top" Background="{TemplateBinding Background}" >
+                        <StackPanel  Margin="0,0,0,6" DockPanel.Dock="Right" Orientation="Horizontal" Height="{TemplateBinding TitlebarHeight}" >
+                            <local:TitlebarControlButton BackgroundColor="Gray" Content="-" BorderThickness="1,1,0.5,1" CornerRadius="0,0,0,3" 
+                                                                  Command="{x:Static local:TitlebarCommands.MinimizeWindowCommand}" />
+                            <local:TitlebarControlButton x:Name="restoreButton" Visibility="Collapsed" BackgroundColor="Gray" Content="R" BorderThickness="0.5,1"  
+                                                                 Command="{x:Static local:TitlebarCommands.RestoreWindowCommand}" />
+                            <local:TitlebarControlButton x:Name="maximizeButton" BackgroundColor="Gray" Content="+" BorderThickness="0.5,1"                                                                  
+                                                                  Command="{x:Static local:TitlebarCommands.MaximizeWindowCommand}" />
+                            <local:TitlebarControlButton BackgroundColor="#C9472F" Content="X" BorderThickness="0.1,1,1,1" 
+                                                                 CornerRadius="0,0,3,0" Command="{x:Static local:TitlebarCommands.CloseWindowCommand}" />
+                        </StackPanel>
+
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    </DockPanel>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:TitlebarControlButton}">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{StaticResource DefaultedBorderBrush}" />
+        <Setter Property="BackgroundColor" Value="Silver" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:TitlebarControlButton}" >
+                    <Border  x:Name="Border" BorderThickness="{TemplateBinding BorderThickness}"  BorderBrush="{TemplateBinding BorderBrush}"
+                             CornerRadius="{TemplateBinding CornerRadius}" Padding="1">
+                        <Border  x:Name="innerBorder" CornerRadius="{TemplateBinding CornerRadius}"
+                                 Background="{TemplateBinding Background}">
+                            <Grid x:Name="grid">
+                                <Rectangle x:Name="mouseDownMask" Opacity="0.2" Fill="Black" Visibility="Hidden" Margin="0,3" />
+                                <Path x:Name="path" Stroke="#535666"
+                                      Fill="White" Margin="0,0,0,0" Height="16" Width="24" StrokeThickness="1.2" />
+                            </Grid>
+                        </Border>
+
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Content" Value="X">
+                            <Setter TargetName="path" Property="Width" Value="44" />
+                            <Setter TargetName="path" Property="Data" Value="{StaticResource close}" />
+                            <Setter Property="Background" TargetName="innerBorder" Value="{StaticResource TitlebarCloseBackgroundBrush}" />                            
+                        </Trigger>
+                        <Trigger Property="Content" Value="XX">                            
+                            <Setter TargetName="path" Property="Data" Value="{StaticResource close}" />
+                            <Setter TargetName="path" Property="Margin" Value="-10,0,8,0" />
+                            <Setter Property="Background" TargetName="innerBorder">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStopCollection>
+                                                <GradientStop Color="#E1ADA4" Offset="0" />
+                                                <GradientStop Color="#CD7D6F" Offset="0.4" />
+                                                <GradientStop Color="#BA4531" Offset="0.5" />
+                                                <GradientStop Color="#B9604D" Offset="0.8" />
+                                                <GradientStop Color="#C87B69" Offset="1" />
+                                            </GradientStopCollection>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="Content" Value="-">
+                            <Setter TargetName="path" Property="Data" Value="{StaticResource minimize}" />
+                        </Trigger>
+                        <Trigger Property="Content" Value="+">
+                            <Setter TargetName="path" Property="Data" Value="{StaticResource maximize}" />
+                        </Trigger>
+                        <Trigger Property="Content" Value="R">
+                            <Setter TargetName="path" Property="Data" Value="{StaticResource restore}" />
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BlurRadius" Value="15" />
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="innerBorder" Value="{StaticResource normalMouseOverBrush}" />
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="25"  Color="{StaticResource normalGlowColor}" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="Content" Value="X" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Background" TargetName="innerBorder" Value="{StaticResource redMouseOverBrush}" />
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect ShadowDepth="0" BlurRadius="25"  Color="{StaticResource redGlowColor}" />
+                                    </Setter.Value>
+                                </Setter>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="mouseDownMask" Property="Visibility" Value="Visible" />
+                        </Trigger>
+
+                        <Trigger Property="WindowIsActive" Value="False">
+                            <Setter TargetName="innerBorder" Property="Background" Value="Transparent" />
+                            <Setter Property="BorderBrush" Value="{StaticResource LightBorderBrush}" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+
+
+</ResourceDictionary>

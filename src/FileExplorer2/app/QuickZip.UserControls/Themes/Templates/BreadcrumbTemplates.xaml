@@ -1,0 +1,59 @@
+﻿<ResourceDictionary    
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:QuickZip.Converters"            
+    xmlns:local="clr-namespace:QuickZip.UserControls"            
+    xmlns:sys="clr-namespace:System;assembly=mscorlib" >
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Geometry.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Converters.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
+    <ControlTemplate x:Key="BasicArrowButton" TargetType="{x:Type ToggleButton}" >
+        <Border x:Name="border"
+                Padding="2,0" Background="Transparent" 
+                BorderBrush="Transparent" BorderThickness="1"
+				MinHeight="20" MinWidth ="12" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+            <Path x:Name="path" Fill="{TemplateBinding Foreground}"
+                    Data="{StaticResource NormalArrow}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" 
+                    Margin="{TemplateBinding Padding}" IsHitTestVisible="True" />
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Data" TargetName="path" Value="{StaticResource ExpandedArrow}"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Data" TargetName="path" Value="{StaticResource ExpandedArrow}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ExpanderArrowButton" TargetType="{x:Type ToggleButton}" >
+        <Border x:Name="border" 
+                Padding="2,0" Background="Transparent" 
+                BorderBrush="Transparent" BorderThickness="1"
+				MinHeight="20" MinWidth ="12" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+            <Path x:Name="path"  Stroke="Black" StrokeThickness="1.2"
+                    Data="{StaticResource ExpanderArrow}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" 
+                    Margin="{TemplateBinding Padding}" IsHitTestVisible="True" />
+        </Border>
+        <!--<ControlTemplate.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Data" TargetName="path" Value="{StaticResource ExpandedArrow}"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Data" TargetName="path" Value="{StaticResource ExpandedArrow}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>-->
+    </ControlTemplate>    
+
+    
+
+
+</ResourceDictionary>

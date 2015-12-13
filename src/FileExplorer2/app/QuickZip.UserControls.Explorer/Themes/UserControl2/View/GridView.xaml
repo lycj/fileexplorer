@@ -1,0 +1,83 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:trans="http://www.quickzip.org/Translation"
+    xmlns:local="clr-namespace:QuickZip.UserControls.Themes"
+    xmlns:uc="http://www.quickzip.org/UserControls"
+    >
+    <ResourceDictionary.MergedDictionaries>                
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Geometry.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="Common.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate x:Key="NameTemplate" >
+        <Border x:Name="border" Padding="1" BorderThickness="0" 
+                BorderBrush="{StaticResource LightBorderBrush}" Background="Transparent">
+            <StackPanel x:Name="basePanel" Orientation="Horizontal">
+                <Image x:Name="img" Source="{Binding SmallIcon.Item2.Value}" Width="16"/>
+                <uc:EditBox x:Name="eb" Margin="5,0" DisplayValue="{Binding EmbeddedModel.Label}" 
+                        ActualValue="{Binding Name, Mode=TwoWay}" 
+                        IsEditable="{Binding EmbeddedModel.IsEditable}"        
+                        IsEditing="{Binding IsEditing, Mode=TwoWay}"
+                        />
+                <TextBlock Text="[*]" Visibility="{Binding EmbeddedModel.IsEncrypted, Converter={StaticResource btv}}" />
+            </StackPanel>
+        </Border>
+        <DataTemplate.Triggers>
+            <DataTrigger 
+                Binding="{Binding Path=(uc:SelectionHelper.IsDragging),
+                             RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, Mode=TwoWay}" Value="True">
+                <Setter TargetName="border"   Property="Background" Value="{StaticResource HotTrackBrush}" />
+                <Setter TargetName="border" Property="Padding" Value="0" />
+                <Setter TargetName="border" Property="BorderThickness" Value="1" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+
+    </DataTemplate>
+
+    <!--Size-->
+    
+    <DataTemplate x:Key="SizeTemplate" >
+        <TextBlock Text="{Binding EmbeddedModel.Length, Converter={StaticResource ffs}}"            
+                   HorizontalAlignment="Right" TextAlignment="Right" />
+    </DataTemplate>
+
+    <!--Time-->
+    <DataTemplate x:Key="TimeTemplate" >
+        <TextBlock Text="{Binding EmbeddedModel.LastWriteTime, Converter={StaticResource ft}}"
+                     />
+    </DataTemplate>
+
+    <DataTemplate x:Key="TypeTemplate" >
+        <TextBlock Text="{Binding EmbeddedModel.EntryTypeName}" />
+    </DataTemplate>
+
+
+    <GridView x:Key="GridView" ColumnHeaderContainerStyle="{StaticResource ColumnHeaderContainerStyle}"
+              
+              >        
+        <GridViewColumn Width="200" Header="{x:Static trans:Texts.strHeaderFile}"                         
+                        CellTemplate="{StaticResource NameTemplate}" uc:FileList2.SortPropertyName="sortByFullName"
+                        HeaderTemplate="{StaticResource AscHeaderTemplate}" 
+                        />
+
+        <GridViewColumn Width="100"  Header="{x:Static trans:Texts.strHeaderType}" 
+                        CellTemplate="{StaticResource TypeTemplate}" uc:FileList2.SortPropertyName="sortByType"
+                        HeaderTemplate="{StaticResource NormHeaderTemplate}"
+                        />
+
+        <GridViewColumn Width="120"  Header="{x:Static trans:Texts.strHeaderTime}"
+                        CellTemplate="{StaticResource TimeTemplate}" uc:FileList2.SortPropertyName="sortByLastWriteTime"
+                        HeaderTemplate="{StaticResource NormHeaderTemplate}"
+                        />
+
+        <GridViewColumn Width="100"  Header="{x:Static trans:Texts.strHeaderSize}"
+                        CellTemplate="{StaticResource SizeTemplate}" uc:FileList2.SortPropertyName="sortByLength"                        
+                        HeaderTemplate="{StaticResource NormHeaderTemplate}"                        
+                        />    
+    </GridView>
+
+
+</ResourceDictionary>

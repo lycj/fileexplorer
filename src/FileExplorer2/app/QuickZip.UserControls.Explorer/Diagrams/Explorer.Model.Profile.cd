@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="QuickZip.UserControls.MVVM.Profile&lt;FI, DI, FSI&gt;">
+    <Position X="4" Y="1.25" Width="3" />
+    <Members>
+      <Method Name="getClipboardFiles" Hidden="true" />
+      <Method Name="getClipboardModels" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEIABARAAIAAIABMACAAIAAANgEQiAAE0QCAQIAAAYg=</HashCode>
+      <FileName>Logic\MVVM\Generic\Profiles\Profile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="NavRootVM.SubDirectories is a collection of root NavItemVM(s).  NavItemVM(s), which defined by profile.RootDirectories.  ">
+    <Position X="7.693" Y="5.355" Height="0.804" Width="2.173" />
+  </Comment>
+  <Comment CommentText="NavItemVMs's SubDirectories contains it's sub-NavItemVM(s).">
+    <Position X="13.142" Y="5.188" Height="0.604" Width="1.992" />
+  </Comment>
+  <Class Name="QuickZip.UserControls.MVVM.BreadcrumbViewModel&lt;FI, DI, FSI&gt;">
+    <Position X="4.5" Y="9" Width="3" />
+    <Members>
+      <Field Name="_currentEntry" Hidden="true" />
+      <Field Name="_explrVM" Hidden="true" />
+      <Field Name="_hierarchy" Hidden="true" />
+      <Field Name="_isBreadcrumbEnabled" Hidden="true" />
+      <Field Name="_isBreadcrumbVisible" Hidden="true" />
+      <Field Name="_isLoading" Hidden="true" />
+      <Field Name="bgWorker_ProcessHierarchy" Hidden="true" />
+      <Field Name="IsBreadcrumbEnabledChangeArgs" Hidden="true" />
+      <Field Name="isBreadcrumbVisibleChangeArgs" Hidden="true" />
+      <Method Name="setupBackgroundWorker" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAKAIIAAICAAIAAIAAAAAAIAAgHACAAAAAgAAkAACI=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Breadcrumb\BreadcrumbViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.NavigationRootViewModel&lt;FI, DI, FSI&gt;">
+    <Position X="4.5" Y="2.75" Width="3" />
+    <Members>
+      <Field Name="_draggingOverNavigationViewModel" Hidden="true" />
+      <Field Name="_profile" Hidden="true" />
+      <Field Name="_selectedNavigationViewModel" Hidden="true" />
+      <Field Name="_subDirectories" Hidden="true" />
+      <Method Name="setupCommands" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AgAICABEAAqIAAIAAAACAAAIICECAAQQFBAAEAAAAAQ=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Navigation\RootViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.NavigationItemViewModel&lt;FI, DI, FSI&gt;">
+    <Position X="10" Y="0.75" Width="3" />
+    <Members>
+      <Field Name="_customPosition" Hidden="true" />
+      <Field Name="_embeddedDirectoryModel" Hidden="true" />
+      <Field Name="_embeddedDirectoryViewModel" Hidden="true" />
+      <Field Name="_embeddedEntryModel" Hidden="true" />
+      <Field Name="_embeddedEntryViewModel" Hidden="true" />
+      <Field Name="_isDirectory" Hidden="true" />
+      <Field Name="_isDraggingOver" Hidden="true" />
+      <Field Name="_isDropDownOpen" Hidden="true" />
+      <Field Name="_isExpanded" Hidden="true" />
+      <Field Name="_isInited" Hidden="true" />
+      <Field Name="_isItemVisible" Hidden="true" />
+      <Field Name="_isSelected" Hidden="true" />
+      <Field Name="_isSeparator" Hidden="true" />
+      <Field Name="_isShadowItem" Hidden="true" />
+      <Field Name="_isSubItem" Hidden="true" />
+      <Field Name="_parentModel" Hidden="true" />
+      <Field Name="_rootModel" Hidden="true" />
+      <Field Name="_showCaption" Hidden="true" />
+      <Field Name="_subDirectories" Hidden="true" />
+      <Field Name="CustomPositionChangeArgs" Hidden="true" />
+      <Field Name="dummyNode" Hidden="true" />
+      <Field Name="isItemVisibleChangeArgs" Hidden="true" />
+      <Field Name="isSeparatorChangeArgs" Hidden="true" />
+      <Field Name="isShadowItemChangeArgs" Hidden="true" />
+      <Method Name="list" Hidden="true" />
+      <Method Name="setupCommands" Hidden="true" />
+      <Method Name="setupSubdir" Hidden="true" />
+      <Field Name="showCaptionChangeArgs" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="QuickZip.UserControls.MVVM.NavigationItemViewModel&lt;FI, DI, FSI&gt;.ListParameters" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Logic\MVVM\Explorer\Navigation\ItemViewModel.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>MAAIAxEXBZDSEAaU4EQAwACJEKcQAIgRABgAIEQEREk=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Navigation\ItemViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.ExplorerRootModelBase">
+    <Position X="0.5" Y="0.75" Width="2" />
+    <Members>
+      <Field Name="_contextMenuCommand" Hidden="true" />
+      <Field Name="_copyCommand" Hidden="true" />
+      <Field Name="_deleteCommand" Hidden="true" />
+      <Field Name="_dropCommand" Hidden="true" />
+      <Field Name="_expandCommand" Hidden="true" />
+      <Field Name="_newFolderCommand" Hidden="true" />
+      <Field Name="_openCommand" Hidden="true" />
+      <Field Name="_pasteCommand" Hidden="true" />
+      <Field Name="_propertiesCommand" Hidden="true" />
+      <Field Name="_refreshCommand" Hidden="true" />
+      <Field Name="_renameCommand" Hidden="true" />
+      <Field Name="_selectAllCommand" Hidden="true" />
+      <Field Name="_toggleBookmarkCommand" Hidden="true" />
+      <Field Name="_unselectAllCommand" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AQyAEJAEAOgAUAEAggAhAACAAMAAAAAAAAAAAgAAYBA=</HashCode>
+      <FileName>Logic\MVVM\Explorer\Helper\ExplorerRootModelBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

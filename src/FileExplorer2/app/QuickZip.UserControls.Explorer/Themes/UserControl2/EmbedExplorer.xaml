@@ -1,0 +1,83 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    xmlns:mvvm="http://www.quickzip.org/MVVM"
+    xmlns:uc="http://www.quickzip.org/UserControls"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Common.xaml" />
+        <ResourceDictionary Source="Breadcrumb.xaml" />
+        <ResourceDictionary Source="DirectoryTree.xaml" />
+        <ResourceDictionary Source="FileList.xaml" />
+        <ResourceDictionary Source="Navigator.xaml" />
+        <ResourceDictionary Source="Statusbar.xaml" />
+        <ResourceDictionary Source="Toolbar.xaml" />
+        <ResourceDictionary Source="NotificationBar.xaml" />
+        <ResourceDictionary Source="MediaPlayer.xaml" />
+
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Styles/StaticProgressBarStyle.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/BreadcrumbItem/BreadcrumbItem.xaml" />
+
+    </ResourceDictionary.MergedDictionaries>
+    <Style x:Key="qz_EmbedExplorer_Style" TargetType="{x:Type uc:Explorer2}">
+        <Setter Property="BorderBrush" Value="{StaticResource SolidBorderBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type uc:Explorer2}">
+                    <Grid TextOptions.TextFormattingMode="Display" 
+                          TextOptions.TextRenderingMode="ClearType"
+                          >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>                            
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <uc:Navigator2 x:Name="PART_Navigator" Grid.Row="0" Grid.Column="0" 
+                                       Style="{DynamicResource qz_Navigator_Style}"                                       
+                                       GoBackCommand="{Binding GoBackCommand}"
+                                       GoNextCommand="{Binding GoNextCommand}"                                          
+                                       Visibility="Hidden"
+                                       />
+
+                        <uc:Breadcrumb2 x:Name="PART_Breadcrumb" Grid.Row="0" 
+                           DataContext="{Binding BreadcrumbViewModel}" EnableAutoFade="False"
+                           Style="{DynamicResource qz_Breadcrumb_Style}" 
+                           IsBreadcrumbEnabled="{Binding IsBreadcrumbEnabled, Mode=OneWay}"
+                           IsLoading="{Binding DataContext.CurrentBrowserViewModel.IsLoading, 
+                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type uc:Explorer2}}}"
+                                                                                />
+
+                        <uc:FileList2 x:Name="PART_FileList" Grid.Row="1" 
+                                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                                  Visibility="{Binding IsDirectoryViewModel, Mode=OneWay, Converter={StaticResource btvc}}"
+                                              DataContext="{Binding CurrentBrowserViewModel}"
+                                              ContextMenuCommand="{Binding ContextMenuCommand}"
+                                              UnSelectAllCommand="{Binding UnselectAllCommand}"
+                                              RenameCommand="{Binding RenameCommand}"
+                                              ViewSize="{Binding ViewSize, Mode=TwoWay}"
+                                              ViewMode="{Binding ViewMode, Mode=TwoWay}"
+                                              SortBy="{Binding SortBy}"
+                                              SortDirection="{Binding SortDirection}"
+                                              uc:FileList2.BindableSelectedItems="{Binding UISelectedItems, Mode=OneWayToSource}"
+                                              uc:SelectionHelper.HighlightCount="{Binding UIHighlightCount, Mode=OneWayToSource}"
+                                              uc:CommandProvider.DoubleClickCommand="{Binding ExpandCommand}"
+                                              uc:CommandProvider.DoubleClickCommandParameter="{Binding}"
+                                              ItemsSource="{Binding SubEntries.View}"
+                                              Style="{DynamicResource qz_FileList_Style}"                                             
+                                              VirtualizingStackPanel.IsVirtualizing="True" 
+                                              VirtualizingStackPanel.VirtualizationMode="Recycling" />
+
+                    </Grid>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

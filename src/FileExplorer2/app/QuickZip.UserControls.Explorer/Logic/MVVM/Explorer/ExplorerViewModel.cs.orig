@@ -1,0 +1,361 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using QuickZip.UserControls.MVVM.ViewModel;
+using QuickZip.UserControls.MVVM.Model;
+using QuickZip.UserControls.MVVM;
+using System.Windows.Data;
+using System.ComponentModel;
+using QuickZip.IO.COFE.UserControls.ViewModel;
+using QuickZip.UserControls.Input;
+using Cinch;
+
+namespace QuickZip.UserControls.MVVM
+{
+    public enum BrowserMode
+    {
+        None, Directory, Media, W3
+    }
+
+    public class ExplorerViewModel<FI, DI, FSI> : RootModelBase
+        where DI : FSI
+        where FI : FSI
+    {
+
+
+        public EventHandler<DirectoryChangedEventArgs> DirectoryChanged = (o, e) => { };
+
+        #region Constructor
+
+        private void dirChangedHandler(object sender, DirectoryChangedEventArgs args)
+        {
+            if (args is DirectoryChangedEventArgs<FI, DI, FSI>)
+            {
+                DirectoryChangedEventArgs<FI, DI, FSI> genericArgs =
+                    args as DirectoryChangedEventArgs<FI, DI, FSI>;
+
+                ChangeCurrentBrowserViewModel(genericArgs.Directory);
+                args.ChangeAllowed = true;
+            }
+            else
+            {
+                if (args.DirectoryString.StartsWith("http://"))
+                {
+                    ChangeCurrentBrowserViewModel(new Uri(args.DirectoryString));
+                    args.ChangeAllowed = true;
+
+                }
+                else
+                    args.ChangeAllowed = false;
+            }
+
+            if (args.ChangeAllowed)
+                DirectoryChanged(sender, args);
+        }
+
+        public ExplorerViewModel(Profile<FI, DI, FSI> profile)
+        {
+            _profile = profile;
+
+            _navigationViewModel = new NavigationRootViewModel<FI, DI, FSI>(_profile);
+            _currentBrowserViewModel =
+                    new DirectoryViewerViewModel<FI, DI, FSI>(_profile);
+            _breadcrumbViewModel = new BreadcrumbViewModel<FI, DI, FSI>(_profile, this);
+            _searchViewModel = new SearchViewModel<FI, DI, FSI>(_profile);
+
+            _navigationViewModel.DirectoryChanged += dirChangedHandler;
+
+            if (CurrentEntryBrowserViewModel != null)
+                CurrentEntryBrowserViewModel.DirectoryChanged += dirChangedHandler;
+            _breadcrumbViewModel.DirectoryChanged += dirChangedHandler;
+            _searchViewModel.DirectoryChanged += dirChangedHandler;
+
+            ChangeCurrentBrowserViewModel(_profile.ConstructDirectoryViewModel(profile.RootDirectories[0]));
+
+            setupCommands();
+        }
+
+        #endregion
+
+        #region Methods
+
+        public void ChangeSortMethod(SortCriteria sortBy, SortDirectionType sortDirection)
+        {
+            if (CurrentBrowserViewModel is DirectoryViewerViewModel<FI, DI, FSI>)
+            {
+                var dirVM = (CurrentBrowserViewModel as DirectoryViewerViewModel<FI, DI, FSI>).EmbeddedDirectoryViewModel;
+                dirVM.SortBy = sortBy;
+                dirVM.SortDirection = sortDirection == SortDirectionType.sortAssending ?
+                    ListSortDirection.Ascending : ListSortDirection.Descending;
+            }
+        }
+
+        /// <summary>
+        /// Called when CurrentBrowserViewModel updated, used to update other UI VMs.
+        /// </summary>
+        /// <param name="newViewModel"></param>
+        protected virtual void UpdateOtherViewModels(ViewerBaseViewModel newViewModel)
+        {            
+            _breadcrumbViewModel.IsBreadcrumbEnabled = newViewModel.IsBreadcrumbVisible;
+
+            if (newViewModel is W3ViewerViewModel)
+            {
+                W3ViewerViewModel w3VM = newViewModel as W3ViewerViewModel;
+                _searchViewModel.ConfirmedParseName = w3VM.WebAddress.AbsoluteUri;               
+                return;
+            }
+            
+            if (newViewModel is DirectoryViewerViewModel<FI, DI, FSI>)
+            {
+                DirectoryViewerViewModel<FI, DI, FSI> directoryViewerVM = newViewModel as DirectoryViewerViewModel<FI, DI, FSI>;
+                DirectoryViewModel<FI, DI, FSI> directoryViewModel = directoryViewerVM.EmbeddedDirectoryViewModel;
+
+                _navigationViewModel.SelectedViewModel = directoryViewModel;
+                _breadcrumbViewModel.SelectedViewModel = directoryViewModel;
+                _searchViewModel.SelectedViewModel = directoryViewModel;
+                
+
+                return;
+            }
+
+            if (newViewModel is MediaViewerViewModel<FI, DI, FSI>)
+            {
+                MediaViewerViewModel<FI, DI, FSI> fileViewerVM = newViewModel as MediaViewerViewModel<FI, DI, FSI>;
+                EntryViewModel<FI, DI, FSI> fileViewModel = fileViewerVM.EmbeddedEntryViewModel;
+                DirectoryViewModel<FI, DI, FSI> parentModel = _profile.ConstructDirectoryViewModel(fileViewModel.EmbeddedModel.Parent);
+
+                _navigationViewModel.SelectedViewModel = parentModel;
+                _breadcrumbViewModel.SelectedViewModel = fileViewModel;
+                _searchViewModel.SelectedViewModel = fileViewModel;
+
+                return;
+            }
+
+            
+
+#if DEBUG
+            throw new NotImplementedException();
+#endif
+        }
+
+
+        #region Change Current BrowserViewModel, and other related VMs
+        /// <summary>
+        /// Change web adress
+        /// </summary>
+        /// <param name="uri"></param>
+        protected virtual void ChangeCurrentBrowserViewModel(Uri uri)
+        {
+            if (!(CurrentEntryViewModel is W3ViewerViewModel) ||
+                !uri.Equals((CurrentEntryViewModel as W3ViewerViewModel).WebAddress))
+            {
+                ChangeCurrentBrowserViewModel(new W3ViewerViewModel(uri));              
+            }
+        }        
+
+        /// <summary>
+        /// Change directory or file (not implemented)
+        /// </summary>
+        /// <param name="newEntryModel"></param>
+        protected virtual void ChangeCurrentBrowserViewModel(EntryViewModel<FI, DI, FSI> newEntryViewModel)
+        {
+            if (CurrentEntryViewModel == null ||
+                !newEntryViewModel.Equals(CurrentEntryViewModel))
+            {
+                _breadcrumbViewModel.IsBreadcrumbEnabled = true;
+
+                if (newEntryViewModel is DirectoryViewModel<FI, DI, FSI>)
+                {
+                    DirectoryViewModel<FI, DI, FSI> directoryViewModel =
+                        (DirectoryViewModel<FI, DI, FSI>)newEntryViewModel;
+
+                    ChangeCurrentBrowserViewModel(new DirectoryViewerViewModel<FI, DI, FSI>(_profile, directoryViewModel));
+                }
+                else
+                {
+                    FileViewModel<FI, DI, FSI> fileViewModel =
+                        (FileViewModel<FI, DI, FSI>)newEntryViewModel;
+                    //DirectoryModel<FI, DI, FSI> parentModel =
+                    //     _profile.ConstructDirectoryModel(fileViewModel.Parent);
+
+                    //_breadcrumbViewModel.SelectedModel = fileModel;
+                    //_searchViewModel.SelectedModel = parentModel;   
+
+                    ChangeCurrentBrowserViewModel(new MediaViewerViewModel<FI, DI, FSI>(_profile, fileViewModel));
+
+                    //TO-DO: Lookup parentModel from navigator, use that one instead.
+
+                    //if (newEntryModel is FileModel<FI, DI, FSI>)
+                    //    CurrentBrowserViewModel =
+                    //    new FileViewerViewModel<FI, DI, FSI>(_profile, fileModel);
+
+                    //_navigationViewModel.SelectedModel = parentModel;
+                    //_breadcrumbViewModel.SelectedModel = fileModel;
+                    //_searchViewModel.SelectedModel = parentModel;                       
+                }
+            }
+        }
+
+        protected virtual void ChangeCurrentBrowserViewModel(ViewerBaseViewModel newCurrentBrowserViewModel)
+        {
+            //if (_CurrentBrowserViewModel != null)
+            //    _CurrentBrowserViewModel.Dispose();
+            //Unload previous handler
+            if (CurrentBrowserViewModel != null)
+            {
+                CurrentBrowserViewModel.DirectoryChanged -= dirChangedHandler;
+                CurrentBrowserViewModel.OnUnload();
+            }
+            _currentBrowserViewModel = newCurrentBrowserViewModel;
+            if (CurrentBrowserViewModel != null)
+                CurrentBrowserViewModel.DirectoryChanged += dirChangedHandler;
+
+            IsDirectoryTreeVisible = CurrentBrowserViewModel.ShowDirectoryTreeDefault;
+
+            UpdateOtherViewModels(newCurrentBrowserViewModel);
+
+            NotifyPropertyChanged("CurrentBrowserViewModel");
+            
+            NotifyPropertyChanged("CurrentEntryViewModel");
+            NotifyPropertyChanged("CurrentEntryModel");
+            NotifyPropertyChanged("CurrentEntry");
+        }
+        #endregion
+
+        public void ChangeCurrentEntry(FSI currentEntry)
+        {
+            ChangeCurrentBrowserViewModel(_profile.ConstructEntryViewModel(currentEntry));
+        }
+
+        private void setupCommands()
+        {
+            _refreshCommand = new SimpleCommand()
+            {
+                ExecuteDelegate =
+                (x) =>
+                {
+                    if (CurrentBrowserViewModel != null)
+                        CurrentBrowserViewModel.Refresh();
+                }
+            };
+
+            //SimpleRoutedCommand.RegisterClass(typeof(Explorer2), _refreshCommand);
+        }
+
+        #endregion
+
+
+        #region Data
+
+        private Profile<FI, DI, FSI> _profile;
+        private ViewerBaseViewModel _currentBrowserViewModel;
+        private NavigationRootViewModel<FI, DI, FSI> _navigationViewModel;
+        private BreadcrumbViewModel<FI, DI, FSI> _breadcrumbViewModel;
+        private SearchViewModel<FI, DI, FSI> _searchViewModel;
+        private SimpleCommand _refreshCommand = null;
+        private bool _isDirectoryTreeVisible = true;
+
+        #endregion
+
+        #region Public Properties
+
+        public SimpleCommand RefreshCommand { get { return _refreshCommand; } }
+
+        public bool IsDirectoryTreeVisible
+        {
+            get { return _isDirectoryTreeVisible; }
+            set { _isDirectoryTreeVisible = value; NotifyPropertyChanged("IsDirectoryTreeVisible"); }
+        }
+
+        public ViewerBaseViewModel<FI, DI, FSI> CurrentEntryBrowserViewModel
+        {
+            get { return _currentBrowserViewModel as ViewerBaseViewModel<FI, DI, FSI>; }
+        }
+
+
+        //#region UI, Current Browser (Directory, W3 or File)
+        //public BrowserMode CurrentBrowserMode
+        //{
+        //    get
+        //    {
+        //        if (CurrentBrowserViewModel == null)
+        //            return BrowserMode.None;
+        //        if (CurrentBrowserViewModel is DirectoryViewerViewModel<FI, DI, FSI>)
+        //            return BrowserMode.Directory;
+        //        if (CurrentBrowserViewModel is FileViewerViewModel<FI, DI, FSI>)
+        //            return BrowserMode.File;
+        //        if (CurrentBrowserViewModel is W3ViewerViewModel)
+        //            return BrowserMode.W3;
+
+        //        throw new NotImplementedException();
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Used by View to decide to show which control
+        ///// </summary>
+        //public bool IsDirectoryViewModel
+        //{
+        //    get { return CurrentBrowserMode == BrowserMode.Directory; }
+        //}
+
+        ///// <summary>
+        ///// Used by View to decide to show which control
+        ///// </summary>
+        //public bool IsWWWViewModel
+        //{
+        //    get { return CurrentBrowserMode == BrowserMode.W3; }
+        //}
+
+        ///// <summary>
+        ///// Used by View to decide to show which control
+        ///// </summary>
+        //public bool IsMediaViewModel
+        //{
+        //    get { return CurrentBrowserMode == BrowserMode.File; }
+        //}
+        //#endregion
+
+        public ViewerBaseViewModel CurrentBrowserViewModel
+        {
+            get { return _currentBrowserViewModel; }           
+        }
+        
+
+        #region Other UI (Search, Breadcrumb, Navigation(DirTree))
+
+        public SearchViewModel<FI, DI, FSI> SearchViewModel { get { return _searchViewModel; } }
+        public BreadcrumbViewModel<FI, DI, FSI> BreadcrumbViewModel { get { return _breadcrumbViewModel; } }
+
+        public NavigationRootViewModel<FI, DI, FSI> NavigationViewModel { get { return _navigationViewModel; } }
+
+        #endregion
+
+        #region Obtain data related to current "directory" (CurrentEntryViewModel, CurrentEntryModel, CurrentEntry)
+        public EntryViewModel<FI, DI, FSI> CurrentEntryViewModel
+        {
+            get
+            {
+                return CurrentEntryBrowserViewModel == null ? null :
+                CurrentEntryBrowserViewModel.EmbeddedEntryViewModel;
+            }
+        }
+
+        public EntryModel<FI, DI, FSI> CurrentEntryModel
+        {
+            get { return CurrentEntryViewModel == null ? null : CurrentEntryViewModel.EmbeddedModel; }
+        }
+
+        public FSI CurrentEntry
+        {
+            get { return CurrentEntryModel == null ? default(FSI) : CurrentEntryModel.EmbeddedEntry; }
+            set { ChangeCurrentEntry(value); }
+        }
+        #endregion
+
+        #endregion
+
+        //Statusbar items
+    }
+}

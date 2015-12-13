@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="QuickZip.UserControls.MVVM.Model.DirectoryModel&lt;FI, DI, FSI&gt;">
+    <Position X="4.25" Y="6.75" Width="2" />
+    <Members>
+      <Field Name="_hasSubDirectories" Hidden="true" />
+      <Field Name="_isLink" Hidden="true" />
+      <Field Name="_isSupportAdd" Hidden="true" />
+      <Field Name="_subEntriesList" Hidden="true" />
+      <Field Name="_supportedAddAction" Hidden="true" />
+      <Method Name="DirectoryModel" Hidden="true" />
+      <Method Name="getSubEntries" Hidden="true" />
+      <Field Name="hasSubDirectoriesChangeArgs" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Enum Name="QuickZip.UserControls.MVVM.Model.DirectoryModel&lt;FI, DI, FSI&gt;.DirPropertyEnum" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Logic\MVVM\Generic\Model\DirectoryModel.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>ACCACAgAgACAAAgAAAAAACAAAhEAECACAAQAIAAAQgA=</HashCode>
+      <FileName>Logic\MVVM\Generic\Model\DirectoryModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Model.FileModel&lt;FI, DI, FSI&gt;">
+    <Position X="2" Y="6.75" Width="2" />
+    <Members>
+      <Method Name="FileModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Generic\Model\FileModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Model.EntryModel">
+    <Position X="1.5" Y="1" Width="1.75" />
+    <Members>
+      <Field Name="_creationTime" Hidden="true" />
+      <Field Name="_customPosition" Hidden="true" />
+      <Field Name="_entryTypeName" Hidden="true" />
+      <Field Name="_hint" Hidden="true" />
+      <Field Name="_isReadOnly" Hidden="true" />
+      <Field Name="_isRenaming" Hidden="true" />
+      <Field Name="_isVirtual" Hidden="true" />
+      <Field Name="_label" Hidden="true" />
+      <Field Name="_lastAccessTime" Hidden="true" />
+      <Field Name="_lastWriteTime" Hidden="true" />
+      <Field Name="_length" Hidden="true" />
+      <Field Name="_name" Hidden="true" />
+      <Field Name="_parseName" Hidden="true" />
+      <Field Name="CreationTimeChangeArgs" Hidden="true" />
+      <Field Name="entryTypeNameChangeArgs" Hidden="true" />
+      <Method Name="Equals" Hidden="true" />
+      <Method Name="GetHashCode" Hidden="true" />
+      <Field Name="hintChangeArgs" Hidden="true" />
+      <Field Name="isReadOnlyChangeArgs" Hidden="true" />
+      <Field Name="isRenamingChangeArgs" Hidden="true" />
+      <Field Name="isVirtualChangeArgs" Hidden="true" />
+      <Field Name="labekChangeArgs" Hidden="true" />
+      <Field Name="lastAccessTimeChangeArgs" Hidden="true" />
+      <Field Name="lastWriteTimeChangeArgs" Hidden="true" />
+      <Field Name="lengthChangeArgs" Hidden="true" />
+      <Field Name="nameChangeArgs" Hidden="true" />
+      <Field Name="parseNameChangeArgs" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ADAiIAgBMEDgAAQA0FAgNIRAggUAAIAAJIYAgACA2QA=</HashCode>
+      <FileName>Logic\MVVM\Generic\Model\EntryModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Model.EntryModel&lt;FI, DI, FSI&gt;">
+    <Position X="3.75" Y="2.25" Width="2.25" />
+    <Members>
+      <Field Name="_canDropOverItself" Hidden="true" />
+      <Field Name="_embeddedEntry" Hidden="true" />
+      <Field Name="_isEncrypted" Hidden="true" />
+      <Field Name="_parent" Hidden="true" />
+      <Method Name="EntryModel" Hidden="true" />
+      <Method Name="getParent" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAACAIIABAgAACQAAQAAAAEAAAABEAAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Generic\Model\EntryModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.EntryComparerHelper">
+    <Position X="13" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Generic\Comparer\EntryComparer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.EntryComparer&lt;FI, DI, FSI&gt;">
+    <Position X="10.5" Y="3" Width="2.25" />
+    <Members>
+      <Method Name="isFolder" Hidden="true" />
+      <Field Name="nc" Hidden="true" />
+      <Property Name="sortDirectionModifier" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AACAAAgEAAAAAAAAAAAAAACAAAAAAAQAAARQAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Generic\Comparer\EntryComparer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.ViewModel.DirectoryViewModel&lt;FI, DI, FSI&gt;">
+    <Position X="8.75" Y="6.75" Width="2.25" />
+    <Members>
+      <Field Name="_hasSubDirectories" Hidden="true" />
+      <Field Name="_listStatus" Hidden="true" />
+      <Field Name="_selectedItems" Hidden="true" />
+      <Field Name="_sortBy" Hidden="true" />
+      <Field Name="_sortDirection" Hidden="true" />
+      <Field Name="_subDirectories" Hidden="true" />
+      <Field Name="_subEntries" Hidden="true" />
+      <Field Name="_subFiles" Hidden="true" />
+      <Method Name="createColViewSource" Hidden="true" />
+      <Method Name="DirectoryViewModel" Hidden="true" />
+      <Field Name="hasSubDirectoriesChangeArgs" Hidden="true" />
+      <Field Name="listStatusChangeArgs" Hidden="true" />
+      <Method Name="setupSubEntries" Hidden="true" />
+      <Field Name="sortByChangeArgs" Hidden="true" />
+      <Field Name="sortDirectionChangeArgs" Hidden="true" />
+      <Field Name="taskCompletedNotifierList" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Enum Name="QuickZip.UserControls.MVVM.ViewModel.DirectoryViewModel&lt;FI, DI, FSI&gt;.ListMode" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Logic\MVVM\Generic\ViewModel\DirectoryViewModel.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AACBCEAEACRiAAgESQAAAAAIAAGgAKAQAAAYAEgQAAo=</HashCode>
+      <FileName>Logic\MVVM\Generic\ViewModel\DirectoryViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.ViewModel.FileViewModel&lt;FI, DI, FSI&gt;">
+    <Position X="6.75" Y="6.75" Width="1.75" />
+    <Members>
+      <Method Name="FileViewModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAIAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Generic\ViewModel\FileViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.ViewModel.EntryViewModel&lt;FI, DI, FSI&gt;">
+    <Position X="7.75" Y="1" Width="2" />
+    <Members>
+      <Field Name="_customPosition" Hidden="true" />
+      <Field Name="_embeddedModel" Hidden="true" />
+      <Field Name="_icon" Hidden="true" />
+      <Field Name="_iconExtractor" Hidden="true" />
+      <Field Name="_isEditing" Hidden="true" />
+      <Field Name="_isRenaming" Hidden="true" />
+      <Field Name="_isSelected" Hidden="true" />
+      <Field Name="_jumbo" Hidden="true" />
+      <Field Name="_largeIcon" Hidden="true" />
+      <Field Name="_loaded" Hidden="true" />
+      <Field Name="_parentViewModel" Hidden="true" />
+      <Field Name="_profile" Hidden="true" />
+      <Field Name="_slowInitialIconKey" Hidden="true" />
+      <Field Name="_smallIcon" Hidden="true" />
+      <Method Name="CompareTo" Hidden="true" />
+      <Field Name="CustomPositionChangeArgs" Hidden="true" />
+      <Method Name="Equals" Hidden="true" />
+      <Field Name="isEditingChangeArgs" Hidden="true" />
+      <Field Name="isRenamingChangeArgs" Hidden="true" />
+      <Field Name="isSelectedChangeArgs" Hidden="true" />
+      <Field Name="nameChangeArgs" Hidden="true" />
+      <Method Name="setupLazyIconLoading" Hidden="true" />
+      <Field Name="toolTipChangeArgs" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="QuickZip.UserControls.MVVM.ViewModel.EntryViewModel&lt;FI, DI, FSI&gt;.ThumbnailInfo" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Logic\MVVM\Generic\ViewModel\EntryViewModel.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QAABAEAxUCDAEAQFwEACQI2oAgAAAICAABUAQAkQQQA=</HashCode>
+      <FileName>Logic\MVVM\Generic\ViewModel\EntryViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

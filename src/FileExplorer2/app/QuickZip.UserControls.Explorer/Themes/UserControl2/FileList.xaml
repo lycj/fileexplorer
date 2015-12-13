@@ -1,0 +1,77 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns:mvvm="http://www.quickzip.org/MVVM"
+    xmlns:uc="http://www.quickzip.org/UserControls"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Styles/AeroListView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="View/Common.xaml" />
+       
+
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--<ControlTemplate TargetType="ListView">
+        <Border Name="Border" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{StaticResource WindowBackgroundBrush}">
+            <AdornerDecorator>
+                <ScrollViewer Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
+                    <ItemsPresenter />
+                </ScrollViewer>
+            </AdornerDecorator>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsGrouping" Value="true">
+                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBorderBrush}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>-->
+
+    <ControlTemplate x:Key="qz_FileList_Template" TargetType="ListView">
+        <ControlTemplate.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="View/GridView.xaml" />
+                    <ResourceDictionary Source="View/IconView.xaml" />
+                    <ResourceDictionary Source="View/SmallIconView.xaml" />
+                    <ResourceDictionary Source="View/ListView.xaml" />
+                    <ResourceDictionary Source="View/TileView.xaml" />
+                    <ResourceDictionary Source="View/ViewerView.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+
+        </ControlTemplate.Resources>
+        <Border Name="Border" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{DynamicResource WindowBackgroundBrush}">
+            <DockPanel>
+                <AdornerDecorator>
+                    <ScrollViewer Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
+                        <ItemsPresenter />
+                    </ScrollViewer>
+                </AdornerDecorator>
+            </DockPanel>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsGrouping" Value="true">
+                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource DisabledBorderBrush}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="qz_FileList_Style" TargetType="{x:Type uc:FileList2}">                
+        <Setter Property="TextSearch.TextPath" Value="EmbeddedModel.Label" />
+        
+        <Setter Property="Template" Value="{DynamicResource qz_FileList_Template}" />      
+        <Setter Property="View" Value="{DynamicResource GridView}" />        
+        <Setter Property="SelectionMode" Value="Extended" />
+    </Style>
+
+
+</ResourceDictionary>

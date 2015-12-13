@@ -1,0 +1,73 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:local="clr-namespace:QuickZip.UserControls.Explorer"
+    xmlns:mvvm="http://www.quickzip.org/MVVM"
+    xmlns:uc="http://www.quickzip.org/UserControls"
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Styles/W7TreeViewItem.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    
+    <DataTemplate x:Key="ViewerViewModel_DataTemplate">
+        <StackPanel x:Name="itemRoot" Orientation="Horizontal" 
+                    HorizontalAlignment="Stretch" Background="Transparent">
+            <StackPanel.ToolTip>
+                <TextBlock Text="{Binding ToolTip}" />
+            </StackPanel.ToolTip>
+            <Image Source="{Binding SmallIcon}" Height="16" Width="16"                    
+                   />
+            <TextBlock Text="{Binding Label}" Margin="2,0,0,0" />
+        </StackPanel>        
+    </DataTemplate>
+
+    <DataTemplate x:Key="EntryViewModel_DragDataTemplate">
+        <StackPanel x:Name="itemRoot" Orientation="Horizontal" 
+                    HorizontalAlignment="Stretch" Background="Transparent">
+            <Image Source="{Binding SmallIcon.Item1.Value}" />
+            <TextBlock x:Name="eb" Margin="5,2" Text="{Binding EmbeddedModel.Label}"  />
+        </StackPanel>
+        
+    </DataTemplate>
+    <!--<DataTemplate x:Key="UriDataTemplate">
+        <StackPanel x:Name="itemRoot" Orientation="Horizontal" DataContext="{Binding EmbeddedEntryViewModel}" 
+                    HorizontalAlignment="Stretch" Background="Transparent">
+            <Image Height="16" Width="16" />
+            <TextBlock Text="{Binding WebAddress}" Margin="2,0,0,0" />
+        </StackPanel>
+    </DataTemplate>-->
+
+  
+
+    <HierarchicalDataTemplate x:Key="Breadcrumb_EntryDataTemplate" ItemsSource="{Binding SubDirectories}">
+        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" >
+            <Image Height="16" Width="16"  Source="{Binding EmbeddedEntryViewModel.SmallIcon.Item1.Value}" 
+                   Visibility="{Binding IsSubItem, Converter={StaticResource btv}}" VerticalAlignment="Stretch"
+                   />
+            <TextBlock Text="{Binding EmbeddedEntryViewModel.EmbeddedModel.Label}" Margin="5,0,0,0" VerticalAlignment="Center" />
+        </DockPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="DirectoryTree_EntryDataTemplate"
+                              ItemsSource="{Binding SubDirectories}"
+                              >
+        <StackPanel x:Name="itemRoot" Orientation="Horizontal" DataContext="{Binding EmbeddedDirectoryViewModel}" 
+                    HorizontalAlignment="Stretch" Background="Transparent">
+            <Image Source="{Binding SmallIcon.Item1.Value}" />
+            <uc:EditBox x:Name="eb" Margin="5,2" DisplayValue="{Binding EmbeddedModel.Label}" 
+                        ActualValue="{Binding Name, Mode=TwoWay}" 
+                        IsEditable="{Binding EmbeddedModel.IsEditable}"
+                        IsEditing="{Binding IsEditing, Mode=TwoWay}" />
+        </StackPanel>
+        <HierarchicalDataTemplate.Triggers>
+
+            <Trigger SourceName="eb" Property="IsEditing" Value="True">
+                <Setter TargetName="itemRoot" Property="Background" Value="Transparent"/>
+            </Trigger>
+        </HierarchicalDataTemplate.Triggers>
+    </HierarchicalDataTemplate>
+
+</ResourceDictionary>

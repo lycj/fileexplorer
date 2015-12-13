@@ -1,0 +1,225 @@
+﻿<Window x:Class="QuickZip.Dialogs.ProgressDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:conv="clr-namespace:QuickZip.Converters"
+    xmlns:htb="clr-namespace:QuickZip.UserControls.HtmlTextBlock"    
+    xmlns:trans="clr-namespace:QuickZip.Translation;assembly=QuickZip.Translation"
+    SizeToContent="WidthAndHeight" 
+    Title="{Binding Title}"
+        >
+
+    <!--Icon="/QuickZip;component/Images/Folder/folder.png"
+    Background="White" SizeToContent="WidthAndHeight" ResizeMode="NoResize"
+    Title="{Binding Title}" MouseDown="Window_MouseDown"-->
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="\QuickZip.UserControls;component/Themes/Styles/StaticProgressBarStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <conv:BoolToVisibilityConverter x:Key="btv" />
+            <conv:FlipBoolToVisibilityConverter x:Key="fbtv" />
+            <conv:StripPathConverter x:Key="spc" />
+            <conv:AddBracketConverter x:Key="abc" />
+            <conv:TimeSpanToStrConverter x:Key="tstsc" />
+            <conv:TagToBoldConverter x:Key="ttb" />
+            <LinearGradientBrush x:Key="progressTitleBrush"  StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#135279"    Offset="0"/>
+                <GradientStop Color="#267C8E" Offset="1"/>
+            </LinearGradientBrush>
+
+        </ResourceDictionary>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close" Executed="Close_Executed" />
+    </Window.CommandBindings>
+    <Border BorderBrush="#606B75"  BorderThickness="0.5" Height="160" Width="400" x:Name="rootBorder" >
+        <Border.LayoutTransform>
+            <ScaleTransform CenterX="0" CenterY="0"
+                               ScaleX="{Binding UIScale, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                               ScaleY="{Binding UIScale, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+        </Border.LayoutTransform>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+            <Rectangle Grid.Row="0" Fill="{StaticResource progressTitleBrush}" />
+            <Rectangle Grid.Row="1" Fill="#FFFFFF" />
+            <Rectangle Grid.Row="2" Fill="#F0F0F0" />
+
+            <!--<TextBlock Grid.Row="0" Foreground="White" Text="Copying 1 Items (12.3 MB)" Margin="20,0,0,0" FontSize="18" VerticalAlignment="Center"  />-->
+            <!-- Header -->
+            <htb:HtmlTextBlock Foreground="White" Html="{Binding Header}" Margin="20,0,0,0" FontSize="18" VerticalAlignment="Center"  />
+
+            <!-- Middle -->
+            <StackPanel Grid.Row="1" Margin="25,10" Orientation="Vertical">
+                <Grid>
+                    <StackPanel x:Name="layoutBrief"  Orientation="Vertical"  MinHeight="35" Visibility="{Binding IsExpanded, ElementName=expInfo, Converter={StaticResource fbtv}}" >
+                        <htb:HtmlTextBlock Html="{Binding Message, Converter={StaticResource ttb}}"  />
+                        <WrapPanel>
+                            <TextBlock Text="{Binding SubMessage}" />
+                            <!--<TextBlock Text="about " />
+                            <TextBlock Text="{Binding TimeRemain, Converter={x:Static c:TimeSpanToStrConverter.Instance}}"/>
+                            <TextBlock Text="remaining " />-->
+                        </WrapPanel>
+
+                        <!--<TextBlock Text="{Binding Message}" Visibility="{Binding IsFailed, Converter={x:Static c:vc_BoolToVisiblity.Instance}}"/>-->
+                    </StackPanel>
+                    <StackPanel x:Name="layoutDetail" Orientation="Vertical" Visibility="{Binding IsExpanded, ElementName=expInfo, Converter={StaticResource btv}}" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition Height="30" />
+                            </Grid.RowDefinitions>
+
+                            <!--From Row-->
+                            <DockPanel  Grid.Row="0" Grid.Column="0" >
+                                <TextBlock DockPanel.Dock="Left" Text="{x:Static trans:Texts.strFrom}" />
+                                <TextBlock Text=":" />
+                            </DockPanel>
+                            <DockPanel Grid.Row="0" Grid.Column="1">
+                                <TextBlock Text="{Binding Source, Converter={StaticResource spc} }" FontWeight="UltraBold" />
+                                <TextBlock Text="{Binding Source, Converter={StaticResource abc} }" />
+                            </DockPanel>
+                            <!--To Row-->
+                            <DockPanel  Grid.Row="1" Grid.Column="0" >
+                                <TextBlock DockPanel.Dock="Left" Text="{x:Static trans:Texts.strTo}" />
+                                <TextBlock Text=":" />
+                            </DockPanel>
+                            <DockPanel Grid.Row="1" Grid.Column="1">
+                                <TextBlock Text="{Binding Target, Converter={StaticResource spc} }" FontWeight="UltraBold" />
+                                <TextBlock Text="{Binding Target, Converter={StaticResource abc} }" />
+                            </DockPanel>
+
+                            <!--Remain Time Row-->
+                            <DockPanel  Grid.Row="2" Grid.Column="0" >
+                                <TextBlock DockPanel.Dock="Left" Text="{x:Static trans:Texts.strRemainTime}" />
+                                <TextBlock Text=":" />
+                            </DockPanel>
+                            <DockPanel Grid.Row="2" Grid.Column="1">
+                                <TextBlock Text="{Binding TimeRemain, Converter={StaticResource tstsc}}"/>
+                            </DockPanel>
+
+                            <!--Remain Item Row-->
+                            <DockPanel  Grid.Row="3" Grid.Column="0" >
+                                <TextBlock DockPanel.Dock="Left" Text="{x:Static trans:Texts.strRemainItem}" />
+                                <TextBlock Text=":" />
+                            </DockPanel>
+                            <DockPanel Grid.Row="3" Grid.Column="1">
+                                <TextBlock Text="{Binding ItemsRemain}" />
+                            </DockPanel>
+
+                            <!--Message Row-->
+                            <DockPanel  Grid.Row="4" Grid.Column="0" >
+                                <TextBlock DockPanel.Dock="Left" Text="{x:Static trans:Texts.strMessage}" />
+                                <TextBlock Text=":" />
+                            </DockPanel>
+                            <DockPanel Grid.Row="4" Grid.Column="1">
+                                <TextBlock Text="{Binding SubMessage}" TextWrapping="WrapWithOverflow" />
+                            </DockPanel>
+
+
+                        </Grid>
+
+                    </StackPanel>
+                </Grid>
+                <Grid>
+                    <ProgressBar x:Name="pBar" Margin="0,10" Height="15" Value="{Binding Progress, Mode=OneWay}"  IsIndeterminate="True" />
+                    <ProgressBar x:Name="pBar2" Margin="0,10" Height="15" Value="{Binding Progress, Mode=OneWay}"  
+                             Style="{StaticResource staticProgressBarStyle}" Visibility="Hidden"                             
+                             IsIndeterminate="False" />
+                </Grid>
+            </StackPanel>
+
+            <!-- Bottom -->
+            <DockPanel Grid.Row="2" Margin="25,8" LastChildFill="False">
+                <Button DockPanel.Dock="Right" Margin="5,0"  Width="80" x:Name="btnClose"  
+                        Content="{x:Static trans:Texts.strClose}" Command="ApplicationCommands.Close"
+                            Visibility="{Binding IsCompleted, Converter={StaticResource btv}}"                             
+                             />
+                <Button DockPanel.Dock="Right" Margin="5,0"  Width="80" x:Name="btnCancel" 
+                        Content="{x:Static trans:Texts.strCancel}"
+                        Click="btnCancel_Click"
+                            Visibility="{Binding IsCancelEnabled, Converter={StaticResource btv}}"                             
+                             />
+                <Button DockPanel.Dock="Right" Margin="5,0"  Width="80" x:Name="btnRestart" 
+                            Content="{x:Static trans:Texts.strRestart}"
+                            Visibility="{Binding IsRestartEnabled, Converter={StaticResource btv}}" 
+                             />
+                <Button DockPanel.Dock="Right" Margin="5,0"  Width="80" x:Name="btnPause" 
+                            Content="{x:Static trans:Texts.strPause}"
+                            Visibility="{Binding IsPauseEnabled, Converter={StaticResource btv}}" 
+                             />
+                <Button DockPanel.Dock="Right" Margin="5,0"  Width="80" x:Name="btnResunme" 
+                            Content="{x:Static trans:Texts.strResume}"
+                            Visibility="{Binding IsResumeEnabled, Converter={StaticResource btv}}" 
+                             />
+                <Expander x:Name="expInfo" DockPanel.Dock="Left" Header="{x:Static trans:Texts.strMoreInformation}" IsExpanded="False" />
+            </DockPanel>
+        </Grid>
+    </Border>
+    <Window.Triggers>
+        <EventTrigger SourceName="expInfo" RoutedEvent="Expander.Expanded">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard  TargetName="expInfo"  TargetProperty="Header">
+                        <StringAnimationUsingKeyFrames Duration="0:0:0.0">
+                            <DiscreteStringKeyFrame KeyTime="0:0:0.0" Value="{x:Static trans:Texts.strLessInformation}" />
+                        </StringAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+                <BeginStoryboard>
+                    <Storyboard  TargetName="rootBorder"  TargetProperty="Height">
+                        <DoubleAnimation From="160" To="220" Duration="0:0:0.1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+        <EventTrigger SourceName="expInfo" RoutedEvent="Expander.Collapsed" >
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard  TargetName="expInfo"  TargetProperty="Header">
+                        <StringAnimationUsingKeyFrames Duration="0:0:0.0">
+                            <DiscreteStringKeyFrame KeyTime="0:0:0.0" Value="{x:Static trans:Texts.strMoreInformation}" />
+                        </StringAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+                <BeginStoryboard>
+                    <Storyboard  TargetName="rootBorder"  TargetProperty="Height">
+                        <DoubleAnimation From="220" To="160" Duration="0:0:0.1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+        <!--<Trigger SourceName="expInfo" Property="Expander.IsExpanded" Value="True">
+            <Setter TargetName="layoutBrief" Property="UIElement.Visibility" Value="Collapsed" />
+            <Setter TargetName="layoutDetail" Property="UIElement.Visibility" Value="Visible" />
+            <Setter TargetName="expInfo" Property="Expander.Header" Value="Less Information" />
+            <Trigger.EnterActions>
+                <BeginStoryboard>
+                    <Storyboard  TargetName="rootBorder"  TargetProperty="Height">
+                        <DoubleAnimation From="160" To="220" Duration="0:0:0.1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </Trigger.EnterActions>
+            <Trigger.ExitActions>
+                <BeginStoryboard>
+                    <Storyboard  TargetName="rootBorder"  TargetProperty="Height">
+                        <DoubleAnimation From="220" To="160" Duration="0:0:0.1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </Trigger.ExitActions>
+        </Trigger>-->
+    </Window.Triggers>
+</Window>
+

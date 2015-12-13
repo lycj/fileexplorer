@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="CommandM.ToViewModel() method creates CommandVM.">
+    <Position X="6.225" Y="2.553" Height="0.75" Width="1.878" />
+  </Comment>
+  <Comment CommentText="OpenWithCM hosts any number of OpenWithItemCMs.">
+    <Position X="12.592" Y="7.262" Height="0.339" Width="3.41" />
+  </Comment>
+  <Comment CommentText="Abstract class for command that contains sub-items.">
+    <Position X="5.889" Y="6.374" Height="0.339" Width="3.223" />
+  </Comment>
+  <Comment CommentText="Select from one of the subitems (SelectorItemAM).">
+    <Position X="5.125" Y="7.281" Height="0.291" Width="3.605" />
+  </Comment>
+  <Comment CommentText="Selector based on a int value.">
+    <Position X="6.053" Y="11.096" Height="0.291" Width="2.326" />
+  </Comment>
+  <Comment CommentText="FileListViewMode implementation.">
+    <Position X="2.737" Y="11.817" Height="0.295" Width="2.618" />
+  </Comment>
+  <Comment CommentText="Display separator.">
+    <Position X="12.517" Y="1.375" Height="0.291" Width="1.7" />
+  </Comment>
+  <Comment CommentText="CommandModel that support ICommand.">
+    <Position X="15.268" Y="3.094" Height="0.503" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Predefine a number of items.">
+    <Position X="1.528" Y="7.327" Height="0.291" Width="2.702" />
+  </Comment>
+  <Comment CommentText="Predefined Organize Menu - e.g. New, Copy, Paste">
+    <Position X="1.547" Y="9.799" Height="0.342" Width="3.344" />
+  </Comment>
+  <Class Name="QuickZip.UserControls.MVVM.Command.Model.DirectoryCommandModel">
+    <Position X="3.75" Y="5.5" Width="2" />
+    <Members>
+      <Method Name="DirectoryCommandModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Logic\MVVM\Command\Model\DirectoryModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Command.Model.PredefinedDirectoryCommandModel">
+    <Position X="1.5" Y="7.75" Width="2.75" />
+    <Members>
+      <Field Name="_subCommandModels" Hidden="true" />
+      <Method Name="PredefinedDirectoryCommandModel" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="QuickZip.UserControls.MVVM.Command.Model.DirectoryCommandModel" FixedFromPoint="true">
+      <Path>
+        <Point X="4.75" Y="6.733" />
+        <Point X="4.75" Y="7.126" />
+        <Point X="2.875" Y="7.126" />
+        <Point X="2.875" Y="7.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAIAAEAAAAAAAAI=</HashCode>
+      <FileName>Logic\MVVM\Command\Model\DirectoryModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Command.Model.ViewModeCommandModel">
+    <Position X="2.75" Y="12.25" Width="2.75" />
+    <Members>
+      <Method Name="constructViewModeIconDic" Hidden="true" />
+      <Method Name="GetUriPath" Hidden="true" />
+      <Method Name="GetViewModeBitmap" Hidden="true" />
+      <Field Name="ViewModeIconDic" Hidden="true" />
+      <Method Name="ViewSizeToViewMode" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAQAAAAAAABAAAAAAAEAAAAAABAAAgM=</HashCode>
+      <FileName>Logic\MVVM\Command\Model\ViewModeModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Command.Model.GenericCommandModel">
+    <Position X="15.25" Y="3.75" Width="2" />
+    <Members>
+      <Field Name="_command" Hidden="true" />
+      <Field Name="_param" Hidden="true" />
+      <Method Name="GenericCommandModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAQAAEAABAAAAQAAAIAAAAAAABAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Command\Model\GenericCommandModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Command.Model.CommandModel">
+    <Position X="8.25" Y="2" Width="2" />
+    <Members>
+      <Field Name="_extraItemHeight" Hidden="true" />
+      <Field Name="_header" Hidden="true" />
+      <Field Name="_headerIcon" Hidden="true" />
+      <Field Name="_isChecked" Hidden="true" />
+      <Field Name="_isDirectory" Hidden="true" />
+      <Field Name="_isExecutable" Hidden="true" />
+      <Field Name="_isRightAligned" Hidden="true" />
+      <Field Name="_priority" Hidden="true" />
+      <Field Name="_toolTip" Hidden="true" />
+      <Method Name="CompareTo" Hidden="true" />
+      <Field Name="uriRootThemeResources" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BQCAAAAAACAAoEQUAEAAAAgAAIQAEAABgAAQABAgkCA=</HashCode>
+      <FileName>Logic\MVVM\Command\Model\GenericCommandModelBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Command.Model.QueryOpenWithInfoEventArgs&lt;FI, DI, FSI&gt;">
+    <Position X="14.25" Y="8.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAEAAAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Command\Model\OpenWithModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Command.Model.OpenWithCommandModel&lt;FI, DI, FSI&gt;">
+    <Position X="11" Y="7.75" Width="3" />
+    <Members>
+      <Field Name="_appliedEntryModel" Hidden="true" />
+      <Field Name="_profile" Hidden="true" />
+      <Method Name="OpenWithCommandModel" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="QuickZip.UserControls.MVVM.Command.Model.DirectoryCommandModel" ManuallyRouted="true">
+      <Path>
+        <Point X="4.75" Y="6.733" />
+        <Point X="4.75" Y="7.126" />
+        <Point X="9.167" Y="7.126" Type="JumpStart" />
+        <Point X="9.333" Y="7.126" Type="JumpEnd" />
+        <Point X="12.5" Y="7.126" />
+        <Point X="12.5" Y="7.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIACAAAQAAAAAAAAQAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Logic\MVVM\Command\Model\OpenWithModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Command.Model.OpenWithItemCommandModel&lt;FI, DI, FSI&gt;" Collapsed="true">
+    <Position X="14.25" Y="7.75" Width="3.75" />
+    <InheritanceLine Type="QuickZip.UserControls.MVVM.Command.Model.CommandModel" ManuallyRouted="true">
+      <Path>
+        <Point X="9.25" Y="5.992" />
+        <Point X="9.25" Y="6.57" />
+        <Point X="16.125" Y="6.57" />
+        <Point X="16.125" Y="7.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAQAAAAAAAAwAAAAAAAAAAAgBAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Command\Model\OpenWithModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Command.Model.OrganizeCommandModel&lt;FI, DI, FSI&gt;">
+    <Position X="2.75" Y="10.25" Width="2.75" />
+    <Members>
+      <Field Name="_icon7z" Hidden="true" />
+      <Field Name="_iconFolder" Hidden="true" />
+      <Field Name="_iconZip" Hidden="true" />
+      <Field Name="_profile" Hidden="true" />
+      <Field Name="_rootModel" Hidden="true" />
+      <Method Name="OrganizeCommandModel" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="QuickZip.UserControls.MVVM.Command.Model.DirectoryCommandModel" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.75" Y="6.733" />
+        <Point X="4.75" Y="7.126" />
+        <Point X="4.75" Y="7.126" />
+        <Point X="4.75" Y="10.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAACAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAI=</HashCode>
+      <FileName>Logic\MVVM\Command\Model\OrganizeModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Command.Model.SelectorCommandModel&lt;T&gt;">
+    <Position X="5" Y="7.75" Width="2.5" />
+    <Members>
+      <Field Name="_subItems" Hidden="true" />
+      <Field Name="_value" Hidden="true" />
+      <Method Name="changeValue" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="QuickZip.UserControls.MVVM.Command.Model.DirectoryCommandModel" ManuallyRouted="true">
+      <Path>
+        <Point X="4.75" Y="6.733" />
+        <Point X="4.75" Y="7.115" />
+        <Point X="6.25" Y="7.115" />
+        <Point X="6.25" Y="7.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAgAAACAgI=</HashCode>
+      <FileName>Logic\MVVM\Command\Model\SelectorModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Command.Model.SelectorItemInfo&lt;T&gt;">
+    <Position X="8.5" Y="9.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Command\Model\SelectorModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Command.Model.SelectorItemActionModel&lt;T&gt;">
+    <Position X="8" Y="7.75" Width="2.5" />
+    <Members>
+      <Field Name="_isStepStop" Hidden="true" />
+      <Field Name="_parentModel" Hidden="true" />
+      <Field Name="_value" Hidden="true" />
+      <Method Name="SelectorItemActionModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAUAAAIQAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Command\Model\SelectorModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Command.Model.SeparatorCommandModel">
+    <Position X="12.5" Y="1.75" Width="2" />
+    <Members>
+      <Method Name="SeparatorCommandModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Command\Model\SeparatorModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Command.Model.SliderCommandModel">
+    <Position X="6" Y="11.5" Width="2.5" />
+    <Members>
+      <Field Name="_sliderMax" Hidden="true" />
+      <Field Name="_sliderMin" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="QuickZip.UserControls.MVVM.Command.Model.SelectorCommandModel&lt;T&gt;" FixedFromPoint="true">
+      <Path>
+        <Point X="7.25" Y="9.819" />
+        <Point X="7.25" Y="11.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAIAAAAAAABBAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Command\Model\SliderModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Command.Model.TogglePreviewModel">
+    <Position X="12.5" Y="3.5" Width="2" />
+    <Members>
+      <Field Name="_rootModel" Hidden="true" />
+      <Field Name="_toggleOff" Hidden="true" />
+      <Field Name="_toggleOn" Hidden="true" />
+      <Method Name="setToggleBitmap" Hidden="true" />
+      <Method Name="TogglePreviewModel" Hidden="true" />
+      <Field Name="uriRootToolbarResources" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAACAAAQAAAAAAAAIAAACAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Command\Model\TogglePreviewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Command.ViewModel.CommandViewModel">
+    <Position X="3.5" Y="0.75" Width="2.5" />
+    <Members>
+      <Field Name="_doWorkCommand" Hidden="true" />
+      <Field Name="_doWorkCommandParameter" Hidden="true" />
+      <Field Name="_showHeaderText" Hidden="true" />
+      <Field Name="_subActions" Hidden="true" />
+      <Field Name="bgworker_getSubActions" Hidden="true" />
+      <Method Name="CommandViewModel" Hidden="true" />
+      <Method Name="CompareTo" Hidden="true" />
+      <Field Name="doWorkCommandChangeArgs" Hidden="true" />
+      <Field Name="doWorkCommandParameterChangeArgs" Hidden="true" />
+      <Field Name="isCommandEnabledChangeArgs" Hidden="true" />
+      <Method Name="setupBackgroundWorker" Hidden="true" />
+      <Method Name="setupCommands" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>gIACAAEAFEGIBAQMACIAIgQAACgEAACQAFAAIAAgAAA=</HashCode>
+      <FileName>Logic\MVVM\Command\ViewModel\CommandViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uc="http://www.quickzip.org/UserControls">
+    <ResourceDictionary.MergedDictionaries>                       
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Tools/ThirdParty/DockPanelSplitter/DockPanelSplitter.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Templates/TitlebarTemplates.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Templates/ToolbarTemplates.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/BreadcrumbItem/BreadcrumbItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/BreadcrumbCore/BreadcrumbCore.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/DialogControl/DialogControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/BasicMediaPlayer/Generic.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/DropDownControl/DropDownControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/EditBox/EditBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/NotificationBarItem/NotificationBarItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/NotificationBarBase/NotificationBarBase.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/StatusbarItem/StatusbarItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/StatusbarBase/StatusbarBase.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/NavigatorItem/NavigatorItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/NavigatorBase/NavigatorBase.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/AutoCompleteTextBoxBase/AutoCompleteTextBoxBase.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/ToolbarBase/ToolbarBase.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/ToolbarMenuItem/MultiStepSlider/MultiStepSlider.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/UserControls/PreviewPanelBase/Generic.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Components/ListViewBase/VirtualWrapPanelView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Components/ListViewBase/VirtualStackPanelView.xaml" />
+        
+    </ResourceDictionary.MergedDictionaries>
+
+    
+</ResourceDictionary>

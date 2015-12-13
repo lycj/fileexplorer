@@ -1,0 +1,103 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:QuickZip.Converters"            
+    xmlns:local="clr-namespace:QuickZip.UserControls"            
+    xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+    xmlns:lc="clr-namespace:LoadingControl.Control"
+    xmlns:ce="clr-namespace:CircularAnimations.Examples"
+    >
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Geometry.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Templates.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Styles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+
+    <Style x:Key="{x:Type local:AutoCompleteTextBoxBase}"                       
+           TargetType="{x:Type local:AutoCompleteTextBoxBase}" >
+
+        <!--<Setter Property="Height" Value="20"  />-->
+        <Setter Property="HorizontalAlignment" Value="Stretch"  />
+        <Setter Property="VerticalAlignment" Value="Stretch"  />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource focusVisualStyle}" />
+
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate >
+                    <AdornedElementPlaceholder />
+                    <!-- The TextBox Element -->
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:AutoCompleteTextBoxBase}">
+                    <Border Name="Border" CornerRadius="2"  Background="{StaticResource WindowBackgroundBrush}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="1" >
+                        <Grid x:Name="root">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost" />
+                            <!--<TextBlock x:Name="PART_TempVisual" Margin="2,1" Text="{Binding ElementName=PART_ItemList, Path=SelectedValue}" Cursor="IBeam" />-->
+                            <Popup x:Name="PART_Popup" AllowsTransparency="true" 
+                                   PlacementTarget="{TemplateBinding DropDownPlacementTarget}"                                   
+                                   Placement="Bottom"                                   
+                                   IsOpen="{TemplateBinding IsPopupOpened}"  
+                                    PopupAnimation="Fade"  
+                                           >                                
+                                <Border x:Name="DropDownBorder" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"  
+                                                MaxHeight="200" 
+                                                MinWidth="{Binding Path=(DropDownPlacementTarget).ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                                MaxWidth="{Binding Path=(DropDownPlacementTarget).ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="1,0,1,1">
+
+                                    <ListBox x:Name="PART_ItemList" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"                                                     
+                                                     VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                                     ItemsSource="{Binding Suggestions, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                                     KeyboardNavigation.DirectionalNavigation="Cycle" />                                    
+                                </Border>      
+                            </Popup>
+
+                            <DockPanel x:Name="dockWarning" Visibility="Collapsed"  LastChildFill="False" Opacity="0.7"  >
+                                <Border DockPanel.Dock="Right"  BorderBrush="Red" Background="Red" BorderThickness="2"  CornerRadius="2,2,0,0">
+                                    <TextBlock x:Name="txtWarning" DockPanel.Dock="Right" Text="{TemplateBinding ToolTip}" VerticalAlignment="Bottom" 
+                                                   Background="Red" Foreground="White"  FontSize="10" />
+                                    <Border.RenderTransform>
+                                        <TranslateTransform X="2" Y="{Binding ElementName=dockWarning, Path=ActualHeight}"/>
+                                    </Border.RenderTransform>
+                                </Border>
+                            </DockPanel>
+
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBackgroundBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Validation.HasError" Value="true" />
+                                <Condition SourceName="PART_Popup" Property="IsOpen" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                            <Setter TargetName="dockWarning" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                            <Setter TargetName="Border" Property="Padding" Value="0" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Red" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

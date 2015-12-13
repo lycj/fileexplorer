@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="NotificationBarVM contains a number of NotificationSourceViewModel.">
+    <Position X="12.942" Y="1.884" Height="0.624" Width="2.603" />
+  </Comment>
+  <Comment CommentText="NotificationSourceVM contains NotificationItemList, which contains a list of NotificationItemVM (using NotificationSourceM.NotifyItemsUpdated() method).">
+    <Position X="12.104" Y="6.994" Height="0.522" Width="4.707" />
+  </Comment>
+  <Class Name="QuickZip.UserControls.MVVM.Notification.Model.NotificationItemModel">
+    <Position X="5.75" Y="4" Width="2.25" />
+    <Members>
+      <Field Name="_canDoWork" Hidden="true" />
+      <Field Name="_header" Hidden="true" />
+      <Field Name="_headerText" Hidden="true" />
+      <Field Name="_icon" Hidden="true" />
+      <Field Name="_id" Hidden="true" />
+      <Field Name="_isActive" Hidden="true" />
+      <Field Name="_message" Hidden="true" />
+      <Field Name="_notificationMode" Hidden="true" />
+      <Field Name="_percentCompleted" Hidden="true" />
+      <Field Name="_priority" Hidden="true" />
+      <Field Name="_showProgress" Hidden="true" />
+      <Field Name="_title" Hidden="true" />
+      <Field Name="canDoWorkChangeArgs" Hidden="true" />
+      <Field Name="headerChangeArgs" Hidden="true" />
+      <Field Name="hintMessageChangeArgs" Hidden="true" />
+      <Field Name="hintTitleChangeArgs" Hidden="true" />
+      <Field Name="iconChangeArgs" Hidden="true" />
+      <Field Name="idChangeArgs" Hidden="true" />
+      <Field Name="isActiveChangeArgs" Hidden="true" />
+      <Field Name="isProgressShownChangeArgs" Hidden="true" />
+      <Field Name="notificationModeChangeArgs" Hidden="true" />
+      <Field Name="percentCompletedChangeArgs" Hidden="true" />
+      <Field Name="priorityChangeArgs" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BQAAAgAAFIQCgEAFEIDAQGAEACAIEACAkYgBRQFAAEE=</HashCode>
+      <FileName>Logic\MVVM\Notification\Model\NotificationItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Notification.Model.NotificationItemModel&lt;T&gt;">
+    <Position X="8.75" Y="7.75" Width="2.5" />
+    <Members>
+      <Field Name="_embeddedNotificationItem" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAIAAAAAAAQAAA=</HashCode>
+      <FileName>Logic\MVVM\Notification\Model\NotificationItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Notification.Model.NotificationSourceModel">
+    <Position X="12" Y="4" Width="2.25" />
+    <Members>
+      <Field Name="_viewModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAQAAAAAAAAAAAAEBAAAAAAEAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Notification\Model\NotificationSourceModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Notification.ViewModel.NotificationBarViewModel">
+    <Position X="10.5" Y="0.5" Width="2.25" />
+    <Members>
+      <Field Name="_clearNotificationCommand" Hidden="true" />
+      <Field Name="_hasNotification" Hidden="true" />
+      <Field Name="_sources" Hidden="true" />
+      <Field Name="clearNotificationCommandCommandChangeArgs" Hidden="true" />
+      <Method Name="NotificationBarViewModel" Hidden="true" />
+      <Method Name="setupCommand" Hidden="true" />
+      <Method Name="sourceModel_PropertyChanged" Hidden="true" />
+      <Method Name="updateHasNotification" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AACAAEAgAAAAQAAgAAACQAAAAAAAAJAIAYAAAAACAAA=</HashCode>
+      <FileName>Logic\MVVM\Notification\ViewModel\NotificationBarViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Notification.ViewModel.NotificationItemViewModel">
+    <Position X="8.75" Y="4" Width="2.5" />
+    <Members>
+      <Field Name="_commands" Hidden="true" />
+      <Field Name="_doWorkCommand" Hidden="true" />
+      <Field Name="_embeddedModel" Hidden="true" />
+      <Field Name="_parentModel" Hidden="true" />
+      <Field Name="_percentCompleted" Hidden="true" />
+      <Field Name="_progressForeground" Hidden="true" />
+      <Field Name="bgWorker_loadCommands" Hidden="true" />
+      <Field Name="doWorkCommandChangeArgs" Hidden="true" />
+      <Field Name="percentCompletedChangeArgs" Hidden="true" />
+      <Field Name="progressForegroundChangeArgs" Hidden="true" />
+      <Method Name="setupBackgroundWorker" Hidden="true" />
+      <Method Name="setupDoWorkCommand" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AACQGgAABQAAAAAYAAAAigAAAAgAAACAABAARRgAAAA=</HashCode>
+      <FileName>Logic\MVVM\Notification\ViewModel\NotificationItemViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Notification.ViewModel.NotificationSourceViewModel">
+    <Position X="14.5" Y="4" Width="2.25" />
+    <Members>
+      <Field Name="_embeddedSourceModel" Hidden="true" />
+      <Field Name="_hasNotification" Hidden="true" />
+      <Field Name="_notificationItemList" Hidden="true" />
+      <Field Name="_removedList" Hidden="true" />
+      <Field Name="bgWorker_updateItems" Hidden="true" />
+      <Method Name="NotificationSourceViewModel" Hidden="true" />
+      <Method Name="remove" Hidden="true" />
+      <Method Name="removeNotificationMode" Hidden="true" />
+      <Method Name="setupBgWorker" Hidden="true" />
+      <Method Name="sourceUpdated" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEIAAEAAAAAEQAAEAAACDAAQAAAAKAAAAYAAAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Notification\ViewModel\NotificationSourceViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="QuickZip.UserControls.MVVM.Notification.Model.NotificationMode">
+    <Position X="4" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgQIAAAAAAAACAAAAAAAAAAAAQAAAAgA=</HashCode>
+      <FileName>Logic\MVVM\Notification\Model\NotificationItemModel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

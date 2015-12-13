@@ -1,0 +1,42 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:QuickZip.Converters"            
+    xmlns:local="clr-namespace:QuickZip.UserControls"        
+    >
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Geometry.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/QuickZip.UserControls;component/Themes/Templates/NotificationBarTemplates.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
+    <Style x:Key="{x:Type local:NotificationBarBase}"                       
+           TargetType="{x:Type local:NotificationBarBase}" >
+        <Setter Property="HorizontalAlignment" Value="Stretch"  />
+        <Setter Property="VerticalAlignment" Value="Stretch"  />
+        <Setter Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:NotificationBarBase}">
+                    <Border BorderThickness="0,0,0,0.5" BorderBrush="{StaticResource HorizontalNormalBorderBrush}" Background="{TemplateBinding Background}"
+                            Padding="0,4,0,4" Visibility="{Binding HasNotification, Mode=OneWay, Converter={StaticResource btv}}"
+                            >
+                        <DockPanel >
+                            <Button DockPanel.Dock="Right" Content="Clear" Command="{Binding ClearNotificationCommand}" 
+                                    Template="{StaticResource BasicCrossButton}"                                    
+                                    VerticalAlignment="Stretch" 
+                                    />
+
+                            <StackPanel 
+                                    Orientation="Horizontal"  IsItemsHost="True"                                                                              
+                                   />
+
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

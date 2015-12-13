@@ -1,0 +1,188 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Drawing;
+using Cinch;
+using System.Windows;
+using QuickZip.Translation;
+
+namespace QuickZip.UserControls.MVVM.Command.Model
+{
+    /// <summary>
+    /// Used to toggle View Modes
+    /// </summary>
+    public class ViewModeCommandModel : SliderCommandModel
+    {
+
+
+        #region Constructor
+
+        public ViewModeCommandModel()
+            : base((int)ViewMode.vmTile, (int)ViewMode.vmExtraLargeIcon, (int)ViewMode.vmGrid)
+        {
+            Header = "";
+            IsRightAligned = true;
+            IsExecutable = true;
+
+        }
+
+        public ViewModeCommandModel(int defViewSize)
+            : base((int)ViewMode.vmTile, (int)ViewMode.vmExtraLargeIcon, defViewSize)
+        {
+            Header = "";
+            IsRightAligned = true;
+            IsExecutable = true;
+        }
+
+
+        #endregion
+
+        #region Methods
+
+        public override IEnumerable<CommandModel> GetSubActions()
+        {
+            Func<ViewMode, CommandModel> getCommandModel = (vm) =>
+            {
+
+                SelectorItemActionModel<int> actionModel = new SelectorItemActionModel<int>(this,
+                new SelectorItemInfo<int>()
+                {
+                    Header = vm.ToString(),
+                    Value = (int)vm,
+                    HeaderIcon = ViewModeIconDic[vm]
+                });
+
+                switch (vm)
+                {
+                    case ViewMode.vmExtraLargeIcon: actionModel.Header = Texts.strExtraLargeIcon; break;
+                    case ViewMode.vmLargeIcon: actionModel.Header = Texts.strLargeIcon; break;
+                    case ViewMode.vmIcon: actionModel.Header = Texts.strIcon; break;
+                    case ViewMode.vmSmallIcon: actionModel.Header = Texts.strSmallIcon; break;
+                    case ViewMode.vmGrid: actionModel.Header = Texts.strGrid; break;
+                    case ViewMode.vmList: actionModel.Header = Texts.strList; break;
+                    case ViewMode.vmTile: actionModel.Header = Texts.strTile; break;
+                }
+
+                if (vm == ViewMode.vmIcon || vm == ViewMode.vmLargeIcon)
+                {
+                    actionModel.ExtraItemHeight = 32;
+                    actionModel.IsStepStop = (vm == ViewMode.vmLargeIcon);
+                }
+                else
+                {
+                    actionModel.ExtraItemHeight = 0;
+                    actionModel.IsStepStop = true;
+                }
+
+                return actionModel;
+            };
+
+            yield return getCommandModel(ViewMode.vmExtraLargeIcon);
+            yield return getCommandModel(ViewMode.vmLargeIcon);
+            yield return getCommandModel(ViewMode.vmIcon);
+            yield return getCommandModel(ViewMode.vmSmallIcon);
+            yield return new SeparatorCommandModel();
+            yield return getCommandModel(ViewMode.vmList);
+            yield return new SeparatorCommandModel();
+            yield return getCommandModel(ViewMode.vmGrid);
+            yield return new SeparatorCommandModel();
+            yield return getCommandModel(ViewMode.vmTile);
+        }
+
+        protected override void OnValueChanged()
+        {
+            base.OnValueChanged();
+            HeaderIcon = ViewModeIconDic[ViewSizeToViewMode(Value)];
+        }       
+
+        public override void Execute(object param)
+        {
+            base.Execute(param);
+            ViewMode vmode = ViewSizeToViewMode(Value);
+            switch (vmode)
+            {
+                case ViewMode.vmTile: Value = (int)ViewMode.vmGrid; break;
+                case ViewMode.vmGrid: Value = (int)ViewMode.vmList; break;
+                case ViewMode.vmList: Value = (int)ViewMode.vmSmallIcon; break;
+                case ViewMode.vmSmallIcon: Value = (int)ViewMode.vmIcon; break;
+                case ViewMode.vmIcon: Value = (int)ViewMode.vmLargeIcon; break;
+                case ViewMode.vmLargeIcon: Value = (int)ViewMode.vmExtraLargeIcon; break;
+                case ViewMode.vmExtraLargeIcon: Value = (int)ViewMode.vmTile; break;
+            }
+        }
+
+        internal static Dictionary<ViewMode, Bitmap> ViewModeIconDic = constructViewModeIconDic();
+        static Dictionary<ViewMode, Bitmap> constructViewModeIconDic()
+        {
+            Dictionary<ViewMode, Bitmap> retVal = new Dictionary<ViewMode, Bitmap>();
+            foreach (ViewMode mode in Enum.GetValues(typeof(ViewMode)))
+            {
+                retVal.Add(mode, GetViewModeBitmap(mode));
+            }
+            return retVal;
+        }
+
+
+        internal static ViewMode ViewSizeToViewMode(int viewSize)
+        {
+            switch (viewSize)
+            {
+                case (int)ViewMode.vmTile:
+                case (int)ViewMode.vmGrid:
+                case (int)ViewMode.vmList:
+                case (int)ViewMode.vmSmallIcon:
+                    return (ViewMode)viewSize;
+            }
+
+            if (viewSize <= (int)ViewMode.vmIcon)
+                return ViewMode.vmIcon;
+            else if (viewSize <= (int)ViewMode.vmLargeIcon)
+                return ViewMode.vmLargeIcon;
+            else if (viewSize <= (int)ViewMode.vmExtraLargeIcon)
+                return ViewMode.vmExtraLargeIcon;
+            else return ViewMode.vmViewer;
+        }
+
+        internal static string GetUriPath(ViewMode viewMode)
+        {
+            string uriPath = null;
+            string uriRoot = "pack://application:,,,/QuickZip.UserControls.Explorer;component/Themes/Resources/ViewMode/";
+            switch (viewMode)
+            {
+                case ViewMode.vmExtraLargeIcon: uriPath = uriRoot + "extralarge_16.png"; break;
+                case ViewMode.vmLargeIcon: uriPath = uriRoot + "large_16.png"; break;
+                case ViewMode.vmIcon: uriPath = uriRoot + "icon_16.png"; break;
+                case ViewMode.vmSmallIcon: uriPath = uriRoot + "smallicon_16.png"; break;
+                case ViewMode.vmList: uriPath = uriRoot + "list_16.png"; break;
+                case ViewMode.vmGrid: uriPath = uriRoot + "details_16.png"; break;
+                case ViewMode.vmTile: uriPath = uriRoot + "tile_16.png"; break;
+                default: uriPath = uriRoot + "details_16.png"; break;
+            };
+
+            return uriPath;
+        }
+
+        internal static Bitmap GetViewModeBitmap(ViewMode viewMode)
+        {            
+            string uri = GetUriPath(viewMode);
+            return new Bitmap(Application.GetResourceStream(new Uri(uri)).Stream);
+        }
+
+
+
+        #endregion
+
+        #region Data
+
+
+        #endregion
+
+        #region Public Properties
+
+
+        #endregion
+    }
+
+
+}

@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="QuickZip.UserControls.MVVM.Model.EntryMetadataModel&lt;FI, DI, FSI&gt;">
+    <Position X="3.25" Y="13.25" Width="2.75" />
+    <Members>
+      <Method Name="EntryMetadataModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Metadata\Model\EntryMetadataModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Model.EntryMetadataModel&lt;T, FI, DI, FSI&gt;">
+    <Position X="7" Y="13.25" Width="2.75" />
+    <Members>
+      <Method Name="EntryMetadataModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Metadata\Model\EntryMetadataModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Model.GenericMetadataModel">
+    <Position X="3.5" Y="9.25" Width="2.25" />
+    <Members>
+      <Field Name="_isReadOnly" Hidden="true" />
+      <Field Name="_isValid" Hidden="true" />
+      <Field Name="_occupyFullLine" Hidden="true" />
+      <Field Name="_propertyKey" Hidden="true" />
+      <Field Name="_propertyLabel" Hidden="true" />
+      <Field Name="_value" Hidden="true" />
+      <Method Name="changeValue" Hidden="true" />
+      <Method Name="CompareTo" Hidden="true" />
+      <Method Name="GenericMetadataModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BBAAAAAAAAAAAAQUAAgJAAAAAAAAUAAAIEAiAAAAAgA=</HashCode>
+      <FileName>Logic\MVVM\Metadata\Model\GenericMetadataModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.Model.GenericMetadataModel&lt;T&gt;">
+    <Position X="7" Y="9.25" Width="2.75" />
+    <Members>
+      <Field Name="_value" Hidden="true" />
+      <Method Name="GenericMetadataModel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ABACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Metadata\Model\GenericMetadataModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickZip.UserControls.MVVM.ViewModel.MetadataViewModel">
+    <Position X="10.75" Y="9.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAEAAAAAIAACAAABAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\MVVM\Metadata\ViewModel\MetadataViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
